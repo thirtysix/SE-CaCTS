@@ -1,0 +1,303 @@
+ncit_code	n_support	lineage_purity	lineage	primary_disease	subtype	oncotree_code
+C102872	1	1.00	Head and Neck	Head and Neck Squamous Cell Carcinoma	Oropharynx Squamous Cell Carcinoma	OPHSC
+C105555	23	0.96	Ovary/Fallopian Tube	Ovarian Epithelial Tumor	High-Grade Serous Ovarian Cancer	HGSOC
+C114656	2	1.00	Uterus	Endometrial Carcinoma	Uterine Adenosquamous Carcinoma	UASC
+C114819	3	1.00	Lymphoid	B-Lymphoblastic Leukemia/Lymphoma	B-Lymphoblastic Leukemia/Lymphoma with t(9;22)(q34.1;q11.2);BCR-ABL1	BLLBCRABL1
+C114828	2	1.00	Skin	Melanoma	Melanoma	MEL
+C123329	1	1.00	Thyroid	Medullary Thyroid Cancer	Medullary Thyroid Cancer	THME
+C125904	2	1.00	Lymphoid	Mature B-Cell Neoplasms	High-Grade B-Cell Lymphoma, with MYC and BCL2 and/or BCL6 Rearrangements	HGBCLMYCBCL2
+C129442	2	1.00	CNS/Brain	Embryonal Tumor	Medulloblastoma	MBL
+C129443	1	1.00	CNS/Brain	Embryonal Tumor	Medulloblastoma	MBL
+C129445	7	1.00	CNS/Brain	Embryonal Tumor	Medulloblastoma	MBL
+C129857	2	1.00	Head and Neck	Head and Neck Squamous Cell Carcinoma	Head and Neck Squamous Cell Carcinoma	HNSC
+C129863	1	1.00	Head and Neck	Head and Neck Carcinoma, Other	Head and Neck Carcinoma, Other	OHNCA
+C129927	1	1.00	Bone	Chordoma	Chordoma	CHDM
+C132105	3	1.00	Myeloid	Acute Myeloid Leukemia	Acute Myeloid Leukemia	AML
+C165663	2	1.00	Soft Tissue	CIC-DUX4 Sarcoma	CIC-DUX4 Sarcoma	
+C170774	6	1.00	Head and Neck	Head and Neck Squamous Cell Carcinoma	Oral Cavity Squamous Cell Carcinoma	OCSC
+C173807	1	1.00	Head and Neck	Head and Neck Squamous Cell Carcinoma	Oral Cavity Squamous Cell Carcinoma	OCSC
+C180839	2	1.00	Cervix	Cervical Squamous Cell Carcinoma	Cervical Squamous Cell Carcinoma	CESC
+C180841	1	1.00	Cervix	Cervical Squamous Cell Carcinoma	Cervical Squamous Cell Carcinoma	CESC
+C183115	3	1.00	Lung	SMARCA4-deficient undifferentiated tumor	SMARCA4-deficient undifferentiated tumor	
+C199241	1	1.00	Lymphoid	B-Lymphoblastic Leukemia/Lymphoma	B-Lymphoblastic Leukemia/Lymphoma	BLL
+C207229	5	1.00	Pancreas	Pancreatic Adenocarcinoma	Pancreatic Adenocarcinoma	PAAD
+C208352	1	1.00	Myeloid	Acute Myeloid Leukemia	Acute Myeloid Leukemia	AML
+C26687	1	1.00	Uterus	Endometrial Carcinoma	Endometrial Carcinoma	UCEC
+C27291	2	1.00	Bone	Ewing Sarcoma	Ewing Sarcoma	ES
+C27394	1	1.00	Vulva/Vagina	Mucosal Melanoma of the Vulva/Vagina	Mucosal Melanoma of the Vulva/Vagina	VMM
+C27418	1	1.00	Ampulla of Vater	Ampullary Carcinoma	Ampullary Carcinoma	AMPCA
+C27502	1	1.00	Bone	Chondrosarcoma	Extraskeletal Myxoid Chondrosarcoma	EMCHS
+C27676	12	1.00	Cervix	Cervical Squamous Cell Carcinoma	Cervical Squamous Cell Carcinoma	CESC
+C27677	5	1.00	Cervix	Cervical Adenocarcinoma	Endocervical Adenocarcinoma	ECAD
+C27694	9	1.00	Lymphoid	Mature B-Cell Neoplasms	Burkitt Lymphoma	BL
+C27769	3	1.00	Biliary Tract	Intraductal Papillary Neoplasm of the Bile Duct	Intrahepatic Cholangiocarcinoma	IHCH
+C2897	1	1.00	Prostate	Non-Cancerous	Hyperplasia, Prostate	
+C2912	13	1.00	Lymphoid	Mature B-Cell Neoplasms	Burkitt Lymphoma	BL
+C2923	7	1.00	Lung	Non-Small Cell Lung Cancer	Lung Adenocarcinoma	LUAD
+C2926	10	1.00	Lung	Non-Small Cell Lung Cancer	Non-Small Cell Lung Cancer	NSCLC
+C2946	4	1.00	Bone	Chondrosarcoma	Chondrosarcoma	CHS
+C2955	1	1.00	Bowel	Colorectal Adenocarcinoma	Colorectal Adenocarcinoma	COADREAD
+C2975	1	1.00	Pancreas	Pancreatic Adenocarcinoma	Pancreatic Adenocarcinoma	PAAD
+C2993	4	0.75	Myeloid	Acute Myeloid Leukemia	Myeloid Leukemia Associated with Down Syndrome	MLADS
+C3043	3	1.00	Soft Tissue	Fibrosarcoma	Fibrosarcoma	FIBS
+C3058	55	1.00	CNS/Brain	Diffuse Glioma	Glioblastoma	GB
+C3098	3	1.00	Liver	Hepatocellular Carcinoma	Hepatocellular Carcinoma	HCC
+C3146	1	1.00	Skin	Cutaneous Squamous Cell Carcinoma	Cutaneous Squamous Cell Carcinoma	CSCC
+C3150	1	1.00	Kidney	Renal Cell Carcinoma	Renal Cell Carcinoma	RCC
+C3153	1	1.00	Ovary/Fallopian Tube	Ovarian Cancer, Other	Ovarian Cancer, Other	OOVC
+C3163	7	1.00	Lymphoid	Mature B-Cell Neoplasms	Chronic Lymphocytic Leukemia/Small Lymphocytic Lymphoma	CLLSLL
+C3171	2	1.00	Myeloid	Acute Myeloid Leukemia	Acute Monoblastic/Monocytic Leukemia	AMOL
+C3174	13	1.00	Myeloid	Myeloproliferative Neoplasms	Chronic Myeloid Leukemia, BCR-ABL1+	CMLBCRABL1
+C3182	1	1.00	Myeloid	Acute Myeloid Leukemia	Acute Myeloid Leukemia	AML
+C3194	4	1.00	Soft Tissue	Liposarcoma	Liposarcoma	LIPO
+C3201	1	1.00	Lymphoid	Non-Hodgkin Lymphoma	Mature T and NK Neoplasms	MTNN
+C3208	1	1.00	Lymphoid	Non-Hodgkin Lymphoma	Non-Hodgkin Lymphoma	NHL
+C3209	1	1.00	Lymphoid	Mature B-Cell Neoplasms	Follicular Lymphoma	FL
+C3224	82	0.96	Skin	Melanoma	Melanoma	MEL
+C3230	3	1.00	CNS/Brain	Meningothelial Tumor	Meningioma	MNG
+C3242	31	1.00	Lymphoid	Mature B-Cell Neoplasms	Plasma Cell Myeloma	PCM
+C3246	1	1.00	Lymphoid	Mature T and NK Neoplasms	Mycosis Fungoides	MYCF
+C3247	3	1.00	Myeloid	Acute Myeloid Leukemia	Acute Myeloid Leukemia	AML
+C3249	1	1.00	Myeloid	Acute Myeloid Leukemia	Acute Myeloid Leukemia	AML
+C3270	38	1.00	Peripheral Nervous System	Neuroblastoma	Neuroblastoma	NBL
+C3273	5	0.80	Peripheral Nervous System	Nerve Sheath Tumor	Malignant Peripheral Nerve Sheath Tumor	MPNST
+C3288	3	1.00	CNS/Brain	Diffuse Glioma	Oligodendroglioma	ODG
+C3339	1	1.00	Bowel	Colorectal Adenocarcinoma	Colon Adenocarcinoma	COAD
+C3359	2	1.00	Soft Tissue	Rhabdomyosarcoma	Rhabdomyosarcoma	RMS
+C3366	2	1.00	Lymphoid	Mature T and NK Neoplasms	Sezary Syndrome	SS
+C3400	3	1.00	Soft Tissue	Synovial Sarcoma	Synovial Sarcoma	SYNS
+C3407	1	1.00	Myeloid	Acute Myeloid Leukemia	Acute Myeloid Leukemia	AML
+C34447	4	1.00	Head and Neck	Head and Neck Squamous Cell Carcinoma	Head and Neck Squamous Cell Carcinoma	HNSC
+C3457	6	1.00	Lymphoid	Non-Hodgkin Lymphoma	Mature B-Cell Neoplasms	MBN
+C3465	2	1.00	Lymphoid	Mature T and NK Neoplasms	Follicular T-Cell Lymphoma	FTCL
+C3466	1	1.00	Lymphoid	Non-Hodgkin Lymphoma	Mature T and NK Neoplasms	MTNN
+C3467	3	1.00	Lymphoid	Non-Hodgkin Lymphoma	Mature T and NK Neoplasms	MTNN
+C3493	32	1.00	Lung	Non-Small Cell Lung Cancer	Lung Squamous Cell Carcinoma	LUSC
+C3510	24	1.00	Skin	Melanoma	Cutaneous Melanoma	SKCM
+C3512	84	1.00	Lung	Non-Small Cell Lung Cancer	Lung Adenocarcinoma	LUAD
+C35417	25	1.00	Biliary Tract	Intraductal Papillary Neoplasm of the Bile Duct	Intrahepatic Cholangiocarcinoma	IHCH
+C35718	1	1.00	Head and Neck	Head and Neck Carcinoma, Other	NUT Midline Carcinoma of the Head and Neck	NMCHN
+C35765	1	1.00	Soft Tissue	Undifferentiated Pleomorphic Sarcoma/Malignant Fibrous Histiocytoma/High-Grade Spindle Cell Sarcoma	Undifferentiated Pleomorphic Sarcoma/Malignant Fibrous Histiocytoma/High-Grade Spindle Cell Sarcoma	MFH
+C35875	1	1.00	Lung	Non-Small Cell Lung Cancer	Non-Small Cell Lung Cancer	NSCLC
+C36077	2	1.00	Biliary Tract	Intraductal Papillary Neoplasm of the Bile Duct	Extrahepatic Cholangiocarcinoma	EHCH
+C36080	19	1.00	Lymphoid	Mature B-Cell Neoplasms	Diffuse Large B-Cell Lymphoma, NOS	DLBCLNOS
+C36081	5	1.00	Lymphoid	Mature B-Cell Neoplasms	Activated B-cell Type	ABC
+C36100	2	1.00	Ovary/Fallopian Tube	Ovarian Epithelial Tumor	Serous Ovarian Cancer	SOC
+C36101	2	1.00	Ovary/Fallopian Tube	Ovarian Epithelial Tumor	Serous Ovarian Cancer	SOC
+C3704	4	1.00	Soft Tissue	Liposarcoma	Dedifferentiated Liposarcoma	DDLS
+C3714	2	1.00	Soft Tissue	Epithelioid Sarcoma	Epithelioid Sarcoma	EPIS
+C3716	11	0.82	Bone	Ewing Sarcoma	Ewing Sarcoma	ES
+C37193	7	1.00	Lymphoid	Mature T and NK Neoplasms	Anaplastic Large-Cell Lymphoma ALK Positive	ALCLALKP
+C37194	3	1.00	Lymphoid	Mature T and NK Neoplasms	Anaplastic Large-Cell Lymphoma ALK Negative	ALCLALKN
+C37257	1	1.00	Peripheral Nervous System	Nerve Sheath Tumor	Malignant Peripheral Nerve Sheath Tumor	MPNST
+C3728	3	1.00	Liver	Hepatoblastoma	Hepatoblastoma	LIHB
+C37290	1	1.00	Head and Neck	Head and Neck Squamous Cell Carcinoma	Oral Cavity Squamous Cell Carcinoma	OCSC
+C3745	2	1.00	Soft Tissue	Clear Cell Sarcoma	Clear Cell Sarcoma	CCS
+C3749	10	1.00	Soft Tissue	Rhabdomyosarcoma	Alveolar Rhabdomyosarcoma	ARMS
+C3750	1	1.00	Soft Tissue	Alveolar Soft Part Sarcoma	Alveolar Soft Part Sarcoma	ASPS
+C3752	5	1.00	Testis	Non-Seminomatous Germ Cell Tumor	Embryonal Carcinoma	EMBCA
+C3796	4	1.00	CNS/Brain	Diffuse Glioma	Gliosarcoma	GSARC
+C3798	7	1.00	Peripheral Nervous System	Nerve Sheath Tumor	Malignant Peripheral Nerve Sheath Tumor	MPNST
+C3802	13	1.00	Skin	Melanoma	Melanoma	MEL
+C3828	1	1.00	Liver	Hepatocellular Carcinoma plus Intrahepatic Cholangiocarcinoma	Hepatocellular Carcinoma plus Intrahepatic Cholangiocarcinoma	HCCIHCH
+C3844	6	1.00	Biliary Tract	Intracholecystic Papillary Neoplasm	Gallbladder Adenocarcinoma, NOS	GBAD
+C3868	1	1.00	Soft Tissue	Gastrointestinal Stromal Tumor	Gastrointestinal Stromal Tumor	GIST
+C3877	2	1.00	Testis	Non-Seminomatous Germ Cell Tumor	Teratoma	TT
+C3878	9	1.00	Thyroid	Anaplastic Thyroid Cancer	Anaplastic Thyroid Cancer	THAP
+C39749	5	1.00	Uterus	Endometrial Carcinoma	Endometrial Carcinoma	UCEC
+C39750	4	1.00	CNS/Brain	Diffuse Glioma	Glioblastoma	GB
+C39903	1	1.00	Prostate	Prostate Neuroendocrine Carcinoma	Prostate Neuroendocrine Carcinoma	PRNE
+C4001	2	1.00	Breast	Invasive Breast Carcinoma	Breast Invasive Ductal Carcinoma	IDC
+C4004	20	1.00	Esophagus/Stomach	Esophagogastric Adenocarcinoma	Stomach Adenocarcinoma	STAD
+C40078	9	1.00	Ovary/Fallopian Tube	Ovarian Epithelial Tumor	Clear Cell Ovarian Cancer	CCOV
+C40145	2	1.00	Uterus	Endometrial Carcinoma	Endometrial Carcinoma	UCEC
+C4017	21	1.00	Breast	Invasive Breast Carcinoma	Breast Invasive Ductal Carcinoma	IDC
+C40212	1	1.00	Cervix	Glassy Cell Carcinoma of the Cervix	Glassy Cell Carcinoma of the Cervix	CEGCC
+C4022	4	1.00	Skin	Melanoma	Acral Melanoma	ACRM
+C4024	28	1.00	Esophagus/Stomach	Esophageal Squamous Cell Carcinoma	Esophageal Squamous Cell Carcinoma	ESCC
+C4025	6	1.00	Esophagus/Stomach	Esophagogastric Adenocarcinoma	Esophageal Adenocarcinoma	ESCA
+C4026	2	1.00	Ovary/Fallopian Tube	Ovarian Epithelial Tumor	Mucinous Ovarian Cancer	MOV
+C4029	1	1.00	Cervix	Cervical Adenocarcinoma	Endocervical Adenocarcinoma	ECAD
+C4031	1	1.00	Bladder/Urinary Tract	Bladder Squamous Cell Carcinoma	Bladder Squamous Cell Carcinoma	BLSC
+C40318	1	1.00	Soft Tissue	Leiomyosarcoma	Leiomyosarcoma	LMS
+C40329	1	1.00	Vulva/Vagina	Mucosal Melanoma of the Vulva/Vagina	Mucosal Melanoma of the Vulva/Vagina	VMM
+C4033	26	1.00	Kidney	Renal Cell Carcinoma	Renal Clear Cell Carcinoma	CCRCC
+C4035	2	1.00	Thyroid	Well-Differentiated Thyroid Cancer	Papillary Thyroid Cancer	THPA
+C40359	1	1.00	Breast	Breast Ductal Carcinoma In Situ	Breast Ductal Carcinoma In Situ	DCIS
+C4038	4	1.00	Lung	Lung Neuroendocrine Tumor	Lung Carcinoid	LUCA
+C4040	5	1.00	Head and Neck	Head and Neck Squamous Cell Carcinoma	Oral Cavity Squamous Cell Carcinoma	OCSC
+C4041	10	1.00	Head and Neck	Head and Neck Squamous Cell Carcinoma	Oral Cavity Squamous Cell Carcinoma	OCSC
+C4043	4	1.00	Head and Neck	Head and Neck Squamous Cell Carcinoma	Hypopharynx Squamous Cell Carcinoma	HPHSC
+C40439	3	1.00	Ovary/Fallopian Tube	Ovarian Epithelial Tumor	Small Cell Carcinoma of the Ovary	SCCO
+C4044	10	1.00	Head and Neck	Head and Neck Squamous Cell Carcinoma	Larynx Squamous Cell Carcinoma	LXSC
+C4052	2	1.00	Vulva/Vagina	Squamous Cell Carcinoma of the Vulva/Vagina	Squamous Cell Carcinoma of the Vulva/Vagina	VSC
+C4194	24	1.00	Breast	Invasive Breast Carcinoma	Breast Invasive Ductal Carcinoma	IDC
+C4247	5	1.00	Soft Tissue	Undifferentiated Pleomorphic Sarcoma/Malignant Fibrous Histiocytoma/High-Grade Spindle Cell Sarcoma	Undifferentiated Pleomorphic Sarcoma/Malignant Fibrous Histiocytoma/High-Grade Spindle Cell Sarcoma	MFH
+C4258	1	1.00	Soft Tissue	Rhabdomyosarcoma	Pleomorphic Rhabdomyosarcoma	PLRMS
+C4270	1	1.00	Ovary/Fallopian Tube	Ovarian Epithelial Tumor	Brenner Tumor, Malignant	BTMOV
+C42700	5	1.00	Uterus	Endometrial Carcinoma	Uterine Carcinosarcoma/Uterine Malignant Mixed Mullerian Tumor	UCS
+C4279	3	0.67	Soft Tissue	Synovial Sarcoma	Synovial Sarcoma	SYNS
+C4304	1	1.00	Fibroblast	Non-Cancerous	Fibroblast, Bone	
+C43223	3	1.00	Myeloid	Acute Myeloid Leukemia	Myeloid Leukemia Associated with Down Syndrome	MLADS
+C4337	8	1.00	Lymphoid	Mature B-Cell Neoplasms	Mantle Cell Lymphoma	MCL
+C4349	53	1.00	Bowel	Colorectal Adenocarcinoma	Colon Adenocarcinoma	COAD
+C4436	7	1.00	Biliary Tract	Intraductal Papillary Neoplasm of the Bile Duct	Extrahepatic Cholangiocarcinoma	EHCH
+C4450	14	1.00	Lung	Non-Small Cell Lung Cancer	Large Cell Lung Carcinoma	LCLC
+C4452	4	1.00	Lung	Non-Small Cell Lung Cancer	Giant Cell Carcinoma of the Lung	GCLC
+C45540	1	1.00	Lung	SMARCA4-deficient undifferentiated tumor	SMARCA4-deficient undifferentiated tumor	
+C45544	2	1.00	Lung	Non-Small Cell Lung Cancer	Lung Squamous Cell Carcinoma	LUSC
+C4563	1	1.00	Myeloid	Myeloproliferative Neoplasms	Chronic Eosinophilic Leukemia, NOS	CELNOS
+C45662	20	1.00	Pleura	Pleural Mesothelioma	Pleural Mesothelioma, Epithelioid Type	PLEMESO
+C45663	5	0.60	Pleura	Pleural Mesothelioma	Pleural Mesothelioma, Sarcomatoid Type	PLSMESO
+C45665	7	1.00	Pleura	Pleural Mesothelioma	Pleural Mesothelioma, Biphasic Type	PLBMESO
+C45716	3	0.67	Head and Neck	Head and Neck Carcinoma, Other	NUT Midline Carcinoma of the Head and Neck	NMCHN
+C46008	3	1.00	Head and Neck	Head and Neck Squamous Cell Carcinoma	Head and Neck Squamous Cell Carcinoma	HNSC
+C46099	1	1.00	Thyroid	Medullary Thyroid Cancer	Medullary Thyroid Cancer	THME
+C4646	3	1.00	Uterus	Gestational Trophoblastic Disease	Choriocarcinoma	UCCA
+C4648	27	1.00	Head and Neck	Head and Neck Squamous Cell Carcinoma	Oral Cavity Squamous Cell Carcinoma	OCSC
+C4656	1	1.00	CNS/Brain	Meningothelial Tumor	Meningioma	MNG
+C4663	2	1.00	Lymphoid	Mature B-Cell Neoplasms	Splenic Marginal Zone Lymphoma	SMZL
+C4664	1	1.00	Lymphoid	Mature T and NK Neoplasms	T-Cell Large Granular Lymphocytic Leukemia	TLGL
+C4673	3	1.00	Myeloid	Acute Leukemias of Ambiguous Lineage	Acute Leukemias of Ambiguous Lineage	ALAL
+C4683	1	1.00	Skin	Dermatofibrosarcoma Protuberans	Dermatofibrosarcoma Protuberans	DFSP
+C4753	1	1.00	Lymphoid	Mature B-Cell Neoplasms	B-Cell Prolymphocytic Leukemia	BPLL
+C4817	31	1.00	Bone	Ewing Sarcoma	Ewing Sarcoma	ES
+C4819	5	1.00	Skin	Cutaneous Squamous Cell Carcinoma	Cutaneous Squamous Cell Carcinoma	CSCC
+C4827	11	1.00	Peripheral Nervous System	Neuroblastoma	Neuroblastoma	NBL
+C4830	1	1.00	Bladder/Urinary Tract	Urethral Cancer	Urethral Urothelial Carcinoma	UCU
+C4833	6	1.00	Head and Neck	Head and Neck Squamous Cell Carcinoma	Oral Cavity Squamous Cell Carcinoma	OCSC
+C4863	9	1.00	Prostate	Prostate Adenocarcinoma	Prostate Adenocarcinoma	PRAD
+C4866	1	1.00	Vulva/Vagina	Mucosal Melanoma of the Vulva/Vagina	Mucosal Melanoma of the Vulva/Vagina	VMM
+C4872	22	1.00	Breast	Invasive Breast Carcinoma	Breast Invasive Ductal Carcinoma	IDC
+C4878	1	1.00	Lung	Non-Small Cell Lung Cancer	Lung Adenocarcinoma	LUAD
+C4908	3	1.00	Ovary/Fallopian Tube	Ovarian Epithelial Tumor	Serous Ovarian Cancer	SOC
+C4910	9	1.00	Bowel	Colorectal Adenocarcinoma	Colon Adenocarcinoma	COAD
+C4911	6	1.00	Esophagus/Stomach	Esophagogastric Adenocarcinoma	Stomach Adenocarcinoma	STAD
+C4912	35	1.00	Bladder/Urinary Tract	Bladder Urothelial Carcinoma	Bladder Urothelial Carcinoma	BLCA
+C4917	80	1.00	Lung	Lung Neuroendocrine Tumor	Small Cell Lung Cancer	SCLC
+C4943	1	1.00	Head and Neck	Head and Neck Squamous Cell Carcinoma	Hypopharynx Squamous Cell Carcinoma	HPHSC
+C5105	1	1.00	Bowel	Colorectal Adenocarcinoma	Colorectal Adenocarcinoma	COADREAD
+C5161	1	1.00	Breast	Invasive Breast Carcinoma	Invasive Breast Carcinoma	BRCA
+C5214	9	1.00	Breast	Invasive Breast Carcinoma	Invasive Breast Carcinoma	BRCA
+C5228	4	1.00	Ovary/Fallopian Tube	Ovarian Epithelial Tumor	Serous Ovarian Cancer	SOC
+C5234	1	1.00	Soft Tissue	Leiomyosarcoma	Leiomyosarcoma	LMS
+C5243	4	1.00	Ovary/Fallopian Tube	Ovarian Epithelial Tumor	Mucinous Ovarian Cancer	MOV
+C5248	1	1.00	Esophagus/Stomach	Esophagogastric Adenocarcinoma	Mucinous Stomach Adenocarcinoma	MSTAD
+C5250	6	1.00	Esophagus/Stomach	Esophagogastric Adenocarcinoma	Diffuse Type Stomach Adenocarcinoma	DSTAD
+C5473	9	0.89	Esophagus/Stomach	Esophagogastric Adenocarcinoma	Tubular Stomach Adenocarcinoma	TSTAD
+C5474	1	1.00	Esophagus/Stomach	Esophagogastric Adenocarcinoma	Adenosquamous Carcinoma of the Stomach	STAS
+C5543	10	1.00	Bowel	Colorectal Adenocarcinoma	Colon Adenocarcinoma	COAD
+C5650	1	1.00	Lung	Non-Small Cell Lung Cancer	Lung Adenocarcinoma	LUAD
+C5721	2	1.00	Pancreas	Adenosquamous Carcinoma of the Pancreas	Adenosquamous Carcinoma of the Pancreas	PAASC
+C5722	1	1.00	Pancreas	Pancreatic Adenocarcinoma	Pancreatic Adenocarcinoma	PAAD
+C5938	1	1.00	Head and Neck	Salivary Carcinoma	Mucoepidermoid Carcinoma	MUCC
+C5943	1	1.00	Head and Neck	Head and Neck Squamous Cell Carcinoma	Oral Cavity Squamous Cell Carcinoma	OCSC
+C6040	1	1.00	Thyroid	Poorly Differentiated Thyroid Cancer	Poorly Differentiated Thyroid Cancer	THPD
+C6041	1	1.00	Soft Tissue	Sarcoma, NOS	Sarcoma, NOS	SARCNOS
+C6064	1	1.00	Head and Neck	Head and Neck Squamous Cell Carcinoma	Sinonasal Squamous Cell Carcinoma	SNSC
+C60781	19	1.00	CNS/Brain	Diffuse Glioma	Astrocytoma	ASTR
+C6142	1	1.00	Bladder/Urinary Tract	Urethral Cancer	Urethral Urothelial Carcinoma	UCU
+C6261	1	1.00	Ovary/Fallopian Tube	Sex Cord Stromal Tumor	Granulosa Cell Tumor	GRCT
+C6290	1	1.00	Uterus	Endometrial Carcinoma	Uterine Adenosquamous Carcinoma	UASC
+C6339	1	1.00	Uterus	Uterine Sarcoma/Mesenchymal	Uterine Sarcoma/Mesenchymal	USARC
+C6340	2	1.00	Uterus	Uterine Sarcoma/Mesenchymal	Uterine Leiomyosarcoma	ULMS
+C6341	5	1.00	Testis	Non-Seminomatous Germ Cell Tumor	Embryonal Carcinoma	EMBCA
+C6476	2	1.00	Bone	Chondrosarcoma	Dedifferentiated Chondrosarcoma	DDCHS
+C6496	1	1.00	Soft Tissue	Myxofibrosarcoma	Myxofibrosarcoma	MFS
+C6505	3	1.00	Soft Tissue	Liposarcoma	Well-Differentiated Liposarcoma	WDLS
+C6534	3	1.00	Soft Tissue	Synovial Sarcoma	Synovial Sarcoma	SYNS
+C6586	7	1.00	Soft Tissue	Rhabdoid Cancer	Extrarenal Rhabdoid Cancer	
+C6650	4	0.75	Ampulla of Vater	Ampullary Carcinoma	Ampullary Carcinoma	AMPCA
+C6728	1	1.00	Bowel	Colorectal Adenocarcinoma	Colorectal Adenocarcinoma	COADREAD
+C6764	2	1.00	Esophagus/Stomach	Esophagogastric Adenocarcinoma	Small Cell Carcinoma of the Stomach	STSC
+C6766	1	1.00	Prostate	Prostate Small Cell Carcinoma	Prostate Small Cell Carcinoma	PRSCC
+C68659	1	1.00	Lymphoid	B-Lymphoblastic Leukemia/Lymphoma	B-Lymphoblastic Leukemia/Lymphoma with t(9;22)(q34.1;q11.2);BCR-ABL1	BLLBCRABL1
+C6906	5	1.00	CNS/Brain	Embryonal Tumor	Atypical Teratoid/Rhabdoid Tumor	ATRT
+C6915	6	1.00	Lymphoid	Mature B-Cell Neoplasms	Primary Effusion Lymphoma	PEL
+C6975	2	1.00	Kidney	Renal Cell Carcinoma	Papillary Renal Cell Carcinoma	PRCC
+C7027	4	1.00	Esophagus/Stomach	Esophagogastric Adenocarcinoma	Esophageal Adenocarcinoma	ESCA
+C7106	1	1.00	Liver	Hepatocellular Carcinoma	Hepatocellular Carcinoma	HCC
+C7152	4	1.00	Myeloid	Acute Myeloid Leukemia	Acute Myeloid Leukemia	AML
+C7154	1	1.00	Soft Tissue	Leiomyosarcoma	Leiomyosarcoma	LMS
+C7155	2	1.00	Bone	Chondrosarcoma	Chondrosarcoma	CHS
+C7210	1	1.00	Lymphoid	T-Lymphoblastic Leukemia/Lymphoma	T-Lymphoblastic Leukemia/Lymphoma	TLL
+C7320	2	1.00	Myeloid	Myeloproliferative Neoplasms	Chronic Myeloid Leukemia, BCR-ABL1+	CMLBCRABL1
+C7355	1	1.00	Kidney	Renal Cell Carcinoma	Renal Cell Carcinoma	RCC
+C7359	14	1.00	Uterus	Endometrial Carcinoma	Endometrial Carcinoma	UCEC
+C7376	6	1.00	Pleura	Pleural Mesothelioma	Pleural Mesothelioma	PLMESO
+C7402	4	1.00	Lymphoid	Mature B-Cell Neoplasms	Hairy Cell Leukemia	HCL
+C7541	2	1.00	Eye	Retinoblastoma	Retinoblastoma	RBL
+C7542	3	0.67	Bone	Ewing Sarcoma	Ewing Sarcoma	ES
+C7550	8	1.00	Ovary/Fallopian Tube	Ovarian Epithelial Tumor	Serous Ovarian Cancer	SOC
+C7558	4	1.00	Uterus	Endometrial Carcinoma	Endometrial Carcinoma	UCEC
+C7572	1	1.00	Kidney	Renal Cell Carcinoma	Renal Medullary Carcinoma	MRC
+C76328	1	1.00	Breast	Invasive Breast Carcinoma	Breast Invasive Lobular Carcinoma	ILC
+C7700	3	1.00	Ovary/Fallopian Tube	Ovarian Epithelial Tumor	Serous Ovarian Cancer	SOC
+C7712	15	1.00	Eye	Ocular Melanoma	Uveal Melanoma	UM
+C7889	2	1.00	Bowel	Small Bowel Cancer	Duodenal Adenocarcinoma	DA
+C7899	1	1.00	Bladder/Urinary Tract	Bladder Urothelial Carcinoma	Bladder Urothelial Carcinoma	BLCA
+C7950	5	1.00	Breast	Invasive Breast Carcinoma	Breast Invasive Lobular Carcinoma	ILC
+C7953	13	1.00	Lymphoid	T-Lymphoblastic Leukemia/Lymphoma	T-Lymphoblastic Leukemia/Lymphoma	TLL
+C7954	3	1.00	Lymphoid	Mature B-Cell Neoplasms	Burkitt Lymphoma	BL
+C7955	1	1.00	Liver	Hepatocellular Carcinoma	Hepatocellular Carcinoma	HCC
+C7956	22	1.00	Liver	Hepatocellular Carcinoma	Hepatocellular Carcinoma	HCC
+C7961	4	1.00	Myeloid	Acute Myeloid Leukemia	Acute Myeloid Leukemia	AML
+C7962	4	1.00	Myeloid	Acute Myeloid Leukemia	Acute Myeloid Leukemia	AML
+C7965	2	1.00	Myeloid	Acute Myeloid Leukemia	Acute Megakaryoblastic Leukemia	AMKL
+C7966	2	1.00	Bowel	Colorectal Adenocarcinoma	Mucinous Adenocarcinoma of the Colon and Rectum	MACR
+C7972	3	1.00	Myeloid	Acute Myeloid Leukemia	Acute Megakaryoblastic Leukemia	AMKL
+C7978	5	1.00	Ovary/Fallopian Tube	Ovarian Epithelial Tumor	Serous Ovarian Cancer	SOC
+C7979	6	1.00	Ovary/Fallopian Tube	Ovarian Epithelial Tumor	Endometrioid Ovarian Cancer	EOV
+C7982	2	0.50	Lung	SMARCA4-deficient undifferentiated tumor	SMARCA4-deficient undifferentiated tumor	
+C8026	1	1.00	Head and Neck	Salivary Carcinoma	Adenoid Cystic Carcinoma	ACYC
+C8028	1	1.00	Uterus	Endometrial Carcinoma	Uterine Clear Cell Carcinoma	UCCC
+C80334	1	1.00	Lymphoid	B-Lymphoblastic Leukemia/Lymphoma	B-Lymphoblastic Leukemia/Lymphoma with t(12;21)(p13.2;q22.1); ETV6-RUNX1	BLLETV6RUNX1
+C80342	6	1.00	Lymphoid	B-Lymphoblastic Leukemia/Lymphoma	B-Lymphoblastic Leukemia/Lymphoma with t(v;11q23.3);KMT2A Rearranged	BLLKMT2A
+C80347	4	1.00	Lymphoid	B-Lymphoblastic Leukemia/Lymphoma	B-Lymphoblastic Leukemia/Lymphoma with t(1;19)(q23;p13.3);TCF3-PBX1	BLLTCF3PBX1
+C8054	5	1.00	Thyroid	Well-Differentiated Thyroid Cancer	Follicular Thyroid Cancer	THFO
+C8114	1	1.00	Ovary/Fallopian Tube	Ovarian Germ Cell Tumor	Mixed Germ Cell Tumor	OMGCT
+C8173	1	1.00	Head and Neck	Head and Neck Squamous Cell Carcinoma	Oral Cavity Squamous Cell Carcinoma	OCSC
+C8181	1	1.00	Head and Neck	Head and Neck Squamous Cell Carcinoma	Oropharynx Squamous Cell Carcinoma	OPHSC
+C8183	2	1.00	Head and Neck	Head and Neck Squamous Cell Carcinoma	Oral Cavity Squamous Cell Carcinoma	OCSC
+C82217	5	1.00	Lymphoid	T-Lymphoblastic Leukemia/Lymphoma	Natural Killer (NK) Cell Lymphoblastic Leukemia/Lymphoma (NKCLL)	NKCLL
+C82426	2	1.00	Myeloid	Acute Myeloid Leukemia	AML with inv(3)(q21.3q26.2) or t(3;3)(q21.3;q26.2); GATA2, MECOM	AMLGATA2MECOM
+C8263	7	1.00	Myeloid	Acute Myeloid Leukemia	Acute Monoblastic/Monocytic Leukemia	AMOL
+C8294	22	1.00	Pancreas	Pancreatic Adenocarcinoma	Pancreatic Adenocarcinoma	PAAD
+C8303	2	1.00	Myeloid	Acute Myeloid Leukemia	Acute Myeloid Leukemia	AML
+C8398	1	1.00	Esophagus/Stomach	Esophagogastric Adenocarcinoma	Stomach Adenocarcinoma	STAD
+C8459	1	1.00	Lymphoid	Mature T and NK Neoplasms	Hepatosplenic T-cell Lymphoma	HSTCL
+C8460	1	1.00	Myeloid	Acute Myeloid Leukemia	AML with Minimal Differentiation	AMLMD
+C8644	4	1.00	Lymphoid	B-Lymphoblastic Leukemia/Lymphoma	B-Lymphoblastic Leukemia/Lymphoma	BLL
+C8715	6	1.00	Kidney	Rhabdoid Cancer	Rhabdoid Cancer	MRT
+C8851	13	1.00	Lymphoid	Mature B-Cell Neoplasms	Diffuse Large B-Cell Lymphoma, NOS	DLBCLNOS
+C8923	3	1.00	Myeloid	Acute Myeloid Leukemia	Acute Myeloid Leukemia	AML
+C8971	9	0.78	Soft Tissue	Rhabdomyosarcoma	Embryonal Rhabdomyosarcoma	ERMS
+C8973	1	1.00	Uterus	Uterine Sarcoma/Mesenchymal	Endometrial Stromal Sarcoma	ESS
+C9039	2	1.00	Cervix	Mixed Cervical Carcinoma	Mixed Cervical Carcinoma	MCCE
+C9110	4	1.00	Myeloid	Myeloproliferative Neoplasms	Chronic Myeloid Leukemia, BCR-ABL1+	CMLBCRABL1
+C9120	28	1.00	Pancreas	Pancreatic Adenocarcinoma	Pancreatic Adenocarcinoma	PAAD
+C9133	6	1.00	Lung	Non-Small Cell Lung Cancer	Lung Adenosquamous Carcinoma	LUAS
+C9140	17	1.00	Lymphoid	B-Lymphoblastic Leukemia/Lymphoma	B-Lymphoblastic Leukemia/Lymphoma	BLL
+C9142	8	1.00	Lymphoid	Mature T and NK Neoplasms	Adult T-Cell Leukemia/Lymphoma	ATLL
+C9143	5	1.00	Lymphoid	Mature B-Cell Neoplasms	Diffuse Large B-Cell Lymphoma, NOS	DLBCLNOS
+C9145	20	1.00	Bone	Osteosarcoma	Osteosarcoma	OS
+C9154	17	1.00	Myeloid	Acute Myeloid Leukemia	Acute Myeloid Leukemia	AML
+C9160	2	1.00	Myeloid	Acute Myeloid Leukemia	Acute Myeloid Leukemia	AML
+C9163	2	1.00	Myeloid	Acute Myeloid Leukemia	Acute Myeloid Leukemia	AML
+C9167	1	1.00	Biliary Tract	Intracholecystic Papillary Neoplasm	Gallbladder Cancer	GBC
+C9231	8	1.00	Skin	Merkel Cell Carcinoma	Merkel Cell Carcinoma	MCC
+C9280	1	1.00	Lymphoid	Mature B-Cell Neoplasms	Primary Mediastinal (Thymic) Large B-Cell Lymphoma (PMBL)	PMBL
+C9296	1	1.00	Esophagus/Stomach	Esophagogastric Adenocarcinoma	Adenocarcinoma of the Gastroesophageal Junction	GEJ
+C9325	2	1.00	Adrenal Gland	Adrenocortical Carcinoma	Adrenocortical Carcinoma	ACC
+C9357	8	1.00	Lymphoid	Hodgkin Lymphoma	Hodgkin Lymphoma	HL
+C9360	1	1.00	Lymphoid	B-Lymphoblastic Leukemia/Lymphoma	B-Lymphoblastic Leukemia/Lymphoma	BLL
+C9381	1	1.00	Myeloid	Acute Myeloid Leukemia	Acute Myeloid Leukemia	AML
+C9383	16	1.00	Bowel	Colorectal Adenocarcinoma	Rectal Adenocarcinoma	READ
+C9385	26	1.00	Kidney	Renal Cell Carcinoma	Renal Cell Carcinoma	RCC
+C94764	1	1.00	CNS/Brain	Diffuse Glioma	Diffuse Intrinsic Pontine Glioma	DIPG
+C9477	5	1.00	CNS/Brain	Diffuse Glioma	Anaplastic Astrocytoma	AASTR
+C95595	1	1.00	Pancreas	Pancreatic Neuroendocrine Tumor	Pancreatic Neuroendocrine Tumor	PANET
+C95749	1	1.00	Other	Extra Gonadal Germ Cell Tumor	Extra Gonadal Germ Cell Tumor	EGCT
+C96157	1	1.00	Bowel	Gastrointestinal Neuroendocrine Tumors	High-Grade Neuroendocrine Carcinoma of the Colon and Rectum	HGNEC
+C97074	1	1.00	Myeloid	Hereditary Spherocytosis	Spherocytosis	
+C99055	1	1.00	Other	Extra Gonadal Germ Cell Tumor	Extra Gonadal Germ Cell Tumor	EGCT

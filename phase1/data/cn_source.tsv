@@ -1,0 +1,723 @@
+cvcl	cell	model_id	lineage	subtype	n_h3k27ac_exp	tier	cn_source	dr_depmap	dr_progenetix	dr_cmp	dr_cosmicclp	dr_gdsc	has_matched_input
+CVCL_0001	HEL	ACH-000004	Myeloid	Acute Myeloid Leukemia	5	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0002	HL-60	ACH-000002	Myeloid	Acute Myeloid Leukemia	25	B	measured_other	1	1	1	1	1	1
+CVCL_0004	K-562	ACH-000551	Myeloid	Chronic Myeloid Leukemia, BCR-ABL1+	131	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0005	NB-4	ACH-000294	Myeloid	Acute Myeloid Leukemia	9	B	measured_other	1	1	1	1	1	1
+CVCL_0006	THP-1	ACH-000146	Myeloid	Acute Myeloid Leukemia	118	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0007	U-937	ACH-000406	Myeloid	Acute Myeloid Leukemia	7	A	depmap_wgs	1	1	1	0	0	1
+CVCL_0008	Daudi	ACH-000786	Lymphoid	Burkitt Lymphoma	1	B	measured_other	1	1	1	1	1	1
+CVCL_0012	LP-1	ACH-000204	Lymphoid	Plasma Cell Myeloma	13	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0013	MOLT-4	ACH-001127	Lymphoid	T-Lymphoblastic Leukemia/Lymphoma	6	B	measured_other	1	1	1	1	1	1
+CVCL_0014	RPMI 8226	ACH-000817	Lymphoid	Plasma Cell Myeloma	3	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0018	D341 Med	ACH-000095	CNS/Brain	Medulloblastoma	12	A	depmap_wgs	1	1	1	0	0	1
+CVCL_0019	SH-SY5Y	ACH-001188	Peripheral Nervous System	Neuroblastoma	35	A	depmap_wgs	1	1	1	0	0	1
+CVCL_0021	U-251 MG	ACH-000232	CNS/Brain	Astrocytoma	2	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0022	U-87 MG	ACH-000075	CNS/Brain	Glioblastoma	12	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0023	A549	ACH-000681	Lung	Lung Adenocarcinoma	104	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0025	Caco-2	ACH-000003	Bowel	Colon Adenocarcinoma	3	B	measured_other	1	1	1	0	0	1
+CVCL_0026	Capan-2	ACH-000107	Pancreas	Pancreatic Adenocarcinoma	9	B	measured_other	1	1	1	1	1	0
+CVCL_0027	Hep G2	ACH-000739	Liver	Hepatoblastoma	36	A	depmap_wgs	1	1	1	0	0	1
+CVCL_0030	HeLa	ACH-001086	Cervix	Endocervical Adenocarcinoma	55	B	measured_other	1	1	1	1	1	1
+CVCL_0031	MCF-7	ACH-000019	Breast	Invasive Breast Carcinoma	241	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0032	SiHa	ACH-000556	Cervix	Cervical Squamous Cell Carcinoma	1	B	measured_other	1	1	1	1	1	1
+CVCL_0033	SK-BR-3	ACH-000017	Breast	Invasive Breast Carcinoma	6	A	depmap_wgs	1	1	1	0	0	1
+CVCL_0035	PC-3	ACH-000090	Prostate	Prostate Adenocarcinoma	20	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0036	RT4	ACH-000242	Bladder/Urinary Tract	Bladder Urothelial Carcinoma	1	B	measured_other	1	1	1	1	1	1
+CVCL_0038	HaCaT				3	C	input_inferred	0	0	0	0	0	1
+CVCL_0039	SK-MEL-30	ACH-000810	Skin	Cutaneous Melanoma	1	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0041	SJCRH30	ACH-000833	Soft Tissue	Alveolar Rhabdomyosarcoma	17	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0042	U2OS	ACH-000364	Bone	Osteosarcoma	51	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0045	293				79	C	input_inferred	0	0	0	0	0	1
+CVCL_0060	NCI-H1299	ACH-000510	Lung	Large Cell Lung Carcinoma	30	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0061	PrEC				2	C	input_inferred	0	0	0	0	0	1
+CVCL_0062	MDA-MB-231	ACH-000768	Breast	Invasive Breast Carcinoma	83	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0064	MV-4-11	ACH-000045	Myeloid	Acute Myeloid Leukemia	27	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0065	Jurkat	ACH-000995	Lymphoid	T-Lymphoblastic Leukemia/Lymphoma	32	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0069	SK-MEL-2	ACH-001190	Skin	Melanoma	4	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0076	SNU-16	ACH-000581	Esophagus/Stomach	Stomach Adenocarcinoma	6	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0077	SNU-398	ACH-000221	Liver	Hepatocellular Carcinoma	1	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0079	697	ACH-000070	Lymphoid	B-Lymphoblastic Leukemia/Lymphoma with t(1;19)(q23;p13.3);TCF3-PBX1	24	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0080	A-673	ACH-000052	Bone	Ewing Sarcoma	32	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0089	MHH-CALL-3	ACH-000032	Lymphoid	B-Lymphoblastic Leukemia/Lymphoma with t(1;19)(q23;p13.3);TCF3-PBX1	1	B	measured_other	1	1	1	0	0	1
+CVCL_0092	NALM-6	ACH-000938	Lymphoid	B-Lymphoblastic Leukemia/Lymphoma	24	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0093	RS4-11	ACH-000874	Lymphoid	B-Lymphoblastic Leukemia/Lymphoma with t(v;11q23.3);KMT2A Rearranged	11	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0095	SEM	ACH-000782	Lymphoid	B-Lymphoblastic Leukemia/Lymphoma with t(v;11q23.3);KMT2A Rearranged	15	A	depmap_wgs	1	1	1	0	0	1
+CVCL_0098	SKM-1	ACH-000373	Myeloid	Acute Myeloid Leukemia	1	A	depmap_wgs	1	1	1	1	1	0
+CVCL_0100	SNU-484				2	B	measured_other	0	1	0	0	0	1
+CVCL_0103	SUP-B15	ACH-000059	Lymphoid	B-Lymphoblastic Leukemia/Lymphoma with t(9;22)(q34.1;q11.2);BCR-ABL1	1	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0105	DU 145	ACH-000979	Prostate	Prostate Adenocarcinoma	8	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0112	16HBE14o-				2	D	none	0	0	0	0	0	0
+CVCL_0126	5637	ACH-000905	Bladder/Urinary Tract	Bladder Urothelial Carcinoma	3	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0132	A-375	ACH-000219	Skin	Melanoma	13	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0134	A2780	ACH-000657	Ovary/Fallopian Tube	Endometrioid Ovarian Cancer	10	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0139	AGS	ACH-000880	Esophagus/Stomach	Stomach Adenocarcinoma	2	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0152	AsPC-1	ACH-000222	Pancreas	Pancreatic Adenocarcinoma	4	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0165	BCBL1				7	B	measured_other	0	1	0	0	0	1
+CVCL_0168	BEAS-2B				2	B	measured_other	0	1	0	0	0	1
+CVCL_0179	BT-474	ACH-000927	Breast	Breast Invasive Ductal Carcinoma	4	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0186	BxPC-3	ACH-000535	Pancreas	Pancreatic Adenocarcinoma	6	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0207	CCRF-CEM	ACH-001738	Lymphoid	T-Lymphoblastic Leukemia/Lymphoma	3	B	measured_other	1	1	1	1	1	1
+CVCL_0218	COLO 205	ACH-001039	Bowel	Colon Adenocarcinoma	5	B	measured_other	1	1	1	1	1	1
+CVCL_0219	COLO 320DM				2	B	measured_other	0	1	0	0	0	1
+CVCL_0220	COLO 320HSR	ACH-002219	Bowel	Colon Adenocarcinoma	2	B	measured_other	1	1	1	1	1	1
+CVCL_0234	Caki-1	ACH-000433	Kidney	Renal Clear Cell Carcinoma	2	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0237	Capan-1	ACH-000354	Pancreas	Pancreatic Adenocarcinoma	1	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0248	DLD-1	ACH-001061	Bowel	Colon Adenocarcinoma	23	A	depmap_wgs	1	1	1	0	0	1
+CVCL_0258	EOL-1	ACH-000198	Myeloid	Chronic Eosinophilic Leukemia, NOS	1	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0270	G-401	ACH-000096	Kidney	Rhabdoid Cancer	14	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0290	HCC1937	ACH-000223	Breast	Breast Invasive Ductal Carcinoma	4	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0291	HCT 116	ACH-000971	Bowel	Colon Adenocarcinoma	153	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0292	HCT-15	ACH-000997	Bowel	Colon Adenocarcinoma	4	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0294	HEC-1-B	ACH-000941	Uterus	Endometrial Carcinoma	21	A	depmap_wgs	1	1	1	0	0	0
+CVCL_0302	HK-2	ACH-001087	Kidney	Immortalized Embyonic Kidney Cells	3	B	measured_other	1	1	1	0	0	1
+CVCL_0308	HNE-1				1	C	input_inferred	0	0	0	0	0	1
+CVCL_0312	HOS	ACH-000613	Bone	Osteosarcoma	1	B	measured_other	1	1	1	1	1	1
+CVCL_0313	HPAF-II	ACH-000094	Pancreas	Pancreatic Adenocarcinoma	5	B	measured_other	1	1	1	1	1	1
+CVCL_0317	HT-1080	ACH-000054	Soft Tissue	Fibrosarcoma	13	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0320	HT-29	ACH-000552	Bowel	Colon Adenocarcinoma	24	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0324	HuCCT1	ACH-000976	Biliary Tract	Intrahepatic Cholangiocarcinoma	2	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0332	Hs 578T	ACH-000148	Breast	Breast Invasive Carcinoma, NOS	13	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0333	Hs 746.T	ACH-000616	Esophagus/Stomach	Stomach Adenocarcinoma	2	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0336	HuH-7	ACH-000480	Liver	Hepatocellular Carcinoma	12	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0337	HuT 78	ACH-000509	Lymphoid	Sezary Syndrome	1	A	depmap_wgs	1	1	1	0	0	1
+CVCL_0346	IMR-32	ACH-000310	Peripheral Nervous System	Neuroblastoma	20	A	depmap_wgs	1	1	1	0	0	1
+CVCL_0347	IMR-90				38	B	measured_other	0	1	0	0	0	1
+CVCL_0359	J82	ACH-000396	Bladder/Urinary Tract	Bladder Urothelial Carcinoma	2	B	measured_other	1	1	1	1	1	1
+CVCL_0367	Jurkat (Clone E6-1)				6	B	measured_other	0	1	1	0	0	1
+CVCL_0371	KATO III	ACH-000793	Esophagus/Stomach	Signet Ring Cell Carcinoma of the Stomach	5	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0372	KB				4	C	input_inferred	0	0	0	0	0	1
+CVCL_0374	KG-1	ACH-000386	Myeloid	Acute Myeloid Leukemia	2	B	measured_other	1	1	1	1	1	1
+CVCL_0375	KGN	ACH-002149	Ovary/Fallopian Tube	Granulosa Cell Tumor	2	B	measured_other	1	1	1	1	1	1
+CVCL_0378	KNS-42	ACH-000622	CNS/Brain	Glioblastoma	6	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0379	KU812	ACH-000074	Myeloid	Chronic Myeloid Leukemia, BCR-ABL1+	15	A	depmap_wgs	1	1	1	1	1	0
+CVCL_0389	LA-N-5				7	B	measured_other	0	1	0	0	0	1
+CVCL_0393	LN-229	ACH-000595	CNS/Brain	Glioblastoma	9	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0394	LN-308	ACH-000760	CNS/Brain	Glioblastoma	1	A	depmap_wgs	1	1	1	0	0	0
+CVCL_0395	LNCAP				139	B	measured_other	0	1	0	0	0	1
+CVCL_0397	LS-180	ACH-000957	Bowel	Colon Adenocarcinoma	1	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0399	LoVo	ACH-000950	Bowel	Colon Adenocarcinoma	13	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0417	MDA-MB-435				2	B	measured_other	0	1	1	0	0	1
+CVCL_0418	MDA-MB-453	ACH-000910	Breast	Invasive Breast Carcinoma	7	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0419	MDA-MB-468	ACH-000849	Breast	Invasive Breast Carcinoma	6	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0425	MEG-01	ACH-000072	Myeloid	Chronic Myeloid Leukemia, BCR-ABL1+	10	B	measured_other	1	1	1	1	1	1
+CVCL_0426	MG-63	ACH-000359	Bone	Osteosarcoma	4	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0428	MIA Paca-2	ACH-000601	Pancreas	Pancreatic Adenocarcinoma	26	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0434	MKN-45	ACH-000356	Esophagus/Stomach	Diffuse Type Stomach Adenocarcinoma	1	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0439	MNNG				3	B	measured_other	0	1	0	0	0	0
+CVCL_0440	MRC-5				21	C	input_inferred	0	0	0	0	0	1
+CVCL_0459	NCI-H460	ACH-000463	Lung	Large Cell Lung Carcinoma	10	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0465	OVCAR-3	ACH-000001	Ovary/Fallopian Tube	High-Grade Serous Ovarian Cancer	15	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0471	OE33	ACH-000383	Esophagus/Stomach	Esophageal Adenocarcinoma	1	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0480	PANC-1	ACH-000164	Pancreas	Pancreatic Adenocarcinoma	15	A	depmap_wgs	1	1	1	0	0	1
+CVCL_0485	PLC/PRF/5	ACH-001318	Liver	Hepatocellular Carcinoma	9	A	depmap_wgs	1	1	1	0	1	1
+CVCL_0497	SNU-475	ACH-000422	Liver	Hepatocellular Carcinoma	7	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0504	RKO	ACH-000943	Bowel	Colon Adenocarcinoma	14	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0511	RAJI	ACH-000654	Lymphoid	Burkitt Lymphoma	11	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0515	SaOS-LM7				1	D	none	0	0	0	0	0	0
+CVCL_0524	SH-EP				28	B	measured_other	0	1	0	0	0	1
+CVCL_0525	SK-HEP-1	ACH-000361	Liver	Hepatocellular Carcinoma	2	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0526	SK-MEL-28	ACH-000615	Skin	Cutaneous Melanoma	4	B	measured_other	1	1	1	1	1	1
+CVCL_0527	SK-MEL-5	ACH-000730	Skin	Cutaneous Melanoma	4	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0528	SK-N-BE(2)	ACH-000312	Peripheral Nervous System	Neuroblastoma	34	A	depmap_wgs	1	1	1	0	0	1
+CVCL_0529	BE(2)-C				14	B	measured_other	0	1	1	0	0	1
+CVCL_0530	SK-N-MC	ACH-000039	Bone	Ewing Sarcoma	12	A	depmap_wgs	1	1	1	0	0	1
+CVCL_0531	SK-N-SH	ACH-000149	Peripheral Nervous System	Neuroblastoma	6	B	measured_other	1	1	1	1	1	1
+CVCL_0532	SK-OV-3	ACH-000811	Ovary/Fallopian Tube	Serous Ovarian Cancer	21	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0533	SK-UT-1	ACH-000939	Uterus	Uterine Leiomyosarcoma	7	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0535	SNB-19	ACH-001198	CNS/Brain	Astrocytoma	2	B	measured_other	1	1	1	0	0	1
+CVCL_0538	SU-DHL-1	ACH-000664	Lymphoid	Anaplastic Large-Cell Lymphoma ALK Positive	1	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0539	SU-DHL-4	ACH-000365	Lymphoid	Diffuse Large B-Cell Lymphoma, NOS	14	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0546	SW 480	ACH-000842	Bowel	Colon Adenocarcinoma	12	A	depmap_wgs	1	1	1	0	0	1
+CVCL_0547	SW 620	ACH-000651	Bowel	Colon Adenocarcinoma	5	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0553	T-47D	ACH-000147	Breast	Breast Invasive Ductal Carcinoma	70	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0554	T24	ACH-000018	Bladder/Urinary Tract	Bladder Urothelial Carcinoma	2	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0556	T98G	ACH-000571	CNS/Brain	Glioblastoma	1	B	measured_other	1	1	1	1	1	1
+CVCL_0566	U-266	ACH-000626	Lymphoid	Plasma Cell Myeloma	5	B	measured_other	1	1	1	1	1	1
+CVCL_0588	ZR-75-1	ACH-000097	Breast	Breast Invasive Ductal Carcinoma	10	A	depmap_wgs	1	1	1	0	0	1
+CVCL_0589	Kasumi-1	ACH-000263	Myeloid	Acute Myeloid Leukemia	22	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0597	RAMOS	ACH-001636	Lymphoid	Burkitt Lymphoma	4	A	depmap_wgs	1	1	1	0	0	1
+CVCL_0598	MCF 10A	ACH-001357	Breast	Immortalized Breast Cells	67	B	measured_other	1	1	0	0	0	1
+CVCL_0608	Calu-1	ACH-000511	Lung	Lung Squamous Cell Carcinoma	1	A	depmap_wgs	1	1	1	0	1	1
+CVCL_0609	Calu-3	ACH-000392	Lung	Lung Adenocarcinoma	5	B	measured_other	1	1	1	1	1	1
+CVCL_0612	Kasumi-3	ACH-002668	Myeloid	AML with Minimal Differentiation	6	A	depmap_wgs	0	0	0	0	1	1
+CVCL_0617	MDA-MB-134-VI	ACH-000044	Breast	Breast Invasive Lobular Carcinoma	3	A	depmap_wgs	1	1	1	0	1	1
+CVCL_0618	MB 157	ACH-000621	Breast	Breast Invasive Ductal Carcinoma	15	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0620	MDA-MB-361	ACH-000934	Breast	Invasive Breast Carcinoma	2	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0623	MDA-MB-436	ACH-000573	Breast	Breast Invasive Carcinoma, NOS	11	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0627	SK-ES-1	ACH-000087	Bone	Ewing Sarcoma	1	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0628	SK-LMS-1	ACH-000145	Soft Tissue	Leiomyosarcoma	2	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0632	SW 948	ACH-000680	Bowel	Colon Adenocarcinoma	1	A	depmap_wgs	1	1	1	1	1	1
+CVCL_0638	Hs 1.Int				1	C	input_inferred	0	0	0	0	0	1
+CVCL_0G05	ST1				2	C	input_inferred	0	0	0	0	0	1
+CVCL_0J31	DTC1				4	C	input_inferred	0	0	0	0	0	1
+CVCL_0T68	IOE11				4	C	input_inferred	0	0	0	0	0	1
+CVCL_0V14	501A				5	B	measured_other	0	1	0	0	0	1
+CVCL_1045	22Rv1	ACH-000956	Prostate	Prostate Adenocarcinoma	62	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1051	786-O	ACH-000649	Kidney	Renal Clear Cell Carcinoma	47	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1055	A-427	ACH-000757	Lung	Lung Adenocarcinoma	1	B	measured_other	1	1	1	1	1	1
+CVCL_1056	A498	ACH-000555	Kidney	Renal Cell Carcinoma	7	B	measured_other	1	1	1	1	1	1
+CVCL_1059	A2058	ACH-000788	Skin	Melanoma	2	A	depmap_wgs	1	1	1	1	1	0
+CVCL_1060	A-253	ACH-000740	Head and Neck	Oral Cavity Squamous Cell Carcinoma	2	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1066	ABC-1	ACH-000528	Lung	Lung Adenocarcinoma	1	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1067	ACHN	ACH-000046	Kidney	Papillary Renal Cell Carcinoma	2	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1074	AU565	ACH-000248	Breast	Invasive Breast Carcinoma	2	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1079	BC-1	ACH-002214	Lymphoid	Primary Effusion Lymphoma	2	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1080	BC-3	ACH-002215	Lymphoid	Primary Effusion Lymphoma	2	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1092	BT-549	ACH-000288	Breast	Breast Invasive Carcinoma, NOS	14	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1094	C-33 A	ACH-001333	Cervix	Cervical Squamous Cell Carcinoma	1	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1100	Ca Ski	ACH-001336	Cervix	Cervical Squamous Cell Carcinoma	1	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1104	CAL-120	ACH-000212	Breast	Invasive Breast Carcinoma	13	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1106	CAL-148	ACH-000902	Breast	Breast Invasive Ductal Carcinoma	1	B	measured_other	1	1	1	1	1	1
+CVCL_1107	CAL 27	ACH-000832	Head and Neck	Oral Cavity Squamous Cell Carcinoma	4	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1110	CAL-51	ACH-000856	Breast	Invasive Breast Carcinoma	4	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1114	CAL-85-1	ACH-000857	Breast	Breast Invasive Ductal Carcinoma	1	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1115	CAMA-1	ACH-000783	Breast	Breast Invasive Lobular Carcinoma	2	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1119	CFPAC-1	ACH-000138	Pancreas	Pancreatic Adenocarcinoma	35	B	measured_other	1	1	1	1	1	1
+CVCL_1122	CHL-1	ACH-001024	Skin	Melanoma	6	B	measured_other	1	1	1	1	1	1
+CVCL_1124	CHP-134	ACH-001338	Peripheral Nervous System	Neuroblastoma	3	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1125	CHP-212	ACH-000120	Peripheral Nervous System	Neuroblastoma	1	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1128	COLO 668	ACH-000803	Lung	Small Cell Lung Cancer	1	A	depmap_wgs	1	1	1	1	1	0
+CVCL_1130	COLO 679	ACH-000805	Skin	Cutaneous Melanoma	1	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1133	COLO 741	ACH-000582	Skin	Melanoma	2	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1140	COR-L279	ACH-000257	Lung	Small Cell Lung Cancer	1	A	depmap_wgs	1	1	1	1	1	0
+CVCL_1150	CTV-1	ACH-001737	Lymphoid	Adult T-Cell Leukemia/Lymphoma	6	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1151	CW-2	ACH-000998	Bowel	Colon Adenocarcinoma	1	B	measured_other	1	1	1	1	1	1
+CVCL_1155	D283 Med	ACH-000055	CNS/Brain	Medulloblastoma	5	B	measured_other	1	1	1	1	1	1
+CVCL_1161	D458	ACH-001054	CNS/Brain	Medulloblastoma	3	A	depmap_wgs	1	1	1	0	0	1
+CVCL_1168	DB	ACH-000334	Lymphoid	Diffuse Large B-Cell Lymphoma, NOS	2	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1171	Detroit 562	ACH-000207	Head and Neck	Oropharynx Squamous Cell Carcinoma	9	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1174	DMS 114	ACH-000530	Lung	SMARCA4-deficient undifferentiated tumor	2	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1176	DMS 273	ACH-000749	Lung	Small Cell Lung Cancer	1	A	depmap_wgs	1	1	1	1	1	0
+CVCL_1177	DMS 53	ACH-000698	Lung	Small Cell Lung Cancer	2	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1178	DMS 79	ACH-000703	Lung	Small Cell Lung Cancer	2	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1179	DOHH-2	ACH-000056	Lymphoid	Diffuse Large B-Cell Lymphoma, NOS	4	B	measured_other	1	1	1	1	1	1
+CVCL_1183	DU4475	ACH-000258	Breast	Invasive Breast Carcinoma	1	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1195	EKVX	ACH-000706	Lung	Lung Adenocarcinoma	2	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1208	EW-1	ACH-002110	Bone	Ewing Sarcoma	1	B	measured_other	1	1	1	1	1	1
+CVCL_1214	EW-22	ACH-002116	Bone	Ewing Sarcoma	1	B	measured_other	1	1	1	1	1	1
+CVCL_1216	EW-3	ACH-002118	Bone	Ewing Sarcoma	1	B	measured_other	1	1	1	1	1	1
+CVCL_1217	EW-7	ACH-002119	Bone	Ewing Sarcoma	1	B	measured_other	1	1	1	1	1	1
+CVCL_1218	FaDu	ACH-000846	Head and Neck	Hypopharynx Squamous Cell Carcinoma	3	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1232	GI-ME-N	ACH-001344	Peripheral Nervous System	Neuroblastoma	11	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1235	GP5d	ACH-001345	Bowel	Colon Adenocarcinoma	1	B	measured_other	1	1	1	1	1	1
+CVCL_1242	HAL-01	ACH-002241	Lymphoid	B-Lymphoblastic Leukemia/Lymphoma	1	B	measured_other	1	1	1	1	1	1
+CVCL_1245	HCC1143	ACH-000374	Breast	Breast Invasive Ductal Carcinoma	1	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1247	HCC1187	ACH-000111	Breast	Breast Invasive Ductal Carcinoma	1	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1249	HCC1395	ACH-000699	Breast	Breast Invasive Ductal Carcinoma	1	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1255	HCC1569	ACH-000930	Breast	Breast Invasive Ductal Carcinoma	1	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1256	HCC1599	ACH-000196	Breast	Breast Invasive Ductal Carcinoma	5	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1258	HCC1806	ACH-000624	Breast	Breast Ductal Carcinoma In Situ	4	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1259	HCC1954	ACH-000859	Breast	Breast Ductal Carcinoma In Situ	5	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1266	HCC2998	ACH-001081	Bowel	Colon Adenocarcinoma	2	B	measured_other	1	1	1	1	1	1
+CVCL_1267	HCC38	ACH-000276	Breast	Breast Invasive Ductal Carcinoma	1	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1270	HCC70	ACH-000668	Breast	Breast Invasive Ductal Carcinoma	3	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1275	D425	ACH-001053	CNS/Brain	Medulloblastoma	5	A	depmap_wgs	1	1	1	0	0	1
+CVCL_1279	HGC-27	ACH-000847	Esophagus/Stomach	Stomach Adenocarcinoma	6	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1285	HOP-62	ACH-000861	Lung	Lung Adenocarcinoma	2	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1286	HOP-92	ACH-000825	Lung	Non-Small Cell Lung Cancer	2	B	measured_other	1	1	1	1	1	1
+CVCL_1290	HT	ACH-000914	Lymphoid	Diffuse Large B-Cell Lymphoma, NOS	2	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1292	HT-1376	ACH-000724	Bladder/Urinary Tract	Bladder Urothelial Carcinoma	1	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1298	HuO9	ACH-001526	Bone	Osteosarcoma	1	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1304	IGROV-1	ACH-000966	Ovary/Fallopian Tube	Endometrioid Ovarian Cancer	2	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1319	JVM-2	ACH-000106	Lymphoid	Mantle Cell Lymphoma	1	B	measured_other	1	1	1	1	1	1
+CVCL_1324	KARPAS-299	ACH-000053	Lymphoid	Anaplastic Large-Cell Lymphoma ALK Positive	1	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1325	KARPAS-422	ACH-000315	Lymphoid	Diffuse Large B-Cell Lymphoma, NOS	17	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1326	KARPAS-45	ACH-002256	Lymphoid	T-Lymphoblastic Leukemia/Lymphoma	1	B	measured_other	1	1	1	1	1	1
+CVCL_1331	KM-12	ACH-000969	Bowel	Colon Adenocarcinoma	2	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1334	KMS-12-BM	ACH-000380	Lymphoid	Plasma Cell Myeloma	1	B	measured_other	1	1	1	1	1	1
+CVCL_1335	KNS-62	ACH-000858	Lung	Lung Squamous Cell Carcinoma	1	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1338	KP4	ACH-000265	Pancreas	Pancreatic Adenocarcinoma	1	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1345	KURAMOCHI	ACH-000524	Ovary/Fallopian Tube	High-Grade Serous Ovarian Cancer	1	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1347	KYSE-140	ACH-000823	Esophagus/Stomach	Esophageal Squamous Cell Carcinoma	6	B	measured_other	1	1	1	1	1	1
+CVCL_1348	KYSE-150	ACH-000855	Esophagus/Stomach	Esophageal Squamous Cell Carcinoma	1	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1349	KYSE-180	ACH-000693	Esophagus/Stomach	Esophageal Squamous Cell Carcinoma	2	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1354	KYSE-510	ACH-000824	Esophagus/Stomach	Esophageal Squamous Cell Carcinoma	1	B	measured_other	1	1	1	1	1	1
+CVCL_1356	KYSE-70	ACH-000784	Esophagus/Stomach	Esophageal Squamous Cell Carcinoma	1	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1373	LC-2/ad	ACH-002157	Lung	Lung Adenocarcinoma	1	B	measured_other	1	1	1	1	1	1
+CVCL_1380	Loucy	ACH-000104	Lymphoid	Early T-Cell Precursor Lymphoblastic Leukemia	8	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1381	LOX-IMVI	ACH-000750	Skin	Melanoma	3	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1384	LS-174T				1	B	measured_other	0	1	1	0	0	1
+CVCL_1395	M-14	ACH-002159	Skin	Melanoma	4	B	measured_other	1	1	1	1	1	1
+CVCL_1408	MFM-223	ACH-001819	Breast	Breast Invasive Ductal Carcinoma	3	B	measured_other	1	1	1	1	1	1
+CVCL_1411	MHH-ES-1	ACH-000391	Bone	Ewing Sarcoma	1	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1415	MKN-1	ACH-000351	Esophagus/Stomach	Adenosquamous Carcinoma of the Stomach	1	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1417	MKN-7	ACH-000678	Esophagus/Stomach	Tubular Stomach Adenocarcinoma	5	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1423	MOLT-14				4	B	measured_other	0	1	1	0	0	1
+CVCL_1424	MOLT-16	ACH-000918	Lymphoid	T-Lymphoblastic Leukemia/Lymphoma	1	B	measured_other	1	1	1	1	1	1
+CVCL_1426	Mono-Mac-6	ACH-000006	Myeloid	Acute Monoblastic/Monocytic Leukemia	3	B	measured_other	1	1	1	1	1	1
+CVCL_1430	MSTO-211H	ACH-000335	Pleura	Pleural Mesothelioma, Biphasic Type	1	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1433	MUTZ-3	ACH-000084	Myeloid	AML with inv(3)(q21.3q26.2) or t(3;3)(q21.3;q26.2); GATA2, MECOM	2	B	measured_other	1	1	1	0	0	1
+CVCL_1437	Malme-3				2	B	measured_other	0	0	1	0	0	1
+CVCL_1448	NB69	ACH-002083	Peripheral Nervous System	Neuroblastoma	4	B	measured_other	1	1	1	1	1	1
+CVCL_1451	NCCIT	ACH-001578	Testis	Embryonal Carcinoma	3	A	depmap_wgs	1	1	1	1	0	1
+CVCL_1452	NCI/ADR-RES				2	B	measured_other	0	1	1	0	0	1
+CVCL_1453	NCI-H1048	ACH-000866	Lung	Small Cell Lung Cancer	11	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1454	NCI-H1092	ACH-000514	Lung	Small Cell Lung Cancer	1	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1455	NCI-H1105	ACH-000780	Lung	Small Cell Lung Cancer	1	A	depmap_wgs	1	1	1	1	1	0
+CVCL_1460	NCI-H128	ACH-002286	Lung	Small Cell Lung Cancer	5	B	measured_other	1	1	1	1	1	1
+CVCL_1472	NCI-H1437	ACH-000589	Lung	Lung Adenocarcinoma	1	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1473	NCI-H146	ACH-000506	Lung	Small Cell Lung Cancer	3	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1474	NCI-H1522				2	B	measured_other	0	1	0	0	1	1
+CVCL_1482	NCI-H1648	ACH-000766	Lung	Lung Adenocarcinoma	1	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1483	NCI-H1650	ACH-000035	Lung	Non-Small Cell Lung Cancer	1	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1488	NCI-H1693	ACH-000021	Lung	Lung Adenocarcinoma	1	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1489	NCI-H1694	ACH-000431	Lung	Small Cell Lung Cancer	1	A	depmap_wgs	1	1	1	1	1	0
+CVCL_1490	NCI-H1703	ACH-000747	Lung	Lung Squamous Cell Carcinoma	1	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1497	NCI-H1819	ACH-000033	Lung	Lung Adenocarcinoma	1	B	measured_other	1	1	1	0	0	1
+CVCL_1498	NCI-H1836	ACH-000559	Lung	Small Cell Lung Cancer	1	A	depmap_wgs	1	1	1	1	1	0
+CVCL_1510	NCI-H1963	ACH-000729	Lung	Small Cell Lung Cancer	8	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1511	NCI-H1975	ACH-000587	Lung	Lung Adenocarcinoma	2	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1516	NCI-H2029	ACH-000298	Lung	Small Cell Lung Cancer	1	A	depmap_wgs	1	1	1	1	1	0
+CVCL_1517	NCI-H2030	ACH-000521	Lung	Lung Adenocarcinoma	1	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1520	NCI-H2066	ACH-000727	Lung	Small Cell Lung Cancer	1	A	depmap_wgs	1	1	1	1	1	0
+CVCL_1524	NCI-H2087	ACH-000841	Lung	Lung Adenocarcinoma	6	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1527	NCI-H2107				2	B	measured_other	0	1	0	0	1	1
+CVCL_1529	NCI-H211	ACH-000639	Lung	Small Cell Lung Cancer	6	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1532	NCI-H2126	ACH-000785	Lung	Lung Adenocarcinoma	1	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1536	NCI-H2171	ACH-000525	Lung	Small Cell Lung Cancer	5	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1543	NCI-H2228	ACH-000447	Lung	Lung Adenocarcinoma	1	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1544	NCI-H226	ACH-000367	Pleura	Pleural Mesothelioma, Epithelioid Type	2	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1547	NCI-H23	ACH-000900	Lung	Lung Adenocarcinoma	2	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1550	NCI-H2347	ACH-000875	Lung	Lung Adenocarcinoma	1	B	measured_other	1	1	1	1	1	1
+CVCL_1556	NCI-H322	ACH-000837	Lung	Lung Adenocarcinoma	2	A	depmap_wgs	1	1	0	0	0	1
+CVCL_1557	NCI-H322M	ACH-002172	Lung	Lung Adenocarcinoma	2	B	measured_other	1	1	1	1	1	1
+CVCL_1560	NCI-H378	ACH-002173	Lung	Small Cell Lung Cancer	1	B	measured_other	1	1	1	1	1	1
+CVCL_1561	NCI-H441	ACH-000638	Lung	Lung Adenocarcinoma	5	B	measured_other	1	1	1	1	1	1
+CVCL_1562	NCI-H446	ACH-000800	Lung	Small Cell Lung Cancer	8	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1565	NCI-H510A	ACH-000871	Lung	Small Cell Lung Cancer	3	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1566	NCI-H520	ACH-000395	Lung	Lung Squamous Cell Carcinoma	2	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1568	NCI-H524	ACH-000816	Lung	Small Cell Lung Cancer	5	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1569	NCI-H526	ACH-000767	Lung	Small Cell Lung Cancer	9	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1579	NCI-H69	ACH-000358	Lung	Small Cell Lung Cancer	8	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1590	NCI-H810	ACH-000789	Lung	Large Cell Lung Carcinoma	1	B	measured_other	1	1	1	1	1	1
+CVCL_1591	NCI-H82	ACH-000355	Lung	Small Cell Lung Cancer	4	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1596	NCI-H847	ACH-001365	Lung	Small Cell Lung Cancer	1	B	measured_other	1	1	1	1	1	0
+CVCL_1598	NCI-H889	ACH-000297	Lung	Small Cell Lung Cancer	7	A	depmap_wgs	1	1	1	0	0	1
+CVCL_1600	NCI-H929	ACH-000050	Lymphoid	Plasma Cell Myeloma	4	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1603	NCI-N87	ACH-000427	Esophagus/Stomach	Tubular Stomach Adenocarcinoma	2	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1619	OCI-AML2	ACH-000113	Myeloid	Acute Myeloid Leukemia	3	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1622	OE19	ACH-000679	Esophagus/Stomach	Esophageal Squamous Cell Carcinoma	1	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1625	OPM-2	ACH-000024	Lymphoid	Plasma Cell Myeloma	4	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1626	OS-RC-2	ACH-000159	Kidney	Renal Clear Cell Carcinoma	2	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1627	OVCAR-4	ACH-000617	Ovary/Fallopian Tube	High-Grade Serous Ovarian Cancer	2	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1628	OVCAR-5	ACH-001151	Ovary/Fallopian Tube	High-Grade Serous Ovarian Cancer	2	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1629	OVCAR-8	ACH-000696	Ovary/Fallopian Tube	High-Grade Serous Ovarian Cancer	3	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1630	P12-ICHIKAWA	ACH-000372	Lymphoid	T-Lymphoblastic Leukemia/Lymphoma	1	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1635	Panc 03.27	ACH-000139	Pancreas	Pancreatic Adenocarcinoma	2	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1636	Panc 04.03	ACH-000235	Pancreas	Pancreatic Adenocarcinoma	1	A	depmap_wgs	1	1	1	1	1	0
+CVCL_1640	PC-14	ACH-000030	Lung	Lung Adenocarcinoma	1	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1641	PF-382	ACH-000937	Lymphoid	T-Lymphoblastic Leukemia/Lymphoma	5	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1649	RD	ACH-000169	Soft Tissue	Embryonal Rhabdomyosarcoma	8	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1650	REH	ACH-000960	Lymphoid	B-Lymphoblastic Leukemia/Lymphoma with t(12;21)(p13.2;q22.1); ETV6-RUNX1	8	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1651	RERF-LC-Ad1	ACH-000791	Lung	Lung Adenocarcinoma	1	A	depmap_wgs	1	1	1	0	0	1
+CVCL_1652	RERF-LC-Ad2	ACH-000774	Lung	Lung Adenocarcinoma	1	B	measured_other	1	1	1	0	0	1
+CVCL_1654	RERF-LC-KJ	ACH-000482	Lung	Lung Adenocarcinoma	1	B	measured_other	1	1	1	1	1	1
+CVCL_1655	RERF-LC-MS	ACH-000062	Lung	Lung Adenocarcinoma	1	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1658	Rh1				1	B	measured_other	1	1	1	1	1	1
+CVCL_1659	RH-18	ACH-000689	Soft Tissue	Embryonal Rhabdomyosarcoma	1	B	measured_other	1	1	1	1	1	1
+CVCL_1660	RL	ACH-000371	Lymphoid	Diffuse Large B-Cell Lymphoma, NOS	9	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1661	ZR-75-30	ACH-000828	Breast	Breast Invasive Lobular Carcinoma	5	B	measured_other	1	1	1	1	1	1
+CVCL_1662	RMG-I	ACH-000719	Ovary/Fallopian Tube	Clear Cell Ovarian Cancer	4	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1667	RPMI 8402	ACH-000636	Lymphoid	T-Lymphoblastic Leukemia/Lymphoma	5	B	measured_other	1	1	1	1	1	1
+CVCL_1670	RT-112	ACH-000473	Bladder/Urinary Tract	Bladder Urothelial Carcinoma	5	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1673	RXF 393L	ACH-002195	Kidney	Renal Cell Carcinoma	2	B	measured_other	1	1	1	1	1	1
+CVCL_1682	SCC-25	ACH-000188	Head and Neck	Oral Cavity Squamous Cell Carcinoma	2	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1687	SCH	ACH-002198	Other	Extra Gonadal Germ Cell Tumor	1	B	measured_other	1	1	1	1	1	1
+CVCL_1689	SF268	ACH-000655	CNS/Brain	Astrocytoma	4	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1690	SF-295	ACH-000376	CNS/Brain	Glioblastoma	2	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1691	SF539	ACH-000273	CNS/Brain	Gliosarcoma	2	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1693	SHP-77	ACH-000790	Lung	Small Cell Lung Cancer	2	A	depmap_wgs	1	1	1	1	1	0
+CVCL_1697	SJSA-1	ACH-000748	Bone	Osteosarcoma	2	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1700	SK-N-AS	ACH-000260	Peripheral Nervous System	Neuroblastoma	4	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1701	SK-N-DZ	ACH-000366	Peripheral Nervous System	Neuroblastoma	2	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1702	SK-N-FI	ACH-000341	Peripheral Nervous System	Neuroblastoma	3	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1705	SN-12C	ACH-002199	Kidney	Renal Cell Carcinoma	2	B	measured_other	1	1	1	1	1	1
+CVCL_1706	SNB-75	ACH-000504	CNS/Brain	Glioblastoma	2	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1711	SR-786	ACH-000338	Lymphoid	Anaplastic Large-Cell Lymphoma ALK Positive	3	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1714	SUP-T1	ACH-000953	Lymphoid	T-Lymphoblastic Leukemia/Lymphoma	2	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1724	SW 48	ACH-000958	Bowel	Colon Adenocarcinoma	1	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1729	SW 837	ACH-000421	Bowel	Rectal Adenocarcinoma	1	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1730	SW 872	ACH-002310	Soft Tissue	Liposarcoma	13	B	measured_other	1	1	1	1	1	1
+CVCL_1735	SU-DHL-5	ACH-000660	Lymphoid	Diffuse Large B-Cell Lymphoma, NOS	2	B	measured_other	1	1	1	1	1	1
+CVCL_1736	TALL-1	ACH-000197	Lymphoid	Adult T-Cell Leukemia/Lymphoma	1	B	measured_other	1	1	1	1	1	1
+CVCL_1760	TE-10	ACH-000318	Esophagus/Stomach	Esophageal Squamous Cell Carcinoma	1	A	depmap_wgs	1	1	1	1	1	0
+CVCL_1764	TE-5	ACH-000408	Esophagus/Stomach	Esophageal Squamous Cell Carcinoma	1	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1773	TK-10	ACH-001208	Kidney	Renal Clear Cell Carcinoma	2	B	measured_other	1	1	1	1	1	1
+CVCL_1779	UACC-257	ACH-000579	Skin	Melanoma	3	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1780	UACC-62	ACH-000425	Skin	Melanoma	2	B	measured_other	1	1	1	1	1	1
+CVCL_1781	UACC-812	ACH-000568	Breast	Breast Invasive Lobular Carcinoma	2	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1787	VMRC-LCD	ACH-001233	Lung	Lung Adenocarcinoma	1	B	measured_other	1	1	1	1	1	1
+CVCL_1792	WERI-Rb-1	ACH-001421	Eye	Retinoblastoma	2	A	depmap_wgs	1	1	1	0	0	1
+CVCL_1805	ALL-SIL	ACH-000105	Lymphoid	Adult T-Cell Leukemia/Lymphoma	1	B	measured_other	1	1	1	1	1	1
+CVCL_1818	GRANTA-519	ACH-000073	Lymphoid	Mantle Cell Lymphoma	1	B	measured_other	1	1	1	1	1	1
+CVCL_1819	VAL	ACH-001703	Lymphoid	Diffuse Large B-Cell Lymphoma, NOS	7	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1825	KYAE-1	ACH-001544	Esophagus/Stomach	Esophageal Adenocarcinoma	1	B	measured_other	1	1	1	1	1	1
+CVCL_1827	LAN-1				1	B	measured_other	0	1	0	0	0	1
+CVCL_1831	MAVER-1	ACH-002485	Lymphoid	Mantle Cell Lymphoma	1	A	depmap_wgs	1	1	0	0	0	1
+CVCL_1842	OACM5.1 C	ACH-001368	Esophagus/Stomach	Esophageal Adenocarcinoma	1	B	measured_other	1	1	1	1	1	1
+CVCL_1843	OACP4 C	ACH-002292	Esophagus/Stomach	Esophageal Adenocarcinoma	1	B	measured_other	1	1	1	1	1	1
+CVCL_1844	OCI-AML3	ACH-000336	Myeloid	Acute Myeloid Leukemia	17	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1846	PA-TU-8988S	ACH-000022	Pancreas	Pancreatic Adenocarcinoma	3	A	depmap_wgs	1	1	1	0	0	1
+CVCL_1853	UCSD-AML1	ACH-001684	Myeloid	Acute Myeloid Leukemia	2	A	depmap_wgs	0	0	0	0	0	1
+CVCL_1865	JEKO-1	ACH-000357	Lymphoid	Mantle Cell Lymphoma	5	B	measured_other	1	1	1	1	1	1
+CVCL_1866	KOPN-8	ACH-001106	Lymphoid	B-Lymphoblastic Leukemia/Lymphoma with t(v;11q23.3);KMT2A Rearranged	1	A	depmap_wgs	1	1	1	1	1	1
+CVCL_1870	MEC-1	ACH-000405	Lymphoid	Chronic Lymphocytic Leukemia/Small Lymphocytic Lymphoma	2	A	depmap_wgs	1	1	1	0	1	1
+CVCL_1871	MEC-2	ACH-001121	Lymphoid	Chronic Lymphocytic Leukemia/Small Lymphocytic Lymphoma	1	B	measured_other	1	1	1	0	0	1
+CVCL_1872	Mino	ACH-000220	Lymphoid	Mantle Cell Lymphoma	9	B	measured_other	1	1	1	0	0	1
+CVCL_1873	MUTZ-5	ACH-000492	Lymphoid	B-Lymphoblastic Leukemia/Lymphoma, BCR-ABL1 Like	1	A	depmap_wgs	1	1	1	0	0	1
+CVCL_1876	NU-DHL-1	ACH-000388	Lymphoid	Diffuse Large B-Cell Lymphoma, NOS	2	B	measured_other	1	1	1	0	0	1
+CVCL_1879	OCI-LY1				18	B	measured_other	0	1	0	0	0	1
+CVCL_1880	OCI-Ly18	ACH-001616	Lymphoid	Diffuse Large B-Cell Lymphoma, NOS	2	B	measured_other	1	1	0	0	0	1
+CVCL_1881	OCI-LY-7	ACH-001617	Lymphoid	Diffuse Large B-Cell Lymphoma, NOS	5	B	measured_other	1	1	1	1	1	1
+CVCL_1883	RC-K8	ACH-001638	Lymphoid	Germinal Center B-Cell Type	2	B	measured_other	1	1	1	1	1	1
+CVCL_1884	REC-1	ACH-000068	Lymphoid	Mantle Cell Lymphoma	9	A	depmap_wgs	1	1	1	0	0	1
+CVCL_1885	RIVA	ACH-000398	Lymphoid	Activated B-cell Type	4	B	measured_other	1	1	1	0	0	1
+CVCL_1889	SU-DHL-10	ACH-000271	Lymphoid	Diffuse Large B-Cell Lymphoma, NOS	2	B	measured_other	1	1	1	1	1	1
+CVCL_1896	U-2932				5	B	measured_other	0	1	0	0	0	1
+CVCL_1899	SCC090	ACH-001227	Head and Neck	Oral Cavity Squamous Cell Carcinoma	1	A	depmap_wgs	1	0	1	1	1	1
+CVCL_1902	WSU-DLCL2	ACH-000534	Lymphoid	Diffuse Large B-Cell Lymphoma, NOS	4	B	measured_other	1	1	1	1	1	1
+CVCL_1911	UO-31	ACH-000428	Kidney	Renal Cell Carcinoma	2	B	measured_other	1	1	1	1	1	1
+CVCL_1913	PEER	ACH-000519	Lymphoid	T-Lymphoblastic Leukemia/Lymphoma	1	B	measured_other	1	1	1	0	0	0
+CVCL_1989	COLO 320	ACH-000202	Bowel	Colon Adenocarcinoma	1	A	depmap_wgs	1	1	1	0	0	1
+CVCL_1B47	90-8TL				2	B	measured_other	0	1	0	0	0	1
+CVCL_1D68	UM-Chor1				2	B	measured_other	1	0	1	0	0	0
+CVCL_1P71	GM22647				2	D	none	0	0	0	0	0	0
+CVCL_1P72	GM22648				2	D	none	0	0	0	0	0	0
+CVCL_1P73	GM22649				2	D	none	0	0	0	0	0	0
+CVCL_1P74	GM22650				2	D	none	0	0	0	0	0	0
+CVCL_1P75	GM22651				2	D	none	0	0	0	0	0	0
+CVCL_2022	DND-41	ACH-000981	Lymphoid	T-Lymphoblastic Leukemia/Lymphoma	18	A	depmap_wgs	1	1	1	1	1	1
+CVCL_2035	ESO-26	ACH-001496	Esophagus/Stomach	Adenocarcinoma of the Gastroesophageal Junction	1	B	measured_other	1	1	1	1	1	1
+CVCL_2045	FLO-1	ACH-001500	Esophagus/Stomach	Esophageal Adenocarcinoma	1	B	measured_other	1	1	1	1	1	1
+CVCL_2060	HCC44	ACH-000667	Lung	Lung Adenocarcinoma	1	A	depmap_wgs	1	1	1	1	1	1
+CVCL_2063	HCC827	ACH-000012	Lung	Lung Adenocarcinoma	1	A	depmap_wgs	1	1	1	1	1	1
+CVCL_2067	HDQ-P1	ACH-000643	Breast	Breast Invasive Ductal Carcinoma	1	A	depmap_wgs	1	1	1	1	1	1
+CVCL_2071	HNT-34	ACH-000299	Myeloid	Acute Myeloid Leukemia	6	A	depmap_wgs	1	1	1	0	0	1
+CVCL_2078	JJN-3	ACH-000653	Lymphoid	Plasma Cell Myeloma	9	A	depmap_wgs	1	1	1	1	1	1
+CVCL_2081	JMSU1	ACH-000753	Bladder/Urinary Tract	Bladder Urothelial Carcinoma	6	A	depmap_wgs	1	1	1	0	0	1
+CVCL_2092	KELLY	ACH-000259	Peripheral Nervous System	Neuroblastoma	36	A	depmap_wgs	1	1	1	1	1	1
+CVCL_2106	M-07e	ACH-000602	Myeloid	Acute Megakaryoblastic Leukemia	5	A	depmap_wgs	1	1	1	0	0	1
+CVCL_2110	ME-1	ACH-000439	Myeloid	Acute Myeloid Leukemia	3	A	depmap_wgs	1	1	1	1	1	0
+CVCL_2116	MKPL-1				1	D	none	0	0	0	0	0	0
+CVCL_2119	MOLM-13	ACH-000362	Myeloid	Acute Myeloid Leukemia	43	A	depmap_wgs	1	1	1	1	1	1
+CVCL_2136	NBL-S				6	C	input_inferred	0	0	0	0	0	1
+CVCL_2141	NGP	ACH-001366	Peripheral Nervous System	Neuroblastoma	7	A	depmap_wgs	1	1	1	0	0	1
+CVCL_2142	NK-92				4	B	measured_other	0	0	1	0	0	1
+CVCL_2169	RD-ES	ACH-000041	Bone	Ewing Sarcoma	3	A	depmap_wgs	1	1	1	0	1	1
+CVCL_2187	SET-2	ACH-000195	Myeloid	Acute Megakaryoblastic Leukemia	13	A	depmap_wgs	1	1	1	1	1	1
+CVCL_2195	SK-GT-4	ACH-001654	Esophagus/Stomach	Esophageal Adenocarcinoma	1	B	measured_other	1	1	1	1	1	1
+CVCL_2196	SKNO-1	ACH-001656	Myeloid	AML with Maturation	3	A	depmap_wgs	1	1	1	0	0	1
+CVCL_2206	SU-DHL-6	ACH-000611	Lymphoid	Diffuse Large B-Cell Lymphoma, NOS	6	B	measured_other	1	1	1	1	1	1
+CVCL_2209	SUP-M2	ACH-000226	Lymphoid	Anaplastic Large-Cell Lymphoma ALK Positive	2	A	depmap_wgs	1	1	1	1	1	1
+CVCL_2213	TC-71	ACH-000424	Bone	Ewing Sarcoma	6	A	depmap_wgs	1	1	1	1	1	1
+CVCL_2233	UT-7	ACH-001230	Myeloid	Acute Megakaryoblastic Leukemia	6	B	measured_other	1	1	1	0	0	0
+CVCL_2235	VCaP	ACH-000115	Prostate	Prostate Adenocarcinoma	27	B	measured_other	1	1	1	1	1	1
+CVCL_2270	143B	ACH-001001	Bone	Osteosarcoma	7	A	depmap_wgs	1	1	1	0	0	0
+CVCL_2312	BICR 31	ACH-000228	Head and Neck	Oral Cavity Squamous Cell Carcinoma	1	A	depmap_wgs	1	1	1	1	1	0
+CVCL_2314	BICR 6	ACH-000415	Head and Neck	Hypopharynx Squamous Cell Carcinoma	1	A	depmap_wgs	1	1	1	0	0	0
+CVCL_2412	COR-L311	ACH-000187	Lung	Small Cell Lung Cancer	3	A	depmap_wgs	1	1	1	1	1	1
+CVCL_2481	HEL 92.1.7	ACH-000005	Myeloid	Acute Myeloid Leukemia	12	A	depmap_wgs	1	1	1	0	0	1
+CVCL_2520	HT115	ACH-000986	Bowel	Colon Adenocarcinoma	10	A	depmap_wgs	1	1	1	1	1	0
+CVCL_2529	Ishikawa				54	B	measured_other	1	1	1	0	0	1
+CVCL_2548	LA1-55n				4	C	input_inferred	0	0	0	0	0	1
+CVCL_2549	LA1-5s				4	C	input_inferred	0	0	0	0	0	1
+CVCL_2686	PEO1	ACH-001630	Ovary/Fallopian Tube	Serous Ovarian Cancer	1	B	measured_other	1	1	1	1	1	1
+CVCL_2743	UM-UC-1	ACH-000834	Bladder/Urinary Tract	Bladder Urothelial Carcinoma	10	A	depmap_wgs	1	1	1	0	0	1
+CVCL_2805	JHH-7	ACH-000848	Liver	Hepatocellular Carcinoma	1	A	depmap_wgs	1	1	1	1	1	1
+CVCL_2891	EBC-1	ACH-000563	Lung	Lung Squamous Cell Carcinoma	2	B	measured_other	1	1	1	1	1	1
+CVCL_2908	FU97	ACH-000633	Esophagus/Stomach	Diffuse Type Stomach Adenocarcinoma	3	A	depmap_wgs	1	1	1	1	1	1
+CVCL_2914	HARA	ACH-000843	Lung	Lung Squamous Cell Carcinoma	1	A	depmap_wgs	1	1	1	1	1	1
+CVCL_2959	HUVEC				75	C	input_inferred	0	0	0	0	0	1
+CVCL_2961	IM-95	ACH-000919	Esophagus/Stomach	Stomach Adenocarcinoma	4	A	depmap_wgs	1	1	1	1	1	1
+CVCL_2976	KHYG-1	ACH-001100	Lymphoid	Natural Killer (NK) Cell Lymphoblastic Leukemia/Lymphoma (NKCLL)	1	A	depmap_wgs	1	1	1	0	0	1
+CVCL_2989	KMS-11	ACH-000714	Lymphoid	Plasma Cell Myeloma	13	A	depmap_wgs	1	1	1	1	1	1
+CVCL_2993	KMS-27	ACH-000576	Lymphoid	Plasma Cell Myeloma	6	A	depmap_wgs	1	1	1	0	0	1
+CVCL_2994	KMS-28BM	ACH-000419	Lymphoid	Plasma Cell Myeloma	1	B	measured_other	1	1	1	0	0	1
+CVCL_3004	KP-2	ACH-000281	Pancreas	Pancreatic Adenocarcinoma	1	A	depmap_wgs	1	1	1	1	1	0
+CVCL_3082	NUGC-4	ACH-000674	Esophagus/Stomach	Diffuse Type Stomach Adenocarcinoma	1	A	depmap_wgs	1	1	1	1	1	1
+CVCL_3084	OCUM-1	ACH-000247	Esophagus/Stomach	Diffuse Type Stomach Adenocarcinoma	3	A	depmap_wgs	1	1	1	1	1	1
+CVCL_3152	RERF-GC-1B	ACH-000144	Esophagus/Stomach	Stomach Adenocarcinoma	3	A	depmap_wgs	1	1	1	1	1	1
+CVCL_3154	RERF-LC-OK				1	B	measured_other	0	1	1	0	0	1
+CVCL_3172	SUIT-2	ACH-000652	Pancreas	Pancreatic Adenocarcinoma	8	A	depmap_wgs	1	1	1	1	1	1
+CVCL_3174	TT	ACH-000561	Esophagus/Stomach	Esophageal Squamous Cell Carcinoma	6	B	measured_other	1	1	1	1	1	1
+CVCL_3285	HFF-1				1	C	input_inferred	0	0	0	0	0	1
+CVCL_3302	Farage	ACH-001498	Lymphoid	Germinal Center B-Cell Type	2	B	measured_other	1	1	1	1	1	1
+CVCL_3326	Pfeiffer	ACH-000140	Lymphoid	Diffuse Large B-Cell Lymphoma, NOS	3	B	measured_other	1	1	1	0	0	1
+CVCL_3375	HCC2185	ACH-002322	Breast	Breast Invasive Lobular Carcinoma	1	B	measured_other	1	1	0	0	0	1
+CVCL_3377	HCC3153	ACH-002324	Breast	Breast Invasive Ductal Carcinoma	9	B	measured_other	1	1	0	0	0	1
+CVCL_3407	NT2-D1	ACH-002291	Testis	Embryonal Carcinoma	4	A	depmap_wgs	1	1	1	1	1	1
+CVCL_3414	Rj2.2.5				2	B	measured_other	0	1	0	0	0	0
+CVCL_3421	SUM 102PT	ACH-001388	Breast	Breast Invasive Ductal Carcinoma	1	B	measured_other	1	1	1	0	0	1
+CVCL_3422	SUM 149PT	ACH-001390	Breast	Breast Invasive Ductal Carcinoma	11	B	measured_other	1	1	1	0	0	1
+CVCL_3424	SUM 44PE	ACH-001395	Breast	Breast Invasive Lobular Carcinoma	3	A	depmap_wgs	1	1	1	0	0	1
+CVCL_3568	AT1				1	C	input_inferred	0	0	0	0	0	1
+CVCL_3611	Toledo	ACH-000285	Lymphoid	Diffuse Large B-Cell Lymphoma, NOS	3	B	measured_other	1	1	1	0	1	1
+CVCL_3613	TOV-21G	ACH-000885	Ovary/Fallopian Tube	Clear Cell Ovarian Cancer	4	B	measured_other	1	1	1	1	1	1
+CVCL_3708	hFOB 1.19				7	C	input_inferred	0	0	0	0	0	1
+CVCL_3728	JSC-1	ACH-002253	Lymphoid	Primary Effusion Lymphoma	1	B	measured_other	1	1	1	1	1	1
+CVCL_3749	MeT-5A				20	C	input_inferred	0	0	0	0	0	1
+CVCL_3791	RWPE-1				8	B	measured_other	0	1	1	0	0	1
+CVCL_3792	RWPE-2				2	B	measured_other	0	1	1	0	0	1
+CVCL_3876	SK-MEL-147				5	B	measured_other	0	1	0	0	0	1
+CVCL_3878	SK-MEL-37				2	B	measured_other	0	1	0	0	0	0
+CVCL_3901	EA.hy926				12	B	measured_other	0	0	1	0	0	1
+CVCL_3936	OvCA 429				3	B	measured_other	0	1	0	0	0	1
+CVCL_4052	UACC903				2	B	measured_other	0	1	0	0	0	0
+CVCL_4056	T3M-4	ACH-000085	Pancreas	Pancreatic Adenocarcinoma	2	A	depmap_wgs	1	1	1	0	0	1
+CVCL_4380	SU-DHL-7				2	B	measured_other	0	1	0	0	0	1
+CVCL_4384	TMK-1	ACH-002202	Esophagus/Stomach	Stomach Adenocarcinoma	1	B	measured_other	1	1	1	1	1	1
+CVCL_4388	hTERT RPE-1				9	B	measured_other	0	0	1	0	0	1
+CVCL_4654	JHUEM-14				2	C	input_inferred	0	0	0	0	0	1
+CVCL_4686	THP-6				6	B	measured_other	0	1	0	0	0	1
+CVCL_4744	LAPC-4				9	B	measured_other	0	1	0	0	0	1
+CVCL_4784	C4-2B				2	B	measured_other	0	1	0	0	0	1
+CVCL_4849	LMSU	ACH-000255	Esophagus/Stomach	Stomach Adenocarcinoma	8	B	measured_other	1	1	1	0	0	1
+CVCL_4900	Sq-1	ACH-000553	Lung	Lung Squamous Cell Carcinoma	1	B	measured_other	1	1	1	0	0	1
+CVCL_4965	KOPT-K1				12	B	measured_other	0	1	0	0	0	1
+CVCL_4966	CUTLL1				15	B	measured_other	0	1	0	0	0	1
+CVCL_4976	GIST-T1	ACH-002332	Soft Tissue	Gastrointestinal Stromal Tumor	2	B	measured_other	1	0	0	0	0	1
+CVCL_4988	U-CH1				8	B	measured_other	1	1	0	0	1	1
+CVCL_4989	U-CH2	ACH-002204	Bone	Chordoma	2	B	measured_other	1	0	1	1	0	0
+CVCL_5086	SNU-719	ACH-000898	Esophagus/Stomach	Tubular Stomach Adenocarcinoma	9	A	depmap_wgs	1	1	1	0	0	1
+CVCL_5112	SNU-C5	ACH-000970	Bowel	Colon Adenocarcinoma	1	B	measured_other	1	1	1	1	1	1
+CVCL_5131	HCC2279	ACH-000731	Lung	Lung Adenosquamous Carcinoma	1	B	measured_other	1	1	1	0	0	1
+CVCL_5133	HCC2450	ACH-000975	Lung	Lung Squamous Cell Carcinoma	1	A	depmap_wgs	1	1	1	0	0	1
+CVCL_5137	HCC95	ACH-000454	Lung	Lung Squamous Cell Carcinoma	3	A	depmap_wgs	1	1	1	0	0	1
+CVCL_5146	KLM-1	ACH-001101	Pancreas	Pancreatic Adenocarcinoma	5	B	measured_other	1	1	1	0	0	1
+CVCL_5159	NCI-H2887	ACH-000251	Lung	Non-Small Cell Lung Cancer	1	A	depmap_wgs	1	1	1	0	0	1
+CVCL_5160	NCI-H3122	ACH-000337	Lung	Lung Adenocarcinoma	9	A	depmap_wgs	1	1	1	1	1	1
+CVCL_5215	PMC42				1	B	measured_other	0	1	0	0	0	0
+CVCL_5239	1205Lu				6	B	measured_other	0	1	1	0	0	1
+CVCL_5334	MGC-803				1	C	input_inferred	0	0	0	0	0	1
+CVCL_5423	SUM 159PT	ACH-001391	Breast	Invasive Breast Carcinoma	42	B	measured_other	1	1	1	0	0	1
+CVCL_5480	LC-1/sq-SF	ACH-001113	Lung	Lung Squamous Cell Carcinoma	1	B	measured_other	1	1	1	0	0	1
+CVCL_5499	EM-G3				1	C	input_inferred	0	0	0	0	0	1
+CVCL_5518	WSU-HN12				1	D	none	0	0	0	0	0	0
+CVCL_5552	MCF10DCIS.com				9	B	measured_other	0	1	0	0	0	1
+CVCL_5589	SUM 1315M02	ACH-001389	Breast	Breast Invasive Ductal Carcinoma	1	B	measured_other	1	1	1	0	0	1
+CVCL_5591	SUM 185PE	ACH-001392	Breast	Invasive Breast Carcinoma	1	B	measured_other	1	1	1	0	0	1
+CVCL_5594	SUM 229PE	ACH-001394	Breast	Invasive Breast Carcinoma	23	B	measured_other	1	1	1	0	0	1
+CVCL_5617	DU-528				1	C	input_inferred	0	0	0	0	0	1
+CVCL_5627	NB-1643	ACH-001303	Peripheral Nervous System	Neuroblastoma	2	A	depmap_wgs	1	1	1	0	0	1
+CVCL_5711	BJAB	ACH-001447	Lymphoid	Burkitt Lymphoma	2	A	depmap_wgs	0	1	0	0	0	1
+CVCL_5727	CLS-145				2	C	input_inferred	0	0	0	0	0	1
+CVCL_5916	Rh-4	ACH-001765	Soft Tissue	Alveolar Rhabdomyosarcoma	20	A	depmap_wgs	1	1	1	0	0	1
+CVCL_6122	SK-MEL-239				2	B	measured_other	0	1	0	0	0	0
+CVCL_6357	451Lu	ACH-001002	Skin	Cutaneous Melanoma	8	B	measured_other	1	1	1	1	1	1
+CVCL_6573	BJ-5ta	ACH-001018	Fibroblast	Fibroblast, NOS	2	B	measured_other	1	1	1	0	0	1
+CVCL_6583	CHLA-10	ACH-001029	Bone	Ewing Sarcoma	1	A	depmap_wgs	1	1	1	0	0	1
+CVCL_6659	II-18				1	B	measured_other	0	1	1	0	0	1
+CVCL_6783	P493-6				8	C	input_inferred	0	0	0	0	0	1
+CVCL_6809	WM983B	ACH-000765	Skin	Melanoma	4	B	measured_other	1	1	1	0	0	0
+CVCL_6832	HCCLM3				5	B	measured_other	0	1	0	0	0	1
+CVCL_6850	T/C28a2				4	C	input_inferred	0	0	0	0	0	1
+CVCL_6889	CNE-2				4	B	measured_other	0	1	0	0	0	1
+CVCL_6926	L-02				1	D	none	0	0	0	0	0	0
+CVCL_6955	SPC-A1				2	C	input_inferred	0	0	0	0	0	1
+CVCL_6997	FU-UR-1				17	C	input_inferred	0	0	0	0	0	1
+CVCL_6C43	Aska				4	C	input_inferred	0	0	0	0	0	1
+CVCL_7040	GIST430				2	B	measured_other	0	1	0	0	0	1
+CVCL_7041	GIST48				1	B	measured_other	0	1	0	0	0	1
+CVCL_7044	GIST882				1	B	measured_other	0	1	0	0	0	1
+CVCL_7084	NPC/HK1				1	B	measured_other	0	0	1	0	0	1
+CVCL_7134	SMS-KCNR				6	B	measured_other	0	1	0	0	0	1
+CVCL_7146	SYO1				1	B	measured_other	1	1	1	0	0	1
+CVCL_7151	TC-32	ACH-001205	Bone	Ewing Sarcoma	9	A	depmap_wgs	1	1	1	0	0	1
+CVCL_7165	MPanc-96				2	B	measured_other	0	1	0	0	0	0
+CVCL_7467	GM07492				2	C	input_inferred	0	0	0	0	0	1
+CVCL_7526	GM12878				30	C	input_inferred	0	0	0	0	0	1
+CVCL_7712	UM-SCC-104				1	B	measured_other	0	1	0	0	0	1
+CVCL_7916	MOLM-14	ACH-001574	Myeloid	Acute Myeloid Leukemia	5	A	depmap_wgs	1	0	1	0	0	1
+CVCL_7927	Huh-7.5				2	B	measured_other	0	1	0	0	0	1
+CVCL_7928	WM164				2	B	measured_other	0	1	1	0	0	1
+CVCL_7949	C666-1				2	B	measured_other	0	0	1	0	0	1
+CVCL_8002	TTC1240	ACH-001210	Kidney	Rhabdoid Cancer	5	A	depmap_wgs	1	0	1	0	0	1
+CVCL_8098	JH-EsoAd1	ACH-000216	Esophagus/Stomach	Esophageal Adenocarcinoma	1	A	depmap_wgs	1	1	1	0	0	1
+CVCL_8121	H69				4	C	input_inferred	0	0	0	0	0	1
+CVCL_8205	GLC-16				1	C	input_inferred	0	0	0	0	0	1
+CVCL_8226	HANK1				2	B	measured_other	0	1	0	0	0	1
+CVCL_8408	PT45-P1				1	B	measured_other	0	1	0	0	0	0
+CVCL_8461	NK-YS				1	B	measured_other	0	1	0	0	0	1
+CVCL_8585	UW228	ACH-001232	CNS/Brain	Medulloblastoma	1	A	depmap_wgs	1	1	1	0	0	1
+CVCL_8607	92-1	ACH-001441	Eye	Uveal Melanoma	2	A	depmap_wgs	1	1	0	0	0	1
+CVCL_8706	HONE-1				2	B	measured_other	0	1	0	0	0	1
+CVCL_8719	HSSY2	ACH-002085	Soft Tissue	Synovial Sarcoma	2	B	measured_other	1	1	0	0	0	1
+CVCL_8792	MM.1S	ACH-000763	Lymphoid	Plasma Cell Myeloma	31	A	depmap_wgs	1	1	1	1	1	1
+CVCL_8795	OCI-LY-10	ACH-001146	Lymphoid	Activated B-cell Type	2	B	measured_other	1	1	1	0	0	1
+CVCL_8800	OCI-LY-3	ACH-000158	Lymphoid	Activated B-cell Type	14	B	measured_other	1	1	1	0	0	1
+CVCL_8801	OCI-LY4				1	B	measured_other	0	1	0	0	0	1
+CVCL_8803	OCI-LY8				2	B	measured_other	0	1	0	0	0	1
+CVCL_8820	SJNB3				1	B	measured_other	0	1	0	0	0	1
+CVCL_8878	HEYA8	ACH-000542	Ovary/Fallopian Tube	High-Grade Serous Ovarian Cancer	1	A	depmap_wgs	1	1	1	0	0	1
+CVCL_8890	LHCN-M2				2	C	input_inferred	0	0	0	0	0	1
+CVCL_8897	NCC19				2	B	measured_other	0	1	0	0	0	1
+CVCL_8899	NCC24				1	B	measured_other	0	1	0	0	0	1
+CVCL_8900	NCC-59				3	B	measured_other	0	1	0	0	0	1
+CVCL_8914	SNU-1750	ACH-002544	Esophagus/Stomach	Tubular Stomach Adenocarcinoma	19	A	depmap_wgs	0	1	0	0	0	1
+CVCL_8915	SNU-1967				2	C	input_inferred	0	0	0	0	0	1
+CVCL_8916	ST88-14				7	B	measured_other	0	1	0	0	0	1
+CVCL_9277	MUG-Chor1				2	B	measured_other	1	1	1	0	0	0
+CVCL_9522	CLB-BerLud1				1	C	input_inferred	0	0	0	0	0	1
+CVCL_9526	CLB-Ca				1	C	input_inferred	0	0	0	0	0	1
+CVCL_9529	CLB-Ga				4	B	measured_other	0	1	0	0	0	1
+CVCL_9532	CLB-Ma1				1	B	measured_other	0	1	0	0	0	1
+CVCL_9534	CLB-Pe				1	B	measured_other	0	1	0	0	0	1
+CVCL_9550	SU-DHL-2				2	C	input_inferred	0	0	0	0	0	1
+CVCL_9563	SaOS-LM1				4	C	input_inferred	0	0	0	0	0	1
+CVCL_9626	GM12872				2	C	input_inferred	0	0	0	0	0	1
+CVCL_9627	GM12873				2	C	input_inferred	0	0	0	0	0	1
+CVCL_9630	GM12891				3	C	input_inferred	0	0	0	0	0	1
+CVCL_9631	GM12892				3	C	input_inferred	0	0	0	0	0	1
+CVCL_9632	GM18507				2	D	none	0	0	0	0	0	0
+CVCL_9633	GM19238				4	C	input_inferred	0	0	0	0	0	1
+CVCL_9634	GM19239				4	C	input_inferred	0	0	0	0	0	1
+CVCL_9635	GM19240				3	C	input_inferred	0	0	0	0	0	1
+CVCL_9647	YCC-10				8	B	measured_other	0	1	0	0	0	1
+CVCL_9648	YCC-11				2	B	measured_other	0	1	0	0	0	1
+CVCL_9653	YCC-20				1	C	input_inferred	0	0	0	0	0	1
+CVCL_9654	YCC-21				3	B	measured_other	0	1	0	0	0	1
+CVCL_9655	YCC-22				3	B	measured_other	0	1	0	0	0	1
+CVCL_9657	YCC-3				3	B	measured_other	0	1	0	0	0	1
+CVCL_9663	YCC-7				2	B	measured_other	0	1	0	0	0	1
+CVCL_9720	HepaRG				4	C	input_inferred	0	0	0	0	0	1
+CVCL_9727	hES BG01V				1	C	input_inferred	0	0	0	0	0	1
+CVCL_9798	DKO-1				2	C	input_inferred	0	0	0	0	0	1
+CVCL_9900	NBL-W N				4	C	input_inferred	0	0	0	0	0	1
+CVCL_9901	NBL-W S				4	C	input_inferred	0	0	0	0	0	1
+CVCL_9972	TE7				3	B	measured_other	0	1	1	0	0	1
+CVCL_9V29	K4				2	D	none	0	0	0	0	0	0
+CVCL_9W68	JN-DSRCT-1				9	B	measured_other	0	1	0	0	0	1
+CVCL_A280	CHRF-288-11	ACH-003273	Myeloid	Acute Megakaryoblastic Leukemia	6	A	depmap_wgs	0	0	0	0	0	0
+CVCL_A304	UoC-B6				1	C	input_inferred	0	0	0	0	0	1
+CVCL_A308	SUP-B13				1	C	input_inferred	0	0	0	0	0	1
+CVCL_A426	KBM-7				6	B	measured_other	0	1	0	0	0	1
+CVCL_A442	TMD8				2	B	measured_other	0	1	0	0	0	1
+CVCL_A5AH	76NF2V				2	C	input_inferred	0	0	0	0	0	1
+CVCL_A5CF	TEX				9	C	input_inferred	0	0	0	0	0	1
+CVCL_A673	SNK-6				1	B	measured_other	0	1	0	0	0	1
+CVCL_A770	SMS-CTR	ACH-001196	Soft Tissue	Embryonal Rhabdomyosarcoma	7	A	depmap_wgs	1	1	1	0	0	1
+CVCL_A786	PC-7				1	B	measured_other	0	1	0	0	0	1
+CVCL_A9M8	GIST226				1	B	measured_other	0	1	0	0	0	1
+CVCL_A9N1	GIST430B				1	B	measured_other	0	1	0	0	0	1
+CVCL_AQ23	COG-N-415				1	B	measured_other	0	1	0	0	0	1
+CVCL_B077	Z-138	ACH-002500	Lymphoid	Mantle Cell Lymphoma	1	A	depmap_wgs	0	1	0	0	0	1
+CVCL_B079	UWB1.289	ACH-001418	Ovary/Fallopian Tube	Serous Ovarian Cancer	6	B	measured_other	1	1	1	1	1	1
+CVCL_B260	PC-9	ACH-000779	Lung	Lung Adenocarcinoma	8	B	measured_other	1	1	1	0	0	1
+CVCL_B280	S2-013				2	B	measured_other	0	1	0	0	0	1
+CVCL_B3PS	RMC-2C				4	C	input_inferred	0	0	0	0	0	1
+CVCL_B470	SU-CCS-1	ACH-001667	Soft Tissue	Clear Cell Sarcoma	8	A	depmap_wgs	0	0	0	0	0	1
+CVCL_B473	TL-Om1				1	C	input_inferred	0	0	0	0	0	1
+CVCL_B6EW	RH-3				1	D	none	0	0	0	0	0	0
+CVCL_B7S0	FCIBC02				1	D	none	0	0	0	0	0	0
+CVCL_C058	UPCI-SCC-152	ACH-001228	Head and Neck	Oral Cavity Squamous Cell Carcinoma	1	A	depmap_wgs	1	0	1	0	0	1
+CVCL_C0EQ	HAEC				113	C	input_inferred	0	0	0	0	0	1
+CVCL_C1MH	BT869				2	B	measured_other	0	1	0	0	0	1
+CVCL_C301	Mel202	ACH-001554	Eye	Uveal Melanoma	1	B	measured_other	1	1	1	0	0	1
+CVCL_C358	Rh-5				1	C	input_inferred	0	0	0	0	0	1
+CVCL_C8QN	BJEL				1	C	input_inferred	0	0	0	0	0	1
+CVCL_C8YZ	TC-797				17	C	input_inferred	0	0	0	0	0	1
+CVCL_D022	SP-49				13	B	measured_other	0	1	0	0	0	1
+CVCL_D585	HEK293-T-REx				2	C	input_inferred	0	0	0	0	0	1
+CVCL_D709	MD901				5	B	measured_other	0	1	0	0	0	1
+CVCL_D748	M229				1	B	measured_other	0	1	0	0	0	0
+CVCL_D7B3	L3.6				22	C	input_inferred	0	0	0	0	0	1
+CVCL_DP48	1833-BoM				1	B	measured_other	0	1	0	0	0	0
+CVCL_DR55	GSC11				5	C	input_inferred	0	0	0	0	0	1
+CVCL_DR59	GSC23				6	C	input_inferred	0	0	0	0	0	1
+CVCL_E124	GM18526				4	C	input_inferred	0	0	0	0	0	1
+CVCL_E125	GM19099				3	C	input_inferred	0	0	0	0	0	1
+CVCL_E126	GM19193				3	C	input_inferred	0	0	0	0	0	1
+CVCL_E3GB	HCI-EC-23				2	C	input_inferred	0	0	0	0	0	1
+CVCL_E5GC	SF9427				2	C	input_inferred	0	0	0	0	0	1
+CVCL_E5GE	DIPG-1114				3	C	input_inferred	0	0	0	0	0	1
+CVCL_E995	MS1	ACH-001131	Skin	Merkel Cell Carcinoma	5	B	measured_other	1	1	1	0	0	1
+CVCL_EI96	MIC				1	B	measured_other	0	1	0	0	0	1
+CVCL_EI97	MM.1-144				6	B	measured_other	0	1	0	0	0	0
+CVCL_EJ01	POE				1	B	measured_other	0	1	0	0	0	1
+CVCL_EQ22	GES-1				1	C	input_inferred	0	0	0	0	0	1
+CVCL_F486	AG04450				1	C	input_inferred	0	0	0	0	0	1
+CVCL_F531	TC-106	ACH-001283	Bone	Ewing Sarcoma	1	A	depmap_wgs	1	1	1	0	0	1
+CVCL_F645	ISt-1				1	B	measured_other	0	1	0	0	0	1
+CVCL_G085	CAL-1				2	C	input_inferred	0	0	0	0	0	1
+CVCL_G698	KYSE-200				1	B	measured_other	0	1	0	0	0	1
+CVCL_H207	HLY-1				2	C	input_inferred	0	0	0	0	0	1
+CVCL_H614	FE-PD	ACH-001068	Lymphoid	Anaplastic Large-Cell Lymphoma ALK Negative	1	A	depmap_wgs	1	1	1	0	0	1
+CVCL_H631	Mac-1				1	B	measured_other	0	1	1	0	0	1
+CVCL_H633	JB6				1	B	measured_other	0	1	0	0	0	1
+CVCL_H637	Mac-2A	ACH-001119	Lymphoid	Anaplastic Large-Cell Lymphoma ALK Negative	1	A	depmap_wgs	1	1	1	0	0	1
+CVCL_IN98	SVOG-3e				6	C	input_inferred	0	0	0	0	0	1
+CVCL_IS72	EndoC-betaH3				6	C	input_inferred	0	0	0	0	0	1
+CVCL_IT39	SU-DIPG-IV				12	B	measured_other	0	1	0	0	0	1
+CVCL_IT41	SU-DIPG-XIII				7	B	measured_other	0	1	0	0	0	1
+CVCL_IT45	SF7761				3	C	input_inferred	0	0	0	0	0	1
+CVCL_IT46	SF8628				4	B	measured_other	0	1	0	0	0	1
+CVCL_IZ69	NAMEC8				3	C	input_inferred	0	0	0	0	0	1
+CVCL_J063	JR-1				2	C	input_inferred	0	0	0	0	0	1
+CVCL_J273	42D				1	D	none	0	0	0	0	0	0
+CVCL_JK53	AT2				1	C	input_inferred	0	0	0	0	0	1
+CVCL_K230	WT 9-12				4	C	input_inferred	0	0	0	0	0	1
+CVCL_K278	RPTEC				1	C	input_inferred	0	0	0	0	0	1
+CVCL_KB28	HGrC1				9	C	input_inferred	0	0	0	0	0	1
+CVCL_L079	YD8	ACH-000630	Head and Neck	Oral Cavity Squamous Cell Carcinoma	1	A	depmap_wgs	1	0	1	0	0	0
+CVCL_L154	JHC7				2	B	measured_other	1	1	1	0	0	0
+CVCL_L184	CB660				1	D	none	0	0	0	0	0	0
+CVCL_L256	GM12864				2	C	input_inferred	0	0	0	0	0	1
+CVCL_L909	EndoC-BH1				11	C	input_inferred	0	0	0	0	0	1
+CVCL_M152	CHLA-25				1	B	measured_other	0	1	0	0	0	1
+CVCL_M155	BT-12	ACH-000160	CNS/Brain	Atypical Teratoid/Rhabdoid Tumor	10	A	depmap_wgs	1	1	1	0	0	0
+CVCL_M156	BT-16	ACH-001020	CNS/Brain	Atypical Teratoid/Rhabdoid Tumor	4	A	depmap_wgs	1	1	1	0	0	1
+CVCL_M441	GIST48B				1	B	measured_other	0	1	0	0	0	1
+CVCL_M473	IMR-5/75				3	C	input_inferred	0	0	0	0	0	1
+CVCL_M572	HBL-1				4	B	measured_other	0	1	0	0	0	1
+CVCL_M574	HBL-2				1	B	measured_other	0	1	0	0	0	1
+CVCL_M584	AMU-AML1				1	C	input_inferred	0	0	0	0	0	1
+CVCL_M823	LPS141	ACH-001799	Soft Tissue	Dedifferentiated Liposarcoma	1	A	depmap_wgs	1	1	1	0	0	1
+CVCL_N799	GM10847				2	C	input_inferred	0	0	0	0	0	1
+CVCL_N803	GM18505				3	C	input_inferred	0	0	0	0	0	1
+CVCL_N804	GM18951				2	C	input_inferred	0	0	0	0	0	1
+CVCL_N805	MCF10A-Er-Src				6	D	none	0	0	0	0	0	0
+CVCL_P461	GM18510				1	D	none	0	0	0	0	0	0
+CVCL_P473	GM18858				1	D	none	0	0	0	0	0	0
+CVCL_P487	GM18909				1	D	none	0	0	0	0	0	0
+CVCL_P507	GM19108				1	D	none	0	0	0	0	0	0
+CVCL_P518	GM19130				1	D	none	0	0	0	0	0	0
+CVCL_P521	GM19138				1	D	none	0	0	0	0	0	0
+CVCL_P560	GM19257				1	D	none	0	0	0	0	0	0
+CVCL_R725	HuO9-M112				1	D	none	0	0	0	0	0	0
+CVCL_RU10	CCMCL1				5	C	input_inferred	0	0	0	0	0	1
+CVCL_RW50	MR42D				2	B	measured_other	0	1	0	0	0	0
+CVCL_RW72	VH10				4	C	input_inferred	0	0	0	0	0	1
+CVCL_S186	A-382				3	C	input_inferred	0	0	0	0	0	1
+CVCL_S506	HDMB03				1	C	input_inferred	0	0	0	0	0	1
+CVCL_S738	ASPS1				7	C	input_inferred	0	0	0	0	0	1
+CVCL_S740	EWS502	ACH-000279	Bone	Ewing Sarcoma	1	A	depmap_wgs	1	1	1	0	0	1
+CVCL_S805	T265				2	C	input_inferred	0	0	0	0	0	1
+CVCL_S813	402-91				1	C	input_inferred	0	0	0	0	0	1
+CVCL_S817	1765-92				1	C	input_inferred	0	0	0	0	0	1
+CVCL_S987	BIN-67	ACH-001278	Ovary/Fallopian Tube	Small Cell Carcinoma of the Ovary	3	A	depmap_wgs	1	1	1	0	0	1
+CVCL_U797	CJM	ACH-000458	Skin	Melanoma	1	B	measured_other	1	1	1	0	0	1
+CVCL_UD76	LREX				2	B	measured_other	0	1	0	0	0	1
+CVCL_UI71	ipNF05.5				4	C	input_inferred	0	0	0	0	0	1
+CVCL_UK39	BT67				4	C	input_inferred	0	0	0	0	0	1
+CVCL_V586	HCC2814	ACH-000690	Lung	Lung Squamous Cell Carcinoma	1	B	measured_other	1	1	1	0	0	1
+CVCL_VC41	HFFc6				4	C	input_inferred	0	0	0	0	0	1
+CVCL_VI05	HUDEP-1				2	C	input_inferred	0	0	0	0	0	1
+CVCL_VI06	HUDEP-2				12	C	input_inferred	0	0	0	0	0	1
+CVCL_VU70	HSJD-DIPG-007	ACH-002348	CNS/Brain	Diffuse Intrinsic Pontine Glioma	2	B	measured_other	1	1	1	0	0	1
+CVCL_VU79	MB002	ACH-001201	CNS/Brain	Medulloblastoma	1	A	depmap_wgs	1	1	1	0	0	1
+CVCL_W472	HSMM				4	C	input_inferred	0	0	0	0	0	1
+CVCL_W527	RMS				4	B	measured_other	0	1	0	0	0	1
+CVCL_W979	PER-117				1	C	input_inferred	0	0	0	0	0	1
+CVCL_WI17	C4-2				8	C	input_inferred	0	0	0	0	0	1
+CVCL_X908	KK1				2	B	measured_other	0	1	0	0	0	1
+CVCL_X914	NCH644				2	C	input_inferred	0	0	0	0	0	1
+CVCL_XK00	M397				2	B	measured_other	0	1	0	0	0	0
+CVCL_Y019	HAP1	ACH-002475	Myeloid	Chronic Myeloid Leukemia, BCR-ABL1+	17	A	depmap_wgs	1	1	0	0	0	1
+CVCL_Y383	MO1043				2	C	input_inferred	0	0	0	0	0	1
+CVCL_YI71	SNU-2469				1	B	measured_other	0	1	0	0	0	0
+CVCL_YI77	SNU-2571				1	B	measured_other	0	1	0	0	0	0
+CVCL_YZ61	EEC16				2	C	input_inferred	0	0	0	0	0	1
+CVCL_Z029	SK-JHRCC-12				4	C	input_inferred	0	0	0	0	0	1
+CVCL_Z065	TeloHAEC				10	C	input_inferred	0	0	0	0	0	1
+CVCL_ZC60	R1-AD1				2	B	measured_other	0	1	0	0	0	1
+CVCL_ZY05	Mutu				2	C	input_inferred	0	0	0	0	0	1

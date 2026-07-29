@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SE-CaCTS: lineage-specific super-enhancer atlas</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230c847e'/%3E%3Ctext x='16' y='23' font-size='15' font-family='monospace' font-weight='700' text-anchor='middle' fill='white'%3ESE%3C/text%3E%3C/svg%3E">
+<script>
+(function () {
+  try { document.documentElement.setAttribute('data-theme', localStorage.getItem('secacts-theme') || 'light'); }
+  catch (_) { document.documentElement.setAttribute('data-theme', 'light'); }
+})();
+</script>
+<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="css/layout.css">
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="logo">SE<b>·CaCTS</b></div>
+      <div class="sub">lineage-specific super-enhancers</div>
+    </div>
+    <div class="snap" id="snap"></div>
+    <nav class="nav" id="nav">
+      <button data-tab="overview" class="active" title="the atlas at a glance, and the resolution caveat"><span class="ico">◧</span> Overview</button>
+      <button data-tab="atlas" title="browse the most group-specific super-enhancers per lineage / disease"><span class="ico">▦</span> SE atlas</button>
+      <button data-tab="cn" title="what copy-number correction removes (amplicons) and rescues"><span class="ico">⊘</span> CN ablation</button>
+      <button data-tab="concordance" title="do specific SEs sit next to genes specific to the same group?"><span class="ico">⇌</span> Concordance</button>
+      <button data-tab="finder" title="look up every group where a gene's nearby SE is specific"><span class="ico">⌕</span> SE finder</button>
+      <button data-tab="about" title="method, the permutation FDR, and what is not claimed"><span class="ico">ⓘ</span> About &amp; methods</button>
+    </nav>
+    <div class="side-foot">
+      <button id="theme-toggle" class="theme-toggle"><span class="theme-toggle-label">Dark mode</span></button>
+      <a class="side-repo" href="https://github.com/thirtysix/SE-CaCTS" target="_blank" rel="noopener"
+         title="source code, the scoring pipeline and the atlas artifacts on GitHub">
+        <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+        <span>View on GitHub</span>
+      </a>
+      <div class="credit">Method: CaCTS · Reddy et al., Sci. Adv. 2021<br>SE-CaCTS: super-enhancer layer, CN-aware</div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="tabbar" id="tabbar"></div>
+
+    <!-- Overview -->
+    <section class="panel active" data-tab="overview">
+      <div class="phead wide"><div class="eyebrow">SE-CaCTS</div>
+        <h1>Lineage-specific super-enhancers across the cancer cell-line panel</h1>
+        <p class="lede">Every H3K27ac experiment called for super-enhancers with a copy-number-aware
+        ROSE reimplementation, reduced to one atlas, and scored for <b>group-specificity</b> with the CaCTS
+        Jensen–Shannon divergence. Significance uses a <b>label-permutation null</b> — the analytic
+        approximation it replaces failed calibration outright (6% false calls on shuffled labels).</p>
+        <div class="lede-grid">
+          <div class="lede-point"><span class="lp-lab">Calls:</span> supported at the <b>lineage</b> and
+          <b>primary-disease</b> levels (permutation FDR ≤ 0.10).</div>
+          <div class="lede-point"><span class="lp-lab">Rankings only:</span> at <b>subtype</b> and
+          <b>cell-line</b> level — too few lines per group for a significance call.</div>
+        </div>
+      </div>
+      <div class="stat-grid" id="ov-stats"></div>
+      <div class="panel-strip" id="ov-panel"></div>
+      <div class="card">
+        <div class="card-h"><h3>What you can explore</h3><span class="muted-s">click any row to open it</span></div>
+        <div class="card-b guide" id="ov-guide"></div>
+      </div>
+      <div class="card" style="margin-top:18px">
+        <div class="card-h"><h3>Method &amp; sister project</h3></div>
+        <div class="card-b" id="ov-credit"></div>
+      </div>
+      <div class="card" style="margin-top:18px">
+        <div class="card-h"><h3>Source code &amp; data</h3><span class="muted-s">everything behind this page</span></div>
+        <div class="card-b" id="ov-repo"></div>
+      </div>
+    </section>
+
+    <!-- SE atlas -->
+    <section class="panel" data-tab="atlas">
+      <div class="phead wide"><div class="eyebrow">Explore</div><h1>Super-enhancer atlas</h1>
+        <p class="lede">The most group-specific super-enhancers for any group, with the copy number at each
+        locus and the nearest gene. Lower JSD = more specific (rank 1 = most specific). The <b>copy-number</b>
+        column flags amplicon context — a high value means the locus is amplified in this group's lines.</p>
+      </div>
+      <div class="controls">
+        <span class="ctl-label" title="resolution: calls are supported at lineage/disease; subtype and cell line are rankings only">Level</span>
+        <div class="seg" id="atlas-level" role="tablist"></div>
+        <select id="atlas-group" class="sel" title="choose a group (lineage, primary disease, subtype, or single cell line)"></select>
+        <input type="search" id="atlas-filter" class="sel" placeholder="filter by nearest gene…" autocomplete="off" spellcheck="false"
+          title="filter the table to super-enhancers whose nearest gene contains this text (e.g. 'HNF', 'CDX', 'IGH')">
+        <span class="ctl-label" id="atlas-fdr-wrap" style="display:none" title="tighten the specificity cutoff on the permutation FDR: every call already passes ≤ 0.10, so lower values keep only the most confidently specific super-enhancers">FDR ≤
+          <span class="seg" id="atlas-fdr" role="tablist" style="margin-left:8px"></span></span>
+        <button id="atlas-dl" class="dl-btn" title="download the current (filtered + sorted) view as TSV">⬇ TSV</button>
+      </div>
+      <div class="warn" id="atlas-warn" style="display:none"><b>Rankings only.</b> At this resolution most
+        groups have too few cell lines for the permutation null to support a significance call — a random
+        handful of lines scores as "specifically" as the real grouping. The order below is meaningful; the
+        significance is not. See <a href="#about">About</a>.</div>
+      <div class="desc" id="atlas-desc"></div>
+      <div class="card"><div class="card-b"><div class="scroll">
+        <table class="tbl sortable" id="atlas-table">
+          <thead><tr>
+            <th data-sort="rank" class="sorted-asc" title="specificity rank within this group (1 = most specific). Click to sort.">Rank</th>
+            <th data-sort="gene" title="nearest protein-coding gene, and its distance (proximity annotation, not a scored link). Click to sort.">Nearest gene</th>
+            <th data-sort="jsd" title="CaCTS score = Jensen–Shannon divergence. Lower = more group-specific. Click to sort.">JSD</th>
+            <th data-sort="fdr" title="false-discovery rate under the label-permutation null (B = 1,000). Bold = passes the FDR ≤ 0.10 call. Click to sort.">FDR <span class="th-sub">perm</span></th>
+            <th data-sort="cn_mean" title="mean copy-number ratio at the SE across this group's lines (1 = neutral; >1.3 = amplified, shown in red). Click to sort.">Copy no.</th>
+            <th title="genomic locus start–end (GRCh38); links to the UCSC browser">Locus</th>
+            <th data-sort="len" title="super-enhancer length (end − start). Distinct entries near one gene often tile a single SE domain. Click to sort.">Length</th>
+            <th data-sort="n_called" title="number of experiments in which this locus was itself called a super-enhancer. A low value (e.g. 1 beside a 74) marks a single-sample sub-peak of a broader domain. Click to sort.">Called</th>
+          </tr></thead>
+          <tbody id="atlas-body"></tbody>
+        </table></div></div>
+        <div class="card-note" id="atlas-foot"></div>
+      </div>
+    </section>
+
+    <!-- CN ablation -->
+    <section class="panel" data-tab="cn">
+      <div class="phead wide"><div class="eyebrow">Validation</div><h1>Copy-number ablation</h1>
+        <p class="lede">Scoring with vs without CN correction, both under the permutation null. Two findings:
+        correction <b>removes</b> a handful of recurrent-amplicon false calls — and, dominantly, it
+        <b>rescues</b> thousands of real, copy-neutral specific SEs that amplicon variance was masking in the
+        null.</p>
+      </div>
+      <div class="two" id="cn-flow"></div>
+      <div class="card" style="margin-top:18px">
+        <div class="card-h"><span class="pill tumor">removed</span><h3>Amplicon-driven false calls — every one a named recurrent lineage amplicon</h3></div>
+        <div class="card-b" style="padding:0"><div class="amp-list" id="cn-amp"></div></div>
+        <div class="card-note">These pass the permutation FDR <em>without</em> CN correction and fail
+          <em>with</em> it — significant only because the locus is amplified. Identified with no prior gene list.</div>
+      </div>
+    </section>
+
+    <!-- Concordance -->
+    <section class="panel" data-tab="concordance">
+      <div class="phead wide"><div class="eyebrow">Validation</div><h1>Cross-layer concordance</h1>
+        <p class="lede">An independent check that the specific SEs mark real biology: genes sitting next to a
+        group-specific SE are themselves specific to <b>that same group</b>, scored separately on DepMap
+        expression. Compared against the background rate, a group-shuffled control, and by distance.</p>
+      </div>
+      <div class="two" id="conc-summary"></div>
+      <div class="card" style="margin-top:18px">
+        <div class="card-h"><h3>Concordance decays with SE→gene distance</h3><span class="muted-s">a local link, not a lineage confound</span></div>
+        <div class="card-b" id="conc-dist"></div>
+        <div class="card-note">A lineage-wide batch effect would not care how far the SE is from the gene.
+          The monotone decay — while the shuffled control stays flat — is what distinguishes a local
+          regulatory link from a confound.</div>
+      </div>
+    </section>
+
+    <!-- SE finder -->
+    <section class="panel" data-tab="finder">
+      <div class="phead wide"><div class="eyebrow">Look up</div><h1>Where is a gene's super-enhancer specific?</h1>
+        <p class="lede">Type a gene symbol to see every lineage and primary disease where a
+        <b>super-enhancer near it</b> is group-specific (permutation FDR ≤ 0.10), with its rank. A
+        <span class="mono">⇌</span> marks groups where the gene is <b>also</b> specific in the expression
+        layer (cross-layer concordant). Covers the two call levels only.</p></div>
+      <input type="search" id="finder-input" class="sel big" placeholder="e.g. CDX2, SPI1, IGLL5, MECOM, PAX8…"
+        autocomplete="off" spellcheck="false"
+        title="enter a gene symbol; results list each lineage / disease where its nearest super-enhancer clears the permutation FDR">
+      <div class="finder-res" id="finder-res"></div>
+    </section>
+
+    <!-- About -->
+    <section class="panel" data-tab="about">
+      <div class="phead wide"><div class="eyebrow">Reference</div><h1>About &amp; methods</h1></div>
+      <div class="prose wide" id="about-body"></div>
+    </section>
+  </main>
+</div>
+
+<script src="js/data-loader.js"></script>
+<script src="js/theme.js"></script>
+<script src="js/tab-manager.js"></script>
+<script src="js/util.js"></script>
+<script src="js/overview.js"></script>
+<script src="js/atlas.js"></script>
+<script src="js/cn.js"></script>
+<script src="js/concordance.js"></script>
+<script src="js/finder.js"></script>
+<script src="js/about.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

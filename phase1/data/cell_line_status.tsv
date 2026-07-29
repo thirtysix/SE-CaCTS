@@ -1,0 +1,723 @@
+cvcl	cell_line	category	lineage	subtype	lineage_source	n_experiments	identity	data_status	cn_status	cn_from	tier	include	exclude_reason
+CVCL_0324	HuCCT1	Cancer cell line	Biliary Tract	Intrahepatic Cholangiocarcinoma	depmap	2	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0126	5637	Cancer cell line	Bladder/Urinary Tract	Bladder Urothelial Carcinoma	depmap	3	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1292	HT-1376	Cancer cell line	Bladder/Urinary Tract	Bladder Urothelial Carcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0359	J82	Cancer cell line	Bladder/Urinary Tract	Bladder Urothelial Carcinoma	depmap	2	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_2081	JMSU1	Cancer cell line	Bladder/Urinary Tract	Bladder Urothelial Carcinoma	depmap	6	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1670	RT-112	Cancer cell line	Bladder/Urinary Tract	Bladder Urothelial Carcinoma	depmap	5	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0036	RT4	Cancer cell line	Bladder/Urinary Tract	Bladder Urothelial Carcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_0554	T24	Cancer cell line	Bladder/Urinary Tract	Bladder Urothelial Carcinoma	depmap	2	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_2743	UM-UC-1	Cancer cell line	Bladder/Urinary Tract	Bladder Urothelial Carcinoma	depmap	10	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_2270	143B	Cancer cell line	Bone	Osteosarcoma	depmap	7	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0080	A-673	Cancer cell line	Bone	Ewing Sarcoma	depmap	32	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_6583	CHLA-10	Cancer cell line	Bone	Ewing Sarcoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_M152	CHLA-25	Cancer cell line	Bone	Ewing Sarcoma	cellosaurus_ncit	1	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_1208	EW-1	Cancer cell line	Bone	Ewing Sarcoma	depmap	1	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_1214	EW-22	Cancer cell line	Bone	Ewing Sarcoma	depmap	1	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_1216	EW-3	Cancer cell line	Bone	Ewing Sarcoma	depmap	1	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_1217	EW-7	Cancer cell line	Bone	Ewing Sarcoma	depmap	1	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_S740	EWS502	Cancer cell line	Bone	Ewing Sarcoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0312	HOS	Cancer cell line	Bone	Osteosarcoma	depmap	1	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_1298	HuO9	Cancer cell line	Bone	Osteosarcoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_R725	HuO9-M112	Cancer cell line	Bone	Osteosarcoma	cellosaurus_ncit	1	Cellosaurus-only	needs pull	none	-	D	1	
+CVCL_L154	JHC7	Cancer cell line	Bone	Chordoma	cellosaurus_ncit	2	Cellosaurus-only	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP	B	1	
+CVCL_0426	MG-63	Cancer cell line	Bone	Osteosarcoma	depmap	4	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1411	MHH-ES-1	Cancer cell line	Bone	Ewing Sarcoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_EI96	MIC	Cancer cell line	Bone	Ewing Sarcoma	cellosaurus_ncit	1	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_0439	MNNG	Cancer cell line	Bone	Osteosarcoma	cellosaurus_ncit	3	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_9277	MUG-Chor1	Cancer cell line	Bone	Chordoma	cellosaurus_ncit	2	Cellosaurus-only	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP	B	1	
+CVCL_EJ01	POE	Cancer cell line	Bone	Ewing Sarcoma	cellosaurus_ncit	1	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_2169	RD-ES	Cancer cell line	Bone	Ewing Sarcoma	depmap	3	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1658	Rh1	Cancer cell line	Bone	Ewing Sarcoma	cellosaurus_ncit	1	Cellosaurus-only	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_9563	SaOS-LM1	Cancer cell line	Bone	Osteosarcoma	cellosaurus_ncit	4	Cellosaurus-only	needs pull	infer (from input)	matched input	C	1	
+CVCL_0515	SaOS-LM7	Cancer cell line	Bone	Osteosarcoma	cellosaurus_ncit	1	Cellosaurus-only	needs pull	none	-	D	1	
+CVCL_1697	SJSA-1	Cancer cell line	Bone	Osteosarcoma	depmap	2	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0627	SK-ES-1	Cancer cell line	Bone	Ewing Sarcoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0530	SK-N-MC	Cancer cell line	Bone	Ewing Sarcoma	depmap	12	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_F531	TC-106	Cancer cell line	Bone	Ewing Sarcoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_7151	TC-32	Cancer cell line	Bone	Ewing Sarcoma	depmap	9	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_2213	TC-71	Cancer cell line	Bone	Ewing Sarcoma	depmap	6	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_4988	U-CH1	Cancer cell line	Bone	Chordoma	cellosaurus_ncit	8	Cellosaurus-only	needs pull	lookup (other DB)	DepMap-merged,Progenetix	B	1	
+CVCL_4989	U-CH2	Cancer cell line	Bone	Chordoma	depmap	2	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,CMP,COSMIC	B	1	
+CVCL_0042	U2OS	Cancer cell line	Bone	Osteosarcoma	depmap	51	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1D68	UM-Chor1	Cancer cell line	Bone		cellosaurus_term	2	Cellosaurus-only	needs pull	lookup (other DB)	DepMap-merged,CMP	B	1	
+CVCL_0025	Caco-2	Cancer cell line	Bowel	Colon Adenocarcinoma	depmap	3	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP	B	1	
+CVCL_0218	COLO 205	Cancer cell line	Bowel	Colon Adenocarcinoma	depmap	5	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_1989	COLO 320	Cancer cell line	Bowel	Colon Adenocarcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0219	COLO 320DM	Cancer cell line	Bowel	Colon Adenocarcinoma	cellosaurus_ncit	2	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_0220	COLO 320HSR	Cancer cell line	Bowel	Colon Adenocarcinoma	depmap	2	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_1151	CW-2	Cancer cell line	Bowel	Colon Adenocarcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_9798	DKO-1	Cancer cell line	Bowel	Colon Adenocarcinoma	cellosaurus_ncit	2	Cellosaurus-only	needs pull	infer (from input)	matched input	C	1	
+CVCL_0248	DLD-1	Cancer cell line	Bowel	Colon Adenocarcinoma	depmap	23	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1235	GP5d	Cancer cell line	Bowel	Colon Adenocarcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_1266	HCC2998	Cancer cell line	Bowel	Colon Adenocarcinoma	depmap	2	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_0291	HCT 116	Cancer cell line	Bowel	Colon Adenocarcinoma	depmap	153	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0292	HCT-15	Cancer cell line	Bowel	Colon Adenocarcinoma	depmap	4	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0320	HT-29	Cancer cell line	Bowel	Colon Adenocarcinoma	depmap	24	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_2520	HT115	Cancer cell line	Bowel	Colon Adenocarcinoma	depmap	10	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1331	KM-12	Cancer cell line	Bowel	Colon Adenocarcinoma	depmap	2	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0399	LoVo	Cancer cell line	Bowel	Colon Adenocarcinoma	depmap	13	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1384	LS-174T	Cancer cell line	Bowel	Colon Adenocarcinoma	cellosaurus_ncit	1	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix,CMP	B	1	
+CVCL_0397	LS-180	Cancer cell line	Bowel	Colon Adenocarcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0504	RKO	Cancer cell line	Bowel	Colon Adenocarcinoma	depmap	14	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_5112	SNU-C5	Cancer cell line	Bowel	Colon Adenocarcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_1724	SW 48	Cancer cell line	Bowel	Colon Adenocarcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0546	SW 480	Cancer cell line	Bowel	Colon Adenocarcinoma	depmap	12	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0547	SW 620	Cancer cell line	Bowel	Colon Adenocarcinoma	depmap	5	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1729	SW 837	Cancer cell line	Bowel	Rectal Adenocarcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0632	SW 948	Cancer cell line	Bowel	Colon Adenocarcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_DP48	1833-BoM	Cancer cell line	Breast	Invasive Breast Carcinoma	cellosaurus_ncit	1	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_1074	AU565	Cancer cell line	Breast	Invasive Breast Carcinoma	depmap	2	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0179	BT-474	Cancer cell line	Breast	Breast Invasive Ductal Carcinoma	depmap	4	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1092	BT-549	Cancer cell line	Breast	Breast Invasive Carcinoma, NOS	depmap	14	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1104	CAL-120	Cancer cell line	Breast	Invasive Breast Carcinoma	depmap	13	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1106	CAL-148	Cancer cell line	Breast	Breast Invasive Ductal Carcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_1110	CAL-51	Cancer cell line	Breast	Invasive Breast Carcinoma	depmap	4	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1114	CAL-85-1	Cancer cell line	Breast	Breast Invasive Ductal Carcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1115	CAMA-1	Cancer cell line	Breast	Breast Invasive Lobular Carcinoma	depmap	2	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1183	DU4475	Cancer cell line	Breast	Invasive Breast Carcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_5499	EM-G3	Cancer cell line	Breast	Breast Invasive Ductal Carcinoma	cellosaurus_ncit	1	Cellosaurus-only	needs pull	infer (from input)	matched input	C	1	
+CVCL_B7S0	FCIBC02	Cancer cell line	Breast	Breast Invasive Ductal Carcinoma	cellosaurus_ncit	1	Cellosaurus-only	needs pull	none	-	D	1	
+CVCL_1245	HCC1143	Cancer cell line	Breast	Breast Invasive Ductal Carcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1247	HCC1187	Cancer cell line	Breast	Breast Invasive Ductal Carcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1249	HCC1395	Cancer cell line	Breast	Breast Invasive Ductal Carcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1255	HCC1569	Cancer cell line	Breast	Breast Invasive Ductal Carcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1256	HCC1599	Cancer cell line	Breast	Breast Invasive Ductal Carcinoma	depmap	5	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1258	HCC1806	Cancer cell line	Breast	Breast Ductal Carcinoma In Situ	depmap	4	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0290	HCC1937	Cancer cell line	Breast	Breast Invasive Ductal Carcinoma	depmap	4	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1259	HCC1954	Cancer cell line	Breast	Breast Ductal Carcinoma In Situ	depmap	5	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_3375	HCC2185	Cancer cell line	Breast	Breast Invasive Lobular Carcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix	B	1	
+CVCL_3377	HCC3153	Cancer cell line	Breast	Breast Invasive Ductal Carcinoma	depmap	9	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix	B	1	
+CVCL_1267	HCC38	Cancer cell line	Breast	Breast Invasive Ductal Carcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1270	HCC70	Cancer cell line	Breast	Breast Invasive Ductal Carcinoma	depmap	3	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_2067	HDQ-P1	Cancer cell line	Breast	Breast Invasive Ductal Carcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0332	Hs 578T	Cancer cell line	Breast	Breast Invasive Carcinoma, NOS	depmap	13	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0618	MB 157	Cancer cell line	Breast	Breast Invasive Ductal Carcinoma	depmap	15	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0031	MCF-7	Cancer cell line	Breast	Invasive Breast Carcinoma	depmap	241	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0617	MDA-MB-134-VI	Cancer cell line	Breast	Breast Invasive Lobular Carcinoma	depmap	3	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0062	MDA-MB-231	Cancer cell line	Breast	Invasive Breast Carcinoma	depmap	83	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0620	MDA-MB-361	Cancer cell line	Breast	Invasive Breast Carcinoma	depmap	2	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0623	MDA-MB-436	Cancer cell line	Breast	Breast Invasive Carcinoma, NOS	depmap	11	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0418	MDA-MB-453	Cancer cell line	Breast	Invasive Breast Carcinoma	depmap	7	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0419	MDA-MB-468	Cancer cell line	Breast	Invasive Breast Carcinoma	depmap	6	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1408	MFM-223	Cancer cell line	Breast	Breast Invasive Ductal Carcinoma	depmap	3	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_5215	PMC42	Cancer cell line	Breast	Breast Invasive Ductal Carcinoma	cellosaurus_ncit	1	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_0033	SK-BR-3	Cancer cell line	Breast	Invasive Breast Carcinoma	depmap	6	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_3421	SUM 102PT	Cancer cell line	Breast	Breast Invasive Ductal Carcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP	B	1	
+CVCL_5589	SUM 1315M02	Cancer cell line	Breast	Breast Invasive Ductal Carcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP	B	1	
+CVCL_3422	SUM 149PT	Cancer cell line	Breast	Breast Invasive Ductal Carcinoma	depmap	11	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP	B	1	
+CVCL_5423	SUM 159PT	Cancer cell line	Breast	Invasive Breast Carcinoma	depmap	42	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP	B	1	
+CVCL_5591	SUM 185PE	Cancer cell line	Breast	Invasive Breast Carcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP	B	1	
+CVCL_5594	SUM 229PE	Cancer cell line	Breast	Invasive Breast Carcinoma	depmap	23	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP	B	1	
+CVCL_3424	SUM 44PE	Cancer cell line	Breast	Breast Invasive Lobular Carcinoma	depmap	3	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0553	T-47D	Cancer cell line	Breast	Breast Invasive Ductal Carcinoma	depmap	70	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1781	UACC-812	Cancer cell line	Breast	Breast Invasive Lobular Carcinoma	depmap	2	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0588	ZR-75-1	Cancer cell line	Breast	Breast Invasive Ductal Carcinoma	depmap	10	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1661	ZR-75-30	Cancer cell line	Breast	Breast Invasive Lobular Carcinoma	depmap	5	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_S186	A-382	Cancer cell line	CNS/Brain	Glioblastoma	cellosaurus_ncit	3	Cellosaurus-only	needs pull	infer (from input)	matched input	C	1	
+CVCL_M155	BT-12	Cancer cell line	CNS/Brain	Atypical Teratoid/Rhabdoid Tumor	depmap	10	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_M156	BT-16	Cancer cell line	CNS/Brain	Atypical Teratoid/Rhabdoid Tumor	depmap	4	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_UK39	BT67	Cancer cell line	CNS/Brain	Glioblastoma	cellosaurus_ncit	4	Cellosaurus-only	needs pull	infer (from input)	matched input	C	1	
+CVCL_C1MH	BT869	Cancer cell line	CNS/Brain	Diffuse Intrinsic Pontine Glioma	cellosaurus_ncit	2	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_1155	D283 Med	Cancer cell line	CNS/Brain	Medulloblastoma	depmap	5	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_0018	D341 Med	Cancer cell line	CNS/Brain	Medulloblastoma	depmap	12	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1275	D425	Cancer cell line	CNS/Brain	Medulloblastoma	depmap	5	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1161	D458	Cancer cell line	CNS/Brain	Medulloblastoma	depmap	3	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_E5GE	DIPG-1114	Cancer cell line	CNS/Brain	Diffuse Intrinsic Pontine Glioma	cellosaurus_ncit	3	Cellosaurus-only	needs pull	infer (from input)	matched input	C	1	
+CVCL_DR55	GSC11	Cancer cell line	CNS/Brain	Glioblastoma	cellosaurus_ncit	5	Cellosaurus-only	needs pull	infer (from input)	matched input	C	1	
+CVCL_DR59	GSC23	Cancer cell line	CNS/Brain	Glioblastoma	cellosaurus_ncit	6	Cellosaurus-only	needs pull	infer (from input)	matched input	C	1	
+CVCL_S506	HDMB03	Cancer cell line	CNS/Brain	Medulloblastoma	cellosaurus_ncit	1	Cellosaurus-only	needs pull	infer (from input)	matched input	C	1	
+CVCL_VU70	HSJD-DIPG-007	Cancer cell line	CNS/Brain	Diffuse Intrinsic Pontine Glioma	depmap	2	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP	B	1	
+CVCL_0378	KNS-42	Cancer cell line	CNS/Brain	Glioblastoma	depmap	6	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0393	LN-229	Cancer cell line	CNS/Brain	Glioblastoma	depmap	9	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0394	LN-308	Cancer cell line	CNS/Brain	Glioblastoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_VU79	MB002	Cancer cell line	CNS/Brain	Medulloblastoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_X914	NCH644	Cancer cell line	CNS/Brain	Glioblastoma	cellosaurus_ncit	2	Cellosaurus-only	needs pull	infer (from input)	matched input	C	1	
+CVCL_3154	RERF-LC-OK	Cancer cell line	CNS/Brain	Astrocytoma	cellosaurus_ncit	1	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix,CMP	B	1	
+CVCL_1690	SF-295	Cancer cell line	CNS/Brain	Glioblastoma	depmap	2	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1689	SF268	Cancer cell line	CNS/Brain	Astrocytoma	depmap	4	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1691	SF539	Cancer cell line	CNS/Brain	Gliosarcoma	depmap	2	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_IT46	SF8628	Cancer cell line	CNS/Brain	Diffuse Intrinsic Pontine Glioma	cellosaurus_ncit	4	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_E5GC	SF9427	Cancer cell line	CNS/Brain	Glioblastoma	cellosaurus_ncit	2	Cellosaurus-only	needs pull	infer (from input)	matched input	C	1	
+CVCL_0535	SNB-19	Cancer cell line	CNS/Brain	Astrocytoma	depmap	2	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP	B	1	
+CVCL_1706	SNB-75	Cancer cell line	CNS/Brain	Glioblastoma	depmap	2	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_IT39	SU-DIPG-IV	Cancer cell line	CNS/Brain	Diffuse Intrinsic Pontine Glioma	cellosaurus_ncit	12	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_IT41	SU-DIPG-XIII	Cancer cell line	CNS/Brain	Diffuse Intrinsic Pontine Glioma	cellosaurus_ncit	7	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_0556	T98G	Cancer cell line	CNS/Brain	Glioblastoma	depmap	1	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_0021	U-251 MG	Cancer cell line	CNS/Brain	Astrocytoma	depmap	2	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0022	U-87 MG	Cancer cell line	CNS/Brain	Glioblastoma	depmap	12	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_8585	UW228	Cancer cell line	CNS/Brain	Medulloblastoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1094	C-33 A	Cancer cell line	Cervix	Cervical Squamous Cell Carcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1100	Ca Ski	Cancer cell line	Cervix	Cervical Squamous Cell Carcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0030	HeLa	Cancer cell line	Cervix	Endocervical Adenocarcinoma	depmap	55	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_0372	KB	Cancer cell line	Cervix	Endocervical Adenocarcinoma	cellosaurus_ncit	4	Cellosaurus-only	needs pull	infer (from input)	matched input	C	1	
+CVCL_6926	L-02	Cancer cell line	Cervix	Endocervical Adenocarcinoma	cellosaurus_ncit	1	Cellosaurus-only	needs pull	none	-	D	1	
+CVCL_0032	SiHa	Cancer cell line	Cervix	Cervical Squamous Cell Carcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_6955	SPC-A1	Cancer cell line	Cervix	Endocervical Adenocarcinoma	cellosaurus_ncit	2	Cellosaurus-only	needs pull	infer (from input)	matched input	C	1	
+CVCL_0139	AGS	Cancer cell line	Esophagus/Stomach	Stomach Adenocarcinoma	depmap	2	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_5727	CLS-145	Cancer cell line	Esophagus/Stomach	Stomach Adenocarcinoma	cellosaurus_ncit	2	Cellosaurus-only	needs pull	infer (from input)	matched input	C	1	
+CVCL_2035	ESO-26	Cancer cell line	Esophagus/Stomach	Adenocarcinoma of the Gastroesophageal Junction	depmap	1	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_2045	FLO-1	Cancer cell line	Esophagus/Stomach	Esophageal Adenocarcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_2908	FU97	Cancer cell line	Esophagus/Stomach	Diffuse Type Stomach Adenocarcinoma	depmap	3	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1279	HGC-27	Cancer cell line	Esophagus/Stomach	Stomach Adenocarcinoma	depmap	6	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0333	Hs 746.T	Cancer cell line	Esophagus/Stomach	Stomach Adenocarcinoma	depmap	2	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_2961	IM-95	Cancer cell line	Esophagus/Stomach	Stomach Adenocarcinoma	depmap	4	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_F645	ISt-1	Cancer cell line	Esophagus/Stomach	Stomach Adenocarcinoma	cellosaurus_ncit	1	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_8098	JH-EsoAd1	Cancer cell line	Esophagus/Stomach	Esophageal Adenocarcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0371	KATO III	Cancer cell line	Esophagus/Stomach	Signet Ring Cell Carcinoma of the Stomach	depmap	5	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1825	KYAE-1	Cancer cell line	Esophagus/Stomach	Esophageal Adenocarcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_1347	KYSE-140	Cancer cell line	Esophagus/Stomach	Esophageal Squamous Cell Carcinoma	depmap	6	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_1348	KYSE-150	Cancer cell line	Esophagus/Stomach	Esophageal Squamous Cell Carcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1349	KYSE-180	Cancer cell line	Esophagus/Stomach	Esophageal Squamous Cell Carcinoma	depmap	2	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_G698	KYSE-200	Cancer cell line	Esophagus/Stomach	Esophageal Squamous Cell Carcinoma	cellosaurus_ncit	1	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_1354	KYSE-510	Cancer cell line	Esophagus/Stomach	Esophageal Squamous Cell Carcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_1356	KYSE-70	Cancer cell line	Esophagus/Stomach	Esophageal Squamous Cell Carcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_4849	LMSU	Cancer cell line	Esophagus/Stomach	Stomach Adenocarcinoma	depmap	8	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP	B	1	
+CVCL_1415	MKN-1	Cancer cell line	Esophagus/Stomach	Adenosquamous Carcinoma of the Stomach	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0434	MKN-45	Cancer cell line	Esophagus/Stomach	Diffuse Type Stomach Adenocarcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1417	MKN-7	Cancer cell line	Esophagus/Stomach	Tubular Stomach Adenocarcinoma	depmap	5	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_8900	NCC-59	Cancer cell line	Esophagus/Stomach	Tubular Stomach Adenocarcinoma	cellosaurus_ncit	3	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_8897	NCC19	Cancer cell line	Esophagus/Stomach	Tubular Stomach Adenocarcinoma	cellosaurus_ncit	2	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_8899	NCC24	Cancer cell line	Esophagus/Stomach	Diffuse Type Stomach Adenocarcinoma	cellosaurus_ncit	1	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_1603	NCI-N87	Cancer cell line	Esophagus/Stomach	Tubular Stomach Adenocarcinoma	depmap	2	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_3082	NUGC-4	Cancer cell line	Esophagus/Stomach	Diffuse Type Stomach Adenocarcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1842	OACM5.1 C	Cancer cell line	Esophagus/Stomach	Esophageal Adenocarcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_1843	OACP4 C	Cancer cell line	Esophagus/Stomach	Esophageal Adenocarcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_3084	OCUM-1	Cancer cell line	Esophagus/Stomach	Diffuse Type Stomach Adenocarcinoma	depmap	3	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1622	OE19	Cancer cell line	Esophagus/Stomach	Esophageal Squamous Cell Carcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0471	OE33	Cancer cell line	Esophagus/Stomach	Esophageal Adenocarcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_3152	RERF-GC-1B	Cancer cell line	Esophagus/Stomach	Stomach Adenocarcinoma	depmap	3	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_2195	SK-GT-4	Cancer cell line	Esophagus/Stomach	Esophageal Adenocarcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_0076	SNU-16	Cancer cell line	Esophagus/Stomach	Stomach Adenocarcinoma	depmap	6	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_8914	SNU-1750	Cancer cell line	Esophagus/Stomach	Tubular Stomach Adenocarcinoma	depmap	19	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_8915	SNU-1967	Cancer cell line	Esophagus/Stomach	Tubular Stomach Adenocarcinoma	cellosaurus_ncit	2	Cellosaurus-only	needs pull	infer (from input)	matched input	C	1	
+CVCL_0100	SNU-484	Cancer cell line	Esophagus/Stomach	Stomach Adenocarcinoma	cellosaurus_ncit	2	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_5086	SNU-719	Cancer cell line	Esophagus/Stomach	Tubular Stomach Adenocarcinoma	depmap	9	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1760	TE-10	Cancer cell line	Esophagus/Stomach	Esophageal Squamous Cell Carcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1764	TE-5	Cancer cell line	Esophagus/Stomach	Esophageal Squamous Cell Carcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_9972	TE7	Cancer cell line	Esophagus/Stomach	Esophageal Squamous Cell Carcinoma	cellosaurus_ncit	3	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix,CMP	B	1	
+CVCL_4384	TMK-1	Cancer cell line	Esophagus/Stomach	Stomach Adenocarcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_3174	TT	Cancer cell line	Esophagus/Stomach	Esophageal Squamous Cell Carcinoma	depmap	6	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_9647	YCC-10	Cancer cell line	Esophagus/Stomach	Stomach Adenocarcinoma	cellosaurus_ncit	8	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_9648	YCC-11	Cancer cell line	Esophagus/Stomach	Stomach Adenocarcinoma	cellosaurus_ncit	2	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_9653	YCC-20	Cancer cell line	Esophagus/Stomach	Diffuse Type Stomach Adenocarcinoma	cellosaurus_ncit	1	Cellosaurus-only	needs pull	infer (from input)	matched input	C	1	
+CVCL_9654	YCC-21	Cancer cell line	Esophagus/Stomach	Diffuse Type Stomach Adenocarcinoma	cellosaurus_ncit	3	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_9655	YCC-22	Cancer cell line	Esophagus/Stomach	Stomach Adenocarcinoma	cellosaurus_ncit	3	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_9657	YCC-3	Cancer cell line	Esophagus/Stomach	Stomach Adenocarcinoma	cellosaurus_ncit	3	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_9663	YCC-7	Cancer cell line	Esophagus/Stomach	Stomach Adenocarcinoma	cellosaurus_ncit	2	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_8607	92-1	Cancer cell line	Eye	Uveal Melanoma	depmap	2	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_C301	Mel202	Cancer cell line	Eye	Uveal Melanoma	depmap	1	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP	B	1	
+CVCL_1792	WERI-Rb-1	Cancer cell line	Eye	Retinoblastoma	depmap	2	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1060	A-253	Cancer cell line	Head and Neck	Oral Cavity Squamous Cell Carcinoma	depmap	2	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_2312	BICR 31	Cancer cell line	Head and Neck	Oral Cavity Squamous Cell Carcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_2314	BICR 6	Cancer cell line	Head and Neck	Hypopharynx Squamous Cell Carcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_WI17	C4-2	Cancer cell line	Head and Neck	Oral Cavity Squamous Cell Carcinoma	cellosaurus_ncit	8	Cellosaurus-only	needs pull	infer (from input)	matched input	C	1	
+CVCL_7949	C666-1	Cancer cell line	Head and Neck		cellosaurus_term	2	Cellosaurus-only	needs pull	lookup (other DB)	CMP	B	1	
+CVCL_1107	CAL 27	Cancer cell line	Head and Neck	Oral Cavity Squamous Cell Carcinoma	depmap	4	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1171	Detroit 562	Cancer cell line	Head and Neck	Oropharynx Squamous Cell Carcinoma	depmap	9	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1218	FaDu	Cancer cell line	Head and Neck	Hypopharynx Squamous Cell Carcinoma	depmap	3	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0308	HNE-1	Cancer cell line	Head and Neck		cellosaurus_term	1	Cellosaurus-only	needs pull	infer (from input)	matched input	C	1	
+CVCL_8706	HONE-1	Cancer cell line	Head and Neck		cellosaurus_term	2	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_7084	NPC/HK1	Cancer cell line	Head and Neck		cellosaurus_term	1	Cellosaurus-only	needs pull	lookup (other DB)	CMP	B	1	
+CVCL_1682	SCC-25	Cancer cell line	Head and Neck	Oral Cavity Squamous Cell Carcinoma	depmap	2	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1899	SCC090	Cancer cell line	Head and Neck	Oral Cavity Squamous Cell Carcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_C8YZ	TC-797	Cancer cell line	Head and Neck	NUT Midline Carcinoma of the Head and Neck	cellosaurus_ncit	17	Cellosaurus-only	needs pull	infer (from input)	matched input	C	1	
+CVCL_7712	UM-SCC-104	Cancer cell line	Head and Neck	Oral Cavity Squamous Cell Carcinoma	cellosaurus_ncit	1	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_C058	UPCI-SCC-152	Cancer cell line	Head and Neck	Oral Cavity Squamous Cell Carcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_5518	WSU-HN12	Cancer cell line	Head and Neck	Oral Cavity Squamous Cell Carcinoma	cellosaurus_ncit	1	Cellosaurus-only	needs pull	none	-	D	1	
+CVCL_L079	YD8	Cancer cell line	Head and Neck	Oral Cavity Squamous Cell Carcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1051	786-O	Cancer cell line	Kidney	Renal Clear Cell Carcinoma	depmap	47	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1056	A498	Cancer cell line	Kidney	Renal Cell Carcinoma	depmap	7	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_1067	ACHN	Cancer cell line	Kidney	Papillary Renal Cell Carcinoma	depmap	2	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0234	Caki-1	Cancer cell line	Kidney	Renal Clear Cell Carcinoma	depmap	2	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_6997	FU-UR-1	Cancer cell line	Kidney		cellosaurus_term	17	Cellosaurus-only	needs pull	infer (from input)	matched input	C	1	
+CVCL_0270	G-401	Cancer cell line	Kidney	Rhabdoid Cancer	depmap	14	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1626	OS-RC-2	Cancer cell line	Kidney	Renal Clear Cell Carcinoma	depmap	2	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_B3PS	RMC-2C	Cancer cell line	Kidney	Renal Medullary Carcinoma	cellosaurus_ncit	4	Cellosaurus-only	needs pull	infer (from input)	matched input	C	1	
+CVCL_1673	RXF 393L	Cancer cell line	Kidney	Renal Cell Carcinoma	depmap	2	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_Z029	SK-JHRCC-12	Cancer cell line	Kidney	Renal Clear Cell Carcinoma	cellosaurus_ncit	4	Cellosaurus-only	needs pull	infer (from input)	matched input	C	1	
+CVCL_1705	SN-12C	Cancer cell line	Kidney	Renal Cell Carcinoma	depmap	2	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_1773	TK-10	Cancer cell line	Kidney	Renal Clear Cell Carcinoma	depmap	2	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_8002	TTC1240	Cancer cell line	Kidney	Rhabdoid Cancer	depmap	5	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1911	UO-31	Cancer cell line	Kidney	Renal Cell Carcinoma	depmap	2	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_6832	HCCLM3	Cancer cell line	Liver	Hepatocellular Carcinoma	cellosaurus_ncit	5	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_0027	Hep G2	Cancer cell line	Liver	Hepatoblastoma	depmap	36	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_9720	HepaRG	Cancer cell line	Liver	Hepatocellular Carcinoma	cellosaurus_ncit	4	Cellosaurus-only	needs pull	infer (from input)	matched input	C	1	
+CVCL_0336	HuH-7	Cancer cell line	Liver	Hepatocellular Carcinoma	depmap	12	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_7927	Huh-7.5	Cancer cell line	Liver	Hepatocellular Carcinoma	cellosaurus_ncit	2	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_2805	JHH-7	Cancer cell line	Liver	Hepatocellular Carcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0485	PLC/PRF/5	Cancer cell line	Liver	Hepatocellular Carcinoma	depmap	9	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0525	SK-HEP-1	Cancer cell line	Liver	Hepatocellular Carcinoma	depmap	2	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0077	SNU-398	Cancer cell line	Liver	Hepatocellular Carcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0497	SNU-475	Cancer cell line	Liver	Hepatocellular Carcinoma	depmap	7	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1055	A-427	Cancer cell line	Lung	Lung Adenocarcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_0023	A549	Cancer cell line	Lung	Lung Adenocarcinoma	depmap	104	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1066	ABC-1	Cancer cell line	Lung	Lung Adenocarcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0608	Calu-1	Cancer cell line	Lung	Lung Squamous Cell Carcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0609	Calu-3	Cancer cell line	Lung	Lung Adenocarcinoma	depmap	5	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_1128	COLO 668	Cancer cell line	Lung	Small Cell Lung Cancer	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1140	COR-L279	Cancer cell line	Lung	Small Cell Lung Cancer	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_2412	COR-L311	Cancer cell line	Lung	Small Cell Lung Cancer	depmap	3	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1174	DMS 114	Cancer cell line	Lung	SMARCA4-deficient undifferentiated tumor	depmap	2	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1176	DMS 273	Cancer cell line	Lung	Small Cell Lung Cancer	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1177	DMS 53	Cancer cell line	Lung	Small Cell Lung Cancer	depmap	2	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1178	DMS 79	Cancer cell line	Lung	Small Cell Lung Cancer	depmap	2	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_2891	EBC-1	Cancer cell line	Lung	Lung Squamous Cell Carcinoma	depmap	2	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_1195	EKVX	Cancer cell line	Lung	Lung Adenocarcinoma	depmap	2	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_8205	GLC-16	Cancer cell line	Lung	Small Cell Lung Cancer	cellosaurus_ncit	1	Cellosaurus-only	needs pull	infer (from input)	matched input	C	1	
+CVCL_2914	HARA	Cancer cell line	Lung	Lung Squamous Cell Carcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_5131	HCC2279	Cancer cell line	Lung	Lung Adenosquamous Carcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP	B	1	
+CVCL_5133	HCC2450	Cancer cell line	Lung	Lung Squamous Cell Carcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_V586	HCC2814	Cancer cell line	Lung	Lung Squamous Cell Carcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP	B	1	
+CVCL_2060	HCC44	Cancer cell line	Lung	Lung Adenocarcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_2063	HCC827	Cancer cell line	Lung	Lung Adenocarcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_5137	HCC95	Cancer cell line	Lung	Lung Squamous Cell Carcinoma	depmap	3	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1285	HOP-62	Cancer cell line	Lung	Lung Adenocarcinoma	depmap	2	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1286	HOP-92	Cancer cell line	Lung	Non-Small Cell Lung Cancer	depmap	2	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_6659	II-18	Cancer cell line	Lung	Lung Adenocarcinoma	cellosaurus_ncit	1	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix,CMP	B	1	
+CVCL_1335	KNS-62	Cancer cell line	Lung	Lung Squamous Cell Carcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_5480	LC-1/sq-SF	Cancer cell line	Lung	Lung Squamous Cell Carcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP	B	1	
+CVCL_1373	LC-2/ad	Cancer cell line	Lung	Lung Adenocarcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_1453	NCI-H1048	Cancer cell line	Lung	Small Cell Lung Cancer	depmap	11	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1454	NCI-H1092	Cancer cell line	Lung	Small Cell Lung Cancer	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1455	NCI-H1105	Cancer cell line	Lung	Small Cell Lung Cancer	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1460	NCI-H128	Cancer cell line	Lung	Small Cell Lung Cancer	depmap	5	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_0060	NCI-H1299	Cancer cell line	Lung	Large Cell Lung Carcinoma	depmap	30	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1472	NCI-H1437	Cancer cell line	Lung	Lung Adenocarcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1473	NCI-H146	Cancer cell line	Lung	Small Cell Lung Cancer	depmap	3	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1474	NCI-H1522	Cancer cell line	Lung	Small Cell Lung Cancer	cellosaurus_ncit	2	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_1482	NCI-H1648	Cancer cell line	Lung	Lung Adenocarcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1483	NCI-H1650	Cancer cell line	Lung	Non-Small Cell Lung Cancer	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1488	NCI-H1693	Cancer cell line	Lung	Lung Adenocarcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1489	NCI-H1694	Cancer cell line	Lung	Small Cell Lung Cancer	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1490	NCI-H1703	Cancer cell line	Lung	Lung Squamous Cell Carcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1497	NCI-H1819	Cancer cell line	Lung	Lung Adenocarcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP	B	1	
+CVCL_1498	NCI-H1836	Cancer cell line	Lung	Small Cell Lung Cancer	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1510	NCI-H1963	Cancer cell line	Lung	Small Cell Lung Cancer	depmap	8	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1511	NCI-H1975	Cancer cell line	Lung	Lung Adenocarcinoma	depmap	2	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1516	NCI-H2029	Cancer cell line	Lung	Small Cell Lung Cancer	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1517	NCI-H2030	Cancer cell line	Lung	Lung Adenocarcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1520	NCI-H2066	Cancer cell line	Lung	Small Cell Lung Cancer	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1524	NCI-H2087	Cancer cell line	Lung	Lung Adenocarcinoma	depmap	6	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1527	NCI-H2107	Cancer cell line	Lung	Small Cell Lung Cancer	cellosaurus_ncit	2	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_1529	NCI-H211	Cancer cell line	Lung	Small Cell Lung Cancer	depmap	6	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1532	NCI-H2126	Cancer cell line	Lung	Lung Adenocarcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1536	NCI-H2171	Cancer cell line	Lung	Small Cell Lung Cancer	depmap	5	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1543	NCI-H2228	Cancer cell line	Lung	Lung Adenocarcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1547	NCI-H23	Cancer cell line	Lung	Lung Adenocarcinoma	depmap	2	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1550	NCI-H2347	Cancer cell line	Lung	Lung Adenocarcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_5159	NCI-H2887	Cancer cell line	Lung	Non-Small Cell Lung Cancer	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_5160	NCI-H3122	Cancer cell line	Lung	Lung Adenocarcinoma	depmap	9	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1556	NCI-H322	Cancer cell line	Lung	Lung Adenocarcinoma	depmap	2	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1557	NCI-H322M	Cancer cell line	Lung	Lung Adenocarcinoma	depmap	2	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_1560	NCI-H378	Cancer cell line	Lung	Small Cell Lung Cancer	depmap	1	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_1561	NCI-H441	Cancer cell line	Lung	Lung Adenocarcinoma	depmap	5	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_1562	NCI-H446	Cancer cell line	Lung	Small Cell Lung Cancer	depmap	8	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0459	NCI-H460	Cancer cell line	Lung	Large Cell Lung Carcinoma	depmap	10	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1565	NCI-H510A	Cancer cell line	Lung	Small Cell Lung Cancer	depmap	3	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1566	NCI-H520	Cancer cell line	Lung	Lung Squamous Cell Carcinoma	depmap	2	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1568	NCI-H524	Cancer cell line	Lung	Small Cell Lung Cancer	depmap	5	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1569	NCI-H526	Cancer cell line	Lung	Small Cell Lung Cancer	depmap	9	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1579	NCI-H69	Cancer cell line	Lung	Small Cell Lung Cancer	depmap	8	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1590	NCI-H810	Cancer cell line	Lung	Large Cell Lung Carcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_1591	NCI-H82	Cancer cell line	Lung	Small Cell Lung Cancer	depmap	4	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1596	NCI-H847	Cancer cell line	Lung	Small Cell Lung Cancer	depmap	1	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_1598	NCI-H889	Cancer cell line	Lung	Small Cell Lung Cancer	depmap	7	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1640	PC-14	Cancer cell line	Lung	Lung Adenocarcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_A786	PC-7	Cancer cell line	Lung	Lung Adenocarcinoma	cellosaurus_ncit	1	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_B260	PC-9	Cancer cell line	Lung	Lung Adenocarcinoma	depmap	8	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP	B	1	
+CVCL_1651	RERF-LC-Ad1	Cancer cell line	Lung	Lung Adenocarcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1652	RERF-LC-Ad2	Cancer cell line	Lung	Lung Adenocarcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP	B	1	
+CVCL_1654	RERF-LC-KJ	Cancer cell line	Lung	Lung Adenocarcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_1655	RERF-LC-MS	Cancer cell line	Lung	Lung Adenocarcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1693	SHP-77	Cancer cell line	Lung	Small Cell Lung Cancer	depmap	2	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_4900	Sq-1	Cancer cell line	Lung	Lung Squamous Cell Carcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP	B	1	
+CVCL_1787	VMRC-LCD	Cancer cell line	Lung	Lung Adenocarcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_0079	697	Cancer cell line	Lymphoid	B-Lymphoblastic Leukemia/Lymphoma with t(1;19)(q23;p13.3);TCF3-PBX1	depmap	24	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1805	ALL-SIL	Cancer cell line	Lymphoid	Adult T-Cell Leukemia/Lymphoma	depmap	1	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_1079	BC-1	Cancer cell line	Lymphoid	Primary Effusion Lymphoma	depmap	2	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1080	BC-3	Cancer cell line	Lymphoid	Primary Effusion Lymphoma	depmap	2	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0165	BCBL1	Cancer cell line	Lymphoid	Primary Effusion Lymphoma	cellosaurus_ncit	7	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_5711	BJAB	Cancer cell line	Lymphoid	Burkitt Lymphoma	depmap	2	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_RU10	CCMCL1	Cancer cell line	Lymphoid	Mantle Cell Lymphoma	cellosaurus_ncit	5	Cellosaurus-only	needs pull	infer (from input)	matched input	C	1	
+CVCL_0207	CCRF-CEM	Cancer cell line	Lymphoid	T-Lymphoblastic Leukemia/Lymphoma	depmap	3	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_1150	CTV-1	Cancer cell line	Lymphoid	Adult T-Cell Leukemia/Lymphoma	depmap	6	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_4966	CUTLL1	Cancer cell line	Lymphoid	T-Lymphoblastic Leukemia/Lymphoma	cellosaurus_ncit	15	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_0008	Daudi	Cancer cell line	Lymphoid	Burkitt Lymphoma	depmap	1	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_1168	DB	Cancer cell line	Lymphoid	Diffuse Large B-Cell Lymphoma, NOS	depmap	2	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_2022	DND-41	Cancer cell line	Lymphoid	T-Lymphoblastic Leukemia/Lymphoma	depmap	18	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1179	DOHH-2	Cancer cell line	Lymphoid	Diffuse Large B-Cell Lymphoma, NOS	depmap	4	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_5617	DU-528	Cancer cell line	Lymphoid	T-Lymphoblastic Leukemia/Lymphoma	cellosaurus_ncit	1	Cellosaurus-only	needs pull	infer (from input)	matched input	C	1	
+CVCL_3302	Farage	Cancer cell line	Lymphoid	Germinal Center B-Cell Type	depmap	2	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_H614	FE-PD	Cancer cell line	Lymphoid	Anaplastic Large-Cell Lymphoma ALK Negative	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1818	GRANTA-519	Cancer cell line	Lymphoid	Mantle Cell Lymphoma	depmap	1	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_1242	HAL-01	Cancer cell line	Lymphoid	B-Lymphoblastic Leukemia/Lymphoma	depmap	1	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_8226	HANK1	Cancer cell line	Lymphoid		cellosaurus_term	2	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_M572	HBL-1	Cancer cell line	Lymphoid		cellosaurus_term	4	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_M574	HBL-2	Cancer cell line	Lymphoid		cellosaurus_term	1	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_H207	HLY-1	Cancer cell line	Lymphoid	Activated B-cell Type	cellosaurus_ncit	2	Cellosaurus-only	needs pull	infer (from input)	matched input	C	1	
+CVCL_1290	HT	Cancer cell line	Lymphoid	Diffuse Large B-Cell Lymphoma, NOS	depmap	2	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0337	HuT 78	Cancer cell line	Lymphoid	Sezary Syndrome	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_H633	JB6	Cancer cell line	Lymphoid	Anaplastic Large-Cell Lymphoma ALK Positive	cellosaurus_ncit	1	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_1865	JEKO-1	Cancer cell line	Lymphoid	Mantle Cell Lymphoma	depmap	5	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_2078	JJN-3	Cancer cell line	Lymphoid	Plasma Cell Myeloma	depmap	9	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_3728	JSC-1	Cancer cell line	Lymphoid	Primary Effusion Lymphoma	depmap	1	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_0065	Jurkat	Cancer cell line	Lymphoid	T-Lymphoblastic Leukemia/Lymphoma	depmap	32	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0367	Jurkat (Clone E6-1)	Cancer cell line	Lymphoid	T-Lymphoblastic Leukemia/Lymphoma	cellosaurus_ncit	6	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix,CMP	B	1	
+CVCL_1319	JVM-2	Transformed cell line	Lymphoid	Mantle Cell Lymphoma	depmap	1	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_1324	KARPAS-299	Cancer cell line	Lymphoid	Anaplastic Large-Cell Lymphoma ALK Positive	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1325	KARPAS-422	Cancer cell line	Lymphoid	Diffuse Large B-Cell Lymphoma, NOS	depmap	17	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1326	KARPAS-45	Cancer cell line	Lymphoid	T-Lymphoblastic Leukemia/Lymphoma	depmap	1	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_2976	KHYG-1	Cancer cell line	Lymphoid	Natural Killer (NK) Cell Lymphoblastic Leukemia/Lymphoma (NKCLL)	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_X908	KK1	Cancer cell line	Lymphoid		cellosaurus_term	2	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_2989	KMS-11	Cancer cell line	Lymphoid	Plasma Cell Myeloma	depmap	13	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1334	KMS-12-BM	Cancer cell line	Lymphoid	Plasma Cell Myeloma	depmap	1	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_2993	KMS-27	Cancer cell line	Lymphoid	Plasma Cell Myeloma	depmap	6	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_2994	KMS-28BM	Cancer cell line	Lymphoid	Plasma Cell Myeloma	depmap	1	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP	B	1	
+CVCL_1866	KOPN-8	Cancer cell line	Lymphoid	B-Lymphoblastic Leukemia/Lymphoma with t(v;11q23.3);KMT2A Rearranged	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_4965	KOPT-K1	Cancer cell line	Lymphoid	T-Lymphoblastic Leukemia/Lymphoma	cellosaurus_ncit	12	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_1380	Loucy	Cancer cell line	Lymphoid	Early T-Cell Precursor Lymphoblastic Leukemia	depmap	8	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0012	LP-1	Cancer cell line	Lymphoid	Plasma Cell Myeloma	depmap	13	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_H631	Mac-1	Cancer cell line	Lymphoid	Mature T and NK Neoplasms	cellosaurus_ncit	1	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix,CMP	B	1	
+CVCL_H637	Mac-2A	Cancer cell line	Lymphoid	Anaplastic Large-Cell Lymphoma ALK Negative	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1831	MAVER-1	Cancer cell line	Lymphoid	Mantle Cell Lymphoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_D709	MD901	Cancer cell line	Lymphoid	Diffuse Large B-Cell Lymphoma, NOS	cellosaurus_ncit	5	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_1870	MEC-1	Cancer cell line	Lymphoid	Chronic Lymphocytic Leukemia/Small Lymphocytic Lymphoma	depmap	2	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1871	MEC-2	Cancer cell line	Lymphoid	Chronic Lymphocytic Leukemia/Small Lymphocytic Lymphoma	depmap	1	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP	B	1	
+CVCL_0089	MHH-CALL-3	Cancer cell line	Lymphoid	B-Lymphoblastic Leukemia/Lymphoma with t(1;19)(q23;p13.3);TCF3-PBX1	depmap	1	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP	B	1	
+CVCL_1872	Mino	Cancer cell line	Lymphoid	Mantle Cell Lymphoma	depmap	9	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP	B	1	
+CVCL_EI97	MM.1-144	Cancer cell line	Lymphoid	Plasma Cell Myeloma	cellosaurus_ncit	6	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_8792	MM.1S	Cancer cell line	Lymphoid	Plasma Cell Myeloma	depmap	31	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_Y383	MO1043	Cancer cell line	Lymphoid	Chronic Lymphocytic Leukemia/Small Lymphocytic Lymphoma	cellosaurus_ncit	2	Cellosaurus-only	needs pull	infer (from input)	matched input	C	1	
+CVCL_1423	MOLT-14	Cancer cell line	Lymphoid	T-Lymphoblastic Leukemia/Lymphoma	cellosaurus_ncit	4	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix,CMP	B	1	
+CVCL_1424	MOLT-16	Cancer cell line	Lymphoid	T-Lymphoblastic Leukemia/Lymphoma	depmap	1	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_0013	MOLT-4	Cancer cell line	Lymphoid	T-Lymphoblastic Leukemia/Lymphoma	depmap	6	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_ZY05	Mutu	Cancer cell line	Lymphoid	Burkitt Lymphoma	cellosaurus_ncit	2	Cellosaurus-only	needs pull	infer (from input)	matched input	C	1	
+CVCL_1873	MUTZ-5	Cancer cell line	Lymphoid	B-Lymphoblastic Leukemia/Lymphoma, BCR-ABL1 Like	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0092	NALM-6	Cancer cell line	Lymphoid	B-Lymphoblastic Leukemia/Lymphoma	depmap	24	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1600	NCI-H929	Cancer cell line	Lymphoid	Plasma Cell Myeloma	depmap	4	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_2142	NK-92	Cancer cell line	Lymphoid	Natural Killer (NK) Cell Lymphoblastic Leukemia/Lymphoma (NKCLL)	cellosaurus_ncit	4	Cellosaurus-only	needs pull	lookup (other DB)	CMP	B	1	
+CVCL_8461	NK-YS	Cancer cell line	Lymphoid		cellosaurus_term	1	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_1876	NU-DHL-1	Cancer cell line	Lymphoid	Diffuse Large B-Cell Lymphoma, NOS	depmap	2	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP	B	1	
+CVCL_8795	OCI-LY-10	Cancer cell line	Lymphoid	Activated B-cell Type	depmap	2	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP	B	1	
+CVCL_8800	OCI-LY-3	Cancer cell line	Lymphoid	Activated B-cell Type	depmap	14	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP	B	1	
+CVCL_1881	OCI-LY-7	Cancer cell line	Lymphoid	Diffuse Large B-Cell Lymphoma, NOS	depmap	5	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_1879	OCI-LY1	Cancer cell line	Lymphoid	Diffuse Large B-Cell Lymphoma, NOS	cellosaurus_ncit	18	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_1880	OCI-Ly18	Cancer cell line	Lymphoid	Diffuse Large B-Cell Lymphoma, NOS	depmap	2	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix	B	1	
+CVCL_8801	OCI-LY4	Cancer cell line	Lymphoid	Diffuse Large B-Cell Lymphoma, NOS	cellosaurus_ncit	1	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_8803	OCI-LY8	Cancer cell line	Lymphoid	Diffuse Large B-Cell Lymphoma, NOS	cellosaurus_ncit	2	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_1625	OPM-2	Cancer cell line	Lymphoid	Plasma Cell Myeloma	depmap	4	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1630	P12-ICHIKAWA	Cancer cell line	Lymphoid	T-Lymphoblastic Leukemia/Lymphoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1913	PEER	Cancer cell line	Lymphoid	T-Lymphoblastic Leukemia/Lymphoma	depmap	1	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP	B	1	
+CVCL_W979	PER-117	Cancer cell line	Lymphoid	T-Lymphoblastic Leukemia/Lymphoma	cellosaurus_ncit	1	Cellosaurus-only	needs pull	infer (from input)	matched input	C	1	
+CVCL_1641	PF-382	Cancer cell line	Lymphoid	T-Lymphoblastic Leukemia/Lymphoma	depmap	5	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_3326	Pfeiffer	Cancer cell line	Lymphoid	Diffuse Large B-Cell Lymphoma, NOS	depmap	3	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP	B	1	
+CVCL_0511	RAJI	Cancer cell line	Lymphoid	Burkitt Lymphoma	depmap	11	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0597	RAMOS	Cancer cell line	Lymphoid	Burkitt Lymphoma	depmap	4	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1883	RC-K8	Cancer cell line	Lymphoid	Germinal Center B-Cell Type	depmap	2	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_1884	REC-1	Cancer cell line	Lymphoid	Mantle Cell Lymphoma	depmap	9	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1650	REH	Cancer cell line	Lymphoid	B-Lymphoblastic Leukemia/Lymphoma with t(12;21)(p13.2;q22.1); ETV6-RUNX1	depmap	8	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1885	RIVA	Cancer cell line	Lymphoid	Activated B-cell Type	depmap	4	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP	B	1	
+CVCL_3414	Rj2.2.5	Cancer cell line	Lymphoid	Burkitt Lymphoma	cellosaurus_ncit	2	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_1660	RL	Cancer cell line	Lymphoid	Diffuse Large B-Cell Lymphoma, NOS	depmap	9	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0014	RPMI 8226	Cancer cell line	Lymphoid	Plasma Cell Myeloma	depmap	3	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1667	RPMI 8402	Cancer cell line	Lymphoid	T-Lymphoblastic Leukemia/Lymphoma	depmap	5	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_0093	RS4-11	Cancer cell line	Lymphoid	B-Lymphoblastic Leukemia/Lymphoma with t(v;11q23.3);KMT2A Rearranged	depmap	11	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0095	SEM	Cancer cell line	Lymphoid	B-Lymphoblastic Leukemia/Lymphoma with t(v;11q23.3);KMT2A Rearranged	depmap	15	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_A673	SNK-6	Cancer cell line	Lymphoid		cellosaurus_term	1	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_D022	SP-49	Cancer cell line	Lymphoid	Mantle Cell Lymphoma	cellosaurus_ncit	13	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_1711	SR-786	Cancer cell line	Lymphoid	Anaplastic Large-Cell Lymphoma ALK Positive	depmap	3	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0G05	ST1	Cancer cell line	Lymphoid		cellosaurus_term	2	Cellosaurus-only	needs pull	infer (from input)	matched input	C	1	
+CVCL_0538	SU-DHL-1	Cancer cell line	Lymphoid	Anaplastic Large-Cell Lymphoma ALK Positive	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1889	SU-DHL-10	Cancer cell line	Lymphoid	Diffuse Large B-Cell Lymphoma, NOS	depmap	2	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_9550	SU-DHL-2	Cancer cell line	Lymphoid	Activated B-cell Type	cellosaurus_ncit	2	Cellosaurus-only	needs pull	infer (from input)	matched input	C	1	
+CVCL_0539	SU-DHL-4	Cancer cell line	Lymphoid	Diffuse Large B-Cell Lymphoma, NOS	depmap	14	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1735	SU-DHL-5	Cancer cell line	Lymphoid	Diffuse Large B-Cell Lymphoma, NOS	depmap	2	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_2206	SU-DHL-6	Cancer cell line	Lymphoid	Diffuse Large B-Cell Lymphoma, NOS	depmap	6	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_4380	SU-DHL-7	Cancer cell line	Lymphoid	Diffuse Large B-Cell Lymphoma, NOS	cellosaurus_ncit	2	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_A308	SUP-B13	Cancer cell line	Lymphoid	B-Lymphoblastic Leukemia/Lymphoma with t(9;22)(q34.1;q11.2);BCR-ABL1	cellosaurus_ncit	1	Cellosaurus-only	needs pull	infer (from input)	matched input	C	1	
+CVCL_0103	SUP-B15	Cancer cell line	Lymphoid	B-Lymphoblastic Leukemia/Lymphoma with t(9;22)(q34.1;q11.2);BCR-ABL1	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_2209	SUP-M2	Cancer cell line	Lymphoid	Anaplastic Large-Cell Lymphoma ALK Positive	depmap	2	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1714	SUP-T1	Cancer cell line	Lymphoid	T-Lymphoblastic Leukemia/Lymphoma	depmap	2	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1736	TALL-1	Cancer cell line	Lymphoid	Adult T-Cell Leukemia/Lymphoma	depmap	1	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_4686	THP-6	Cancer cell line	Lymphoid	T-Lymphoblastic Leukemia/Lymphoma	cellosaurus_ncit	6	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_B473	TL-Om1	Cancer cell line	Lymphoid		cellosaurus_term	1	Cellosaurus-only	needs pull	infer (from input)	matched input	C	1	
+CVCL_A442	TMD8	Cancer cell line	Lymphoid	Activated B-cell Type	cellosaurus_ncit	2	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_3611	Toledo	Cancer cell line	Lymphoid	Diffuse Large B-Cell Lymphoma, NOS	depmap	3	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP	B	1	
+CVCL_0566	U-266	Cancer cell line	Lymphoid	Plasma Cell Myeloma	depmap	5	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_1896	U-2932	Cancer cell line	Lymphoid	Activated B-cell Type	cellosaurus_ncit	5	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_A304	UoC-B6	Cancer cell line	Lymphoid	B-Lymphoblastic Leukemia/Lymphoma	cellosaurus_ncit	1	Cellosaurus-only	needs pull	infer (from input)	matched input	C	1	
+CVCL_1819	VAL	Cancer cell line	Lymphoid	Diffuse Large B-Cell Lymphoma, NOS	depmap	7	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1902	WSU-DLCL2	Cancer cell line	Lymphoid	Diffuse Large B-Cell Lymphoma, NOS	depmap	4	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_B077	Z-138	Cancer cell line	Lymphoid	Mantle Cell Lymphoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_M584	AMU-AML1	Cancer cell line	Myeloid	Acute Myeloid Leukemia	cellosaurus_ncit	1	Cellosaurus-only	needs pull	infer (from input)	matched input	C	1	
+CVCL_A280	CHRF-288-11	Cancer cell line	Myeloid	Acute Megakaryoblastic Leukemia	depmap	6	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0258	EOL-1	Cancer cell line	Myeloid	Chronic Eosinophilic Leukemia, NOS	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_Y019	HAP1	Cancer cell line	Myeloid	Chronic Myeloid Leukemia, BCR-ABL1+	depmap	17	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0001	HEL	Cancer cell line	Myeloid	Acute Myeloid Leukemia	depmap	5	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_2481	HEL 92.1.7	Cancer cell line	Myeloid	Acute Myeloid Leukemia	depmap	12	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0002	HL-60	Cancer cell line	Myeloid	Acute Myeloid Leukemia	depmap	25	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_2071	HNT-34	Cancer cell line	Myeloid	Acute Myeloid Leukemia	depmap	6	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0004	K-562	Cancer cell line	Myeloid	Chronic Myeloid Leukemia, BCR-ABL1+	depmap	131	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0589	Kasumi-1	Cancer cell line	Myeloid	Acute Myeloid Leukemia	depmap	22	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0612	Kasumi-3	Cancer cell line	Myeloid	AML with Minimal Differentiation	depmap	6	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_A426	KBM-7	Cancer cell line	Myeloid	Chronic Myeloid Leukemia, BCR-ABL1+	cellosaurus_ncit	6	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_0374	KG-1	Cancer cell line	Myeloid	Acute Myeloid Leukemia	depmap	2	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_0379	KU812	Cancer cell line	Myeloid	Chronic Myeloid Leukemia, BCR-ABL1+	depmap	15	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_2106	M-07e	Cancer cell line	Myeloid	Acute Megakaryoblastic Leukemia	depmap	5	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_2110	ME-1	Cancer cell line	Myeloid	Acute Myeloid Leukemia	depmap	3	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0425	MEG-01	Cancer cell line	Myeloid	Chronic Myeloid Leukemia, BCR-ABL1+	depmap	10	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_2116	MKPL-1	Cancer cell line	Myeloid	Acute Megakaryoblastic Leukemia	cellosaurus_ncit	1	Cellosaurus-only	needs pull	none	-	D	1	
+CVCL_2119	MOLM-13	Cancer cell line	Myeloid	Acute Myeloid Leukemia	depmap	43	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_7916	MOLM-14	Cancer cell line	Myeloid	Acute Myeloid Leukemia	depmap	5	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1426	Mono-Mac-6	Cancer cell line	Myeloid	Acute Monoblastic/Monocytic Leukemia	depmap	3	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_1433	MUTZ-3	Cancer cell line	Myeloid	AML with inv(3)(q21.3q26.2) or t(3;3)(q21.3;q26.2); GATA2, MECOM	depmap	2	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP	B	1	
+CVCL_0064	MV-4-11	Cancer cell line	Myeloid	Acute Myeloid Leukemia	depmap	27	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0005	NB-4	Cancer cell line	Myeloid	Acute Myeloid Leukemia	depmap	9	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_1619	OCI-AML2	Cancer cell line	Myeloid	Acute Myeloid Leukemia	depmap	3	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1844	OCI-AML3	Cancer cell line	Myeloid	Acute Myeloid Leukemia	depmap	17	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_2187	SET-2	Cancer cell line	Myeloid	Acute Megakaryoblastic Leukemia	depmap	13	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0098	SKM-1	Cancer cell line	Myeloid	Acute Myeloid Leukemia	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_2196	SKNO-1	Cancer cell line	Myeloid	AML with Maturation	depmap	3	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0006	THP-1	Cancer cell line	Myeloid	Acute Myeloid Leukemia	depmap	118	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0007	U-937	Cancer cell line	Myeloid	Acute Myeloid Leukemia	depmap	7	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1853	UCSD-AML1	Cancer cell line	Myeloid	Acute Myeloid Leukemia	depmap	2	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_2233	UT-7	Cancer cell line	Myeloid	Acute Megakaryoblastic Leukemia	depmap	6	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP	B	1	
+CVCL_1687	SCH	Cancer cell line	Other	Extra Gonadal Germ Cell Tumor	depmap	1	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_0134	A2780	Cancer cell line	Ovary/Fallopian Tube	Endometrioid Ovarian Cancer	depmap	10	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_S987	BIN-67	Cancer cell line	Ovary/Fallopian Tube	Small Cell Carcinoma of the Ovary	depmap	3	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_8878	HEYA8	Cancer cell line	Ovary/Fallopian Tube	High-Grade Serous Ovarian Cancer	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1304	IGROV-1	Cancer cell line	Ovary/Fallopian Tube	Endometrioid Ovarian Cancer	depmap	2	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0375	KGN	Cancer cell line	Ovary/Fallopian Tube	Granulosa Cell Tumor	depmap	2	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_1345	KURAMOCHI	Cancer cell line	Ovary/Fallopian Tube	High-Grade Serous Ovarian Cancer	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1452	NCI/ADR-RES	Cancer cell line	Ovary/Fallopian Tube	High-Grade Serous Ovarian Cancer	cellosaurus_ncit	2	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix,CMP	B	1	
+CVCL_3936	OvCA 429	Cancer cell line	Ovary/Fallopian Tube	Serous Ovarian Cancer	cellosaurus_ncit	3	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_0465	OVCAR-3	Cancer cell line	Ovary/Fallopian Tube	High-Grade Serous Ovarian Cancer	depmap	15	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1627	OVCAR-4	Cancer cell line	Ovary/Fallopian Tube	High-Grade Serous Ovarian Cancer	depmap	2	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1628	OVCAR-5	Cancer cell line	Ovary/Fallopian Tube	High-Grade Serous Ovarian Cancer	depmap	2	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1629	OVCAR-8	Cancer cell line	Ovary/Fallopian Tube	High-Grade Serous Ovarian Cancer	depmap	3	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_2686	PEO1	Cancer cell line	Ovary/Fallopian Tube	Serous Ovarian Cancer	depmap	1	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_1662	RMG-I	Cancer cell line	Ovary/Fallopian Tube	Clear Cell Ovarian Cancer	depmap	4	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0532	SK-OV-3	Cancer cell line	Ovary/Fallopian Tube	Serous Ovarian Cancer	depmap	21	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_3613	TOV-21G	Cancer cell line	Ovary/Fallopian Tube	Clear Cell Ovarian Cancer	depmap	4	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_B079	UWB1.289	Cancer cell line	Ovary/Fallopian Tube	Serous Ovarian Cancer	depmap	6	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_0152	AsPC-1	Cancer cell line	Pancreas	Pancreatic Adenocarcinoma	depmap	4	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0186	BxPC-3	Cancer cell line	Pancreas	Pancreatic Adenocarcinoma	depmap	6	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0237	Capan-1	Cancer cell line	Pancreas	Pancreatic Adenocarcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0026	Capan-2	Cancer cell line	Pancreas	Pancreatic Adenocarcinoma	depmap	9	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_1119	CFPAC-1	Cancer cell line	Pancreas	Pancreatic Adenocarcinoma	depmap	35	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_0313	HPAF-II	Cancer cell line	Pancreas	Pancreatic Adenocarcinoma	depmap	5	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_5146	KLM-1	Cancer cell line	Pancreas	Pancreatic Adenocarcinoma	depmap	5	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP	B	1	
+CVCL_3004	KP-2	Cancer cell line	Pancreas	Pancreatic Adenocarcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1338	KP4	Cancer cell line	Pancreas	Pancreatic Adenocarcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0428	MIA Paca-2	Cancer cell line	Pancreas	Pancreatic Adenocarcinoma	depmap	26	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_7165	MPanc-96	Cancer cell line	Pancreas	Pancreatic Adenocarcinoma	cellosaurus_ncit	2	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_1846	PA-TU-8988S	Cancer cell line	Pancreas	Pancreatic Adenocarcinoma	depmap	3	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1635	Panc 03.27	Cancer cell line	Pancreas	Pancreatic Adenocarcinoma	depmap	2	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1636	Panc 04.03	Cancer cell line	Pancreas	Pancreatic Adenocarcinoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0480	PANC-1	Cancer cell line	Pancreas	Pancreatic Adenocarcinoma	depmap	15	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_8408	PT45-P1	Cancer cell line	Pancreas	Pancreatic Adenocarcinoma	cellosaurus_ncit	1	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_B280	S2-013	Cancer cell line	Pancreas	Pancreatic Adenocarcinoma	cellosaurus_ncit	2	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_YI71	SNU-2469	Cancer cell line	Pancreas	Pancreatic Adenocarcinoma	cellosaurus_ncit	1	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_YI77	SNU-2571	Cancer cell line	Pancreas	Pancreatic Adenocarcinoma	cellosaurus_ncit	1	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_3172	SUIT-2	Cancer cell line	Pancreas	Pancreatic Adenocarcinoma	depmap	8	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_4056	T3M-4	Cancer cell line	Pancreas	Pancreatic Adenocarcinoma	depmap	2	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1B47	90-8TL	Cancer cell line	Peripheral Nervous System	Malignant Peripheral Nerve Sheath Tumor	cellosaurus_ncit	2	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_0529	BE(2)-C	Cancer cell line	Peripheral Nervous System	Neuroblastoma	cellosaurus_ncit	14	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix,CMP	B	1	
+CVCL_1124	CHP-134	Cancer cell line	Peripheral Nervous System	Neuroblastoma	depmap	3	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1125	CHP-212	Cancer cell line	Peripheral Nervous System	Neuroblastoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_9522	CLB-BerLud1	Cancer cell line	Peripheral Nervous System	Neuroblastoma	cellosaurus_ncit	1	Cellosaurus-only	needs pull	infer (from input)	matched input	C	1	
+CVCL_9526	CLB-Ca	Cancer cell line	Peripheral Nervous System	Neuroblastoma	cellosaurus_ncit	1	Cellosaurus-only	needs pull	infer (from input)	matched input	C	1	
+CVCL_9529	CLB-Ga	Cancer cell line	Peripheral Nervous System	Neuroblastoma	cellosaurus_ncit	4	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_9532	CLB-Ma1	Cancer cell line	Peripheral Nervous System	Neuroblastoma	cellosaurus_ncit	1	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_9534	CLB-Pe	Cancer cell line	Peripheral Nervous System	Neuroblastoma	cellosaurus_ncit	1	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_AQ23	COG-N-415	Cancer cell line	Peripheral Nervous System	Neuroblastoma	cellosaurus_ncit	1	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_1232	GI-ME-N	Cancer cell line	Peripheral Nervous System	Neuroblastoma	depmap	11	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0346	IMR-32	Cancer cell line	Peripheral Nervous System	Neuroblastoma	depmap	20	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_M473	IMR-5/75	Cancer cell line	Peripheral Nervous System	Neuroblastoma	cellosaurus_ncit	3	Cellosaurus-only	needs pull	infer (from input)	matched input	C	1	
+CVCL_2092	KELLY	Cancer cell line	Peripheral Nervous System	Neuroblastoma	depmap	36	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0389	LA-N-5	Cancer cell line	Peripheral Nervous System	Neuroblastoma	cellosaurus_ncit	7	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_2548	LA1-55n	Cancer cell line	Peripheral Nervous System	Neuroblastoma	cellosaurus_ncit	4	Cellosaurus-only	needs pull	infer (from input)	matched input	C	1	
+CVCL_2549	LA1-5s	Cancer cell line	Peripheral Nervous System	Neuroblastoma	cellosaurus_ncit	4	Cellosaurus-only	needs pull	infer (from input)	matched input	C	1	
+CVCL_1827	LAN-1	Cancer cell line	Peripheral Nervous System	Neuroblastoma	cellosaurus_ncit	1	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_5627	NB-1643	Cancer cell line	Peripheral Nervous System	Neuroblastoma	depmap	2	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1448	NB69	Cancer cell line	Peripheral Nervous System	Neuroblastoma	depmap	4	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_2136	NBL-S	Cancer cell line	Peripheral Nervous System	Neuroblastoma	cellosaurus_ncit	6	Cellosaurus-only	needs pull	infer (from input)	matched input	C	1	
+CVCL_9900	NBL-W N	Cancer cell line	Peripheral Nervous System	Neuroblastoma	cellosaurus_ncit	4	Cellosaurus-only	needs pull	infer (from input)	matched input	C	1	
+CVCL_9901	NBL-W S	Cancer cell line	Peripheral Nervous System	Neuroblastoma	cellosaurus_ncit	4	Cellosaurus-only	needs pull	infer (from input)	matched input	C	1	
+CVCL_2141	NGP	Cancer cell line	Peripheral Nervous System	Neuroblastoma	depmap	7	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0524	SH-EP	Cancer cell line	Peripheral Nervous System	Neuroblastoma	cellosaurus_ncit	28	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_0019	SH-SY5Y	Cancer cell line	Peripheral Nervous System	Neuroblastoma	depmap	35	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_8820	SJNB3	Cancer cell line	Peripheral Nervous System	Neuroblastoma	cellosaurus_ncit	1	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_1700	SK-N-AS	Cancer cell line	Peripheral Nervous System	Neuroblastoma	depmap	4	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0528	SK-N-BE(2)	Cancer cell line	Peripheral Nervous System	Neuroblastoma	depmap	34	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1701	SK-N-DZ	Cancer cell line	Peripheral Nervous System	Neuroblastoma	depmap	2	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1702	SK-N-FI	Cancer cell line	Peripheral Nervous System	Neuroblastoma	depmap	3	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0531	SK-N-SH	Cancer cell line	Peripheral Nervous System	Neuroblastoma	depmap	6	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_7134	SMS-KCNR	Cancer cell line	Peripheral Nervous System	Neuroblastoma	cellosaurus_ncit	6	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_8916	ST88-14	Cancer cell line	Peripheral Nervous System	Malignant Peripheral Nerve Sheath Tumor	cellosaurus_ncit	7	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_S805	T265	Cancer cell line	Peripheral Nervous System	Malignant Peripheral Nerve Sheath Tumor	cellosaurus_ncit	2	Cellosaurus-only	needs pull	infer (from input)	matched input	C	1	
+CVCL_1430	MSTO-211H	Cancer cell line	Pleura	Pleural Mesothelioma, Biphasic Type	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1544	NCI-H226	Cancer cell line	Pleura	Pleural Mesothelioma, Epithelioid Type	depmap	2	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1045	22Rv1	Cancer cell line	Prostate	Prostate Adenocarcinoma	depmap	62	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_4784	C4-2B	Cancer cell line	Prostate	Prostate Adenocarcinoma	cellosaurus_ncit	2	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_0105	DU 145	Cancer cell line	Prostate	Prostate Adenocarcinoma	depmap	8	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_4744	LAPC-4	Cancer cell line	Prostate	Prostate Adenocarcinoma	cellosaurus_ncit	9	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_0395	LNCAP	Cancer cell line	Prostate	Prostate Adenocarcinoma	cellosaurus_ncit	139	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_UD76	LREX	Cancer cell line	Prostate	Prostate Adenocarcinoma	cellosaurus_ncit	2	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_RW50	MR42D	Cancer cell line	Prostate	Prostate Adenocarcinoma	cellosaurus_ncit	2	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_0035	PC-3	Cancer cell line	Prostate	Prostate Adenocarcinoma	depmap	20	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_ZC60	R1-AD1	Cancer cell line	Prostate	Prostate Adenocarcinoma	cellosaurus_ncit	2	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_2235	VCaP	Cancer cell line	Prostate	Prostate Adenocarcinoma	depmap	27	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_5239	1205Lu	Cancer cell line	Skin	Cutaneous Melanoma	cellosaurus_ncit	6	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix,CMP	B	1	
+CVCL_6357	451Lu	Cancer cell line	Skin	Cutaneous Melanoma	depmap	8	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_0V14	501A	Cancer cell line	Skin	Melanoma	cellosaurus_ncit	5	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_0132	A-375	Cancer cell line	Skin	Melanoma	depmap	13	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1059	A2058	Cancer cell line	Skin	Melanoma	depmap	2	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_G085	CAL-1	Cancer cell line	Skin	Melanoma	cellosaurus_ncit	2	Cellosaurus-only	needs pull	infer (from input)	matched input	C	1	
+CVCL_1122	CHL-1	Cancer cell line	Skin	Melanoma	depmap	6	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_U797	CJM	Cancer cell line	Skin	Melanoma	depmap	1	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP	B	1	
+CVCL_1130	COLO 679	Cancer cell line	Skin	Cutaneous Melanoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1133	COLO 741	Cancer cell line	Skin	Melanoma	depmap	2	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1381	LOX-IMVI	Cancer cell line	Skin	Melanoma	depmap	3	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1395	M-14	Cancer cell line	Skin	Melanoma	depmap	4	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_D748	M229	Cancer cell line	Skin	Melanoma	cellosaurus_ncit	1	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_XK00	M397	Cancer cell line	Skin	Melanoma	cellosaurus_ncit	2	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_0417	MDA-MB-435	Cancer cell line	Skin	Melanoma	cellosaurus_ncit	2	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix,CMP	B	1	
+CVCL_E995	MS1	Cancer cell line	Skin	Merkel Cell Carcinoma	depmap	5	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP	B	1	
+CVCL_3876	SK-MEL-147	Cancer cell line	Skin	Melanoma	cellosaurus_ncit	5	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_0069	SK-MEL-2	Cancer cell line	Skin	Melanoma	depmap	4	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_6122	SK-MEL-239	Cancer cell line	Skin	Melanoma	cellosaurus_ncit	2	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_0526	SK-MEL-28	Cancer cell line	Skin	Cutaneous Melanoma	depmap	4	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_0039	SK-MEL-30	Cancer cell line	Skin	Cutaneous Melanoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_3878	SK-MEL-37	Cancer cell line	Skin		cellosaurus_term	2	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_0527	SK-MEL-5	Cancer cell line	Skin	Cutaneous Melanoma	depmap	4	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1779	UACC-257	Cancer cell line	Skin	Melanoma	depmap	3	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1780	UACC-62	Cancer cell line	Skin	Melanoma	depmap	2	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_4052	UACC903	Cancer cell line	Skin	Cutaneous Melanoma	cellosaurus_ncit	2	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_7928	WM164	Cancer cell line	Skin	Cutaneous Melanoma	cellosaurus_ncit	2	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix,CMP	B	1	
+CVCL_6809	WM983B	Cancer cell line	Skin	Melanoma	depmap	4	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP	B	1	
+CVCL_6C43	Aska	Cancer cell line	Soft Tissue	Synovial Sarcoma	cellosaurus_ncit	4	Cellosaurus-only	needs pull	infer (from input)	matched input	C	1	
+CVCL_S738	ASPS1	Cancer cell line	Soft Tissue	Alveolar Soft Part Sarcoma	cellosaurus_ncit	7	Cellosaurus-only	needs pull	infer (from input)	matched input	C	1	
+CVCL_0J31	DTC1	Cancer cell line	Soft Tissue	Clear Cell Sarcoma	cellosaurus_ncit	4	Cellosaurus-only	needs pull	infer (from input)	matched input	C	1	
+CVCL_4976	GIST-T1	Cancer cell line	Soft Tissue	Gastrointestinal Stromal Tumor	depmap	2	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged	B	1	
+CVCL_A9M8	GIST226	Cancer cell line	Soft Tissue	Gastrointestinal Stromal Tumor	cellosaurus_ncit	1	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_7040	GIST430	Cancer cell line	Soft Tissue	Gastrointestinal Stromal Tumor	cellosaurus_ncit	2	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_A9N1	GIST430B	Cancer cell line	Soft Tissue	Gastrointestinal Stromal Tumor	cellosaurus_ncit	1	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_7041	GIST48	Cancer cell line	Soft Tissue	Gastrointestinal Stromal Tumor	cellosaurus_ncit	1	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_M441	GIST48B	Cancer cell line	Soft Tissue	Gastrointestinal Stromal Tumor	cellosaurus_ncit	1	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_7044	GIST882	Cancer cell line	Soft Tissue	Gastrointestinal Stromal Tumor	cellosaurus_ncit	1	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_W472	HSMM	Cancer cell line	Soft Tissue	Clear Cell Sarcoma	cellosaurus_ncit	4	Cellosaurus-only	needs pull	infer (from input)	matched input	C	1	
+CVCL_8719	HSSY2	Cancer cell line	Soft Tissue	Synovial Sarcoma	depmap	2	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix	B	1	
+CVCL_0317	HT-1080	Cancer cell line	Soft Tissue	Fibrosarcoma	depmap	13	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_9W68	JN-DSRCT-1	Cancer cell line	Soft Tissue		cellosaurus_term	9	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_J063	JR-1	Cancer cell line	Soft Tissue	Embryonal Rhabdomyosarcoma	cellosaurus_ncit	2	Cellosaurus-only	needs pull	infer (from input)	matched input	C	1	
+CVCL_M823	LPS141	Cancer cell line	Soft Tissue	Dedifferentiated Liposarcoma	depmap	1	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1649	RD	Cancer cell line	Soft Tissue	Embryonal Rhabdomyosarcoma	depmap	8	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1659	RH-18	Cancer cell line	Soft Tissue	Embryonal Rhabdomyosarcoma	depmap	1	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_5916	Rh-4	Cancer cell line	Soft Tissue	Alveolar Rhabdomyosarcoma	depmap	20	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_W527	RMS	Cancer cell line	Soft Tissue	Embryonal Rhabdomyosarcoma	cellosaurus_ncit	4	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	1	
+CVCL_0041	SJCRH30	Cancer cell line	Soft Tissue	Alveolar Rhabdomyosarcoma	depmap	17	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0628	SK-LMS-1	Cancer cell line	Soft Tissue	Leiomyosarcoma	depmap	2	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_A770	SMS-CTR	Cancer cell line	Soft Tissue	Embryonal Rhabdomyosarcoma	depmap	7	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_B470	SU-CCS-1	Cancer cell line	Soft Tissue	Clear Cell Sarcoma	depmap	8	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_1730	SW 872	Cancer cell line	Soft Tissue	Liposarcoma	depmap	13	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP,COSMIC	B	1	
+CVCL_7146	SYO1	Cancer cell line	Soft Tissue	Synovial Sarcoma	cellosaurus_ncit	1	Cellosaurus-only	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP	B	1	
+CVCL_1451	NCCIT	Cancer cell line	Testis	Embryonal Carcinoma	depmap	3	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_3407	NT2-D1	Cancer cell line	Testis	Embryonal Carcinoma	depmap	4	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_E3GB	HCI-EC-23	Cancer cell line	Uterus	Endometrial Carcinoma	cellosaurus_ncit	2	Cellosaurus-only	needs pull	infer (from input)	matched input	C	1	
+CVCL_0294	HEC-1-B	Cancer cell line	Uterus	Endometrial Carcinoma	depmap	21	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_2529	Ishikawa	Cancer cell line	Uterus	Endometrial Carcinoma	cellosaurus_ncit	54	Cellosaurus-only	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP	B	1	
+CVCL_4654	JHUEM-14	Cancer cell line	Uterus	Endometrial Carcinoma	cellosaurus_ncit	2	Cellosaurus-only	needs pull	infer (from input)	matched input	C	1	
+CVCL_0533	SK-UT-1	Cancer cell line	Uterus	Uterine Leiomyosarcoma	depmap	7	confirmed (Cellosaurus+DepMap)	in atlas	have (DepMap WGS)	DepMap WGS	A	1	
+CVCL_0112	16HBE14o-	Transformed cell line				2	Cellosaurus-only	needs pull	none	-	D	0	non_cancer
+CVCL_0045	293	Transformed cell line				79	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_cancer
+CVCL_J273	42D	Hybridoma				1	Cellosaurus-only	needs pull	none	-	D	0	non_human_homonym
+CVCL_A5AH	76NF2V	Transformed cell line				2	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_cancer
+CVCL_F486	AG04450	Finite cell line				1	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_cancer
+CVCL_3568	AT1	Cancer cell line				1	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_human_homonym
+CVCL_JK53	AT2	Transformed cell line				1	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_human_homonym
+CVCL_0168	BEAS-2B	Transformed cell line				2	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	0	non_cancer
+CVCL_C8QN	BJEL	Telomerase immortalized cell line				1	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_cancer
+CVCL_L184	CB660	Somatic stem cell				1	Cellosaurus-only	needs pull	none	-	D	0	non_cancer
+CVCL_6889	CNE-2	Hybrid cell line				4	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	0	non_cancer
+CVCL_3901	EA.hy926	Hybrid cell line				12	Cellosaurus-only	needs pull	lookup (other DB)	CMP	B	0	non_cancer
+CVCL_YZ61	EEC16	Finite cell line				2	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_cancer
+CVCL_IS72	EndoC-betaH3	Conditionally immortalized cell line				6	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_cancer
+CVCL_L909	EndoC-BH1	Transformed cell line				11	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_cancer
+CVCL_EQ22	GES-1	Transformed cell line				1	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_cancer
+CVCL_7467	GM07492	Finite cell line				2	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_cancer
+CVCL_N799	GM10847	Transformed cell line				2	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_cancer
+CVCL_L256	GM12864	Transformed cell line				2	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_cancer
+CVCL_9626	GM12872	Transformed cell line				2	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_cancer
+CVCL_9627	GM12873	Transformed cell line				2	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_cancer
+CVCL_7526	GM12878	Transformed cell line				30	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_cancer
+CVCL_9630	GM12891	Transformed cell line				3	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_cancer
+CVCL_9631	GM12892	Transformed cell line				3	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_cancer
+CVCL_N803	GM18505	Transformed cell line				3	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_cancer
+CVCL_9632	GM18507	Transformed cell line				2	Cellosaurus-only	needs pull	none	-	D	0	non_cancer
+CVCL_P461	GM18510	Transformed cell line				1	Cellosaurus-only	needs pull	none	-	D	0	non_cancer
+CVCL_E124	GM18526	Transformed cell line				4	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_cancer
+CVCL_P473	GM18858	Transformed cell line				1	Cellosaurus-only	needs pull	none	-	D	0	non_cancer
+CVCL_P487	GM18909	Transformed cell line				1	Cellosaurus-only	needs pull	none	-	D	0	non_cancer
+CVCL_N804	GM18951	Transformed cell line				2	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_cancer
+CVCL_E125	GM19099	Transformed cell line				3	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_cancer
+CVCL_P507	GM19108	Transformed cell line				1	Cellosaurus-only	needs pull	none	-	D	0	non_cancer
+CVCL_P518	GM19130	Transformed cell line				1	Cellosaurus-only	needs pull	none	-	D	0	non_cancer
+CVCL_P521	GM19138	Transformed cell line				1	Cellosaurus-only	needs pull	none	-	D	0	non_cancer
+CVCL_E126	GM19193	Transformed cell line				3	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_cancer
+CVCL_9633	GM19238	Transformed cell line				4	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_cancer
+CVCL_9634	GM19239	Transformed cell line				4	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_cancer
+CVCL_9635	GM19240	Transformed cell line				3	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_cancer
+CVCL_P560	GM19257	Transformed cell line				1	Cellosaurus-only	needs pull	none	-	D	0	non_cancer
+CVCL_1P71	GM22647	Transformed cell line				2	Cellosaurus-only	needs pull	none	-	D	0	non_cancer
+CVCL_1P72	GM22648	Transformed cell line				2	Cellosaurus-only	needs pull	none	-	D	0	non_cancer
+CVCL_1P73	GM22649	Transformed cell line				2	Cellosaurus-only	needs pull	none	-	D	0	non_cancer
+CVCL_1P74	GM22650	Transformed cell line				2	Cellosaurus-only	needs pull	none	-	D	0	non_cancer
+CVCL_1P75	GM22651	Transformed cell line				2	Cellosaurus-only	needs pull	none	-	D	0	non_cancer
+CVCL_8121	H69	Transformed cell line				4	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_cancer
+CVCL_0038	HaCaT	Spontaneously immortalized cell line				3	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_cancer
+CVCL_C0EQ	HAEC	Transformed cell line				113	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_cancer
+CVCL_D585	HEK293-T-REx	Transformed cell line				2	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_cancer
+CVCL_9727	hES BG01V	Embryonic stem cell				1	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_cancer
+CVCL_3285	HFF-1	Finite cell line				1	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_cancer
+CVCL_VC41	HFFc6	Telomerase immortalized cell line				4	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_cancer
+CVCL_3708	hFOB 1.19	Conditionally immortalized cell line				7	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_cancer
+CVCL_KB28	HGrC1	Transformed cell line				9	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_cancer
+CVCL_0638	Hs 1.Int	Finite cell line				1	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_cancer
+CVCL_4388	hTERT RPE-1	Telomerase immortalized cell line				9	Cellosaurus-only	needs pull	lookup (other DB)	CMP	B	0	non_cancer
+CVCL_VI05	HUDEP-1	Transformed cell line				2	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_cancer
+CVCL_VI06	HUDEP-2	Transformed cell line				12	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_cancer
+CVCL_2959	HUVEC	Finite cell line				75	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_cancer
+CVCL_0347	IMR-90	Finite cell line				38	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	0	non_cancer
+CVCL_0T68	IOE11	Telomerase immortalized cell line				4	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_cancer
+CVCL_9V29	K4	Transformed cell line				2	Cellosaurus-only	needs pull	none	-	D	0	non_cancer
+CVCL_D7B3	L3.6	Hybridoma				22	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_human_homonym
+CVCL_8890	LHCN-M2	Telomerase immortalized cell line				2	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_cancer
+CVCL_1437	Malme-3	Finite cell line				2	Cellosaurus-only	needs pull	lookup (other DB)	CMP	B	0	non_cancer
+CVCL_N805	MCF10A-Er-Src	Spontaneously immortalized cell line				6	Cellosaurus-only	needs pull	none	-	D	0	non_cancer
+CVCL_5552	MCF10DCIS.com	Transformed cell line				9	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix	B	0	non_cancer
+CVCL_3749	MeT-5A	Transformed cell line				20	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_cancer
+CVCL_5334	MGC-803	Hybrid cell line				1	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_cancer
+CVCL_0440	MRC-5	Finite cell line				21	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_cancer
+CVCL_IZ69	NAMEC8	Spontaneously immortalized cell line				3	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_cancer
+CVCL_6783	P493-6	Transformed cell line				8	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_cancer
+CVCL_0061	PrEC	Finite cell line				2	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_cancer
+CVCL_B6EW	RH-3	Transformed cell line				1	Cellosaurus-only	needs pull	none	-	D	0	non_human_homonym
+CVCL_C358	Rh-5	Embryonic stem cell				1	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_cancer
+CVCL_K278	RPTEC	Telomerase immortalized cell line				1	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_cancer
+CVCL_3791	RWPE-1	Transformed cell line				8	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix,CMP	B	0	non_cancer
+CVCL_3792	RWPE-2	Transformed cell line				2	Cellosaurus-only	needs pull	lookup (other DB)	Progenetix,CMP	B	0	non_cancer
+CVCL_IN98	SVOG-3e	Transformed cell line				6	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_cancer
+CVCL_6850	T/C28a2	Transformed cell line				4	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_cancer
+CVCL_Z065	TeloHAEC	Telomerase immortalized cell line				10	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_cancer
+CVCL_A5CF	TEX	Transformed cell line				9	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_cancer
+CVCL_RW72	VH10	Finite cell line				4	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_cancer
+CVCL_K230	WT 9-12	Transformed cell line				4	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_cancer
+CVCL_0598	MCF 10A	Spontaneously immortalized cell line	Breast	Immortalized Breast Cells	depmap	67	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix	B	0	depmap_non_cancer
+CVCL_IT45	SF7761	Telomerase immortalized cell line	CNS/Brain	Diffuse Intrinsic Pontine Glioma	cellosaurus_ncit	3	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_cancer
+CVCL_6573	BJ-5ta	Telomerase immortalized cell line	Fibroblast	Fibroblast, NOS	depmap	2	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP	B	0	depmap_non_cancer
+CVCL_0302	HK-2	Transformed cell line	Kidney	Immortalized Embyonic Kidney Cells	depmap	3	confirmed (Cellosaurus+DepMap)	needs pull	lookup (other DB)	DepMap-merged,Progenetix,CMP	B	0	depmap_non_cancer
+CVCL_UI71	ipNF05.5	Telomerase immortalized cell line	Peripheral Nervous System	Malignant Peripheral Nerve Sheath Tumor	cellosaurus_ncit	4	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_cancer
+CVCL_S817	1765-92	Transformed cell line	Soft Tissue		cellosaurus_term	1	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_cancer
+CVCL_S813	402-91	Transformed cell line	Soft Tissue		cellosaurus_term	1	Cellosaurus-only	needs pull	infer (from input)	matched input	C	0	non_cancer

@@ -1,0 +1,4 @@
+normalization	sil_lineage	probe_cohesion	probe_clusters	pc1_var	pc2_var
+raw_log	-0.075	0.858	yes	0.359	0.269
+quantile	0.113	0.295	yes	0.166	0.143
+reference	-0.114	0.857	yes	0.486	0.211

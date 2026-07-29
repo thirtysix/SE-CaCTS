@@ -1,0 +1,75 @@
+# Heavy or regenerable data — regenerate with pilot/scripts + phase1/scripts
+# (see PILOT.md / phase1/README.md). NOTE: gitignore does not support inline comments.
+
+# 4.2 GB of ChIP-Atlas bigWigs; re-fetch with pilot/scripts/03_download_bigwigs.sh
+pilot/data/bigwigs/
+
+# deepTools signal matrices + raw signal tables (large; regenerable via 04_quantify.py)
+pilot/results/*.npz
+pilot/results/*.tab
+
+# Kept on purpose: all *.md, scripts, result *.png figures, *_summary.tsv,
+# small manifests (manifest.tsv / selection.tsv / phase1_manifest.tsv), reference_regions.bed
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# OS / editor
+.DS_Store
+*~
+
+# Phase 2 grid: keep the DECIDED grid (grid.20.bed) + manifests; ignore the regenerable
+# comparison/diagnostic variants (stats live in phase2/PULL_DESIGN.md §8; rebuild via
+# phase2/scripts/21_grid_from_persrx.sh). Raw per-SRX beds stay on Roihu scratch.
+phase2/data/grid.bed
+phase2/data/grid.10.bed
+phase2/data/grid_seen_srx.txt
+
+# Phase-2 pilot rehearsal: heavy regenerable matrices (regenerate via phase2/scripts/30_rehearse_local.sh
+# CN=1 + phase2/score_pilot.py). Kept on purpose: the small *_summary.tsv + *.top_specific.tsv result tables.
+phase2/rehearse/*.se_signal.tsv
+phase2/rehearse/*.union_catalog.bed
+phase2/rehearse/*.se_presence.tsv
+phase2/rehearse/pilot_scores.jsd_*.tsv
+
+# Phase-2 rehearsal logs (regenerable)
+phase2/rehearse/*.log
+
+# Phase-2 reference atlas (fetched off Roihu scratch 2026-07-22, scripts/50_fetch_and_clean.sh).
+# The two SIGNAL matrices are 443 MB + 321 MB — over GitHub's 100 MB/file limit, and NOT
+# regenerable without a ~43 BU re-pull, so they are protected by Dropbox + the 2 TB SSD copy,
+# not by git. Everything else in phase2/results/ is small and IS tracked (catalogs, presence,
+# s3norm params, failed_srx) — see phase2/results/README.md for the copy inventory.
+phase2/results/atlas.se_signal.tsv.gz
+phase2/results/atlas.s3.se_signal.tsv.gz
+
+# Transient run logs (rsync progress etc.)
+logs/
+
+# Phase-2 scores: keep the SMALL canonical artifacts in git; the heavy dumps are regenerable via
+# score_pilot.py (--dump-specific) and cn_ablation.py / concordance_bridge2.py — see phase2/scores/README.md.
+# Line-level "specific" dumps (line is rankings-only, so a call set there is meaningless), the analytic
+# level dumps (counts VOID, gotcha 71), and the analytic raw concordance pairs.
+phase2/scores/*.line.specific.tsv.gz
+phase2/scores/atlas.s3.Oncotree*.specific.tsv.gz
+phase2/scores/atlas.s3.concordance2.pairs.tsv.gz
+
+phase2/scores/*.rerun.log
+
+# Machine-local configuration: real filesystem layout + HPC allocation id live ONLY here.
+# `sample.env` is the tracked template. Never commit .env (gotcha 80).
+.env
+*.env
+!sample.env
+
+# Parsed-once caches (gene coordinates, ...) — regenerable, see secacts_env.cache_path()
+.cache/
+
+# Internal knowledge base: session handoff + the numbered gotchas log. Both are working
+# documents that accrete local paths, private-memory links and notes on other projects, and
+# neither is about using SE-CaCTS. They are for developing and maintaining the project, not for
+# its readers. Kept on disk (Dropbox) for durability; deliberately never tracked.
+nextsession.md
+GOTCHAS.md

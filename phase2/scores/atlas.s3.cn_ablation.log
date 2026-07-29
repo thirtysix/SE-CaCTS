@@ -1,0 +1,136 @@
+====================================================================================================
+1. IDENTITY-GENE RANK STABILITY UNDER CN CORRECTION  (uncorrected -> corrected)
+====================================================================================================
+  661 identity-gene x group pairs; 90 reach rank<=50 in some arm
+
+  level                  group                            gene         unc     cor  shift
+  line                   P12ICHIKAWA                      LEF1         598       6  -6.64  IMPROVED by correction
+  line                   HCC1937                          ESR1         210      16  -3.71  IMPROVED by correction
+  OncotreePrimaryDisease Acute Myeloid Leukemia           MEF2C        300      24  -3.64  IMPROVED by correction
+  line                   MDAMB361                         FOXA1         79       9  -3.13  IMPROVED by correction
+  line                   MOLM13                           IRF8          13       2  -2.70  IMPROVED by correction
+  line                   THP1                             CEBPA         17       3  -2.50  IMPROVED by correction
+  line                   CAMA1                            ESR1         188      37  -2.35  IMPROVED by correction
+  line                   MCF7                             ESR1           5       1  -2.32  IMPROVED by correction
+  OncotreeSubtype        Chronic Myeloid Leukemia, BCR-AB GATA2        141      29  -2.28  IMPROVED by correction
+  line                   ZR751                            ESR1          66      14  -2.24  IMPROVED by correction
+  OncotreePrimaryDisease Myeloproliferative Neoplasms     GATA2        176      45  -1.97  IMPROVED by correction
+  line                   K562                             GATA2        177      48  -1.88  IMPROVED by correction
+  line                   BIN67                            SOX17         24       9  -1.42  IMPROVED by correction
+  line                   T47D                             ESR1          85      32  -1.41  IMPROVED by correction
+  line                   MDAMB361                         TFAP2C        36      14  -1.36  IMPROVED by correction
+  line                   MDAMB134VI                       FOXA1         34      14  -1.28  IMPROVED by correction
+  line                   UACC812                          FOXA1         19       8  -1.25  IMPROVED by correction
+  line                   SW48                             CDX2          11       5  -1.14  IMPROVED by correction
+  line                   SW48                             HNF4A         68      31  -1.13  IMPROVED by correction
+  line                   HT115                            HNF4A         48      22  -1.13  IMPROVED by correction
+  line                   DLD1                             CDX2          47      22  -1.10  IMPROVED by correction
+  line                   LOVO                             HNF4A         84      41  -1.03  IMPROVED by correction
+  line                   MOLM14                           CEBPA         14       7  -1.00  IMPROVED by correction
+  OncotreeLineage        Bowel                            HNF4A          8       4  -1.00  IMPROVED by correction
+  line                   U937                             IRF8          32      16  -1.00  IMPROVED by correction
+  OncotreeLineage        Myeloid                          SPI1          17       9  -0.92  IMPROVED by correction
+  line                   THP1                             IRF8          48      26  -0.88  IMPROVED by correction
+  OncotreeSubtype        Breast Invasive Lobular Carcinom ESR1          40      22  -0.86  IMPROVED by correction
+  line                   THP1                             SPI1          70      39  -0.84  IMPROVED by correction
+  OncotreeSubtype        Small Cell Carcinoma of the Ovar SOX17         32      18  -0.83  IMPROVED by correction
+  OncotreePrimaryDisease Invasive Breast Carcinoma        ESR1          70      40  -0.81  IMPROVED by correction
+  line                   ME1                              SPI1          37      22  -0.75  IMPROVED by correction
+  OncotreePrimaryDisease Colorectal Adenocarcinoma        HNF4A         10       6  -0.74  IMPROVED by correction
+  OncotreeSubtype        Acute Myeloid Leukemia           SPI1          34      23  -0.56  IMPROVED by correction
+  line                   HCC1143                          ESR1          59      40  -0.56  IMPROVED by correction
+  OncotreePrimaryDisease Acute Myeloid Leukemia           SPI1          27      19  -0.51  IMPROVED by correction
+  line                   OCIAML3                          SPI1          23      17  -0.44  stable                
+  line                   MDAMB134VI                       ESR1          27      20  -0.43  stable                
+  OncotreeLineage        Breast                           ESR1          48      37  -0.38  stable                
+  line                   MOLM14                           IRF8          24      19  -0.34  stable                
+  OncotreeSubtype        Colon Adenocarcinoma             HNF4A          5       4  -0.32  stable                
+  line                   MV411                            IRF8           6       5  -0.26  stable                
+  OncotreeSubtype        Breast Invasive Lobular Carcinom FOXA1         43      37  -0.22  stable                
+  line                   SKOV3                            SOX17         15      13  -0.21  stable                
+  OncotreePrimaryDisease Myeloproliferative Neoplasms     TAL1          42      39  -0.11  stable                
+  OncotreePrimaryDisease Ovarian Epithelial Tumor         MECOM          1       1  +0.00  stable                
+  OncotreeSubtype        Acute Myeloid Leukemia           IRF8          10      10  +0.00  stable                
+  OncotreeLineage        Ovary/Fallopian Tube             MECOM          1       1  +0.00  stable                
+  line                   KU812                            TAL1          44      44  +0.00  stable                
+  line                   SKOV3                            MECOM          1       1  +0.00  stable                
+  OncotreeSubtype        Serous Ovarian Cancer            MECOM          2       2  +0.00  stable                
+  line                   OCIAML3                          IRF8           9       9  +0.00  stable                
+  line                   OCIAML2                          IRF8          13      13  +0.00  stable                
+  line                   LS180                            CDX2          17      18  +0.08  stable                
+  OncotreeSubtype        Chronic Myeloid Leukemia, BCR-AB TAL1          39      44  +0.17  stable                
+  line                   KURAMOCHI                        SOX17         21      24  +0.19  stable                
+  line                   LOVO                             CDX2          46      53  +0.20  stable                
+  OncotreeSubtype        Serous Ovarian Cancer            SOX17         15      18  +0.26  stable                
+  OncotreePrimaryDisease Ovarian Epithelial Tumor         SOX17          4       5  +0.32  stable                
+  OncotreePrimaryDisease Acute Myeloid Leukemia           IRF8          14      18  +0.36  stable                
+  OncotreeSubtype        Acute Myeloid Leukemia           CEBPA          6       8  +0.42  stable                
+  OncotreePrimaryDisease Acute Myeloid Leukemia           RUNX1         50      70  +0.49  stable                
+  line                   OCIAML3                          CEBPA          5       7  +0.49  stable                
+  OncotreeLineage        Ovary/Fallopian Tube             SOX17          4       6  +0.58  DEMOTED by correction 
+  OncotreePrimaryDisease Ovarian Epithelial Tumor         PAX8          39      60  +0.62  DEMOTED by correction 
+  line                   UACC812                          TFAP2C        31      48  +0.63  DEMOTED by correction 
+  line                   SW948                            HNF4A         12      19  +0.66  DEMOTED by correction 
+  line                   CCRFHSB2DM                       MYB           18      29  +0.69  DEMOTED by correction 
+  OncotreeLineage        Myeloid                          RUNX1         26      42  +0.69  DEMOTED by correction 
+  line                   LS180                            ASCL2         40      71  +0.83  DEMOTED by correction 
+  line                   MDAMB361                         ESR1          19      36  +0.92  DEMOTED by correction 
+  OncotreeLineage        Ovary/Fallopian Tube             PAX8          45      90  +1.00  DEMOTED by correction 
+  OncotreeLineage        Myeloid                          CEBPA         25      53  +1.08  DEMOTED by correction 
+  line                   U937                             CEBPA         50     121  +1.28  DEMOTED by correction 
+  line                   MDAMB157                         GRHL2         44     107  +1.28  DEMOTED by correction 
+  line                   MDAMB453                         FOXA1         32      79  +1.30  DEMOTED by correction 
+  line                   MV411                            CEBPA          8      20  +1.32  DEMOTED by correction 
+  OncotreePrimaryDisease Acute Myeloid Leukemia           CEBPA          9      25  +1.47  DEMOTED by correction 
+  line                   OCIAML2                          CEBPA         23      66  +1.52  DEMOTED by correction 
+  line                   P12ICHIKAWA                      MYB           47     144  +1.62  DEMOTED by correction 
+  OncotreeLineage        Bowel                            ASCL2         14      45  +1.68  DEMOTED by correction 
+  OncotreePrimaryDisease Colorectal Adenocarcinoma        ASCL2         13      42  +1.69  DEMOTED by correction 
+  OncotreeSubtype        High-Grade Serous Ovarian Cancer SOX17         42     145  +1.79  DEMOTED by correction 
+  OncotreeSubtype        Colon Adenocarcinoma             ASCL2         14      49  +1.81  DEMOTED by correction 
+  OncotreeSubtype        Breast Invasive Ductal Carcinoma GRHL2         37     166  +2.17  DEMOTED by correction 
+  OncotreeSubtype        Colon Adenocarcinoma             CDX2           2      10  +2.32  DEMOTED by correction 
+  line                   SW948                            CDX2           3      20  +2.74  DEMOTED by correction 
+  OncotreePrimaryDisease Colorectal Adenocarcinoma        CDX2           1      13  +3.70  DEMOTED by correction 
+  OncotreeLineage        Bowel                            CDX2           1      14  +3.81  DEMOTED by correction 
+  line                   COLO320                          CDX2          12   27481  +11.16  DEMOTED by correction 
+
+====================================================================================================
+2. AMPLICON-DRIVEN CALLS — in the UNCORRECTED top-N, dropped after correction, cn_mean > 1.3
+====================================================================================================
+  OncotreeLineage          top-N rows=  360  dropped by correction=  174  of which amplified= 100
+  OncotreePrimaryDisease   top-N rows=  660  dropped by correction=  291  of which amplified= 176
+  OncotreeSubtype          top-N rows= 1125  dropped by correction=  523  of which amplified= 375
+  line                     top-N rows= 4230  dropped by correction= 2147  of which amplified=1672
+
+  top amplicon-driven calls (wrote 2323 rows -> phase2/scores/atlas.s3.cn_ablation.tsv):
+
+  level                  group                        se           gene           cn  rank_unc
+  line                   SKNBE2                       USE_20470    MYCN       215.17         8
+  line                   SKNBE2                       USE_20481    MYCN       215.17         4
+  line                   SKNBE2                       USE_20480    MYCN       215.17         1
+  line                   SKNBE2                       USE_20477    MYCN       215.17         2
+  line                   SKNBE2                       USE_20479    MYCN       215.17         3
+  line                   SKNBE2                       USE_20478    MYCN       215.17         5
+  line                   SKNBE2                       USE_20483    MYCN       215.17         6
+  line                   KELLY                        USE_20449    MYCN       207.98         5
+  line                   KELLY                        USE_20483    MYCN       207.98         6
+  line                   KELLY                        USE_20448    MYCN       207.98         1
+  line                   KELLY                        USE_20444    MYCN       207.98        14
+  line                   KELLY                        USE_20446    MYCN       207.98         8
+  line                   NB1643                       USE_20446    MYCN       177.25        13
+  line                   NB1643                       USE_20469    MYCN       177.25         8
+  line                   NB1643                       USE_20457    MYCN       177.25         4
+  line                   NB1643                       USE_20483    MYCN       177.25        11
+  line                   NB1643                       USE_20482    MYCN       177.25        14
+  line                   NB1643                       USE_20456    MYCN       177.25         3
+  line                   NB1643                       USE_20447    MYCN       177.25         1
+  line                   COLO320                      USE_39971    POU5F1B    120.50         1
+
+====================================================================================================
+3. CN CONTEXT OF THE CORRECTED CALLS  (are the surviving top hits in neutral CN?)
+====================================================================================================
+  OncotreeLineage          cn_mean median=1.022  amplified(>1.3)= 10.6%  deleted(<0.7)=  4.7%
+  OncotreePrimaryDisease   cn_mean median=1.011  amplified(>1.3)= 12.0%  deleted(<0.7)= 13.8%
+  OncotreeSubtype          cn_mean median=1.001  amplified(>1.3)= 10.8%  deleted(<0.7)= 15.2%
+  line                     cn_mean median=0.994  amplified(>1.3)= 13.6%  deleted(<0.7)= 23.6%

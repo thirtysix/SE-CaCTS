@@ -1,0 +1,488 @@
+[score]   CN tracks: 25 models, 11s
+[score]   CN tracks: 50 models, 22s
+[score]   CN tracks: 75 models, 33s
+[score]   CN tracks: 100 models, 45s
+[score]   CN tracks: 125 models, 55s
+[score]   CN tracks: 150 models, 66s
+[score]   CN tracks: 175 models, 77s
+[score]   CN tracks: 200 models, 88s
+[score]   CN tracks: 225 models, 99s
+[score]   CN tracks: 250 models, 110s
+[score]   CN tracks: 275 models, 121s
+[score] scoring-time CN: 282/282 models with a DepMap track (124s)
+[score] CN correction produced 1,978 negative cells (0.0022%, min -0.972); clipping to 0
+[perm]   100/1000 permutations
+[perm]   200/1000 permutations
+[perm]   300/1000 permutations
+[perm]   400/1000 permutations
+[perm]   500/1000 permutations
+[perm]   600/1000 permutations
+[perm]   700/1000 permutations
+[perm]   800/1000 permutations
+[perm]   900/1000 permutations
+[perm]   1000/1000 permutations
+[perm] 42,943,000 null draws/group; smallest attainable p = 2.33e-08; BH bar at k=1 is 9.70e-08 over 1,030,632 tests
+  [dump] 6,790 SE x group tests at FDR<=0.1 -> phase2/scores/atlas.s3.perm.OncotreeLineage.specific.tsv.gz
+[perm]   100/1000 permutations
+[perm]   200/1000 permutations
+[perm]   300/1000 permutations
+[perm]   400/1000 permutations
+[perm]   500/1000 permutations
+[perm]   600/1000 permutations
+[perm]   700/1000 permutations
+[perm]   800/1000 permutations
+[perm]   900/1000 permutations
+[perm]   1000/1000 permutations
+[perm] 42,943,000 null draws/group; smallest attainable p = 2.33e-08; BH bar at k=1 is 5.29e-08 over 1,889,492 tests
+  [dump] 4,343 SE x group tests at FDR<=0.1 -> phase2/scores/atlas.s3.perm.OncotreePrimaryDisease.specific.tsv.gz
+[perm]   100/1000 permutations
+[perm]   200/1000 permutations
+[perm]   300/1000 permutations
+[perm]   400/1000 permutations
+[perm]   500/1000 permutations
+[perm]   600/1000 permutations
+[perm]   700/1000 permutations
+[perm]   800/1000 permutations
+[perm]   900/1000 permutations
+[perm]   1000/1000 permutations
+[perm] 42,943,000 null draws/group; smallest attainable p = 2.33e-08; BH bar at k=1 is 3.10e-08 over 3,220,725 tests
+[score] 42943 SEs; 2136 samples -> 282 cell lines; norm=none
+
+================  OncotreeLineage  (24 groups)  ================
+  Biliary Tract                      n=1  specific(FDR≤.05/.10/.25)=   0/   0/   5  id@15=0  —
+  Bladder/Urinary Tract              n=6  specific(FDR≤.05/.10/.25)=   0/   6/  88  id@15=0  —
+  Bone                               n=12  specific(FDR≤.05/.10/.25)=   1/ 558/ 890  id@15=0  —
+  Bowel                              n=15  specific(FDR≤.05/.10/.25)=   0/ 152/ 637  id@15=2  HNF4A(#4), CDX2(#14), ASCL2(#45), KLF5(#400), CDX1(#1756)
+  Breast                             n=32  specific(FDR≤.05/.10/.25)=   0/ 224/ 716  id@15=0  ESR1(#37), FOXA1(#116), GRHL2(#206), SPDEF(#290), TFAP2C(#335)
+  CNS/Brain                          n=11  specific(FDR≤.05/.10/.25)=   3/  94/ 359  id@15=0  —
+  Cervix                             n=1  specific(FDR≤.05/.10/.25)=   0/   1/  27  id@15=0  —
+  Esophagus/Stomach                  n=15  specific(FDR≤.05/.10/.25)=   0/  50/ 326  id@15=0  —
+  Eye                                n=2  specific(FDR≤.05/.10/.25)=   0/  41/ 280  id@15=0  —
+  Head and Neck                      n=7  specific(FDR≤.05/.10/.25)=   0/  69/ 211  id@15=0  —
+  Kidney                             n=6  specific(FDR≤.05/.10/.25)=   0/  63/ 501  id@15=0  —
+  Liver                              n=7  specific(FDR≤.05/.10/.25)=   0/ 118/ 374  id@15=0  —
+  Lung                               n=47  specific(FDR≤.05/.10/.25)=   0/ 246/1013  id@15=0  —
+  Lymphoid                           n=44  specific(FDR≤.05/.10/.25)=  58/2512/4260  id@15=0  MYB(#107), LEF1(#173), RUNX1(#315), TCF7(#3855), LMO2(#8065)
+  Myeloid                            n=19  specific(FDR≤.05/.10/.25)=   0/ 880/2030  id@15=1  SPI1(#9), RUNX1(#42), CEBPA(#53), GATA2(#325), MYB(#681)
+  Ovary/Fallopian Tube               n=9  specific(FDR≤.05/.10/.25)=   0/  35/ 204  id@15=4  MECOM(#1), SOX17(#6), PAX8(#90), GATA6(#1169), WT1(#9482)
+  Pancreas                           n=12  specific(FDR≤.05/.10/.25)=   0/  21/ 377  id@15=0  —
+  Peripheral Nervous System          n=12  specific(FDR≤.05/.10/.25)=   0/ 625/1460  id@15=0  —
+  Pleura                             n=2  specific(FDR≤.05/.10/.25)=   0/  20/ 182  id@15=0  —
+  Prostate                           n=3  specific(FDR≤.05/.10/.25)=   0/  17/  85  id@15=0  —
+  Skin                               n=7  specific(FDR≤.05/.10/.25)=   0/ 748/1763  id@15=0  —
+  Soft Tissue                        n=8  specific(FDR≤.05/.10/.25)=   0/ 189/ 865  id@15=0  —
+  Testis                             n=2  specific(FDR≤.05/.10/.25)=   0/ 113/ 419  id@15=0  —
+  Uterus                             n=2  specific(FDR≤.05/.10/.25)=   0/   8/  77  id@15=0  —
+
+================  OncotreePrimaryDisease  (44 groups)  ================
+  Acute Myeloid Leukemia             n=16  specific(FDR≤.05/.10/.25)=   0/ 259/1353  id@15=0  IRF8(#18), SPI1(#19), MEF2C(#24), CEBPA(#25), RUNX1(#70)
+  Adult-Type Diffuse Glioma          n=5  specific(FDR≤.05/.10/.25)=   0/  11/ 193  id@15=0  —
+  B-Cell Acute Lymphoblastic Leukemia n=8  specific(FDR≤.05/.10/.25)=   0/ 853/2103  id@15=0  —
+  Bladder Urothelial Carcinoma       n=6  specific(FDR≤.05/.10/.25)=   0/   1/  67  id@15=0  —
+  Breast Ductal Carcinoma In Situ    n=1  specific(FDR≤.05/.10/.25)=   0/   3/  41  id@15=0  ESR1(#119), GRHL2(#185), FOXA1(#1301), SPDEF(#1658), TFAP2C(#1995)
+  Cervical Squamous Cell Carcinoma   n=1  specific(FDR≤.05/.10/.25)=   0/   1/   9  id@15=0  —
+  Clear Cell Sarcoma                 n=1  specific(FDR≤.05/.10/.25)=   0/ 111/ 860  id@15=0  —
+  Colorectal Adenocarcinoma          n=15  specific(FDR≤.05/.10/.25)=   0/  59/ 597  id@15=2  HNF4A(#6), CDX2(#13), ASCL2(#42), KLF5(#289), CDX1(#1620)
+  Diffuse Glioma                     n=1  specific(FDR≤.05/.10/.25)=   0/   1/  24  id@15=0  —
+  Embryonal Tumor                    n=5  specific(FDR≤.05/.10/.25)=   0/  70/ 279  id@15=0  —
+  Endometrial Carcinoma              n=1  specific(FDR≤.05/.10/.25)=   0/   4/  50  id@15=0  —
+  Esophageal Squamous Cell Carcinoma n=4  specific(FDR≤.05/.10/.25)=   0/   6/  65  id@15=0  —
+  Esophagogastric Adenocarcinoma     n=11  specific(FDR≤.05/.10/.25)=   0/  27/ 397  id@15=0  —
+  Ewing Sarcoma                      n=7  specific(FDR≤.05/.10/.25)=   0/ 490/ 832  id@15=0  —
+  Fibrosarcoma                       n=1  specific(FDR≤.05/.10/.25)=   0/   0/   5  id@15=0  —
+  Head and Neck Squamous Cell Carcinoma n=7  specific(FDR≤.05/.10/.25)=   0/  38/ 180  id@15=0  —
+  Hepatoblastoma                     n=1  specific(FDR≤.05/.10/.25)=   0/   0/  27  id@15=0  —
+  Hepatocellular Carcinoma           n=6  specific(FDR≤.05/.10/.25)=   0/  30/ 240  id@15=0  —
+  Intraductal Papillary Neoplasm of the Bile Duct n=1  specific(FDR≤.05/.10/.25)=   0/   0/   2  id@15=0  —
+  Invasive Breast Carcinoma          n=31  specific(FDR≤.05/.10/.25)=   0/  86/ 710  id@15=0  ESR1(#40), GRHL2(#154), FOXA1(#165), SPDEF(#208), TFAP2C(#358)
+  Leiomyosarcoma                     n=1  specific(FDR≤.05/.10/.25)=   0/   2/  75  id@15=0  —
+  Liposarcoma                        n=1  specific(FDR≤.05/.10/.25)=   0/   2/  34  id@15=0  —
+  Lung Neuroendocrine Tumor          n=17  specific(FDR≤.05/.10/.25)=   0/ 272/1237  id@15=0  —
+  Mature B-Cell Neoplasms            n=21  specific(FDR≤.05/.10/.25)=   1/ 700/2247  id@15=0  —
+  Mature T and NK Neoplasms          n=6  specific(FDR≤.05/.10/.25)=   0/ 144/ 687  id@15=0  —
+  Melanoma                           n=7  specific(FDR≤.05/.10/.25)=   0/ 270/1228  id@15=0  —
+  Myeloproliferative Neoplasms       n=3  specific(FDR≤.05/.10/.25)=   0/   9/ 124  id@15=0  TAL1(#39), GATA2(#45), MYB(#1115), KLF1(#1252), GATA1(#2696)
+  Neuroblastoma                      n=12  specific(FDR≤.05/.10/.25)=   0/ 347/1145  id@15=0  —
+  Non-Hodgkin Lymphoma               n=2  specific(FDR≤.05/.10/.25)=   0/  21/ 455  id@15=0  —
+  Non-Seminomatous Germ Cell Tumor   n=2  specific(FDR≤.05/.10/.25)=   0/  45/ 305  id@15=0  —
+  Non-Small Cell Lung Cancer         n=29  specific(FDR≤.05/.10/.25)=   0/  16/ 739  id@15=0  —
+  Ocular Melanoma                    n=1  specific(FDR≤.05/.10/.25)=   0/  27/ 246  id@15=0  —
+  Osteosarcoma                       n=5  specific(FDR≤.05/.10/.25)=   0/  14/ 113  id@15=0  —
+  Ovarian Epithelial Tumor           n=9  specific(FDR≤.05/.10/.25)=   0/  12/ 161  id@15=4  MECOM(#1), SOX17(#5), PAX8(#60), GATA6(#1201), WT1(#14114)
+  Pancreatic Adenocarcinoma          n=12  specific(FDR≤.05/.10/.25)=   0/   4/ 364  id@15=0  —
+  Pleural Mesothelioma               n=2  specific(FDR≤.05/.10/.25)=   0/   1/  95  id@15=0  —
+  Prostate Adenocarcinoma            n=3  specific(FDR≤.05/.10/.25)=   0/   6/  61  id@15=0  —
+  Renal Cell Carcinoma               n=4  specific(FDR≤.05/.10/.25)=   0/  18/ 406  id@15=0  —
+  Retinoblastoma                     n=1  specific(FDR≤.05/.10/.25)=   0/   6/ 122  id@15=0  —
+  Rhabdoid Cancer                    n=2  specific(FDR≤.05/.10/.25)=   0/  13/ 107  id@15=0  —
+  Rhabdomyosarcoma                   n=4  specific(FDR≤.05/.10/.25)=   0/ 138/ 736  id@15=0  —
+  SMARCA4-deficient undifferentiated tumor n=1  specific(FDR≤.05/.10/.25)=   0/   1/  16  id@15=0  —
+  T-Lymphoblastic Leukemia/Lymphoma  n=7  specific(FDR≤.05/.10/.25)=   1/ 222/ 921  id@15=0  LEF1(#100), MYB(#266), RUNX1(#272), TCF7(#303), TAL1(#1589)
+  Uterine Sarcoma/Mesenchymal        n=1  specific(FDR≤.05/.10/.25)=   0/   3/  50  id@15=0  —
+
+================  OncotreeSubtype  (75 groups)  ================
+  AML, NOS                           n=2  specific(FDR≤.05/.10/.25)=   0/   0/ 175  id@15=0  —
+  Acute Myeloid Leukemia             n=14  specific(FDR≤.05/.10/.25)=   0/   0/ 578  id@15=2  CEBPA(#8), IRF8(#10), SPI1(#23), RUNX1(#61), MEF2C(#769)
+  Adenosquamous Carcinoma of the Stomach n=1  specific(FDR≤.05/.10/.25)=   0/   0/   9  id@15=0  —
+  Alveolar Rhabdomyosarcoma          n=2  specific(FDR≤.05/.10/.25)=   0/   0/ 228  id@15=0  —
+  Anaplastic Large-Cell Lymphoma ALK Negative n=2  specific(FDR≤.05/.10/.25)=   0/   0/ 124  id@15=0  —  [dump] 1 SE x group tests at FDR<=0.1 -> phase2/scores/atlas.s3.perm.OncotreeSubtype.specific.tsv.gz
+  [perm] SKIPPING permutation at 'line' level (degenerate — permuting labels only renames single-line groups); falling back to the analytic null.
+
+  Anaplastic Large-Cell Lymphoma ALK Positive n=4  specific(FDR≤.05/.10/.25)=   0/   0/ 134  id@15=0  —
+  Astrocytoma, IDH-Mutant            n=2  specific(FDR≤.05/.10/.25)=   0/   0/  27  id@15=0  —
+  Atypical Teratoid/Rhabdoid Tumor   n=2  specific(FDR≤.05/.10/.25)=   0/   0/   7  id@15=0  —
+  B-Cell Acute Lymphoblastic Leukemia n=8  specific(FDR≤.05/.10/.25)=   0/   0/1379  id@15=0  —
+  Bladder Urothelial Carcinoma       n=6  specific(FDR≤.05/.10/.25)=   0/   0/   5  id@15=0  —
+  Breast Ductal Carcinoma In Situ    n=1  specific(FDR≤.05/.10/.25)=   0/   0/  19  id@15=0  ESR1(#154), GRHL2(#220), FOXA1(#1295), SPDEF(#1803), TFAP2C(#2058)
+  Breast Invasive Carcinoma, NOS     n=3  specific(FDR≤.05/.10/.25)=   0/   0/   2  id@15=0  GRHL2(#1840), SPDEF(#2863), TFAP2C(#3177), GATA3(#8940), FOXA1(#9368)
+  Breast Invasive Ductal Carcinoma   n=14  specific(FDR≤.05/.10/.25)=   0/   0/  44  id@15=0  ESR1(#57), GRHL2(#166), TFAP2C(#198), SPDEF(#300), FOXA1(#426)
+  Breast Invasive Lobular Carcinoma  n=4  specific(FDR≤.05/.10/.25)=   0/   0/ 146  id@15=0  ESR1(#22), FOXA1(#37), TFAP2C(#158), SPDEF(#229), GRHL2(#342)
+  Burkitt Lymphoma                   n=1  specific(FDR≤.05/.10/.25)=   0/   0/ 186  id@15=0  —
+  Cervical Squamous Cell Carcinoma   n=1  specific(FDR≤.05/.10/.25)=   0/   0/   1  id@15=0  —
+  Chronic Lymphocytic Leukemia/Small Lymphocytic Lymphoma n=1  specific(FDR≤.05/.10/.25)=   0/   0/  59  id@15=0  —
+  Chronic Myeloid Leukemia, BCR-ABL1+ n=3  specific(FDR≤.05/.10/.25)=   0/   0/  22  id@15=0  GATA2(#29), TAL1(#44), MYB(#1069), KLF1(#1305), GATA1(#2901)
+  Clear Cell Ovarian Cancer          n=1  specific(FDR≤.05/.10/.25)=   0/   0/   3  id@15=0  —
+  Clear Cell Sarcoma                 n=1  specific(FDR≤.05/.10/.25)=   0/   0/ 341  id@15=0  —
+  Colon Adenocarcinoma               n=14  specific(FDR≤.05/.10/.25)=   0/   0/ 158  id@15=2  HNF4A(#4), CDX2(#10), ASCL2(#49), KLF5(#336), TCF7L2(#1715)
+  Cutaneous Melanoma                 n=1  specific(FDR≤.05/.10/.25)=   0/   0/ 180  id@15=0  —
+  Dedifferentiated Liposarcoma       n=1  specific(FDR≤.05/.10/.25)=   0/   0/  11  id@15=0  —
+  Diffuse Large B-Cell Lymphoma, NOS n=6  specific(FDR≤.05/.10/.25)=   0/   0/ 650  id@15=0  —
+  Diffuse Type Stomach Adenocarcinoma n=2  specific(FDR≤.05/.10/.25)=   0/   0/  25  id@15=0  —
+  Embryonal Carcinoma                n=2  specific(FDR≤.05/.10/.25)=   0/   0/ 128  id@15=0  —
+  Embryonal Rhabdomyosarcoma         n=2  specific(FDR≤.05/.10/.25)=   0/   0/  74  id@15=0  —
+  Endometrial Carcinoma              n=1  specific(FDR≤.05/.10/.25)=   0/   0/   9  id@15=0  —
+  Endometrioid Ovarian Cancer        n=2  specific(FDR≤.05/.10/.25)=   0/   0/   2  id@15=0  —
+  Esophageal Squamous Cell Carcinoma n=4  specific(FDR≤.05/.10/.25)=   0/   0/  14  id@15=0  —
+  Ewing Sarcoma                      n=7  specific(FDR≤.05/.10/.25)=   0/   0/ 637  id@15=0  —
+  Fibrosarcoma                       n=1  specific(FDR≤.05/.10/.25)=   0/   0/   1  id@15=0  —
+  Glioblastoma, IDH-Wildtype         n=3  specific(FDR≤.05/.10/.25)=   0/   0/  34  id@15=0  —
+  Gliosarcoma                        n=1  specific(FDR≤.05/.10/.25)=   0/   0/   5  id@15=0  —
+  Hepatoblastoma                     n=1  specific(FDR≤.05/.10/.25)=   0/   0/   3  id@15=0  —
+  Hepatocellular Carcinoma           n=6  specific(FDR≤.05/.10/.25)=   0/   0/ 106  id@15=0  —
+  High-Grade Serous Ovarian Cancer   n=4  specific(FDR≤.05/.10/.25)=   0/   0/  19  id@15=0  PAX8(#102), SOX17(#145), GATA6(#928), MECOM(#1882), WT1(#5073)
+  Hypopharynx Squamous Cell Carcinoma n=1  specific(FDR≤.05/.10/.25)=   0/   0/ 101  id@15=0  —
+  Intrahepatic Cholangiocarcinoma    n=1  specific(FDR≤.05/.10/.25)=   0/   0/   0  id@15=0  —
+  Invasive Breast Carcinoma          n=10  specific(FDR≤.05/.10/.25)=   0/   0/  37  id@15=0  SPDEF(#111), GRHL2(#123), ESR1(#149), FOXA1(#159), TFAP2C(#393)
+  Large Cell Lung Carcinoma          n=2  specific(FDR≤.05/.10/.25)=   0/   0/   3  id@15=0  —
+  Leiomyosarcoma                     n=1  specific(FDR≤.05/.10/.25)=   0/   0/  13  id@15=0  —
+  Lung Adenocarcinoma                n=20  specific(FDR≤.05/.10/.25)=   0/   0/ 143  id@15=0  —
+  Lung Squamous Cell Carcinoma       n=5  specific(FDR≤.05/.10/.25)=   0/   0/  11  id@15=0  —
+  Mantle Cell Lymphoma               n=3  specific(FDR≤.05/.10/.25)=   0/   0/ 422  id@15=0  —
+  Medulloblastoma, Group 3           n=2  specific(FDR≤.05/.10/.25)=   0/   0/ 179  id@15=0  —
+  Medulloblastoma, NOS               n=1  specific(FDR≤.05/.10/.25)=   0/   0/  49  id@15=0  —
+  Melanoma                           n=6  specific(FDR≤.05/.10/.25)=   0/   0/ 455  id@15=0  —
+  Neuroblastoma                      n=12  specific(FDR≤.05/.10/.25)=   0/   0/ 706  id@15=0  —
+  Non-Hodgkin Lymphoma               n=2  specific(FDR≤.05/.10/.25)=   0/   0/  40  id@15=0  —
+  Non-Small Cell Lung Cancer         n=2  specific(FDR≤.05/.10/.25)=   0/   0/   6  id@15=0  —
+  Oral Cavity Squamous Cell Carcinoma n=5  specific(FDR≤.05/.10/.25)=   0/   0/  13  id@15=0  —
+  Oropharynx Squamous Cell Carcinoma n=1  specific(FDR≤.05/.10/.25)=   0/   0/   1  id@15=0  —
+  Osteosarcoma                       n=5  specific(FDR≤.05/.10/.25)=   0/   0/  37  id@15=0  —
+  Pancreatic Adenocarcinoma          n=12  specific(FDR≤.05/.10/.25)=   0/   0/  34  id@15=0  —
+  Papillary Renal Cell Carcinoma     n=1  specific(FDR≤.05/.10/.25)=   0/   0/  15  id@15=0  —
+  Plasma Cell Myeloma                n=8  specific(FDR≤.05/.10/.25)=   0/   0/ 501  id@15=0  —
+  Pleural Mesothelioma, Biphasic Type n=1  specific(FDR≤.05/.10/.25)=   0/   0/   0  id@15=0  —
+  Pleural Mesothelioma, Epithelioid Type n=1  specific(FDR≤.05/.10/.25)=   0/   0/  45  id@15=0  —
+  Primary Effusion Lymphoma          n=2  specific(FDR≤.05/.10/.25)=   0/   0/  12  id@15=0  —
+  Prostate Adenocarcinoma            n=3  specific(FDR≤.05/.10/.25)=   0/   0/  22  id@15=0  —
+  Rectal Adenocarcinoma              n=1  specific(FDR≤.05/.10/.25)=   0/   0/   6  id@15=0  —
+  Renal Clear Cell Carcinoma         n=3  specific(FDR≤.05/.10/.25)=   0/   0/  23  id@15=0  —
+  Retinoblastoma                     n=1  specific(FDR≤.05/.10/.25)=   0/   0/  31  id@15=0  —
+  Rhabdoid Cancer                    n=2  specific(FDR≤.05/.10/.25)=   0/   0/  36  id@15=0  —
+  SMARCA4-deficient undifferentiated tumor n=1  specific(FDR≤.05/.10/.25)=   0/   0/   3  id@15=0  —
+  Serous Ovarian Cancer              n=1  specific(FDR≤.05/.10/.25)=   0/   0/   8  id@15=3  MECOM(#2), SOX17(#18), PAX8(#200), GATA6(#3050), WT1(#33603)
+  Signet Ring Cell Carcinoma of the Stomach n=1  specific(FDR≤.05/.10/.25)=   0/   0/  28  id@15=0  —
+  Small Cell Carcinoma of the Ovary  n=1  specific(FDR≤.05/.10/.25)=   0/   0/  11  id@15=0  SOX17(#18), WT1(#911), MECOM(#5634), GATA6(#14094), PAX8(#18478)
+  Small Cell Lung Cancer             n=17  specific(FDR≤.05/.10/.25)=   0/   0/ 668  id@15=0  —
+  Stomach Adenocarcinoma             n=3  specific(FDR≤.05/.10/.25)=   0/   0/  56  id@15=0  —
+  T-Cell Acute Lymphoblastic Leukemia n=7  specific(FDR≤.05/.10/.25)=   0/   1/ 503  id@15=0  LEF1(#66), TCF7(#269), MYB(#275), RUNX1(#319), TAL1(#1657)
+  Tubular Stomach Adenocarcinoma     n=4  specific(FDR≤.05/.10/.25)=   0/   0/  69  id@15=0  —
+  Uterine Leiomyosarcoma             n=1  specific(FDR≤.05/.10/.25)=   0/   0/  16  id@15=0  —
+  Uveal Melanoma                     n=1  specific(FDR≤.05/.10/.25)=   0/   0/ 100  id@15=0  —
+
+================  line  (282 groups)  ================
+  NIHOVCAR3                          n=1  specific(FDR≤.05/.10/.25)=3487/4065/5391  id@15=0  SOX17(#137), PAX8(#238), WT1(#1122), MECOM(#2554), GATA6(#5714)
+  HEL                                n=1  specific(FDR≤.05/.10/.25)=3972/4576/6040  id@15=0  —
+  HCC827                             n=1  specific(FDR≤.05/.10/.25)=7184/7851/9085  id@15=0  —
+  SKBR3                              n=1  specific(FDR≤.05/.10/.25)=4473/5080/6321  id@15=0  SPDEF(#115), TFAP2C(#377), FOXA1(#689), GRHL2(#1002), ESR1(#2006)
+  T24                                n=1  specific(FDR≤.05/.10/.25)=3453/4223/5995  id@15=0  —
+  MCF7                               n=1  specific(FDR≤.05/.10/.25)=2349/2922/4412  id@15=1  ESR1(#1), GATA3(#138), SPDEF(#240), FOXA1(#262), TFAP2C(#558)
+  NCIH1693                           n=1  specific(FDR≤.05/.10/.25)=3295/3966/5529  id@15=0  —
+  PATU8988S                          n=1  specific(FDR≤.05/.10/.25)=4308/5057/6745  id@15=0  —
+  OPM2                               n=1  specific(FDR≤.05/.10/.25)=4449/5352/7273  id@15=0  —
+  PC14                               n=1  specific(FDR≤.05/.10/.25)=3474/4056/5440  id@15=0  —
+  NCIH1650                           n=1  specific(FDR≤.05/.10/.25)=3892/4524/5884  id@15=0  —
+  SKNMC                              n=1  specific(FDR≤.05/.10/.25)=4662/5235/6607  id@15=0  —
+  MDAMB134VI                         n=1  specific(FDR≤.05/.10/.25)=4461/5468/7660  id@15=1  FOXA1(#14), ESR1(#20), GRHL2(#238), TFAP2C(#258), SPDEF(#320)
+  MV411                              n=1  specific(FDR≤.05/.10/.25)=3625/4218/5721  id@15=1  IRF8(#5), CEBPA(#20), SPI1(#60), RUNX1(#384), MYB(#702)
+  ACHN                               n=1  specific(FDR≤.05/.10/.25)=3894/4649/6311  id@15=0  —
+  NCIH929                            n=1  specific(FDR≤.05/.10/.25)=3909/4688/6404  id@15=0  —
+  A673                               n=1  specific(FDR≤.05/.10/.25)=4194/4735/5983  id@15=0  —
+  KARPAS299                          n=1  specific(FDR≤.05/.10/.25)=3842/4528/6008  id@15=0  —
+  HT1080                             n=1  specific(FDR≤.05/.10/.25)=4577/5287/6828  id@15=0  —
+  SUPB15                             n=1  specific(FDR≤.05/.10/.25)=4760/5306/6633  id@15=0  —
+  RERFLCMS                           n=1  specific(FDR≤.05/.10/.25)=2994/3675/5193  id@15=0  —
+  REC1                               n=1  specific(FDR≤.05/.10/.25)=4273/4813/6123  id@15=0  —
+  697                                n=1  specific(FDR≤.05/.10/.25)=5737/6347/7662  id@15=0  —
+  KU812                              n=1  specific(FDR≤.05/.10/.25)=2404/2893/4060  id@15=0  TAL1(#44), GATA2(#413), MYB(#571), KLF1(#1407), GATA1(#1688)
+  U87MG                              n=1  specific(FDR≤.05/.10/.25)=6313/6987/8397  id@15=0  —
+  T3M4                               n=1  specific(FDR≤.05/.10/.25)=2091/2717/4234  id@15=0  —
+  PC3                                n=1  specific(FDR≤.05/.10/.25)=4701/5450/6982  id@15=0  —
+  D341MED                            n=1  specific(FDR≤.05/.10/.25)=3410/3991/5366  id@15=0  —
+  G401                               n=1  specific(FDR≤.05/.10/.25)=3465/4187/5875  id@15=0  —
+  ZR751                              n=1  specific(FDR≤.05/.10/.25)=3593/4222/5676  id@15=1  ESR1(#14), SPDEF(#54), FOXA1(#155), GRHL2(#164), GATA3(#796)
+  LOUCY                              n=1  specific(FDR≤.05/.10/.25)=4802/5376/6643  id@15=0  RUNX1(#294), MYB(#1363), LEF1(#2028), LMO2(#2585), TCF7(#3220)
+  OCIAML2                            n=1  specific(FDR≤.05/.10/.25)=3277/4024/6039  id@15=1  IRF8(#13), CEBPA(#66), SPI1(#138), MEF2C(#328), RUNX1(#419)
+  CHP212                             n=1  specific(FDR≤.05/.10/.25)=4084/4660/5899  id@15=0  —
+  PANC0327                           n=1  specific(FDR≤.05/.10/.25)=3537/4391/6203  id@15=0  —
+  SKLMS1                             n=1  specific(FDR≤.05/.10/.25)=5989/6662/8087  id@15=0  —
+  THP1                               n=1  specific(FDR≤.05/.10/.25)=3691/4378/5828  id@15=2  CEBPA(#3), IRF8(#26), SPI1(#39), RUNX1(#444), MEF2C(#3119)
+  T47D                               n=1  specific(FDR≤.05/.10/.25)=2653/3102/4286  id@15=0  ESR1(#32), SPDEF(#144), GRHL2(#208), GATA3(#265), TFAP2C(#277)
+  HS578T                             n=1  specific(FDR≤.05/.10/.25)=5761/6511/7993  id@15=0  SPDEF(#3240), GATA3(#3906), ESR1(#11309), GRHL2(#12447), FOXA1(#18462)
+  OSRC2                              n=1  specific(FDR≤.05/.10/.25)=5549/6253/7614  id@15=0  —
+  BT12                               n=1  specific(FDR≤.05/.10/.25)=2252/2656/3893  id@15=0  —
+  PANC1                              n=1  specific(FDR≤.05/.10/.25)=3215/3769/5060  id@15=0  —
+  RD                                 n=1  specific(FDR≤.05/.10/.25)=4084/4642/5923  id@15=0  —
+  CORL311                            n=1  specific(FDR≤.05/.10/.25)=2802/3440/4947  id@15=0  —
+  SCC25                              n=1  specific(FDR≤.05/.10/.25)=3457/4085/5527  id@15=0  —
+  SET2                               n=1  specific(FDR≤.05/.10/.25)=4040/4749/6194  id@15=0  —
+  HCC1599                            n=1  specific(FDR≤.05/.10/.25)=4702/5357/6811  id@15=0  TFAP2C(#428), GRHL2(#668), ESR1(#811), FOXA1(#1291), SPDEF(#3244)
+  COLO320                            n=1  specific(FDR≤.05/.10/.25)=3019/3719/5524  id@15=0  ASCL2(#137), HNF4A(#514), CDX1(#6859), TCF7L2(#8713), VDR(#12105)
+  LP1                                n=1  specific(FDR≤.05/.10/.25)=4977/5564/6902  id@15=0  —
+  DETROIT562                         n=1  specific(FDR≤.05/.10/.25)=3818/4559/6146  id@15=0  —
+  CAL120                             n=1  specific(FDR≤.05/.10/.25)=2848/3677/5447  id@15=0  SPDEF(#167), GATA3(#681), ESR1(#8730), XBP1(#9799), FOXA1(#9913)
+  A375                               n=1  specific(FDR≤.05/.10/.25)=4825/5506/6885  id@15=0  —
+  SNU398                             n=1  specific(FDR≤.05/.10/.25)=3872/4880/6902  id@15=0  —
+  ASPC1                              n=1  specific(FDR≤.05/.10/.25)=3995/4647/6113  id@15=0  —
+  HCC1937                            n=1  specific(FDR≤.05/.10/.25)=2735/3405/4970  id@15=0  ESR1(#16), TFAP2C(#623), GRHL2(#1097), GATA3(#1783), SPDEF(#1815)
+  SUPM2                              n=1  specific(FDR≤.05/.10/.25)=4604/5313/7215  id@15=0  —
+  U251MG                             n=1  specific(FDR≤.05/.10/.25)=4447/5245/6857  id@15=0  —
+  PANC0403                           n=1  specific(FDR≤.05/.10/.25)=1216/1818/3299  id@15=0  —
+  OCUM1                              n=1  specific(FDR≤.05/.10/.25)=4187/4738/6024  id@15=0  —
+  AU565                              n=1  specific(FDR≤.05/.10/.25)=4700/5314/6707  id@15=0  TFAP2C(#242), SPDEF(#269), GRHL2(#505), ESR1(#582), FOXA1(#1281)
+  NCIH2887                           n=1  specific(FDR≤.05/.10/.25)=3222/3853/5279  id@15=0  —
+  DU4475                             n=1  specific(FDR≤.05/.10/.25)=4490/5364/7213  id@15=0  TFAP2C(#662), XBP1(#1074), FOXA1(#1264), GRHL2(#11069), ESR1(#16194)
+  KELLY                              n=1  specific(FDR≤.05/.10/.25)=3425/3956/5247  id@15=0  —
+  SKNAS                              n=1  specific(FDR≤.05/.10/.25)=3069/3586/4793  id@15=0  —
+  KASUMI1                            n=1  specific(FDR≤.05/.10/.25)=2767/3267/4495  id@15=0  SPI1(#76), RUNX1(#85), MEF2C(#608), MYB(#844), IRF8(#1221)
+  KP4                                n=1  specific(FDR≤.05/.10/.25)=1660/2298/3832  id@15=0  —
+  SF539                              n=1  specific(FDR≤.05/.10/.25)=4820/5562/7125  id@15=0  —
+  HCC38                              n=1  specific(FDR≤.05/.10/.25)=3234/4042/5793  id@15=0  TFAP2C(#303), GRHL2(#609), GATA3(#2400), ESR1(#7470), XBP1(#15493)
+  KP2                                n=1  specific(FDR≤.05/.10/.25)=1589/2178/3623  id@15=0  —
+  BT549                              n=1  specific(FDR≤.05/.10/.25)=2958/3449/4637  id@15=0  GRHL2(#637), SPDEF(#4242), FOXA1(#6004), TFAP2C(#9578), XBP1(#17806)
+  NCIH889                            n=1  specific(FDR≤.05/.10/.25)=2500/3219/5023  id@15=0  —
+  HNT34                              n=1  specific(FDR≤.05/.10/.25)=5670/6522/8305  id@15=0  CEBPA(#84), SPI1(#218), MYB(#5591), IRF8(#5680), RUNX1(#9089)
+  IMR32                              n=1  specific(FDR≤.05/.10/.25)=4352/4972/6312  id@15=0  —
+  SKNBE2                             n=1  specific(FDR≤.05/.10/.25)=4079/4741/6196  id@15=0  —
+  KARPAS422                          n=1  specific(FDR≤.05/.10/.25)=3414/3885/5121  id@15=0  —
+  DB                                 n=1  specific(FDR≤.05/.10/.25)=5719/6393/7980  id@15=0  —
+  MSTO211H                           n=1  specific(FDR≤.05/.10/.25)=3916/4705/6379  id@15=0  —
+  OCIAML3                            n=1  specific(FDR≤.05/.10/.25)=2934/3523/5101  id@15=2  CEBPA(#7), IRF8(#9), SPI1(#17), RUNX1(#528), MYB(#1035)
+  NCIH3122                           n=1  specific(FDR≤.05/.10/.25)=5370/6033/7510  id@15=0  —
+  SR786                              n=1  specific(FDR≤.05/.10/.25)=4229/4953/6656  id@15=0  —
+  SKNFI                              n=1  specific(FDR≤.05/.10/.25)=4766/5392/6826  id@15=0  —
+  MKN1                               n=1  specific(FDR≤.05/.10/.25)=4696/5489/7092  id@15=0  —
+  CAPAN1                             n=1  specific(FDR≤.05/.10/.25)=4942/5604/7063  id@15=0  —
+  NCIH82                             n=1  specific(FDR≤.05/.10/.25)=3317/4026/5698  id@15=0  —
+  NCIH69                             n=1  specific(FDR≤.05/.10/.25)=3616/4280/5739  id@15=0  —
+  MG63                               n=1  specific(FDR≤.05/.10/.25)=3474/4232/5795  id@15=0  —
+  SKHEP1                             n=1  specific(FDR≤.05/.10/.25)=3430/4092/5662  id@15=0  —
+  MOLM13                             n=1  specific(FDR≤.05/.10/.25)=3277/3748/4917  id@15=1  IRF8(#2), CEBPA(#110), RUNX1(#177), SPI1(#190), MEF2C(#362)
+  U2OS                               n=1  specific(FDR≤.05/.10/.25)=5101/5847/7367  id@15=0  —
+  SUDHL4                             n=1  specific(FDR≤.05/.10/.25)=4514/5057/6334  id@15=0  —
+  SKNDZ                              n=1  specific(FDR≤.05/.10/.25)=3481/4032/5271  id@15=0  —
+  NCIH226                            n=1  specific(FDR≤.05/.10/.25)=5038/5834/7389  id@15=0  —
+  RL                                 n=1  specific(FDR≤.05/.10/.25)=5231/5867/7340  id@15=0  —
+  P12ICHIKAWA                        n=1  specific(FDR≤.05/.10/.25)=4347/4880/6086  id@15=1  LEF1(#6), TCF7(#140), MYB(#144), RUNX1(#166), LMO2(#2371)
+  HCC1143                            n=1  specific(FDR≤.05/.10/.25)=3595/4340/5999  id@15=0  ESR1(#40), TFAP2C(#242), GRHL2(#1634), FOXA1(#4191), GATA3(#8284)
+  SF295                              n=1  specific(FDR≤.05/.10/.25)=5643/6331/7780  id@15=0  —
+  MHHES1                             n=1  specific(FDR≤.05/.10/.25)=2831/3392/4925  id@15=0  —
+  MEC1                               n=1  specific(FDR≤.05/.10/.25)=5329/5880/7004  id@15=0  —
+  U937                               n=1  specific(FDR≤.05/.10/.25)=2526/3173/4618  id@15=0  IRF8(#16), CEBPA(#121), SPI1(#141), RUNX1(#299), MYB(#4709)
+  TE5                                n=1  specific(FDR≤.05/.10/.25)=4662/5510/7157  id@15=0  —
+  SW837                              n=1  specific(FDR≤.05/.10/.25)=3732/4452/6049  id@15=0  —
+  SNU475                             n=1  specific(FDR≤.05/.10/.25)=2035/2646/4188  id@15=0  —
+  TC71                               n=1  specific(FDR≤.05/.10/.25)=3165/3784/5197  id@15=0  —
+  NCIN87                             n=1  specific(FDR≤.05/.10/.25)=4921/5636/7214  id@15=0  —
+  CAKI1                              n=1  specific(FDR≤.05/.10/.25)=4774/5547/7153  id@15=0  —
+  ME1                                n=1  specific(FDR≤.05/.10/.25)=2313/2823/4038  id@15=0  SPI1(#22), RUNX1(#78), MYB(#501), MEF2C(#760), CEBPA(#1769)
+  NCIH2228                           n=1  specific(FDR≤.05/.10/.25)=3072/3792/5343  id@15=0  —
+  HCC95                              n=1  specific(FDR≤.05/.10/.25)=2638/3174/4482  id@15=0  —
+  NCIH460                            n=1  specific(FDR≤.05/.10/.25)=3399/3959/5187  id@15=0  —
+  RT112                              n=1  specific(FDR≤.05/.10/.25)=4835/5473/6847  id@15=0  —
+  HUH7                               n=1  specific(FDR≤.05/.10/.25)=4513/5265/6897  id@15=0  —
+  MUTZ5                              n=1  specific(FDR≤.05/.10/.25)=4776/5408/6742  id@15=0  —
+  NCIH146                            n=1  specific(FDR≤.05/.10/.25)=3391/3916/5089  id@15=0  —
+  NCIH1299                           n=1  specific(FDR≤.05/.10/.25)=1361/1895/3283  id@15=0  —
+  NCIH2030                           n=1  specific(FDR≤.05/.10/.25)=4108/4914/6642  id@15=0  —
+  KURAMOCHI                          n=1  specific(FDR≤.05/.10/.25)=3904/4508/5833  id@15=0  SOX17(#24), MECOM(#311), PAX8(#495), GATA6(#837), WT1(#1050)
+  NCIH2171                           n=1  specific(FDR≤.05/.10/.25)=3221/3769/4969  id@15=0  —
+  ABC1                               n=1  specific(FDR≤.05/.10/.25)=3336/3946/5315  id@15=0  —
+  DMS114                             n=1  specific(FDR≤.05/.10/.25)=2022/2558/4179  id@15=0  —
+  BXPC3                              n=1  specific(FDR≤.05/.10/.25)=3911/4592/6076  id@15=0  —
+  K562                               n=1  specific(FDR≤.05/.10/.25)=2328/2758/3814  id@15=0  GATA2(#48), TAL1(#247), KLF1(#1460), MYB(#1746), GATA1(#2837)
+  HT29                               n=1  specific(FDR≤.05/.10/.25)=3776/4444/5873  id@15=0  HNF4A(#83), KLF5(#583), TCF7L2(#1988), CDX2(#2292), CDX1(#2863)
+  UACC812                            n=1  specific(FDR≤.05/.10/.25)=3958/4564/5884  id@15=1  FOXA1(#8), TFAP2C(#48), ESR1(#97), SPDEF(#466), XBP1(#775)
+  MDAMB436                           n=1  specific(FDR≤.05/.10/.25)=1401/1891/3137  id@15=0  TFAP2C(#554), GRHL2(#2828), SPDEF(#6651), FOXA1(#9616), XBP1(#13745)
+  KMS27                              n=1  specific(FDR≤.05/.10/.25)=3234/3902/5420  id@15=0  —
+  UACC257                            n=1  specific(FDR≤.05/.10/.25)=5512/6179/7575  id@15=0  —
+  SNU16                              n=1  specific(FDR≤.05/.10/.25)=3610/4356/6016  id@15=0  —
+  COLO741                            n=1  specific(FDR≤.05/.10/.25)=5151/5768/6889  id@15=0  —
+  NCIH1975                           n=1  specific(FDR≤.05/.10/.25)=4405/5135/6703  id@15=0  —
+  NCIH1437                           n=1  specific(FDR≤.05/.10/.25)=2848/3677/5421  id@15=0  —
+  MIAPACA2                           n=1  specific(FDR≤.05/.10/.25)=3683/4703/6914  id@15=0  —
+  M07E                               n=1  specific(FDR≤.05/.10/.25)=3610/4155/5422  id@15=0  RUNX1(#232), SPI1(#412), MYB(#1634), MEF2C(#2412), IRF8(#5090)
+  HS746T                             n=1  specific(FDR≤.05/.10/.25)=3705/4530/6384  id@15=0  —
+  OVCAR4                             n=1  specific(FDR≤.05/.10/.25)=3360/4072/5714  id@15=0  SOX17(#780), PAX8(#982), GATA6(#1094), MECOM(#1817), WT1(#3927)
+  MDAMB157                           n=1  specific(FDR≤.05/.10/.25)=4036/4771/6414  id@15=0  GRHL2(#107), ESR1(#435), TFAP2C(#448), FOXA1(#6419), SPDEF(#10059)
+  KNS42                              n=1  specific(FDR≤.05/.10/.25)=4951/5568/6887  id@15=0  —
+  HCC1806                            n=1  specific(FDR≤.05/.10/.25)=3304/4047/5634  id@15=0  ESR1(#179), GRHL2(#435), SPDEF(#1573), FOXA1(#1798), TFAP2C(#2856)
+  FU97                               n=1  specific(FDR≤.05/.10/.25)=4093/4721/6138  id@15=0  —
+  NCIH211                            n=1  specific(FDR≤.05/.10/.25)=2790/3610/5525  id@15=0  —
+  HDQP1                              n=1  specific(FDR≤.05/.10/.25)=3506/4336/6331  id@15=0  ESR1(#133), GRHL2(#357), TFAP2C(#778), GATA3(#1646), FOXA1(#6386)
+  786O                               n=1  specific(FDR≤.05/.10/.25)=5666/6333/7650  id@15=0  —
+  SW620                              n=1  specific(FDR≤.05/.10/.25)=3657/4201/5352  id@15=0  ASCL2(#334), HNF4A(#456), KLF5(#1034), TCF7L2(#2078), CDX2(#3284)
+  SUIT2                              n=1  specific(FDR≤.05/.10/.25)=3710/4354/5810  id@15=0  —
+  JJN3                               n=1  specific(FDR≤.05/.10/.25)=4055/4765/6487  id@15=0  —
+  RAJI                               n=1  specific(FDR≤.05/.10/.25)=3241/3793/5073  id@15=0  —
+  SF268                              n=1  specific(FDR≤.05/.10/.25)=6383/7036/8355  id@15=0  —
+  A2780                              n=1  specific(FDR≤.05/.10/.25)=2614/3293/4854  id@15=0  —
+  SUDHL1                             n=1  specific(FDR≤.05/.10/.25)=3665/4396/6183  id@15=0  —
+  HCC44                              n=1  specific(FDR≤.05/.10/.25)=4586/5276/6698  id@15=0  —
+  HCC70                              n=1  specific(FDR≤.05/.10/.25)=2442/3040/4475  id@15=0  TFAP2C(#597), FOXA1(#708), GRHL2(#2026), ESR1(#3990), GATA3(#5291)
+  MKN7                               n=1  specific(FDR≤.05/.10/.25)=5428/6036/7398  id@15=0  —
+  SW948                              n=1  specific(FDR≤.05/.10/.25)=2631/3133/4431  id@15=0  HNF4A(#19), CDX2(#20), ASCL2(#97), VDR(#730), KLF5(#1626)
+  A549                               n=1  specific(FDR≤.05/.10/.25)=4231/4849/6164  id@15=0  —
+  KYSE180                            n=1  specific(FDR≤.05/.10/.25)=1942/2456/3789  id@15=0  —
+  DMS53                              n=1  specific(FDR≤.05/.10/.25)=3827/4601/6257  id@15=0  —
+  HCC1395                            n=1  specific(FDR≤.05/.10/.25)=3113/3815/5629  id@15=0  TFAP2C(#382), GRHL2(#2697), GATA3(#9664), SPDEF(#16616), FOXA1(#18176)
+  DMS79                              n=1  specific(FDR≤.05/.10/.25)=3087/3717/5209  id@15=0  —
+  EKVX                               n=1  specific(FDR≤.05/.10/.25)=4164/4857/6297  id@15=0  —
+  KMS11                              n=1  specific(FDR≤.05/.10/.25)=4970/5577/6969  id@15=0  —
+  RMGI                               n=1  specific(FDR≤.05/.10/.25)=3822/4500/6189  id@15=0  —
+  HT1376                             n=1  specific(FDR≤.05/.10/.25)=4663/5261/6531  id@15=0  —
+  NCIH1963                           n=1  specific(FDR≤.05/.10/.25)=4312/4953/6285  id@15=0  —
+  SKMEL5                             n=1  specific(FDR≤.05/.10/.25)=4649/5160/6373  id@15=0  —
+  HEPG2                              n=1  specific(FDR≤.05/.10/.25)=2455/2893/4011  id@15=0  —
+  A253                               n=1  specific(FDR≤.05/.10/.25)=2592/3160/4440  id@15=0  —
+  NCIH1703                           n=1  specific(FDR≤.05/.10/.25)=1667/2096/3204  id@15=0  —
+  SJSA1                              n=1  specific(FDR≤.05/.10/.25)=6550/7221/8571  id@15=0  —
+  DMS273                             n=1  specific(FDR≤.05/.10/.25)=4126/5057/6866  id@15=0  —
+  LOXIMVI                            n=1  specific(FDR≤.05/.10/.25)=5235/5826/7043  id@15=0  —
+  JMSU1                              n=1  specific(FDR≤.05/.10/.25)=3446/4033/5466  id@15=0  —
+  MM1S                               n=1  specific(FDR≤.05/.10/.25)=3692/4256/5607  id@15=0  —
+  NCIH1648                           n=1  specific(FDR≤.05/.10/.25)=3824/4520/6006  id@15=0  —
+  NCIH526                            n=1  specific(FDR≤.05/.10/.25)=3452/3958/5366  id@15=0  —
+  MDAMB231                           n=1  specific(FDR≤.05/.10/.25)=4045/4711/6127  id@15=0  GATA3(#526), SPDEF(#2032), GRHL2(#8457), TFAP2C(#11654), ESR1(#16868)
+  SEM                                n=1  specific(FDR≤.05/.10/.25)=3973/4576/5886  id@15=0  —
+  CAMA1                              n=1  specific(FDR≤.05/.10/.25)=3881/4591/6172  id@15=0  ESR1(#37), FOXA1(#58), TFAP2C(#290), SPDEF(#293), GRHL2(#407)
+  KYSE70                             n=1  specific(FDR≤.05/.10/.25)=3647/4506/6589  id@15=0  —
+  NCIH2126                           n=1  specific(FDR≤.05/.10/.25)=3257/4039/5840  id@15=0  —
+  A2058                              n=1  specific(FDR≤.05/.10/.25)=6635/7357/8759  id@15=0  —
+  SHP77                              n=1  specific(FDR≤.05/.10/.25)=4780/5423/6828  id@15=0  —
+  RERFLCAD1                          n=1  specific(FDR≤.05/.10/.25)=2987/3654/5156  id@15=0  —
+  KATOIII                            n=1  specific(FDR≤.05/.10/.25)=4311/4946/6278  id@15=0  —
+  NCIH446                            n=1  specific(FDR≤.05/.10/.25)=3271/3812/5054  id@15=0  —
+  SKOV3                              n=1  specific(FDR≤.05/.10/.25)=2052/2686/4411  id@15=4  MECOM(#1), SOX17(#13), PAX8(#151), GATA6(#3563), WT1(#31919)
+  NCIH524                            n=1  specific(FDR≤.05/.10/.25)=3113/3858/5479  id@15=0  —
+  RPMI8226                           n=1  specific(FDR≤.05/.10/.25)=3499/4133/5621  id@15=0  —
+  CAL27                              n=1  specific(FDR≤.05/.10/.25)=2729/3430/5083  id@15=0  —
+  RH30                               n=1  specific(FDR≤.05/.10/.25)=4172/4810/6276  id@15=0  —
+  UMUC1                              n=1  specific(FDR≤.05/.10/.25)=5707/6361/7767  id@15=0  —
+  NCIH322                            n=1  specific(FDR≤.05/.10/.25)=3834/4634/6356  id@15=0  —
+  NCIH2087                           n=1  specific(FDR≤.05/.10/.25)=4360/5081/6633  id@15=0  —
+  SW480                              n=1  specific(FDR≤.05/.10/.25)=3151/3680/4989  id@15=0  ASCL2(#360), HNF4A(#553), CDX2(#592), KLF5(#742), VDR(#1160)
+  HARA                               n=1  specific(FDR≤.05/.10/.25)=2056/2528/3683  id@15=0  —
+  FADU                               n=1  specific(FDR≤.05/.10/.25)=3973/4623/6118  id@15=0  —
+  HGC27                              n=1  specific(FDR≤.05/.10/.25)=3052/3585/4909  id@15=0  —
+  JHH7                               n=1  specific(FDR≤.05/.10/.25)=5206/5874/7203  id@15=0  —
+  MDAMB468                           n=1  specific(FDR≤.05/.10/.25)=4467/5063/6361  id@15=0  TFAP2C(#167), ESR1(#373), GRHL2(#483), FOXA1(#4054), SPDEF(#4932)
+  KYSE150                            n=1  specific(FDR≤.05/.10/.25)=3197/3980/5848  id@15=0  —
+  CAL51                              n=1  specific(FDR≤.05/.10/.25)=3902/4803/6608  id@15=0  GRHL2(#1152), SPDEF(#8971), FOXA1(#10166), XBP1(#13196), TFAP2C(#17498)
+  CAL851                             n=1  specific(FDR≤.05/.10/.25)=3511/4384/6354  id@15=0  ESR1(#78), GRHL2(#174), GATA3(#500), FOXA1(#724), SPDEF(#1810)
+  KNS62                              n=1  specific(FDR≤.05/.10/.25)=2794/3500/5055  id@15=0  —
+  HCC1954                            n=1  specific(FDR≤.05/.10/.25)=5464/6196/7653  id@15=0  ESR1(#162), TFAP2C(#521), GRHL2(#1256), FOXA1(#1383), GATA3(#1642)
+  HOP62                              n=1  specific(FDR≤.05/.10/.25)=5463/6205/7763  id@15=0  —
+  NCIH1048                           n=1  specific(FDR≤.05/.10/.25)=3780/4673/6696  id@15=0  —
+  NCIH510                            n=1  specific(FDR≤.05/.10/.25)=2893/3406/4576  id@15=0  —
+  RS411                              n=1  specific(FDR≤.05/.10/.25)=6225/6718/7787  id@15=0  —
+  SNU719                             n=1  specific(FDR≤.05/.10/.25)=4138/4743/6055  id@15=0  —
+  NCIH23                             n=1  specific(FDR≤.05/.10/.25)=2832/3484/5025  id@15=0  —
+  5637                               n=1  specific(FDR≤.05/.10/.25)=4549/5291/6821  id@15=0  —
+  MDAMB453                           n=1  specific(FDR≤.05/.10/.25)=3866/4657/6629  id@15=0  FOXA1(#79), GATA3(#173), SPDEF(#182), GRHL2(#527), XBP1(#1615)
+  HT                                 n=1  specific(FDR≤.05/.10/.25)=4751/5463/7142  id@15=0  —
+  BT474                              n=1  specific(FDR≤.05/.10/.25)=4476/5145/6633  id@15=0  SPDEF(#65), ESR1(#110), FOXA1(#197), GRHL2(#445), TFAP2C(#519)
+  HCC1569                            n=1  specific(FDR≤.05/.10/.25)=3287/4022/5638  id@15=0  TFAP2C(#116), GRHL2(#410), FOXA1(#4507), ESR1(#6143), SPDEF(#7417)
+  MDAMB361                           n=1  specific(FDR≤.05/.10/.25)=3956/4602/6186  id@15=2  FOXA1(#9), TFAP2C(#14), ESR1(#36), GRHL2(#121), SPDEF(#165)
+  PF382                              n=1  specific(FDR≤.05/.10/.25)=8849/10142/12302  id@15=0  TCF7(#51), LEF1(#309), MYB(#472), TAL1(#990), RUNX1(#7271)
+  NALM6                              n=1  specific(FDR≤.05/.10/.25)=5445/5903/6845  id@15=0  —
+  SKUT1                              n=1  specific(FDR≤.05/.10/.25)=2978/3701/5526  id@15=0  —
+  HEC1B                              n=1  specific(FDR≤.05/.10/.25)=2978/3580/5024  id@15=0  —
+  RKO                                n=1  specific(FDR≤.05/.10/.25)=1771/2123/3249  id@15=0  CDX2(#442), KLF5(#1266), HNF4A(#8539), TCF7L2(#15469), CDX1(#17453)
+  LOVO                               n=1  specific(FDR≤.05/.10/.25)=5087/5875/7502  id@15=0  HNF4A(#41), CDX2(#53), KLF5(#254), ASCL2(#746), CDX1(#1176)
+  SUPT1                              n=1  specific(FDR≤.05/.10/.25)=2871/3561/5123  id@15=0  LEF1(#510), TCF7(#859), MYB(#3465), TLX1(#3752), TAL1(#8015)  [dump] 1,288,610 SE x group tests at FDR<=0.1 -> phase2/scores/atlas.s3.perm.line.specific.tsv.gz
+[score] wrote phase2/scores/atlas.s3.perm.<level>.top_specific.tsv + .hierarchy_summary.tsv
+
+  22RV1                              n=1  specific(FDR≤.05/.10/.25)=3206/3807/5271  id@15=0  —
+  LS180                              n=1  specific(FDR≤.05/.10/.25)=4499/5378/7259  id@15=0  CDX2(#18), HNF4A(#67), ASCL2(#71), KLF5(#382), CDX1(#716)
+  SW48                               n=1  specific(FDR≤.05/.10/.25)=3968/5036/7395  id@15=1  CDX2(#5), HNF4A(#31), KLF5(#246), TCF7L2(#5273), VDR(#5377)
+  REH                                n=1  specific(FDR≤.05/.10/.25)=5216/5722/6825  id@15=0  —
+  IGROV1                             n=1  specific(FDR≤.05/.10/.25)=3054/3575/4701  id@15=0  —
+  KM12                               n=1  specific(FDR≤.05/.10/.25)=3353/3977/5362  id@15=0  HNF4A(#174), TCF7L2(#218), KLF5(#585), CDX1(#1760), CDX2(#2576)
+  HCT116                             n=1  specific(FDR≤.05/.10/.25)=3436/4168/5911  id@15=0  KLF5(#307), CDX2(#621), ASCL2(#1664), TCF7L2(#3188), HNF4A(#3482)
+  HCC2450                            n=1  specific(FDR≤.05/.10/.25)=3686/4370/5938  id@15=0  —
+  HUCCT1                             n=1  specific(FDR≤.05/.10/.25)=4884/5665/7314  id@15=0  —
+  DU145                              n=1  specific(FDR≤.05/.10/.25)=2235/2715/3845  id@15=0  —
+  DND41                              n=1  specific(FDR≤.05/.10/.25)=4643/5263/6716  id@15=0  MYB(#231), RUNX1(#308), LEF1(#1392), TCF7(#1840), TAL1(#4170)
+  HT115                              n=1  specific(FDR≤.05/.10/.25)=5395/6286/8415  id@15=0  HNF4A(#22), CDX2(#258), KLF5(#495), TCF7L2(#650), VDR(#877)
+  JURKAT                             n=1  specific(FDR≤.05/.10/.25)=3681/4244/5579  id@15=0  TAL1(#151), RUNX1(#267), TCF7(#275), MYB(#429), LEF1(#633)
+  HCT15                              n=1  specific(FDR≤.05/.10/.25)=2263/2758/4149  id@15=0  CDX2(#69), HNF4A(#77), ASCL2(#327), KLF5(#335), VDR(#2456)
+  143B                               n=1  specific(FDR≤.05/.10/.25)=4435/5085/6493  id@15=0  —
+  BT16                               n=1  specific(FDR≤.05/.10/.25)=3494/4289/6293  id@15=0  —
+  CHLA10                             n=1  specific(FDR≤.05/.10/.25)=3891/4688/6735  id@15=0  —
+  D425                               n=1  specific(FDR≤.05/.10/.25)=3220/3863/5322  id@15=0  —
+  DLD1                               n=1  specific(FDR≤.05/.10/.25)=4012/4711/6139  id@15=0  CDX2(#22), HNF4A(#295), ASCL2(#328), KLF5(#952), VDR(#1273)
+  FEPD                               n=1  specific(FDR≤.05/.10/.25)=4927/5723/7436  id@15=0  —
+  KOPN8                              n=1  specific(FDR≤.05/.10/.25)=5252/5788/6862  id@15=0  —
+  MAC2A                              n=1  specific(FDR≤.05/.10/.25)=3860/4381/5592  id@15=0  —
+  OVCAR5                             n=1  specific(FDR≤.05/.10/.25)=5211/5996/7620  id@15=0  GATA6(#157), PAX8(#346), MECOM(#802), WT1(#13688), SOX17(#20477)
+  SHSY5Y                             n=1  specific(FDR≤.05/.10/.25)=4134/4708/5967  id@15=0  —
+  SKMEL2                             n=1  specific(FDR≤.05/.10/.25)=5818/6468/7790  id@15=0  —
+  SMSCTR                             n=1  specific(FDR≤.05/.10/.25)=4294/4985/6479  id@15=0  —
+  SUMB002                            n=1  specific(FDR≤.05/.10/.25)=4269/5014/6638  id@15=0  —
+  TC32                               n=1  specific(FDR≤.05/.10/.25)=3556/4334/6018  id@15=0  —
+  TTC1240                            n=1  specific(FDR≤.05/.10/.25)=2431/3059/4486  id@15=0  —
+  UPCISCC090                         n=1  specific(FDR≤.05/.10/.25)=4232/4952/6579  id@15=0  —
+  UPCISCC152                         n=1  specific(FDR≤.05/.10/.25)=2594/3239/4801  id@15=0  —
+  BIN67                              n=1  specific(FDR≤.05/.10/.25)=2052/2646/4470  id@15=1  SOX17(#9), WT1(#1235), MECOM(#5575), GATA6(#13362), PAX8(#19303)
+  TC106                              n=1  specific(FDR≤.05/.10/.25)=2677/3178/4543  id@15=0  —
+  NB1643                             n=1  specific(FDR≤.05/.10/.25)=4639/5353/6997  id@15=0  —
+  PLCPRF5                            n=1  specific(FDR≤.05/.10/.25)=3788/4557/6246  id@15=0  —
+  C33A                               n=1  specific(FDR≤.05/.10/.25)=4703/5904/8059  id@15=0  —
+  CHP134                             n=1  specific(FDR≤.05/.10/.25)=2228/2874/4406  id@15=0  —
+  GIMEN                              n=1  specific(FDR≤.05/.10/.25)=2808/3492/5017  id@15=0  —
+  NGP                                n=1  specific(FDR≤.05/.10/.25)=3582/4290/6006  id@15=0  —
+  SUM44PE                            n=1  specific(FDR≤.05/.10/.25)=3673/4327/5764  id@15=0  ESR1(#60), TFAP2C(#128), GRHL2(#359), SPDEF(#403), FOXA1(#422)
+  WERIRB1                            n=1  specific(FDR≤.05/.10/.25)=4315/5000/6510  id@15=0  —
+  921                                n=1  specific(FDR≤.05/.10/.25)=4762/5515/7308  id@15=0  —
+  BJAB                               n=1  specific(FDR≤.05/.10/.25)=5629/6217/7377  id@15=0  —
+  HUO9                               n=1  specific(FDR≤.05/.10/.25)=4502/5206/6729  id@15=0  —
+  MOLM14                             n=1  specific(FDR≤.05/.10/.25)=4584/5358/7241  id@15=1  CEBPA(#7), IRF8(#19), SPI1(#156), MEF2C(#392), RUNX1(#503)
+  NCCIT                              n=1  specific(FDR≤.05/.10/.25)=3576/4262/5998  id@15=0  —
+  RAMOS                              n=1  specific(FDR≤.05/.10/.25)=3833/4285/5460  id@15=0  —
+  SKNO1                              n=1  specific(FDR≤.05/.10/.25)=4004/4813/6574  id@15=0  SPI1(#72), RUNX1(#215), MYB(#784), MEF2C(#1006), CEBPA(#3182)
+  SUCCS1                             n=1  specific(FDR≤.05/.10/.25)=5414/6013/7251  id@15=0  —
+  VAL                                n=1  specific(FDR≤.05/.10/.25)=4110/4594/5741  id@15=0  —
+  CCRFHSB2DM                         n=1  specific(FDR≤.05/.10/.25)=3943/4666/6109  id@15=0  MYB(#29), RUNX1(#377), LEF1(#579), TAL1(#1518), TCF7(#2460)
+  RH4                                n=1  specific(FDR≤.05/.10/.25)=5902/6473/7768  id@15=0  —
+  LPS141                             n=1  specific(FDR≤.05/.10/.25)=4015/4674/6270  id@15=0  —
+  BC1                                n=1  specific(FDR≤.05/.10/.25)=3219/4101/5927  id@15=0  —
+  BC3                                n=1  specific(FDR≤.05/.10/.25)=3277/4053/6063  id@15=0  —
+  NTERA2CLD1                         n=1  specific(FDR≤.05/.10/.25)=5030/5614/6949  id@15=0  —
+  HAP1                               n=1  specific(FDR≤.05/.10/.25)=2337/2830/4074  id@15=0  TAL1(#986), GATA2(#1359), MYB(#2297), GATA1(#5893), KLF1(#8386)
+  MAVER1                             n=1  specific(FDR≤.05/.10/.25)=5076/5626/6911  id@15=0  —
+  Z138                               n=1  specific(FDR≤.05/.10/.25)=5284/6007/7623  id@15=0  —
+  SNU1750                            n=1  specific(FDR≤.05/.10/.25)=4643/5317/6711  id@15=0  —
+  KASUMI3                            n=1  specific(FDR≤.05/.10/.25)=3813/4489/6008  id@15=0  RUNX1(#247), MEF2C(#260), SPI1(#790), IRF8(#1318), CEBPA(#18469)
+  CHRF28811                          n=1  specific(FDR≤.05/.10/.25)=3250/3830/5200  id@15=0  RUNX1(#305), SPI1(#411), MEF2C(#863), MYB(#1173), CEBPA(#2087)
+
+[time] 17:57.56 wall 4875132 KB

@@ -1,0 +1,4 @@
+normalization	silhouette_lineage	silhouette_study	verdict	pc1_var	pc2_var
+raw_log	-0.078		lineage>batch	0.424	0.275
+quantile	0.129		lineage>batch	0.172	0.141
+reference	-0.152		lineage>batch	0.581	0.204
