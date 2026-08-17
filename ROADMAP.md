@@ -201,6 +201,24 @@ pull. Read `DESIGN.md` and `PRIOR_ART.md` before starting.
       (headline), CN correction (trust), individualized JSD (method). Cite Ryu / cSEAdb / SEA as the lineage;
       claim novel-in-combination + CN-aware.
 
+## Phase 3b — CN-source expansion (opened 2026-08-15)
+
+Goal: lift the CN-correctable panel so subtype-level scoring becomes possible (`RESULTS.md §2`: subtype
+fails because 29 of 75 subtypes hold a single line).
+
+- [x] Audit which CN sources actually have data, not just a cross-ref → **324 → 448 lines**
+- [x] `cn.cmp.CellModelPassportsWesCN` — CMP WES pureCN 2025; **+106 lines**; validated vs DepMap
+      (median r **0.915** over 259 shared lines)
+- [x] `cn.depmap.DepMapMcWesCN` — DepMap 26Q1 WES; **+18 lines**; validated (median r **0.891**, 241 lines)
+- [x] Cross-source concordance as a QC layer — **7 lines discordant in both CMP arms**
+      (CAL-51, HCT-15, KOPN-8, LS-180, REH, SR-786, U-251 MG)
+- [ ] **CN inference from matched ChIP input** (`cn.inferred.ChipInputInferredCN`) — 158 lines / 755
+      experiments; would reach **606**. Pilot pre-fix: median Pearson 0.682, spread **0.15–0.96**.
+      GC-NaN bug and CBS segmentation now fixed but **NOT yet re-piloted**.
+- [ ] Decide the fate of the 7 cross-source-discordant lines (exclude / prefer one source / flag)
+- [ ] Pull + SE-call ~554 experiments for the newly CN-correctable lines (CSC job)
+- [ ] Re-score, and test whether subtype-level calls become supported
+
 ## Open questions (carried from the discussion)
 
 - ~~SE-domain vs constituent-enhancer resolution?~~ **Decided (tooling survey): constituent** (cSEAdb recipe).

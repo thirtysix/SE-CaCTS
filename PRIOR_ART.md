@@ -80,6 +80,30 @@ motivation for why the correction is needed and non-trivial.
 - "**Copy-number-corrected** SE specificity score" → **not published.** Zhang 2016 does the inverse; Su/Chen 2025
   gives the recipe but not for SEs.
 
+> **REVISED 2026-08-15 — two papers the earlier passes missed.**
+>
+> **LILY** (Boeva et al., *Nat Genet* 2017; `github.com/BoevaLab/LILY`) is a ROSE-based super-enhancer
+> caller with an **explicit CNV-correction step**, built on neuroblastoma — i.e. against the MYCN
+> amplicon, the exact confound we lead with. So "CN correction for super-enhancers is unpublished"
+> CANNOT be said. The claim narrows, and the narrowing is defensible: LILY corrects at **calling** time
+> (get SE boundaries right in an aneuploid genome) and computes **no cross-sample specificity
+> statistic**; we correct at **scoring** time, so an amplicon cannot win a specificity contest.
+> `RESULTS.md §7` already notes the calling-time CN atlases were never built, so LILY occupies exactly
+> the niche we skipped — they are not substitutes. Our rescue finding (67 → 6,790) is the answer to "why
+> not just call with LILY?": it is a property of the permutation null, which LILY has no notion of.
+> **Cite LILY as closest methodological precedent.**
+>
+> **CenhANCER** (*Database* 2023) — 978,411 SEs, **805 primary tissue samples / 34 cancer types + 671
+> cell lines / 35 cancer types, 41 types total**. It computes per-cancer-type TF enrichment by Fisher's
+> exact test and its own paper says "colorectal cancer–specific super-enhancers", so per-SE specificity
+> is precedented more strongly than the table below implies. It applies **no CN correction** and is
+> **not** DepMap/CCLE-joined (confirmed against the paper, and against the *Brief Bioinform* 2026 SE
+> review, which finds no SE resource integrated with DepMap).
+>
+> **Net:** the method claim survives; the BREADTH claim does not — CenhANCER is larger on both lines and
+> cancer types. Do not claim breadth. The unprecedented axis is the **DepMap join**, which is what makes
+> both the CN correction and the internal cross-layer validation possible at all.
+
 ⇒ Frame as **novel-in-combination**, genuinely **novel in the CN-aware dimension**, with breadth (~295 cancer
 cell types vs cSEAdb's 28) and integration with the master-TF/CRC layer as the additional novelties. Do *not*
 claim wholly unprecedented — cite Ryu / cSEAdb / SEA as the lineage.

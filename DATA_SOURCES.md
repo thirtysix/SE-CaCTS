@@ -7,8 +7,14 @@ What to pull, how the pieces join, and the practical constraints. Nothing is dow
 - **Scope:** ~**1,789** H3K27ac cancer-cell-line experiments, spanning **~295 unique "cell type" values** (from
   the ChIP-Atlas experiment CSV, filter "H3K27ac" + "cancer cell line"). ~6 experiments per cell type on average
   (highly uneven — some types many, some 1).
-- **Role:** the reference atlas each lineage is scored against. This breadth is ~10× cSEAdb's 28 cancer types and
-  is itself a headline novelty.
+- **Role:** the reference atlas each lineage is scored against.
+  > **CORRECTED 2026-08-15.** The former claim here ("~10× cSEAdb's 28 cancer types") compared our *cell
+  > types* to cSEAdb's *cancer types* — a unit mismatch — and used ~295, a pre-Phase-1 scoping figure the
+  > README already retracts. Like for like: **282 scored lines vs cSEAdb's 60** (4.7×), but **24 lineages
+  > vs its 28 cancer types** (fewer), and CenhANCER has **671 cell lines / 41 cancer types**, so we are
+  > NOT the broadest cancer enhancer resource. The defensible claim is conjunctive: the largest cancer
+  > cell-line H3K27ac panel that is simultaneously DepMap-joined, copy-number-corrected and
+  > specificity-scored. See `PRIOR_ART.md` and GOTCHA 93.
 - **Form:** ChIP-Atlas provides uniformly processed peak calls (MACS2 `bed05`, q<10⁻⁵) and read-density bigWigs
   per experiment. **SE calls elsewhere (SEdb/dbSUPER) store regions, not signal** — so build a union region
   catalog and **re-quantify H3K27ac signal from the ChIP-Atlas bigWigs/BAMs** over it.
@@ -60,12 +66,12 @@ Built by `phase1/scripts/11_harmonize_and_join.py` from `experimentList.tab` →
 | H3K27ac experiments (hg38, authoritative `experimentList.tab`) | 11,827 |
 | → mapped to a Cellosaurus **CVCL** | 5,373 |
 | → joined to a **DepMap model** | 3,846 on **478 lines** |
-| → on lines **with copy number** (`OmicsCNGeneWGS`) | 3,128 on **332 lines** |
+| → on lines **with copy number** (`OmicsCNGeneWGS`) | 3,128 on **332 lines** (superseded: the identity-corrected figure is **324**; 324−42 = the 282 scored, 332 does not reconcile — `phase1/CN_COVERAGE.md`) |
 | → **QC-pass** (≥5M reads & ≥1k peaks) **and** DepMap+CN | **2,917 experiments** |
 
 DepMap side: 2,105 models (1,966 with CVCL RRID), **1,118 with WGS CN**, 1,186 with CRISPR dependency. Binding
 constraint is H3K27ac availability, not CN. The analysis-ready core — **~2,917 QC-passing, CN-correctable,
-lineage-diverse experiments on ~332 cell lines** — dwarfs cSEAdb's 60 lines / 28 types. Cellosaurus resolves the
+lineage-diverse experiments on ~324 cell lines** — 4.7× cSEAdb's 60 lines (not its 28 *types*; see the correction above). Cellosaurus resolves the
 synonyms string-match missed (verified: **OVCAR-3 → CVCL_0465 → ACH-000001 → HGSOC, CN✓**; K-562, NB-4, all
 MDA-MB-*). Full HGSOC panel present (OVCAR-3/4/5/8, Kuramochi, HEYA8, Caov-4, SK-OV-3…). CN lines are
 lineage-spread (Lung 60, Lymphoid 47, Breast 33, Stomach 25, Myeloid 23, CNS 16, …).
@@ -91,3 +97,27 @@ lineage-spread (Lung 60, Lymphoid 47, Breast 33, Stomach 25, Myeloid 23, CNS 16,
 - **Genome build:** ChIP-Atlas provides hg38; keep everything hg38.
 - **Local reference:** the CaCTS/pyCaCTS implementation is at `../pyCaCTS` — a worked example of the TF layer
   this complements.
+
+
+---
+
+## CN sources as actually built (2026-08-15) — supersedes the tier estimates above
+
+Measured, not projected. A Cellosaurus `DR` cross-ref means the line **exists** in a resource, not that
+the resource has CN for it (GOTCHA 93) — every over-estimate here traces to that conflation.
+
+| source | provider class | lines covered (of 631 human cancer lines) | net new |
+|---|---|---:|---:|
+| DepMap WGS `OmicsCNGeneWGS.csv` | `cn.depmap.DepMapGeneCN` | 324 | — |
+| Cell Model Passports **WES pureCN 2025** | `cn.cmp.CellModelPassportsWesCN` | 367 | **+106** |
+| DepMap **WES** `OmicsCNGeneMC_WES.csv` | `cn.depmap.DepMapMcWesCN` | — | **+18** |
+| **total CN-correctable** | | **448** | |
+| no measured CN (158 inferable + 25 orphan) | `cn.inferred.ChipInputInferredCN` | 183 | in progress |
+
+- **CMP 2019 PICNIC is NOT used** — integer-quantised (whole numbers 0-14), which would give CMP lines a
+  coarser correction than DepMap lines. The 2025 WES file carries a continuous `gatk_mean_log2_copy_ratio`.
+- **Progenetix is NOT used** — categorical only (four EFO states, no continuous value). 88 lines are
+  Progenetix-only and stay in the agnostic arm.
+- **COSMIC-CLP / GDSC add nothing** — `dr_cosmicclp` is 0 lines, and both are Sanger-redundant with CMP.
+- Local mirrors: `0.datasets_visualizations/CellModelPassports/` (new 2026-08-15),
+  `0.datasets_visualizations/DepMap/2026q1/`.

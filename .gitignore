@@ -73,3 +73,8 @@ phase2/scores/*.rerun.log
 # its readers. Kept on disk (Dropbox) for durability; deliberately never tracked.
 nextsession.md
 GOTCHAS.md
+
+# unpublished manuscript/abstract material — never commit to this PUBLIC repo
+abstract.docx
+abstract.pdf
+abstract.*

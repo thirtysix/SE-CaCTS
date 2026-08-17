@@ -115,6 +115,22 @@ Routing each net-new CVCL through Cellosaurus `DR` cross-refs and the ChIP-Atlas
 Per-resource reach among the 398: Progenetix 245, CMP 153, DepMap-xref-but-no-WGS 140, COSMIC 95, GDSC 98.
 Matched-input coverage is high everywhere (current set 97%, expansion 92% of experiments / 88% of lines).
 
+> **SUPERSEDED 2026-08-15 — the order below was ranked on REACH; reach was the wrong axis.**
+> Measured order now: **1. DepMap WGS · 2. CMP WES pureCN 2025 · 3. DepMap MC_WES · 4. input-inference**.
+> - **Progenetix demoted to unused.** Its CN is categorical (four EFO states, no continuous value), so it
+>   cannot supply a comparable ratio; mixing it in makes correction strength vary by provider, and
+>   provider correlates with lineage. Its CVCL filter is also NOT exact — CVCL_0031 returns 47 MCF-7
+>   **and 10 KPL-1**. GOTCHAS 86-87.
+> - **Step 1 targets a file that no longer exists.** DepMap discontinued the merged `OmicsCNGene.csv`
+>   after 24Q4; from 25Q2 CN is split by modality. For 26Q1 use `OmicsCNGeneWGS.csv` +
+>   `OmicsCNGeneMC_WES.csv` (keyed by ModelConditionID → bridge via `ModelCondition.csv`). GOTCHA 90.
+> - **No Cellosaurus DR hop is needed for CMP** — `model_list` carries `RRID` and `BROAD_ID` directly.
+> - **Within CMP use the 2025 WES pureCN file, not 2019 PICNIC** — PICNIC is integer-quantised (whole
+>   numbers 0-14), so it would give CMP lines a coarser correction than DepMap lines. GOTCHA 88.
+> - **The reach figures below are cross-ref counts, not CN availability** (GOTCHA 93): DepMap's projected
+>   ~140 yielded **18**, and of 37 lines claiming a non-categorical source **0** had extractable CN.
+> - Built state and per-source counts: `phase1/CN_COVERAGE.md §5/§5b`.
+
 **Backend resolution order** (least friction / best quality first):
 
 1. **DepMapMerged** — swap the WGS-only `OmicsCNGeneWGS.csv` we have for the **merged `OmicsCNGene.csv`**

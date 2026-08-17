@@ -1,0 +1,159 @@
+cvcl	cell_line	lineage	n_experiments
+CVCL_M152	CHLA-25	Bone	1
+CVCL_EI96	MIC	Bone	1
+CVCL_EJ01	POE	Bone	1
+CVCL_9563	SaOS-LM1	Bone	4
+CVCL_4988	U-CH1	Bone	8
+CVCL_0025	Caco-2	Bowel	3
+CVCL_0219	COLO 320DM	Bowel	2
+CVCL_9798	DKO-1	Bowel	2
+CVCL_1384	LS-174T	Bowel	1
+CVCL_5499	EM-G3	Breast	1
+CVCL_3375	HCC2185	Breast	1
+CVCL_3377	HCC3153	Breast	9
+CVCL_S186	A-382	CNS/Brain	3
+CVCL_UK39	BT67	CNS/Brain	4
+CVCL_C1MH	BT869	CNS/Brain	2
+CVCL_E5GE	DIPG-1114	CNS/Brain	3
+CVCL_DR55	GSC11	CNS/Brain	5
+CVCL_DR59	GSC23	CNS/Brain	6
+CVCL_X914	NCH644	CNS/Brain	2
+CVCL_3154	RERF-LC-OK	CNS/Brain	1
+CVCL_IT46	SF8628	CNS/Brain	4
+CVCL_E5GC	SF9427	CNS/Brain	2
+CVCL_0535	SNB-19	CNS/Brain	2
+CVCL_IT39	SU-DIPG-IV	CNS/Brain	12
+CVCL_IT41	SU-DIPG-XIII	CNS/Brain	7
+CVCL_0372	KB	Cervix	4
+CVCL_6955	SPC-A1	Cervix	2
+CVCL_5727	CLS-145	Esophagus/Stomach	2
+CVCL_F645	ISt-1	Esophagus/Stomach	1
+CVCL_G698	KYSE-200	Esophagus/Stomach	1
+CVCL_8900	NCC-59	Esophagus/Stomach	3
+CVCL_8897	NCC19	Esophagus/Stomach	2
+CVCL_8899	NCC24	Esophagus/Stomach	1
+CVCL_8915	SNU-1967	Esophagus/Stomach	2
+CVCL_0100	SNU-484	Esophagus/Stomach	2
+CVCL_9972	TE7	Esophagus/Stomach	3
+CVCL_9647	YCC-10	Esophagus/Stomach	8
+CVCL_9648	YCC-11	Esophagus/Stomach	2
+CVCL_9653	YCC-20	Esophagus/Stomach	1
+CVCL_9654	YCC-21	Esophagus/Stomach	3
+CVCL_9655	YCC-22	Esophagus/Stomach	3
+CVCL_9657	YCC-3	Esophagus/Stomach	3
+CVCL_9663	YCC-7	Esophagus/Stomach	2
+CVCL_WI17	C4-2	Head and Neck	8
+CVCL_7949	C666-1	Head and Neck	2
+CVCL_0308	HNE-1	Head and Neck	1
+CVCL_8706	HONE-1	Head and Neck	2
+CVCL_7084	NPC/HK1	Head and Neck	1
+CVCL_C8YZ	TC-797	Head and Neck	17
+CVCL_7712	UM-SCC-104	Head and Neck	1
+CVCL_6997	FU-UR-1	Kidney	17
+CVCL_B3PS	RMC-2C	Kidney	4
+CVCL_Z029	SK-JHRCC-12	Kidney	4
+CVCL_6832	HCCLM3	Liver	5
+CVCL_9720	HepaRG	Liver	4
+CVCL_7927	Huh-7.5	Liver	2
+CVCL_8205	GLC-16	Lung	1
+CVCL_5131	HCC2279	Lung	1
+CVCL_V586	HCC2814	Lung	1
+CVCL_6659	II-18	Lung	1
+CVCL_1474	NCI-H1522	Lung	2
+CVCL_1497	NCI-H1819	Lung	1
+CVCL_1527	NCI-H2107	Lung	2
+CVCL_A786	PC-7	Lung	1
+CVCL_0165	BCBL1	Lymphoid	7
+CVCL_RU10	CCMCL1	Lymphoid	5
+CVCL_4966	CUTLL1	Lymphoid	15
+CVCL_5617	DU-528	Lymphoid	1
+CVCL_8226	HANK1	Lymphoid	2
+CVCL_M572	HBL-1	Lymphoid	4
+CVCL_M574	HBL-2	Lymphoid	1
+CVCL_H207	HLY-1	Lymphoid	2
+CVCL_H633	JB6	Lymphoid	1
+CVCL_0367	Jurkat (Clone E6-1)	Lymphoid	6
+CVCL_X908	KK1	Lymphoid	2
+CVCL_4965	KOPT-K1	Lymphoid	12
+CVCL_H631	Mac-1	Lymphoid	1
+CVCL_D709	MD901	Lymphoid	5
+CVCL_1871	MEC-2	Lymphoid	1
+CVCL_Y383	MO1043	Lymphoid	2
+CVCL_1423	MOLT-14	Lymphoid	4
+CVCL_ZY05	Mutu	Lymphoid	2
+CVCL_2142	NK-92	Lymphoid	4
+CVCL_8461	NK-YS	Lymphoid	1
+CVCL_8795	OCI-LY-10	Lymphoid	2
+CVCL_1879	OCI-LY1	Lymphoid	18
+CVCL_8801	OCI-LY4	Lymphoid	1
+CVCL_8803	OCI-LY8	Lymphoid	2
+CVCL_W979	PER-117	Lymphoid	1
+CVCL_A673	SNK-6	Lymphoid	1
+CVCL_D022	SP-49	Lymphoid	13
+CVCL_0G05	ST1	Lymphoid	2
+CVCL_9550	SU-DHL-2	Lymphoid	2
+CVCL_4380	SU-DHL-7	Lymphoid	2
+CVCL_A308	SUP-B13	Lymphoid	1
+CVCL_4686	THP-6	Lymphoid	6
+CVCL_B473	TL-Om1	Lymphoid	1
+CVCL_A442	TMD8	Lymphoid	2
+CVCL_1896	U-2932	Lymphoid	5
+CVCL_A304	UoC-B6	Lymphoid	1
+CVCL_M584	AMU-AML1	Myeloid	1
+CVCL_A426	KBM-7	Myeloid	6
+CVCL_1433	MUTZ-3	Myeloid	2
+CVCL_1452	NCI/ADR-RES	Ovary/Fallopian Tube	2
+CVCL_3936	OvCA 429	Ovary/Fallopian Tube	3
+CVCL_5146	KLM-1	Pancreas	5
+CVCL_B280	S2-013	Pancreas	2
+CVCL_1B47	90-8TL	Peripheral Nervous System	2
+CVCL_0529	BE(2)-C	Peripheral Nervous System	14
+CVCL_9522	CLB-BerLud1	Peripheral Nervous System	1
+CVCL_9526	CLB-Ca	Peripheral Nervous System	1
+CVCL_9529	CLB-Ga	Peripheral Nervous System	4
+CVCL_9532	CLB-Ma1	Peripheral Nervous System	1
+CVCL_9534	CLB-Pe	Peripheral Nervous System	1
+CVCL_AQ23	COG-N-415	Peripheral Nervous System	1
+CVCL_M473	IMR-5/75	Peripheral Nervous System	3
+CVCL_0389	LA-N-5	Peripheral Nervous System	7
+CVCL_2548	LA1-55n	Peripheral Nervous System	4
+CVCL_2549	LA1-5s	Peripheral Nervous System	4
+CVCL_1827	LAN-1	Peripheral Nervous System	1
+CVCL_2136	NBL-S	Peripheral Nervous System	6
+CVCL_9900	NBL-W N	Peripheral Nervous System	4
+CVCL_9901	NBL-W S	Peripheral Nervous System	4
+CVCL_0524	SH-EP	Peripheral Nervous System	28
+CVCL_8820	SJNB3	Peripheral Nervous System	1
+CVCL_7134	SMS-KCNR	Peripheral Nervous System	6
+CVCL_8916	ST88-14	Peripheral Nervous System	7
+CVCL_S805	T265	Peripheral Nervous System	2
+CVCL_4784	C4-2B	Prostate	2
+CVCL_4744	LAPC-4	Prostate	9
+CVCL_0395	LNCAP	Prostate	139
+CVCL_UD76	LREX	Prostate	2
+CVCL_ZC60	R1-AD1	Prostate	2
+CVCL_5239	1205Lu	Skin	6
+CVCL_0V14	501A	Skin	5
+CVCL_G085	CAL-1	Skin	2
+CVCL_0417	MDA-MB-435	Skin	2
+CVCL_E995	MS1	Skin	5
+CVCL_3876	SK-MEL-147	Skin	5
+CVCL_7928	WM164	Skin	2
+CVCL_6C43	Aska	Soft Tissue	4
+CVCL_S738	ASPS1	Soft Tissue	7
+CVCL_0J31	DTC1	Soft Tissue	4
+CVCL_4976	GIST-T1	Soft Tissue	2
+CVCL_A9M8	GIST226	Soft Tissue	1
+CVCL_7040	GIST430	Soft Tissue	2
+CVCL_A9N1	GIST430B	Soft Tissue	1
+CVCL_7041	GIST48	Soft Tissue	1
+CVCL_M441	GIST48B	Soft Tissue	1
+CVCL_7044	GIST882	Soft Tissue	1
+CVCL_W472	HSMM	Soft Tissue	4
+CVCL_8719	HSSY2	Soft Tissue	2
+CVCL_9W68	JN-DSRCT-1	Soft Tissue	9
+CVCL_J063	JR-1	Soft Tissue	2
+CVCL_W527	RMS	Soft Tissue	4
+CVCL_E3GB	HCI-EC-23	Uterus	2
+CVCL_2529	Ishikawa	Uterus	54
+CVCL_4654	JHUEM-14	Uterus	2

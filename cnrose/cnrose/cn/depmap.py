@@ -131,3 +131,80 @@ class DepMapGeneCN(CNProvider):
             if med > 0:
                 segs = [(c, s, e, r / med) for c, s, e, r in segs]
         return CNTrack(segs, ploidy=2.0, source="DepMapGeneWGS")
+
+
+class DepMapMcWesCN(DepMapGeneCN):
+    """DepMap WES gene-level CN, keyed by ModelCondition (`OmicsCNGeneMC_WES.csv`, 26Q1+).
+
+    DepMap DISCONTINUED the merged `OmicsCNGene.csv` after 24Q4 (GOTCHA 90); from 25Q2 copy number is
+    split by modality. For 26Q1 the WES arm is this file, and unlike the WGS one it carries no `ModelID`
+    column — rows are `ModelConditionID` + `IsDefaultEntryForMC`. Values are on the same scale as
+    `OmicsCNGeneWGS.csv` (LINEAR relative CN, 1.0 = neutral; verified medians 0.999 / 1.045 / 1.020), so
+    the parent's `_build` applies unchanged.
+
+    Two wrinkles this class absorbs:
+      * `IsDefaultEntryForMC` is not Yes/No — non-default rows carry `No_CDS-<id>` naming the CDS profile
+        that won, so test `== "Yes"` rather than `!= "No"`.
+      * 88 models have more than one default ModelCondition. Ties are broken by sorted ModelConditionID
+        so a run is reproducible, rather than by file order.
+    """
+
+    def __init__(self, cn_csv, model_condition_csv, gene_coords, recenter=True):
+        self.cn_csv = cn_csv
+        self.coords = gene_coords
+        self.recenter = recenter
+        with open(cn_csv) as fh:
+            header = next(csv.reader(fh))
+        self.ci_mc = header.index("ModelConditionID")
+        self.ci_def = header.index("IsDefaultEntryForMC")
+        self.gene_col = {}
+        for i, h in enumerate(header):
+            if i <= self.ci_def:
+                continue
+            self.gene_col[h.split(" (")[0]] = i
+        self.usable = [g for g in self.gene_col if g in self.coords]
+
+        mc_to_model = {}
+        with open(model_condition_csv, newline="") as fh:
+            for row in csv.DictReader(fh):
+                mc, mid = row.get("ModelConditionID"), row.get("ModelID")
+                if mc and mid:
+                    mc_to_model[mc] = mid
+        self.mc_to_model = mc_to_model
+        self._cache = {}
+
+    def _mcs_for(self, model_ids):
+        """ModelID -> the one ModelConditionID to read (default entry, ties broken by sorted MC id)."""
+        want = set(model_ids)
+        found = {}
+        with open(self.cn_csv) as fh:
+            r = csv.reader(fh)
+            next(r)
+            for row in r:
+                mc = row[self.ci_mc]
+                mid = self.mc_to_model.get(mc)
+                if mid in want and row[self.ci_def] == "Yes":
+                    found.setdefault(mid, []).append(mc)
+        return {mid: sorted(mcs)[0] for mid, mcs in found.items()}
+
+    def preload(self, model_ids):
+        need = {m for m in model_ids if m and m not in self._cache}
+        if not need:
+            return
+        chosen = self._mcs_for(need)
+        target = {mc: mid for mid, mc in chosen.items()}
+        rows = {}
+        with open(self.cn_csv) as fh:
+            r = csv.reader(fh)
+            next(r)
+            for row in r:
+                mid = target.get(row[self.ci_mc])
+                if mid:
+                    rows[mid] = row
+                    if len(rows) == len(target):
+                        break
+        for m in need:
+            track = self._build(rows.get(m))
+            if track is not None:
+                track.source = "DepMapGeneWES"
+            self._cache[m] = track
