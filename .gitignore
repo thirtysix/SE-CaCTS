@@ -78,3 +78,6 @@ GOTCHAS.md
 abstract.docx
 abstract.pdf
 abstract.*
+
+# internal findings log — narrative companion to RESULTS.md, kept local
+FINDINGS.md
