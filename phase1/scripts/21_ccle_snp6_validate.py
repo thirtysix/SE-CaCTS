@@ -36,13 +36,14 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     for k in ("--seg", "--clinical", "--depmap-wgs", "--gene-coords", "--cnrose", "--out"):
         ap.add_argument(k, required=True)
+    ap.add_argument("--chain", help="hg19ToHg38.over.chain.gz (UCSC)")
     a = ap.parse_args()
     sys.path.insert(0, a.cnrose)
     import pandas as pd
     from cnrose.cn.ccle import Ccle2019SnpCN
     from cnrose.cn.depmap import DepMapGeneCN, load_gene_coords
 
-    ccle = Ccle2019SnpCN(a.seg, a.clinical)
+    ccle = Ccle2019SnpCN(a.seg, a.clinical, chain=a.chain)
     wgs = DepMapGeneCN(a.depmap_wgs, load_gene_coords(None, cache_path=a.gene_coords))
     both = sorted(set(ccle.sample_for) & set(wgs.index) if hasattr(wgs, "index") else set(ccle.sample_for))
     wgs.preload(both)

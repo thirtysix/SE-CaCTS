@@ -18,7 +18,7 @@ from .base import CNTrack, CNProvider
 
 
 class Ccle2019SnpCN(CNProvider):
-    def __init__(self, seg_path, clinical_path, recenter=True, piece=1_000_000):
+    def __init__(self, seg_path, clinical_path, chain=None, recenter=True, piece=1_000_000):
         import pandas as pd
         cs = pd.read_csv(clinical_path, sep="\t", comment="#", usecols=["SAMPLE_ID", "DEPMAPID"])
         self.sample_for = {d: s for s, d in zip(cs.SAMPLE_ID, cs.DEPMAPID) if isinstance(d, str)}
@@ -27,13 +27,14 @@ class Ccle2019SnpCN(CNProvider):
         self.recenter = recenter
         self.piece = piece
         self._lo = None
+        self.chain = chain          # hg19ToHg38.over.chain.gz path; pyliftover's own download can fail
         self._cache = {}
         self.dropped = {}
 
     def _lift(self):
         if self._lo is None:
             from pyliftover import LiftOver
-            self._lo = LiftOver("hg19", "hg38")
+            self._lo = LiftOver(self.chain) if self.chain else LiftOver("hg19", "hg38")
         return self._lo
 
     def track(self, model_id):
