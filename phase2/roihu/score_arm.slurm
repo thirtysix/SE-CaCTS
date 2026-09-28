@@ -27,6 +27,8 @@ case "$ARM" in
                  --levels OncotreeLineage,OncotreePrimaryDisease) ;;
   cmpfirst) args=("${V2[@]}" --pull-set "$REPO/phase2/data/pull_set.v2.cmpfirst.tsv" --out "$OUT/atlas.s3.perm.cmpfirst"
                  --cn-diagnostic --levels OncotreeLineage,OncotreePrimaryDisease) ;;
+  layout)   args=("${V2[@]}" --signal "$W/results_v2/atlas.s3.layoutcorr.se_signal.tsv"
+                 --out "$OUT/atlas.s3.perm.layoutcorr" --levels OncotreeLineage,OncotreePrimaryDisease) ;;
   csub)     args=("${V2[@]}" --out "$OUT/atlas.s3.cons" --agg q25 --levels OncotreeSubtype) ;;
   csubshuf) args=("${V2[@]}" --out "$OUT/atlas.s3.cons.shuffle" --agg q25 --levels OncotreeSubtype --shuffle-labels 1) ;;
   cline)    args=("${V2[@]}" --out "$OUT/atlas.s3.consx" --agg q25 --levels line --line-members experiments --keep-frac 0.01) ;;

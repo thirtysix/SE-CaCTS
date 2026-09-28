@@ -1,0 +1,21 @@
+srx	cell	key	lineage	subtype	layout	n_runs	reads	pct_mapped	ftp
+SRX18348445	U2OS	ACH-000364	Bone	Osteosarcoma	PAIRED	1.0	12142389	98.6	ftp.sra.ebi.ac.uk/vol1/fastq/SRR223/067/SRR22377967/SRR22377967_1.fastq.gz;ftp.sra.ebi.ac.uk/vol1/fastq/SRR223/067/SRR22377967/SRR22377967_2.fastq.gz
+SRX8848914	SW 620	ACH-000651	Bowel	Colon Adenocarcinoma	PAIRED	1.0	16217439	87.9	ftp.sra.ebi.ac.uk/vol1/fastq/SRR123/055/SRR12349355/SRR12349355_1.fastq.gz;ftp.sra.ebi.ac.uk/vol1/fastq/SRR123/055/SRR12349355/SRR12349355_2.fastq.gz
+SRX22997533	Hs 578T	ACH-000148	Breast	Breast Invasive Carcinoma, NOS	PAIRED	1.0	35725517	86.8	ftp.sra.ebi.ac.uk/vol1/fastq/SRR273/098/SRR27320298/SRR27320298_1.fastq.gz;ftp.sra.ebi.ac.uk/vol1/fastq/SRR273/098/SRR27320298/SRR27320298_2.fastq.gz
+SRX12403371	MB002	ACH-001201	CNS/Brain	Medulloblastoma	PAIRED	1.0	27552888	86.9	ftp.sra.ebi.ac.uk/vol1/fastq/SRR161/070/SRR16117870/SRR16117870_1.fastq.gz;ftp.sra.ebi.ac.uk/vol1/fastq/SRR161/070/SRR16117870/SRR16117870_2.fastq.gz
+SRX10035147	KYSE-140	ACH-000823	Esophagus/Stomach	Esophageal Squamous Cell Carcinoma	PAIRED	1.0	19391415	99.4	ftp.sra.ebi.ac.uk/vol1/fastq/SRR136/030/SRR13637930/SRR13637930_1.fastq.gz;ftp.sra.ebi.ac.uk/vol1/fastq/SRR136/030/SRR13637930/SRR13637930_2.fastq.gz
+SRX10168827	A549	ACH-000681	Lung	Lung Adenocarcinoma	PAIRED	1.0	27271858	97.8	ftp.sra.ebi.ac.uk/vol1/fastq/SRR137/064/SRR13783564/SRR13783564_1.fastq.gz;ftp.sra.ebi.ac.uk/vol1/fastq/SRR137/064/SRR13783564/SRR13783564_2.fastq.gz
+SRX20095562	LP-1	ACH-000204	Lymphoid	Plasma Cell Myeloma	PAIRED	1.0	37641298	93.4	ftp.sra.ebi.ac.uk/vol1/fastq/SRR243/000/SRR24300300/SRR24300300_1.fastq.gz;ftp.sra.ebi.ac.uk/vol1/fastq/SRR243/000/SRR24300300/SRR24300300_2.fastq.gz
+SRX10715411	MOLM-13	ACH-000362	Myeloid	Acute Myeloid Leukemia	PAIRED	1.0	36036973	97.8	ftp.sra.ebi.ac.uk/vol1/fastq/SRR143/026/SRR14362826/SRR14362826_1.fastq.gz;ftp.sra.ebi.ac.uk/vol1/fastq/SRR143/026/SRR14362826/SRR14362826_2.fastq.gz
+SRX17984465	IMR-32	ACH-000310	Peripheral Nervous System	Neuroblastoma	PAIRED	1.0	39340416	90.8	ftp.sra.ebi.ac.uk/vol1/fastq/SRR220/007/SRR22002107/SRR22002107_1.fastq.gz;ftp.sra.ebi.ac.uk/vol1/fastq/SRR220/007/SRR22002107/SRR22002107_2.fastq.gz
+SRX8848962	UACC-62	ACH-000425	Skin	Melanoma	PAIRED	1.0	26040966	86.1	ftp.sra.ebi.ac.uk/vol1/fastq/SRR123/079/SRR12349379/SRR12349379_1.fastq.gz;ftp.sra.ebi.ac.uk/vol1/fastq/SRR123/079/SRR12349379/SRR12349379_2.fastq.gz
+SRX11094525	EW-22	ACH-002116	Bone	Ewing Sarcoma	SINGLE	1.0	30510131	99.3	ftp.sra.ebi.ac.uk/vol1/fastq/SRR147/020/SRR14761020/SRR14761020.fastq.gz
+SRX1538780	HT-29	ACH-000552	Bowel	Colon Adenocarcinoma	SINGLE	1.0	30664699	96.6	ftp.sra.ebi.ac.uk/vol1/fastq/SRR311/005/SRR3110405/SRR3110405.fastq.gz
+SRX10205598	CAL-120	ACH-000212	Breast	Invasive Breast Carcinoma	SINGLE	1.0	28558220	96.9	ftp.sra.ebi.ac.uk/vol1/fastq/SRR138/097/SRR13825897/SRR13825897.fastq.gz
+SRX2436055	D341 Med	ACH-000095	CNS/Brain	Medulloblastoma	SINGLE	1.0	22654936	98.3	ftp.sra.ebi.ac.uk/vol1/fastq/SRR512/000/SRR5120830/SRR5120830.fastq.gz
+SRX4142995	NCI-H211	ACH-000639	Lung	Small Cell Lung Cancer	SINGLE	1.0	38319698	93.7	ftp.sra.ebi.ac.uk/vol1/fastq/SRR723/000/SRR7236750/SRR7236750.fastq.gz
+SRX20121535	SEM	ACH-000782	Lymphoid	B-Lymphoblastic Leukemia/Lymphoma with t(v;11q23.3);KMT2A Rearranged	SINGLE	1.0	25403450	98.5	ftp.sra.ebi.ac.uk/vol1/fastq/SRR243/064/SRR24327264/SRR24327264.fastq.gz
+SRX5974516	K-562	ACH-000551	Myeloid	Chronic Myeloid Leukemia, BCR-ABL1+	SINGLE	1.0	12587337	99.0	ftp.sra.ebi.ac.uk/vol1/fastq/SRR920/007/SRR9203297/SRR9203297.fastq.gz
+SRX7556118	SK-OV-3	ACH-000811	Ovary/Fallopian Tube	Serous Ovarian Cancer	SINGLE	1.0	22064037	99.4	ftp.sra.ebi.ac.uk/vol1/fastq/SRR108/074/SRR10887074/SRR10887074.fastq.gz
+SRX3124396	KELLY	ACH-000259	Peripheral Nervous System	Neuroblastoma	SINGLE	1.0	36652655	97.9	ftp.sra.ebi.ac.uk/vol1/fastq/SRR596/008/SRR5967058/SRR5967058.fastq.gz
+SRX398297	COLO 741	ACH-000582	Skin	Melanoma	SINGLE	1.0	32825126	97.6	ftp.sra.ebi.ac.uk/vol1/fastq/SRR105/007/SRR1057517/SRR1057517.fastq.gz
