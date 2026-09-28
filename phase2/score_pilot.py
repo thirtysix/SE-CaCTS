@@ -160,6 +160,15 @@ def main():
                     help="CALIBRATION TEST: permute the Oncotree labels across the scored lines (one shared "
                          "permutation, so the lineage/disease/subtype nesting and every group size are kept) "
                          "before scoring. Nothing real then exists, so a calibrated FDR must call ~nothing.")
+    ap.add_argument("--exclude-keys", default="",
+                    help="comma-separated line keys (ModelID / CVCL) to drop before scoring — sensitivity runs")
+    ap.add_argument("--cn-diagnostic", action="store_true",
+                    help="write <out>.cn_by_line.tsv: per line, its CN source and the Spearman of SE signal vs "
+                         "SE copy number before and after correction. Under-correction (a noisier CN source) "
+                         "shows as a residual positive rho — the lineage-varying-strength confound.")
+    ap.add_argument("--save-matrices", action="store_true",
+                    help="also write the full SE x group JSD and FDR matrices per group level (not 'line') to "
+                         "<out>.<level>.{jsd,fdr}.tsv.gz — for figures that need values beyond the call dumps")
     a = ap.parse_args()
     levels = [l for l in a.levels.split(",") if l]
     bad = [l for l in levels if l not in LEVELS]
@@ -178,6 +187,23 @@ def main():
         ps["key"], ps["cn_provider"] = ps["model_id"], "depmap_wgs"
     srx_model = dict(zip(ps["srx"], ps["key"]))
     srx_model.update(EXTRA_MODEL)
+    excl = {k for k in a.exclude_keys.split(",") if k}
+    if excl:
+        drop = [c for c in M.columns if srx_model.get(c) in excl]
+        M = M.drop(columns=drop)
+        print(f"[score] --exclude-keys: dropped {len(drop)} samples from "
+              f"{len({srx_model[c] for c in drop})}/{len(excl)} requested lines", file=sys.stderr, flush=True)
+        samples = list(M.columns)
+    # An SE with zero signal in EVERY sample is not a test: it has no quantified territory (v2: union loci
+    # that fall wholly outside the fixed grid). Left in, pycacts scores the all-zero row as a uniform
+    # profile (JSD 0.347) that clears the permutation null in every group — 2,108 spurious lineage calls in
+    # the uncorrected v2 arm — and scoring-time correction turns its zeros into CN-derived pseudo-signal.
+    zero = (M.values == 0).all(axis=1)
+    if zero.any():
+        M = M.loc[~zero]
+        print(f"[score] dropped {int(zero.sum())} SE loci with zero signal in every sample (not tests)",
+              file=sys.stderr, flush=True)
+    se_ids = list(M.index)
     model = pd.read_csv(a.model, index_col="ModelID")
     # lines outside DepMap get their Oncotree labels from the Cellosaurus-NCIt crosswalk (phase1 script 14)
     extra = sorted(set(k for k in ps["key"].dropna() if k not in model.index))
@@ -271,6 +297,21 @@ def main():
     # is visible in the output rather than needing a separate investigation. NOT normalized (it is a ratio).
     keep0 = col_model.dropna()
     cn_lines = pd.DataFrame(cn, index=se_ids, columns=samples)[keep0.index].T.groupby(keep0).mean().T
+    if a.cn_diagnostic:
+        from scipy.stats import spearmanr
+        raw_lines = pd.DataFrame(raw, index=se_ids, columns=samples)[keep0.index].T.groupby(keep0).mean().T
+        diag = []
+        for k in lines_cor.columns:
+            c = cn_lines[k].values
+            if np.allclose(c, 1.0):
+                continue
+            diag.append(dict(key=k, line=name_of.get(k, k), cn_source=src_of.get(k, "depmap_wgs"),
+                             n_samples=int((keep0 == k).sum()), frac_amp=round(float((c > 1.3).mean()), 4),
+                             rho_raw=round(float(spearmanr(raw_lines[k].values, c)[0]), 4),
+                             rho_corrected=round(float(spearmanr(lines_cor[k].values, c)[0]), 4)))
+        pd.DataFrame(diag).to_csv(f"{a.out}.cn_by_line.tsv", sep="\t", index=False)
+        del raw_lines
+        print(f"[score] wrote {a.out}.cn_by_line.tsv ({len(diag)} lines)", file=sys.stderr, flush=True)
 
     # protein-coding annotation universe + nearest / identity-window helpers
     gidx = {}
@@ -320,6 +361,9 @@ def main():
                       "renames single-line groups); falling back to the analytic null.",
                       file=sys.stderr, flush=True)
             FDR = np.power(10.0, fdr_matrix(jsd, null=a.fdr_null, scope=a.fdr_scope))
+        if a.save_matrices and level != "line":
+            jsd.round(5).to_csv(f"{a.out}.{level}.jsd.tsv.gz", sep="\t", compression="gzip")
+            FDR.to_csv(f"{a.out}.{level}.fdr.tsv.gz", sep="\t", compression="gzip", float_format="%.4g")
         # label each group with cell name (line level) and its identity gene set
         rows = []
         print(f"================  {level}  ({rep.shape[1]} groups)  ================")

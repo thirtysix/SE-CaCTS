@@ -13,10 +13,12 @@ Inputs (all in phase2/), outputs -> docs/data/ (the dashboard is served from doc
   atlas.s3.perm.concordance2.{summary.tsv,pairs.tsv.gz}   Phase-6 cross-layer validation
   results/atlas.s3.union_catalog.bed.gz               SE coordinates
 
-  ~/miniconda3/envs/atac_hdac/bin/python phase2/scripts/60_stage_dashboard.py
+  ~/miniconda3/envs/atac_hdac/bin/python phase2/scripts/60_stage_dashboard.py \
+      [--scores phase2/scores_v2 --results phase2/results_v2 --pull-bu 51]
 """
 from __future__ import annotations
 
+import argparse
 import gzip
 import json
 import os
@@ -31,10 +33,9 @@ SECACTS = os.path.dirname(PHASE2)
 sys.path.insert(0, os.path.join(PHASE2, "analysis"))
 from cn_ablation_calls import nearest_gene_fn                       # noqa: E402
 
-SCORES = os.path.join(PHASE2, "scores")
+SCORES = os.path.join(PHASE2, "scores")          # overridden by --scores / --results in main()
 RESULTS = os.path.join(PHASE2, "results")
 OUT = os.path.join(SECACTS, "docs", "data")
-os.makedirs(OUT, exist_ok=True)
 PERM = os.path.join(SCORES, "atlas.s3.perm")
 
 # levels the panel supports as CALLS vs rankings-only (gotcha 72)
@@ -58,7 +59,24 @@ def write_json(name, obj):
         json.dump(obj, fh, separators=(",", ":"))
 
 
+def n_columns(path):
+    """Sample count of a gzipped SE x sample matrix, from its header line alone."""
+    with gzip.open(path, "rt") as fh:
+        return len(fh.readline().rstrip("\n").split("\t")) - 1
+
+
 def main():
+    global SCORES, RESULTS, PERM
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--scores", default=SCORES)
+    ap.add_argument("--results", default=RESULTS)
+    ap.add_argument("--pull-bu", type=int, default=43, help="total CSC billing units spent on the pull(s)")
+    ap.add_argument("--pull-set", default=os.path.join(PHASE2, "data", "pull_set.tsv"),
+                    help="pull set (v2 carries cn_provider) — used to count lines per copy-number source")
+    a = ap.parse_args()
+    SCORES, RESULTS = a.scores, a.results
+    PERM = os.path.join(SCORES, "atlas.s3.perm")
+    os.makedirs(OUT, exist_ok=True)
     coords = load_coords()
     nearest = nearest_gene_fn()
     H = pd.read_csv(f"{PERM}.hierarchy_summary.tsv", sep="\t")
@@ -183,14 +201,35 @@ def main():
     n_lineage_calls = int(H[H.level == "OncotreeLineage"]["n_spec_fdr10"].sum())
     n_disease_calls = int(H[H.level == "OncotreePrimaryDisease"]["n_spec_fdr10"].sum())
     meta = {
-        "n_samples": 2136, "n_lines": 282, "n_ses": 42943,
+        "n_samples": n_columns(os.path.join(RESULTS, "atlas.s3.se_signal.tsv.gz")),
+        "n_lines": int((H.level == "line").sum()), "n_ses": len(coords),
         "n_lineages": int((H.level == "OncotreeLineage").sum()),
         "n_diseases": int((H.level == "OncotreePrimaryDisease").sum()),
         "n_subtypes": int((H.level == "OncotreeSubtype").sum()),
         "n_lineage_calls": n_lineage_calls, "n_disease_calls": n_disease_calls,
-        "pull_bu": 43, "n_pull": 2916,
+        "pull_bu": a.pull_bu, "n_pull": n_columns(os.path.join(RESULTS, "atlas.se_signal.tsv.gz")),
         "fdr": "label-permutation, B=1000, FDR ≤ 0.10",
     }
+    # subtype group sizes (why subtype is rankings-only) and lines per copy-number source
+    sub = H[H.level == "OncotreeSubtype"]["n_lines"]
+    meta["n_subtypes_single"] = int((sub == 1).sum())
+    meta["n_subtypes_le4"] = int((sub <= 4).sum())
+    ps = pd.read_csv(a.pull_set, sep="\t")
+    if "cn_provider" not in ps.columns:
+        ps["key"], ps["cn_provider"] = ps["model_id"], "depmap_wgs"
+    kept = set(pd.read_csv(os.path.join(RESULTS, "atlas.s3.s3norm_params.tsv.gz"), sep="\t")["sample"])
+    src = ps[ps.srx.isin(kept)].drop_duplicates("key")["cn_provider"].value_counts()
+    meta["cn_sources"] = {lab: int(src.get(k, 0)) for k, lab in
+                          (("depmap_wgs", "DepMap WGS"), ("cmp_wes", "CMP WES"), ("depmap_mc_wes", "DepMap WES"))}
+    # calibration: calls made on SHUFFLED labels (lineage level) by each null, where those runs exist
+    n_tests = meta["n_ses"] * meta["n_lineages"]
+    def shuffled_calls(prefix):
+        f = f"{prefix}.OncotreeLineage.specific.tsv.gz"
+        return int((pd.read_csv(f, sep="\t")["fdr"] <= 0.10).sum()) if os.path.exists(f) else None
+    an, pm = (shuffled_calls(os.path.join(SCORES, p)) for p in ("atlas.s3.analytic.shuffle", "atlas.s3.perm.shuffle"))
+    meta["calibration"] = {"n_tests": n_tests,
+                           "analytic_shuffled_pct": round(100 * an / n_tests, 2) if an is not None else 6.05,
+                           "perm_shuffled_calls": pm if pm is not None else 0}
     write_json("meta.json", meta)
     print(f"[stage] wrote {len(os.listdir(OUT))} files to {OUT}")
 
