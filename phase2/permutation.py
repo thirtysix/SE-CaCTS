@@ -150,3 +150,115 @@ def calibration_check(lines, model, level, n_perm=20, seed=1, fdr=0.10, verbose=
     F = permutation_fdr(jsd_fake, lines, m2, level, n_perm=n_perm, seed=seed + 1, verbose=verbose)
     calls = int((np.power(10.0, F.values) <= fdr).sum())
     return calls, int(F.size)
+
+
+# --------------------------------------------------------------------------------------------------------
+# Consensus aggregation — for SMALL groups, where the mean-based score fails.
+#
+# With the per-group MEAN, one member's private super-enhancer makes a 2-line group look perfectly specific:
+# the other member contributes 0 and the group column is still the only non-zero one. Every line has such
+# SEs, so a random group of 2-4 lines is as "specific" as a real subtype and the permutation null (rightly)
+# calls nothing (measured 2026-09-28: in 2-line subtypes 73% of the top-15 SEs take >70% of their signal
+# from ONE line). A consensus aggregate — the value that at least 75% of members reach ("q25", the lower
+# 25th percentile; the minimum for n <= 4) — scores what the group SHARES, in the real grouping and in every
+# permutation alike, so the null stays honest. The same machinery with EXPERIMENTS as the members of a
+# cell-line group asks whether a line-specific SE is reproducible across that line's experiments.
+# --------------------------------------------------------------------------------------------------------
+
+def _kth(n, agg):
+    if agg == "min":
+        return 0
+    if agg == "q25":
+        return int(np.floor(0.25 * (n - 1)))
+    raise ValueError(f"unknown aggregator {agg!r}")
+
+
+def rep_agg(X, codes, n_groups, agg):
+    """SE x group matrix from SE x unit values X (ndarray), codes = group index per unit (-1 = unassigned).
+    agg: 'mean' | 'q25' | 'min'."""
+    out = np.zeros((X.shape[0], n_groups), dtype=X.dtype)
+    order = np.argsort(codes, kind="stable")
+    sc = codes[order]
+    bounds = np.searchsorted(sc, np.arange(n_groups + 1))
+    for g in range(n_groups):
+        idx = order[bounds[g]:bounds[g + 1]]
+        n = len(idx)
+        if n == 0:
+            continue
+        if n == 1:
+            out[:, g] = X[:, idx[0]]
+        elif agg == "mean":
+            out[:, g] = X[:, idx].mean(axis=1)
+        else:
+            k = _kth(n, agg)
+            out[:, g] = np.partition(X[:, idx], k, axis=1)[:, k]
+    return out
+
+
+def permutation_fdr_units(jsd, X, labels, agg, n_perm=1000, seed=0, keep_frac=0.05, scope="global",
+                          verbose=True, strata=None):
+    """log10(FDR) for an SE x group JSD DataFrame whose groups aggregate UNITS (lines, or experiments)
+    with `agg`; the null permutes which unit carries which label (group sizes kept) and re-aggregates the
+    same way. X: SE x unit ndarray aligned to `labels` (group label per unit, same order as jsd.columns
+    values). Same p-value and BH as permutation_fdr, so results are directly comparable.
+
+    strata (optional, one value per unit): shuffle labels only WITHIN each stratum (e.g. a line's lineage).
+    The null then keeps the lineage structure, so an SE shared across a lineage looks as specific in the
+    shuffles as in the data and is not called: a call means specific relative to the group's relatives."""
+    groups = list(jsd.columns)
+    gi = {g: i for i, g in enumerate(groups)}
+    base = np.array([gi[l] for l in labels])
+    rng = np.random.default_rng(seed)
+    n_se, G = X.shape[0], len(groups)
+    K = max(int(math.ceil(keep_frac * n_perm * n_se)), 1000)
+    kept, buf = {}, {}
+    flush_every = max(1, min(25, n_perm))
+
+    def _flush():
+        for g, chunks in buf.items():
+            parts = chunks if g not in kept else [kept[g]] + chunks
+            merged = np.concatenate(parts)
+            merged.sort(kind="stable")
+            kept[g] = merged[:K].copy()
+        buf.clear()
+
+    blocks = None
+    if strata is not None:
+        st = np.asarray(strata)
+        blocks = [np.flatnonzero(st == v) for v in pd.unique(st)]
+    for b in range(n_perm):
+        perm = base.copy()
+        if blocks is None:
+            rng.shuffle(perm)
+        else:
+            for idx in blocks:
+                perm[idx] = rng.permutation(perm[idx])
+        rep = pd.DataFrame(rep_agg(X, perm, G, agg), index=jsd.index, columns=groups)
+        j = cacts_score_matrix(rep)
+        for gname in groups:
+            buf.setdefault(gname, []).append(j[gname].values.astype(np.float32))
+        if (b + 1) % flush_every == 0:
+            _flush()
+        if verbose and (b + 1) % 100 == 0:
+            print(f"[perm-units]   {b + 1}/{n_perm} permutations", file=sys.stderr, flush=True)
+    _flush()
+    m_total = n_perm * n_se
+    lnp = {}
+    for g in groups:
+        x = jsd[g].values.astype(float)
+        v = kept[g]
+        cutoff = float(v[-1]) if v.size >= K else float("inf")
+        cnt = np.searchsorted(v, x, side="right").astype(float)
+        p = (cnt + 1.0) / (m_total + 1.0)
+        p = np.where(x > cutoff, 1.0, p)
+        lnp[g] = np.log(np.clip(p, 1e-300, 1.0))
+    if scope == "global":
+        flat = _bh_log10(np.concatenate([lnp[g] for g in groups])).reshape(G, -1)
+        out = {g: flat[i] for i, g in enumerate(groups)}
+    else:
+        out = {g: _bh_log10(lnp[g]) for g in groups}
+    if verbose:
+        print(f"[perm-units] agg={agg}; {m_total:,} null draws/group; smallest attainable p = "
+              f"{1.0 / (m_total + 1):.2e}; BH bar at k=1 is {0.10 / jsd.size:.2e} over {jsd.size:,} tests",
+              file=sys.stderr, flush=True)
+    return pd.DataFrame(out, index=jsd.index)[groups]

@@ -27,6 +27,18 @@ case "$ARM" in
                  --levels OncotreeLineage,OncotreePrimaryDisease) ;;
   cmpfirst) args=("${V2[@]}" --pull-set "$REPO/phase2/data/pull_set.v2.cmpfirst.tsv" --out "$OUT/atlas.s3.perm.cmpfirst"
                  --cn-diagnostic --levels OncotreeLineage,OncotreePrimaryDisease) ;;
+  csub)     args=("${V2[@]}" --out "$OUT/atlas.s3.cons" --agg q25 --levels OncotreeSubtype) ;;
+  csubshuf) args=("${V2[@]}" --out "$OUT/atlas.s3.cons.shuffle" --agg q25 --levels OncotreeSubtype --shuffle-labels 1) ;;
+  cline)    args=("${V2[@]}" --out "$OUT/atlas.s3.consx" --agg q25 --levels line --line-members experiments --keep-frac 0.01) ;;
+  clineshuf) args=("${V2[@]}" --out "$OUT/atlas.s3.consx.shuffle" --agg q25 --levels line --line-members experiments --keep-frac 0.01 --shuffle-labels 1) ;;
+  cstudy)   args=("${V2[@]}" --out "$OUT/atlas.s3.conss" --agg q25 --levels line --line-members studies --keep-frac 0.01) ;;
+  cstudyshuf) args=("${V2[@]}" --out "$OUT/atlas.s3.conss.shuffle" --agg q25 --levels line --line-members studies --keep-frac 0.01 --shuffle-labels 1) ;;
+  hsub)     args=("${V2[@]}" --out "$OUT/atlas.s3.hyb" --agg q25 --levels OncotreeSubtype --null-strata lineage) ;;
+  hsubshuf) args=("${V2[@]}" --out "$OUT/atlas.s3.hyb.shuffle" --agg q25 --levels OncotreeSubtype --null-strata lineage --shuffle-labels 1) ;;
+  hline)    args=("${V2[@]}" --out "$OUT/atlas.s3.hybl" --agg q25 --levels line --line-members studies --null-strata adaptive --keep-frac 0.01) ;;
+  hlineshuf) args=("${V2[@]}" --out "$OUT/atlas.s3.hybl.shuffle" --agg q25 --levels line --line-members studies --null-strata adaptive --keep-frac 0.01 --shuffle-labels 1) ;;
+  hsmoke)   args=("${V2[@]}" --out "$OUT/hsmoke" --agg q25 --levels OncotreeSubtype,line --line-members studies --null-strata adaptive --n-perm 3 --keep-frac 0.01) ;;
+  smoke)    args=("${V2[@]}" --out "$OUT/smoke" --agg q25 --levels OncotreeSubtype,line --line-members experiments --n-perm 3 --keep-frac 0.01) ;;
   anshuf)  args=(--signal "$W/results_v2/atlas.s3.se_signal.tsv" --catalog "$W/results_v2/atlas.s3.union_catalog.bed"
                  --pull-set "$REPO/phase2/data/pull_set.v2.tsv" --norm none --levels OncotreeLineage
                  --dump-specific 0.10 --shuffle-labels 1 --out "$OUT/atlas.s3.analytic.shuffle") ;;

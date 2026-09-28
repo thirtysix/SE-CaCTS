@@ -43,7 +43,7 @@ sys.path.insert(0, os.path.join(SECACTS, "cnrose"))
 from pycacts.score import cacts_score_matrix, rank_specific        # noqa: E402
 from pycacts.grouping import build_rep_matrix                      # noqa: E402
 from specificity import fdr_matrix                                 # noqa: E402
-from permutation import permutation_fdr                            # noqa: E402
+from permutation import permutation_fdr, permutation_fdr_units, rep_agg   # noqa: E402
 from cnrose.cn.depmap import load_gene_coords, DepMapGeneCN, DepMapMcWesCN   # noqa: E402
 from cnrose.cn.cmp import CellModelPassportsWesCN                  # noqa: E402
 from cnrose.cn.base import correct                                 # noqa: E402
@@ -169,6 +169,31 @@ def main():
     ap.add_argument("--save-matrices", action="store_true",
                     help="also write the full SE x group JSD and FDR matrices per group level (not 'line') to "
                          "<out>.<level>.{jsd,fdr}.tsv.gz — for figures that need values beyond the call dumps")
+    ap.add_argument("--agg", default="mean", choices=["mean", "q25", "min"],
+                    help="how a group combines its members before JSD. 'mean' (default) is the original score; "
+                         "'q25' scores the group CONSENSUS — the value >=75%% of members reach (the minimum for "
+                         "n <= 4) — so one member's private SE cannot make a small group look specific. Use it "
+                         "at the small-group levels (subtype, line); see permutation.py.")
+    ap.add_argument("--line-members", default="lines", choices=["lines", "experiments", "studies"],
+                    help="members of a cell-line group: 'lines' (one profile, permutation degenerate) or "
+                         "'experiments' (the line's replicate experiments; the null permutes experiments "
+                         "between lines, so a call means specific AND reproducible across its experiments), "
+                         "or 'studies' (experiments averaged within each study first, so a call must replicate "
+                         "across independent studies and a study's shared batch effects cannot pose as one)")
+    ap.add_argument("--srx-study", default=os.path.join(SECACTS, "phase2/data/srx_study.tsv"),
+                    help="experiment -> study accession (for --line-members studies)")
+    ap.add_argument("--null-strata", default="none", choices=["none", "lineage", "disease", "adaptive"],
+                    help="consensus levels: shuffle labels only among relatives, so a call means specific "
+                         "relative to the group's lineage (or disease) rather than to the whole panel. "
+                         "'adaptive' uses the primary disease when it holds >= --strata-min lines, else the "
+                         "lineage. Writes <out>.<level>.strata.tsv (the comparison set per group).")
+    ap.add_argument("--strata-min", type=int, default=4)
+    ap.add_argument("--min-members", type=int, default=2,
+                    help="with a consensus --agg, groups with fewer members are not called (FDR set to 1): one "
+                         "member has no consensus, and its 'specificity' measures how unlike a random line it is "
+                         "(highest for tumour types with no relatives in the panel), not a group property")
+    ap.add_argument("--keep-frac", type=float, default=0.05,
+                    help="share of the permutation null kept per group (only the left tail is ever read)")
     a = ap.parse_args()
     levels = [l for l in a.levels.split(",") if l]
     bad = [l for l in levels if l not in LEVELS]
@@ -288,6 +313,20 @@ def main():
 
     # normalise (batch) then collapse replicate SRX -> cell line (ModelID)
     col_model = pd.Series([srx_model.get(s) for s in samples], index=samples)
+    nm_samples, unit_line = None, None
+    if a.line_members in ("experiments", "studies"):
+        # the per-experiment profiles, normalised exactly as to_lines does before it collapses them
+        keep_ = col_model.dropna()
+        nm_samples = pd.DataFrame(normalize(corrected, a.norm, samples), index=se_ids, columns=samples)[keep_.index]
+        if a.line_members == "studies":
+            # one member per (line, study): a study's experiments are averaged, so a line needs >= 2 studies
+            # to be testable and within-study batch effects count once
+            st = pd.read_csv(a.srx_study, sep="\t").set_index("srx")["study"]
+            unit = pd.Series([f"{col_model[c]}|{st.get(c, c)}" for c in nm_samples.columns], index=nm_samples.columns)
+            nm_samples = nm_samples.T.groupby(unit).mean().T
+            unit_line = pd.Series({u: u.split("|")[0] for u in nm_samples.columns})
+            print(f"[score] line members = studies: {nm_samples.shape[1]} (line, study) units over "
+                  f"{len(set(u.split('|')[0] for u in nm_samples.columns))} lines", file=sys.stderr, flush=True)
     def to_lines(mat):
         nm = pd.DataFrame(normalize(mat, a.norm, samples), index=se_ids, columns=samples)
         keep = col_model.dropna()
@@ -346,13 +385,70 @@ def main():
           f"norm={a.norm}\n")
     summary = []
     for level in levels:
-        rep, gsize = build_rep_matrix(lines_cor, model, level, min_group_n=1)
+        exp_units = level == "line" and a.line_members in ("experiments", "studies")
+        use_units = exp_units or a.agg != "mean"
+        if use_units:
+            # generic unit -> group aggregation (permutation.rep_agg): units are cell lines, or, for a
+            # cell-line group with --line-members experiments, that line's experiments
+            if exp_units:
+                Xdf = nm_samples
+                lab = (unit_line if unit_line is not None else col_model).loc[nm_samples.columns].values
+                if a.shuffle_labels is not None:        # calibration: experiments reassigned to random lines
+                    lab = np.random.default_rng(a.shuffle_labels).permutation(lab)
+                    print(f"[score] CALIBRATION: experiment -> line labels SHUFFLED (seed {a.shuffle_labels})",
+                          file=sys.stderr, flush=True)
+            else:
+                ok = [k for k in lines_cor.columns if k in model.index]
+                labs = (pd.Series(ok, index=ok) if level == "line" else model.loc[ok, level]).dropna()
+                Xdf, lab = lines_cor[labs.index], labs.values.astype(str)
+            groups = sorted(set(lab))
+            codes = np.array([groups.index(x) for x in lab]) if len(groups) < 50 else \
+                pd.Categorical(lab, categories=groups).codes
+            Xv = Xdf.values.astype(np.float32)
+            rep = pd.DataFrame(rep_agg(Xv, np.asarray(codes), len(groups), a.agg), index=se_ids, columns=groups)
+            gsize = pd.Series(lab).value_counts().reindex(groups)
+            print(f"[score] {level}: {len(groups)} groups aggregated by {a.agg} over "
+                  f"{'experiments' if exp_units else 'lines'}", file=sys.stderr, flush=True)
+        else:
+            rep, gsize = build_rep_matrix(lines_cor, model, level, min_group_n=1)
         rep.columns = [str(c) for c in rep.columns]
         jsd = cacts_score_matrix(rep)
         cn_rep, _ = build_rep_matrix(cn_lines, model, level, min_group_n=1)   # mean CN per group, same grouping
         cn_rep.columns = [str(c) for c in cn_rep.columns]
         # one FDR matrix per level; global BH shares the testing budget across groups (specificity.py)
-        if a.fdr_method == "permutation" and level != "line":
+        if a.fdr_method == "permutation" and use_units and (level != "line" or exp_units):
+            strata = None
+            if a.null_strata != "none":
+                # each unit's line, then that line's parent group; stratum sizes counted in lines
+                unit_key = (unit_line if (exp_units and unit_line is not None) else
+                            (col_model if exp_units else pd.Series(Xdf.columns, index=Xdf.columns))).loc[Xdf.columns]
+                lin = model["OncotreeLineage"].reindex(unit_key.values).fillna("NA").values
+                dis = model["OncotreePrimaryDisease"].reindex(unit_key.values).fillna("NA").values
+                if a.null_strata == "lineage":
+                    strata = lin
+                elif a.null_strata == "disease":
+                    strata = dis
+                else:
+                    per_line = pd.DataFrame({"k": unit_key.values, "d": dis}).drop_duplicates("k")
+                    n_d = per_line.d.value_counts()
+                    strata = np.where(pd.Series(dis).map(n_d).fillna(0).values >= a.strata_min, dis, lin)
+                sdf = pd.DataFrame({"group": lab, "stratum": strata, "line": unit_key.values})
+                n_lines = sdf.drop_duplicates("line").groupby("stratum").size()
+                out_s = sdf.drop_duplicates("group")[["group", "stratum"]].assign(
+                    lines_in_stratum=lambda d: d.stratum.map(n_lines).values)
+                out_s["group"] = [name_of.get(g, g) if level == "line" else g for g in out_s.group]
+                out_s.to_csv(f"{a.out}.{level}.strata.tsv", sep="\t", index=False)
+                print(f"[score] {level}: null shuffles within {len(n_lines)} {a.null_strata} strata",
+                      file=sys.stderr, flush=True)
+            FDR = np.power(10.0, permutation_fdr_units(jsd, Xv, lab, a.agg, n_perm=a.n_perm,
+                                                       keep_frac=a.keep_frac, scope=a.fdr_scope,
+                                                       strata=strata))
+            if a.agg != "mean":
+                small = [g for g in FDR.columns if int(gsize.get(g, 0)) < a.min_members]
+                FDR[small] = 1.0
+                print(f"[score] {len(small)} {level} groups with < {a.min_members} members left uncalled "
+                      f"(rankings only)", file=sys.stderr, flush=True)
+        elif a.fdr_method == "permutation" and level != "line":
             FDR = np.power(10.0, permutation_fdr(jsd, lines_cor, model, level, n_perm=a.n_perm,
                                                  scope=a.fdr_scope))
         else:
