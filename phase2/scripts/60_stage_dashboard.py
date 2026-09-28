@@ -73,6 +73,10 @@ def main():
     ap.add_argument("--pull-bu", type=int, default=43, help="total CSC billing units spent on the pull(s)")
     ap.add_argument("--pull-set", default=os.path.join(PHASE2, "data", "pull_set.tsv"),
                     help="pull set (v2 carries cn_provider) — used to count lines per copy-number source")
+    ap.add_argument("--release", required=True, help="release label shown in the sidebar, e.g. v2")
+    ap.add_argument("--release-date", required=True, help="YYYY-MM-DD")
+    ap.add_argument("--release-title", default="", help="one line: what this release is")
+    ap.add_argument("--release-notes", default="", help="what changed since the previous release")
     a = ap.parse_args()
     SCORES, RESULTS = a.scores, a.results
     PERM = os.path.join(SCORES, "atlas.s3.perm")
@@ -237,6 +241,21 @@ def main():
     meta["calibration"] = {"n_tests": n_tests,
                            "analytic_shuffled_pct": round(100 * an / n_tests, 2) if an is not None else 6.05,
                            "perm_shuffled_calls": pm if pm is not None else 0}
+
+    # release history: releases.json is committed and grows by one entry per release (an existing entry
+    # with the same label is replaced, so restaging a release is idempotent). The sidebar shows the
+    # current one, with the change in line count from the release before it.
+    rel_path = os.path.join(OUT, "releases.json")
+    rels = json.load(open(rel_path)) if os.path.exists(rel_path) else []
+    entry = {"version": a.release, "date": a.release_date, "title": a.release_title, "notes": a.release_notes,
+             **{k: meta[k] for k in ("n_lines", "n_samples", "n_ses", "n_lineages", "n_diseases", "n_subtypes",
+                                     "n_lineage_calls", "n_disease_calls", "n_pull", "cn_sources")}}
+    rels = [r for r in rels if r.get("version") != a.release] + [entry]
+    rels.sort(key=lambda r: r["date"])
+    write_json("releases.json", rels)
+    prev = rels[-2] if len(rels) > 1 and rels[-1]["version"] == a.release else None
+    meta["release"] = {"version": a.release, "date": a.release_date, "title": a.release_title,
+                       "delta_lines": (meta["n_lines"] - prev["n_lines"]) if prev else None}
     write_json("meta.json", meta)
     print(f"[stage] wrote {len(os.listdir(OUT))} files to {OUT}")
 

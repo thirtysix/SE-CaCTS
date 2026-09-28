@@ -194,6 +194,7 @@ python phase2/analysis/v2_compare.py --a phase2/scores/atlas.s3.perm \
     --a-catalog phase2/results/atlas.s3.union_catalog.bed.gz --b phase2/scores_v2/atlas.s3.perm \
     --b-catalog phase2/results_v2/atlas.s3.union_catalog.bed.gz --out phase2/scores_v2/compare_v1_v2
 python phase2/scripts/60_stage_dashboard.py --scores phase2/scores_v2 --results phase2/results_v2 \
-    --pull-set phase2/data/pull_set.v2.tsv --pull-bu 53
+    --pull-set phase2/data/pull_set.v2.tsv --pull-bu 53 \
+    --release v2 --release-date 2026-09-28 --release-title "Copy-number-expanded panel: 386 cell lines"
 python phase2/figures/poster_figures.py
 ```

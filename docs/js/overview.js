@@ -3,13 +3,6 @@ const Overview = (() => {
   async function init() {
     const meta = await DataLoader.loadJSON("data/meta.json");
 
-    U.el("snap").innerHTML = [
-      [meta.n_ses.toLocaleString(), "super-enhancer loci", "union catalogue of SEs across the panel"],
-      [meta.n_lines, "cancer cell lines", "cancer cell lines with QC-passed H3K27ac and measured copy number"],
-      [meta.n_samples.toLocaleString(), "H3K27ac samples", "individual experiments after the QC gate"],
-      ["perm", "permutation-null FDR", "significance from a label-permutation null (B=1000)"],
-    ].map(([b, l, t]) => `<div class="s" title="${U.esc(t)}"><b>${b}</b> ${l}</div>`).join("");
-
     U.el("ov-stats").innerHTML = [
       [meta.n_ses.toLocaleString(), "", "super-enhancer loci in the atlas", "the union catalogue of super-enhancers across all samples (≥25% reciprocal-overlap merge)"],
       [meta.n_lines, "", "cancer cell lines, copy-number corrected", `distinct cancer cell lines with QC-passed H3K27ac and measured copy number (${Object.entries(meta.cn_sources || {}).map(([k, v]) => `${v} ${k}`).join(", ")}); replicate experiments are collapsed to the line`],

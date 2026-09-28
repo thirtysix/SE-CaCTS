@@ -2,6 +2,25 @@
 const About = (() => {
   async function init() {
     const m = await DataLoader.loadJSON("data/meta.json");
+    const rels = await DataLoader.loadJSON("data/releases.json").catch(() => []);
+    const f = n => (n == null ? "—" : Number(n).toLocaleString());
+    const relTable = !rels.length ? "" : `
+      <h3 id="releases">Releases</h3>
+      <p>Each release is a full rebuild and rescore; the dashboard always shows the newest. Counts are
+      specific super-enhancers at permutation FDR ≤ 0.10.</p>
+      <div class="card scroll" style="margin:0 0 12px"><table class="tbl">
+        <thead><tr><th>release</th><th>date</th><th class="num">cell lines</th><th class="num">samples</th>
+          <th class="num">SE loci</th><th class="num">lineage calls</th><th class="num">disease calls</th>
+          <th>copy number</th></tr></thead>
+        <tbody>${rels.slice().reverse().map(r => `<tr>
+          <td><b>${U.esc(r.version)}</b></td><td class="mono" style="white-space:nowrap">${U.esc(r.date)}</td>
+          <td class="num mono">${f(r.n_lines)}</td><td class="num mono">${f(r.n_samples)}</td>
+          <td class="num mono">${f(r.n_ses)}</td><td class="num mono">${f(r.n_lineage_calls)}</td>
+          <td class="num mono">${f(r.n_disease_calls)}</td>
+          <td>${Object.entries(r.cn_sources || {}).filter(([, v]) => v > 0).map(([k, v]) => `${v} ${U.esc(k)}`).join(", ")}</td>
+        </tr>`).join("")}</tbody></table></div>
+      <ul>${rels.slice().reverse().map(r => `<li><b>${U.esc(r.version)}</b> (${U.esc(r.date)})${r.title ? ` — ${U.esc(r.title)}` : ""}.
+        ${U.esc(r.notes || "")}</li>`).join("")}</ul>`;
     const src = Object.entries(m.cn_sources || {}).filter(([, v]) => v > 0);
     const cal = m.calibration || { analytic_shuffled_pct: 6.05, perm_shuffled_calls: 0 };
     U.el("about-body").innerHTML = `
@@ -84,6 +103,8 @@ const About = (() => {
         <li>That a given SE regulates its nearest gene (proximity annotation only).</li>
         <li>That each row is an independent regulatory element (nested / tiling loci — see above).</li>
       </ul>
+
+      ${relTable}
 
       <h3>Credit</h3>
       <p>Method: <b>CaCTS</b> — Reddy <em>et al.</em>, <em>Sci. Adv.</em> 2021 —

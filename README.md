@@ -200,7 +200,9 @@ set in the environment for a one-off run, which wins over `.env`:
 SECACTS_DATAROOT=/data/mirror python phase2/score_pilot.py ...
 ```
 
-Regenerate the dashboard's `data/` after a rescoring run with `phase2/scripts/60_stage_dashboard.py`.
+Regenerate the dashboard's `data/` after a rescoring run with `phase2/scripts/60_stage_dashboard.py`,
+labelling it with `--release vN --release-date YYYY-MM-DD --release-title "..."`. The sidebar shows the
+current release; `docs/data/releases.json` keeps every release, and the About tab lists them.
 
 ## Documents in this directory
 
