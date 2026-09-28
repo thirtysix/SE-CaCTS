@@ -50,13 +50,13 @@
         <h1>Lineage-specific super-enhancers across the cancer cell-line panel</h1>
         <p class="lede">Every H3K27ac experiment called for super-enhancers with a copy-number-aware
         ROSE reimplementation, reduced to one atlas, and scored for <b>group-specificity</b> with the CaCTS
-        Jensen–Shannon divergence. Significance uses a <b>label-permutation null</b> — the analytic
+        Jensen–Shannon divergence. Significance uses a <b>label-permutation null</b>; the analytic
         approximation it replaces failed calibration outright (5–6% false calls on shuffled labels).</p>
         <div class="lede-grid">
           <div class="lede-point"><span class="lp-lab">Calls:</span> supported at the <b>lineage</b> and
           <b>primary-disease</b> levels (permutation FDR ≤ 0.10).</div>
           <div class="lede-point"><span class="lp-lab">Rankings only:</span> at <b>subtype</b> and
-          <b>cell-line</b> level — too few lines per group for a significance call.</div>
+          <b>cell-line</b> level: too few lines per group for a significance call.</div>
         </div>
       </div>
       <div class="stat-grid" id="ov-stats"></div>
@@ -80,7 +80,7 @@
       <div class="phead wide"><div class="eyebrow">Explore</div><h1>Super-enhancer atlas</h1>
         <p class="lede">The most group-specific super-enhancers for any group, with the copy number at each
         locus and the nearest gene. Lower JSD = more specific (rank 1 = most specific). The <b>copy-number</b>
-        column flags amplicon context — a high value means the locus is amplified in this group's lines.</p>
+        column flags amplicon context: a high value means the locus is amplified in this group's lines.</p>
       </div>
       <div class="controls">
         <span class="ctl-label" title="resolution: calls are supported at lineage/disease; subtype and cell line are rankings only">Level</span>
@@ -99,7 +99,7 @@
       </div>
       <div class="controls scope-row" id="atlas-scope" style="display:none"></div>
       <div class="warn" id="atlas-warn" style="display:none"><b>Rankings only.</b> At this resolution most
-        groups have too few cell lines for the permutation null to support a significance call — a random
+        groups have too few cell lines for the permutation null to support a significance call: a random
         handful of lines scores as "specifically" as the real grouping. The order below is meaningful; the
         significance is not. See <a href="#about">About</a>.</div>
       <div class="desc" id="atlas-desc"></div>
@@ -125,16 +125,16 @@
     <section class="panel" data-tab="cn">
       <div class="phead wide"><div class="eyebrow">Validation</div><h1>Copy-number ablation</h1>
         <p class="lede">Scoring with vs without CN correction, both under the permutation null. Two findings:
-        correction <b>removes</b> calls that ride recurrent amplicons (MYCN, MYC, OTX2 …) — and, dominantly, it
+        correction <b>removes</b> calls that ride recurrent amplicons (MYCN, MYC, OTX2 …), and, dominantly, it
         <b>rescues</b> thousands of real, copy-neutral specific SEs that amplicon variance was masking in the
         null.</p>
       </div>
       <div class="two" id="cn-flow"></div>
       <div class="card" style="margin-top:18px">
-        <div class="card-h"><span class="pill tumor">removed</span><h3>Calls removed at amplified loci — recurrent lineage amplicons, strongest first</h3></div>
+        <div class="card-h"><span class="pill tumor">removed</span><h3>Calls removed at amplified loci: recurrent lineage amplicons, strongest first</h3></div>
         <div class="card-b" style="padding:0"><div class="amp-list" id="cn-amp"></div></div>
         <div class="card-note">These pass the permutation FDR <em>without</em> CN correction and fail
-          <em>with</em> it, at a locus whose group-mean copy number exceeds 1.3× — significant because the locus is
+          <em>with</em> it, at a locus whose group-mean copy number exceeds 1.3×, significant because the locus is
           amplified. Identified with no prior gene list. (Removed calls at copy-neutral loci are counted above but
           not listed: they lose significance when correction tightens the null, not because of an amplicon.)</div>
       </div>
@@ -152,7 +152,7 @@
         <div class="card-h"><h3>Concordance decays with SE→gene distance</h3><span class="muted-s">a local link, not a lineage confound</span></div>
         <div class="card-b" id="conc-dist"></div>
         <div class="card-note">A lineage-wide batch effect would not care how far the SE is from the gene.
-          The monotone decay — while the shuffled control stays flat — is what distinguishes a local
+          The monotone decay, while the shuffled control stays flat, is what distinguishes a local
           regulatory link from a confound.</div>
       </div>
     </section>

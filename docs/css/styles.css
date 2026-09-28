@@ -293,3 +293,9 @@ td.gene{font-family:ui-monospace,Menlo,monospace; font-weight:650}
 /* SE-domain tiling marker in the atlas Locus cell */
 .tiles-chip{display:inline-block; margin-left:8px; font-family:ui-monospace,Menlo,monospace; font-size:10.5px;
   font-weight:700; color:var(--amber); background:var(--hot-soft); border-radius:5px; padding:1px 6px; cursor:help; white-space:nowrap}
+.scope-toggle{display:inline-flex; align-items:center; gap:6px; font-size:12.5px; font-weight:600; color:var(--muted);
+  cursor:pointer; margin-right:6px}
+.scope-toggle input{accent-color:var(--accent); cursor:pointer}
+/* About: the pipeline flow chart (inline SVG styled by the theme tokens) */
+.pipeline-card{padding:14px 12px; margin:0 0 14px}
+.pipeline-card svg{display:block; max-width:780px; margin:0 auto}

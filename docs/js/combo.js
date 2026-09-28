@@ -1,9 +1,9 @@
-/* combo.js — a searchable dropdown (combobox): a visible, clickable list that also filters as you type.
+/* combo.js, a searchable dropdown (combobox): a visible, clickable list that also filters as you type.
    Adapted from pyCaCTS. Options carry a `search` string of aliases, and matching ignores case and
    punctuation, so "ovcar-3", "OVCAR3" and "NIH:OVCAR-3" all find NIH:OVCAR-3 (DepMap: NIHOVCAR3).
    Usage: const c = Combo.make(inputEl, key => onSelect(key)); c.setOptions([{key,label,search}]); c.setValue(key). */
 const Combo = (() => {
-  const CAP = 300;                                   // max rows rendered at once (the line level has 386)
+  const CAP = 1000;                                  // max rows rendered at once (the line level has 386: show them all)
   const norm = s => String(s || "").toLowerCase().replace(/[^a-z0-9]/g, "");
 
   function make(input, onSelect) {

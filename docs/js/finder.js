@@ -1,4 +1,4 @@
-/* finder.js — type a gene symbol, see every lineage / disease where an SE near it is group-specific. */
+/* finder.js, type a gene symbol, see every lineage / disease where an SE near it is group-specific. */
 const Finder = (() => {
   let index = null;
 

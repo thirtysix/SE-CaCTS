@@ -1,4 +1,4 @@
-/* util.js — shared helpers for the SE-CaCTS dashboard. */
+/* util.js, shared helpers for the SE-CaCTS dashboard. */
 const U = (() => {
   const el = id => document.getElementById(id);
   const esc = s => String(s == null ? "" : s).replace(/[&<>"]/g, c =>
@@ -14,7 +14,7 @@ const U = (() => {
 
   // CN class from a group-mean copy-number ratio
   const cnClass = v => v == null || v === "" ? "" : (+v > 1.3 ? "cn-amp" : "cn-neu");
-  const fmtFdr = v => (v == null || v === "" || isNaN(+v)) ? "—" : (+v).toFixed(3);
+  const fmtFdr = v => (v == null || v === "" || isNaN(+v)) ? "n/a" : (+v).toFixed(3);
   const fmtJsd = v => (+v).toFixed(3);
 
   // a UCSC out-link for an SE locus

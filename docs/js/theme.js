@@ -1,4 +1,4 @@
-/* theme.js — light/dark toggle, persisted. (No Plotly; charts are CSS.) */
+/* theme.js, light/dark toggle, persisted. (No Plotly; charts are CSS.) */
 const Theme = (() => {
   const KEY = "secacts-theme";
   const current = () => document.documentElement.getAttribute("data-theme") || "light";

@@ -1,10 +1,10 @@
-/* sidebar.js — the release card: which atlas release is on screen, and what it contains.
+/* sidebar.js, the release card: which atlas release is on screen, and what it contains.
    Rendered at boot (not by a tab's lazy init), so the sidebar is filled whichever tab a link opens. */
 const Sidebar = (() => {
   async function init() {
     const m = await DataLoader.loadJSON("data/meta.json");
     const r = m.release || {};
-    const fmt = n => (n == null ? "—" : Number(n).toLocaleString());
+    const fmt = n => (n == null ? "n/a" : Number(n).toLocaleString());
     const delta = r.delta_lines ? ` <span class="rel-delta" title="change from the previous release">+${fmt(r.delta_lines)}</span>` : "";
     const rows = [
       [fmt(m.n_lines) + delta, "cell lines", "cancer cell lines with QC-passed H3K27ac and measured copy number; replicate experiments are collapsed to the line"],

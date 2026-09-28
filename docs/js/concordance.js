@@ -1,4 +1,4 @@
-/* concordance.js — Phase-6 cross-layer check: specific SEs sit next to genes specific to the same group. */
+/* concordance.js, Phase-6 cross-layer check: specific SEs sit next to genes specific to the same group. */
 const Concordance = (() => {
   async function init() {
     const c = await DataLoader.loadJSON("data/concordance.json");
@@ -8,15 +8,15 @@ const Concordance = (() => {
         <div class="card-h"><h3>${U.esc(s.level)}</h3><span class="muted-s">${s.enrichment}× over background</span></div>
         <div class="card-b">
           <div class="abl-grid">
-            <div class="stat" title="of all (specific SE, nearby gene) pairs, the fraction where the gene is itself specific to the SAME group in DepMap expression — the headline concordance"><div class="k good">${s.per_pair}%</div><div class="l">SE-proximal genes specific to the same group</div></div>
-            <div class="stat" title="the rate at which any gene is specific to any group — the null expectation the ${s.per_pair}% is measured against (${s.enrichment}× enrichment)"><div class="k">${s.background}%</div><div class="l">background (all genes, all groups)</div></div>
-            <div class="stat" title="the same test with each SE scored against a RANDOM other group — collapses to background, proving the effect is same-group-specific"><div class="k">${s.shuffled}%</div><div class="l">group-shuffled control</div></div>
+            <div class="stat" title="of all (specific SE, nearby gene) pairs, the fraction where the gene is itself specific to the SAME group in DepMap expression, the headline concordance"><div class="k good">${s.per_pair}%</div><div class="l">SE-proximal genes specific to the same group</div></div>
+            <div class="stat" title="the rate at which any gene is specific to any group, the null expectation the ${s.per_pair}% is measured against (${s.enrichment}× enrichment)"><div class="k">${s.background}%</div><div class="l">background (all genes, all groups)</div></div>
+            <div class="stat" title="the same test with each SE scored against a RANDOM other group, collapses to background, proving the effect is same-group-specific"><div class="k">${s.shuffled}%</div><div class="l">group-shuffled control</div></div>
             <div class="stat" title="the fraction of specific SEs that have at least one concordant group-specific gene within 100 kb"><div class="k">${s.per_se_any}%</div><div class="l">SEs with ≥1 concordant gene in 100 kb</div></div>
           </div>
         </div>
       </div>`).join("");
 
-    // distance decay — the control that separates a local regulatory link from a lineage confound.
+    // distance decay, the control that separates a local regulatory link from a lineage confound.
     // teal bar = concordance; a grey tick marks the group-shuffled chance level (stays flat ~2.5%).
     const maxC = Math.max(...c.distance.map(d => d.concordant));
     U.el("conc-dist").innerHTML = c.distance.map(d => `

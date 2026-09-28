@@ -1,4 +1,4 @@
-/* tab-manager.js — sidebar/tab nav, hashchange routing, lazy per-tab init. */
+/* tab-manager.js, sidebar/tab nav, hashchange routing, lazy per-tab init. */
 const TabManager = (() => {
   const inits = new Map(), initialized = new Set();
   let current = null;
