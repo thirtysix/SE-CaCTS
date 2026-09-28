@@ -32,6 +32,8 @@ PHASE2 = os.path.dirname(HERE)
 SECACTS = os.path.dirname(PHASE2)
 sys.path.insert(0, os.path.join(PHASE2, "analysis"))
 from cn_ablation_calls import nearest_gene_fn                       # noqa: E402
+sys.path.insert(0, SECACTS)
+from secacts_env import DATAROOT                                    # noqa: E402
 
 SCORES = os.path.join(PHASE2, "scores")          # overridden by --scores / --results in main()
 RESULTS = os.path.join(PHASE2, "results")
@@ -57,6 +59,27 @@ def load_coords():
 def write_json(name, obj):
     with open(os.path.join(OUT, name), "w") as fh:
         json.dump(obj, fh, separators=(",", ":"))
+
+
+def line_aliases(pull_set):
+    """{StrippedCellLineName: {"label", "search"}} for the scored lines, from DepMap Model.csv (display
+    name, CCLE name, Cellosaurus RRID, Oncotree subtype) plus the ChIP-Atlas cell name in the pull set."""
+    ps = pd.read_csv(pull_set, sep="\t")
+    key = ps["key"] if "key" in ps.columns else ps["model_id"]
+    ps = ps.assign(key=key).dropna(subset=["key"]).drop_duplicates("key")
+    md = pd.read_csv(os.path.join(DATAROOT, "DepMap", "2026q1", "Model.csv"), index_col="ModelID")
+    out = {}
+    for r in ps.itertuples():
+        if r.key in md.index:
+            m = md.loc[r.key]
+            stripped, label = m["StrippedCellLineName"], m["CellLineName"]
+            extra = [m.get("CCLEName"), m.get("RRID"), m.get("OncotreeSubtype"), r.cell, r.key]
+        else:                                    # a line outside DepMap is keyed and named by its CVCL
+            stripped = label = r.cell
+            extra = [r.cvcl, r.subtype]
+        terms = [stripped, label] + [x for x in extra if isinstance(x, str)]
+        out[stripped] = {"label": label, "search": " | ".join(dict.fromkeys(terms))}
+    return out
 
 
 def n_columns(path):
@@ -149,6 +172,13 @@ def main():
                                                           sep="\t", index=False)
         hsub = H[H.level == col]
         groups = {r.group: {"n_lines": int(r.n_lines)} for r in hsub.itertuples()}
+        if short == "line":
+            # line groups are keyed by DepMap's StrippedCellLineName (e.g. NIHOVCAR3), which is hard to find
+            # by the name people use. Give each a display label and search aliases, so the picker finds
+            # OVCAR-3 from "ovcar-3", "OVCAR3", "NIH:OVCAR-3" or its Cellosaurus id.
+            for g, al in line_aliases(a.pull_set).items():
+                if g in groups:
+                    groups[g].update(al)
         manifest["levels"][short] = {"col": col, "label": label, "kind": "rankings",
                                      "n_groups": len(groups), "groups": groups}
         print(f"[stage] {short}: rankings for {len(groups)} groups (no calls — panel unsupported)")

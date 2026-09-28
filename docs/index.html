@@ -85,7 +85,12 @@
       <div class="controls">
         <span class="ctl-label" title="resolution: calls are supported at lineage/disease; subtype and cell line are rankings only">Level</span>
         <div class="seg" id="atlas-level" role="tablist"></div>
-        <select id="atlas-group" class="sel" title="choose a group (lineage, primary disease, subtype, or single cell line)"></select>
+        <div class="combo" id="atlas-combo">
+          <input id="atlas-group" class="sel combo-input" type="text" role="combobox" aria-autocomplete="list"
+            aria-expanded="false" autocomplete="off" spellcheck="false" aria-label="Group" placeholder="Choose a group…"
+            title="choose a group, or type to filter. Cell lines match any common name, ignoring punctuation (e.g. 'ovcar-3', 'MCF7', 'CVCL_0465'), or their subtype">
+          <div class="combo-pop" id="atlas-pop" role="listbox"></div>
+        </div>
         <input type="search" id="atlas-filter" class="sel" placeholder="filter by nearest gene…" autocomplete="off" spellcheck="false"
           title="filter the table to super-enhancers whose nearest gene contains this text (e.g. 'HNF', 'CDX', 'IGH')">
         <span class="ctl-label" id="atlas-fdr-wrap" style="display:none" title="tighten the specificity cutoff on the permutation FDR: every call already passes ≤ 0.10, so lower values keep only the most confidently specific super-enhancers">FDR ≤
@@ -176,6 +181,7 @@
 <script src="js/theme.js"></script>
 <script src="js/tab-manager.js"></script>
 <script src="js/util.js"></script>
+<script src="js/combo.js"></script>
 <script src="js/sidebar.js"></script>
 <script src="js/overview.js"></script>
 <script src="js/atlas.js"></script>

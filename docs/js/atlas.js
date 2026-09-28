@@ -49,17 +49,20 @@ const Atlas = (() => {
       b.onclick = () => { fdrMax = +b.dataset.fdr; renderFdrControl(); renderTable(); });
   }
 
+  let combo = null;
   function renderGroupPicker() {
     const gs = groupsFor(level), m = manifest.levels[level].groups;
-    const sel = U.el("atlas-group");
-    sel.innerHTML = gs.map(g => {
+    if (!combo) combo = Combo.make(U.el("atlas-group"), key => { group = key; renderTable(); });
+    // line level: sort and show by the display name (NIH:OVCAR-3), keyed by DepMap's stripped name
+    const lab = g => m[g].label || g;
+    const order = level === "line" ? gs.slice().sort((a, b) => lab(a).localeCompare(lab(b))) : gs;
+    combo.setOptions(order.map(g => {
       const info = m[g];
       const tail = info.n_calls != null ? ` — ${info.n_calls} calls` : "";
-      return `<option value="${U.esc(g)}">${U.esc(g)} (n=${info.n_lines}${tail})</option>`;
-    }).join("");
-    if (!group || !gs.includes(group)) group = gs[0];
-    sel.value = group;
-    sel.onchange = () => { group = sel.value; renderTable(); };
+      return { key: g, label: `${lab(g)} (n=${info.n_lines}${tail})`, search: `${lab(g)} | ${g} | ${info.search || ""}` };
+    }));
+    if (!group || !gs.includes(group)) group = order[0];
+    combo.setValue(group);
   }
 
   async function onLevel() {
@@ -113,7 +116,7 @@ const Atlas = (() => {
     rows = sortRows(currentRows());
 
     U.el("atlas-desc").innerHTML =
-      `<b>${U.esc(group)}</b><span class="sep">·</span><span class="mono">${info.n_lines} cell line${info.n_lines > 1 ? "s" : ""}</span>` +
+      `<b>${U.esc(info.label || group)}</b><span class="sep">·</span><span class="mono">${info.n_lines} cell line${info.n_lines > 1 ? "s" : ""}</span>` +
       (isCalls ? `<span class="sep">·</span><span class="mono" title="catalogue entries; nested / tiling loci mean fewer independent SE domains — see the ↳ markers and About & methods">${info.n_calls.toLocaleString()} specific SEs</span><span>&nbsp;at permutation FDR ≤ 0.10</span>`
                : `<span class="rank-only-badge">rankings only</span>`);
     U.el("atlas-warn").style.display = isCalls ? "none" : "block";
