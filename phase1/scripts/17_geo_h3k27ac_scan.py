@@ -134,10 +134,19 @@ def variant_map(lines, lex):
 
 
 # ----------------------------------------------------------------------------- GEO
-def geo_summaries():
+def geo_summaries(refresh=False):
+    """Cached: .cache/geo_h3k27ac_gsm.jsonl + .meta.json (query, date, count). Reused unless --refresh; a
+    refresh keeps the old snapshot under its date, so earlier listings stay reproducible."""
     fn = cache_path("geo_h3k27ac_gsm.jsonl")
-    if os.path.exists(fn):
+    meta = fn + ".meta.json"
+    if os.path.exists(fn) and not refresh:
+        m = json.load(open(meta)) if os.path.exists(meta) else {}
+        print(f"[17] GEO: cached snapshot {m.get('date', '?')} ({m.get('count', '?')} GSMs); --refresh to re-query",
+              file=sys.stderr)
         return [json.loads(l) for l in open(fn)]
+    if os.path.exists(fn):
+        old = json.load(open(meta)).get("date", "undated") if os.path.exists(meta) else "undated"
+        os.replace(fn, fn.replace(".jsonl", f".{old}.jsonl"))
     q = urllib.parse.urlencode({"db": "gds", "term": QUERY, "usehistory": "y", "retmax": 0, "retmode": "json"})
     es = json.loads(get(f"{EUTILS}/esearch.fcgi?{q}"))["esearchresult"]
     n, web, key = int(es["count"]), es["webenv"], es["querykey"]
@@ -158,6 +167,7 @@ def geo_summaries():
     with open(fn, "w") as fh:
         for r in recs:
             fh.write(json.dumps(r) + "\n")
+    json.dump({"date": time.strftime("%Y-%m-%d"), "query": QUERY, "count": len(recs)}, open(meta, "w"), indent=1)
     return recs
 
 
@@ -246,7 +256,15 @@ def status(srxs, ca):
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--experiment-list", required=True, help="current ChIP-Atlas experimentList.tab")
+    ap.add_argument("--scope", choices=["missing", "have"], default="missing",
+                    help="missing: CN lines with no ChIP-Atlas H3K27ac (new lines); have: lines we already "
+                         "resolved (631 + v3 candidates), for extra replicates. Outputs get a '.have' suffix.")
+    ap.add_argument("--refresh", action="store_true", help="re-query GEO (keeps the old snapshot, dated)")
     a = ap.parse_args()
+    sfx = "" if a.scope == "missing" else ".have"
+    known_srx = set(pd.read_csv(os.path.join(P1, "phase1_manifest.tsv"), sep="\t").srx) \
+        | set(pd.read_csv(os.path.join(P2, "pull_set.v2.tsv"), sep="\t").srx) \
+        | set(pd.read_csv(os.path.join(P1, "expansion_v3_candidates.tsv"), sep="\t").srx)
     os.makedirs(OUT, exist_ok=True)
 
     have = set(pd.read_csv(os.path.join(P1, "cell_line_cn_status_2026-08-15.tsv"), sep="\t").cvcl) \
@@ -254,8 +272,19 @@ def main():
         | set(pd.read_csv(os.path.join(P1, "expansion_v3_candidates.tsv"), sep="\t").cvcl.dropna())
     ps = pd.read_csv(os.path.join(P2, "pull_set.v2.tsv"), sep="\t")
     have_models = set(ps.key.dropna()) | set(ps.model_id.dropna())
-    cn = cn_lines()
-    tgt = cn[~cn.cvcl.isin(have) & ~cn.model_id.isin(have_models)].reset_index(drop=True)
+    if a.scope == "missing":
+        cn = cn_lines()
+        tgt = cn[~cn.cvcl.isin(have) & ~cn.model_id.isin(have_models)].reset_index(drop=True)
+    else:
+        st = pd.read_csv(os.path.join(P1, "cell_line_cn_status_2026-08-15.tsv"), sep="\t")
+        dm = pd.read_csv(os.path.join(DEPMAP, "Model.csv"), usecols=["RRID", "CellLineName", "OncotreeLineage",
+                                                                    "OncotreePrimaryDisease"]).dropna(subset=["RRID"])
+        dm = dm.drop_duplicates("RRID").set_index("RRID")
+        rows = [(r.cvcl, r.cell_line, r.lineage, r.subtype, r.data_status, "") for r in st.itertuples()]
+        for c in sorted(have - set(st.cvcl)):
+            if c in dm.index:
+                rows.append((c, dm.CellLineName[c], dm.OncotreeLineage[c], dm.OncotreePrimaryDisease[c], "candidate", ""))
+        cn = tgt = pd.DataFrame(rows, columns=["cvcl", "cell_line", "lineage", "disease", "cn_record", "model_id"])
     print(f"[17] CN-measured cancer lines {len(cn):,}; with ChIP-Atlas H3K27ac or candidates "
           f"{int(cn.cvcl.isin(have).sum()):,}; targets {len(tgt):,}", file=sys.stderr)
     global LEX
@@ -264,11 +293,11 @@ def main():
     short = {s for s in vmap if len(s) <= 4}
     print(f"[17] {len(vmap):,} unambiguous name variants ({len(short):,} short, cell-field only)", file=sys.stderr)
 
-    recs = geo_summaries()
+    recs = geo_summaries(a.refresh)
     ca = chip_atlas(a.experiment_list)
     allst = pd.DataFrame([{"gsm": r["gsm"], "pdat": r["pdat"], "srx": r["srx"],
                            "status": status(r["srx"], ca) if r["srx"] else "no SRA link"} for r in recs])
-    allst.to_csv(os.path.join(OUT, "geo_h3k27ac_scan.all_gsm_status.tsv"), sep="\t", index=False)
+    allst.to_csv(os.path.join(OUT, f"geo_h3k27ac_scan{sfx}.all_gsm_status.tsv"), sep="\t", index=False)
     print("[17] all human H3K27ac GSMs vs ChIP-Atlas:", allst.status.value_counts().to_dict(), file=sys.stderr)
 
     long_map = {s: c for s, c in vmap.items() if s not in short}
@@ -283,24 +312,31 @@ def main():
 
     out = []
     for i, (r, c) in enumerate(cand):
+        if r["srx"] and set(r["srx"].split(";")) & known_srx:          # already ours: no need to verify
+            out.append({"gsm": r["gsm"], "gse": r["gse"], "pdat": r["pdat"], "cvcl": c, "title": r["title"][:120],
+                        "srx": r["srx"], "cell_field_match": True, "h3k27ac": True, "human": True,
+                        "chip_atlas": "already ours"})
+            continue
         rec = full_record(r["gsm"])
         cell_ok, k27, hs = verify(rec, c, vmap)
         out.append({"gsm": r["gsm"], "gse": r["gse"], "pdat": r["pdat"], "cvcl": c, "title": rec["title"][:120],
                     "srx": rec["srx"] or r["srx"], "cell_field_match": cell_ok, "h3k27ac": k27, "human": hs,
-                    "chip_atlas": status(rec["srx"] or r["srx"], ca)})
+                    "chip_atlas": "already ours" if set((rec["srx"] or r["srx"]).split(";")) & known_srx
+                    else status(rec["srx"] or r["srx"], ca)})
         if i % 200 == 0:
             print(f"[17]   verified {i:,}/{len(cand):,}", file=sys.stderr)
     s = pd.DataFrame(out).merge(tgt, on="cvcl")
     s["verified"] = s.cell_field_match & s.h3k27ac & s.human
-    s.to_csv(os.path.join(OUT, "geo_h3k27ac_scan.samples.tsv"), sep="\t", index=False)
+    s.to_csv(os.path.join(OUT, f"geo_h3k27ac_scan{sfx}.samples.tsv"), sep="\t", index=False)
     v = s[s.verified].drop_duplicates(["gsm", "cvcl"])
     L = v.groupby(["cvcl", "cell_line", "lineage", "disease", "cn_record"]).agg(
         n_gsm=("gsm", "nunique"), n_gse=("gse", lambda x: len({g.split(";")[0] for g in x})),
         absent=("chip_atlas", lambda x: int((x == "absent").sum())),
+        ours=("chip_atlas", lambda x: int((x == "already ours").sum())),
         misfiled=("chip_atlas", lambda x: int((x == "non-human genome only").sum())),
         ca_other=("chip_atlas", lambda x: int(x.str.startswith("hg38").sum())),
         first=("pdat", "min"), last=("pdat", "max")).reset_index().sort_values("n_gsm", ascending=False)
-    L.to_csv(os.path.join(OUT, "geo_h3k27ac_scan.lines.tsv"), sep="\t", index=False)
+    L.to_csv(os.path.join(OUT, f"geo_h3k27ac_scan{sfx}.lines.tsv"), sep="\t", index=False)
     print(f"[17] verified: {len(v):,} samples on {v.cvcl.nunique():,} target lines; lines with >= 2 GEO series "
           f"{int((L.n_gse >= 2).sum())}; ChIP-Atlas status {v.chip_atlas.value_counts().to_dict()}", file=sys.stderr)
 

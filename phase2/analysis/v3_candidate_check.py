@@ -63,12 +63,17 @@ def main():
                     help="dir with expansion_v3_candidates.tsv, pull_set.v2.tsv, lineage_resolved.tsv")
     ap.add_argument("--new-lines", help="cvcl, cell_line, lineage, OncotreePrimaryDisease for lines not yet in "
                     "lineage_resolved.tsv (from DepMap Model.csv by RRID)")
+    ap.add_argument("--candidates", help="TSV with srx, cvcl, line_status (scored_v2|new), route, and optional "
+                    "key (expected scored line), cell_line, lineage; default: <meta-dir>/expansion_v3_candidates.tsv "
+                    "(qc_pass rows)")
     ap.add_argument("--out", required=True)
     a = ap.parse_args()
     W, M = a.work, a.meta_dir
 
-    cand = pd.read_csv(f"{M}/expansion_v3_candidates.tsv", sep="\t")
-    cand = cand[cand.qc_pass == True].set_index("srx")
+    cand = pd.read_csv(a.candidates or f"{M}/expansion_v3_candidates.tsv", sep="\t")
+    if "qc_pass" in cand:
+        cand = cand[cand.qc_pass == True]
+    cand = cand.set_index("srx")
     ps = pd.read_csv(f"{M}/pull_set.v2.tsv", sep="\t").set_index("srx")
     lin = pd.read_csv(f"{M}/lineage_resolved.tsv", sep="\t").drop_duplicates("cvcl").set_index("cvcl")
     disease = pd.Series(dtype=str)
@@ -151,7 +156,8 @@ def main():
     for srx, r in cand.iterrows():
         d = f"{W}/out/{srx[-2:]}"
         row = {"srx": srx, "cvcl": r.cvcl, "line_status": r.line_status, "route": r.route,
-               "cell_line": lin.cell_line.get(r.cvcl, ""), "lineage": lin.lineage.get(r.cvcl, "")}
+               "cell_line": r.get("cell_line") if isinstance(r.get("cell_line"), str) else lin.cell_line.get(r.cvcl, ""),
+               "lineage": r.get("lineage") if isinstance(r.get("lineage"), str) else lin.lineage.get(r.cvcl, "")}
         if not os.path.exists(f"{d}/{srx}.done"):
             row["status"] = "not pulled"; out.append(row); continue
         q = json.load(open(f"{d}/{srx}.qc.json"))
@@ -167,7 +173,7 @@ def main():
         best = int(np.argmax(rl))
         row["best_line"], row["best_line_r"] = line_name[lines[best]], float(rl[best])
         row["best_line_lineage"] = line_lineage[lines[best]]
-        key = cvcl2key.get(r.cvcl)
+        key = r.get("key") if isinstance(r.get("key"), str) else cvcl2key.get(r.cvcl)
         if key is not None and key in set(lines):
             li = int(np.where(lines == key)[0][0])
             row["own_line_rank"] = int((rl > rl[li]).sum()) + 1
