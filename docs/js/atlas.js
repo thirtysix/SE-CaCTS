@@ -3,6 +3,16 @@
 const Atlas = (() => {
   let manifest, level = "lineage", group = null, rows = [], cache = {};
   let sortKey = "rank", sortAsc = true, geneQuery = "", fdrMax = 1;
+  // Hierarchy scoping. Every scored line has one lineage, primary disease and subtype (manifest.hierarchy),
+  // so a level can be restricted to the groups inside a choice made at the levels above it.
+  const ORDER = ["lineage", "disease", "subtype", "line"];
+  let hier = [], scope = { lineage: null, disease: null, subtype: null };
+  const inScope = (sc, upto) => hier.filter(h => ORDER.slice(0, upto).every(u => !sc[u] || h[u] === sc[u]));
+  const linesOf = (lv, g) => hier.filter(h => h[lv] === g);
+  const unique = (rows, lv) => { const s = new Set(rows.map(h => h[lv])); return s.size === 1 ? [...s][0] : null; };
+  const majority = (rows, lv) => { const c = {}; rows.forEach(h => { c[h[lv]] = (c[h[lv]] || 0) + 1; });
+    return Object.keys(c).sort((a, b) => c[b] - c[a])[0] || null; };
+  const lab = (lv, g) => (manifest.levels[lv].groups[g] || {}).label || g;
 
   const levelDef = k => U.LEVELS.find(l => l.key === k);
   const fmtLen = bp => bp == null ? "" : (bp < 1000 ? `${bp} bp` : `${(bp / 1000).toFixed(1)} kb`);
@@ -24,8 +34,70 @@ const Atlas = (() => {
   }
 
   function groupsFor(k) {
-    const g = manifest.levels[k].groups;
-    return Object.keys(g).sort((a, b) => (g[b].n_calls || 0) - (g[a].n_calls || 0) || a.localeCompare(b));
+    const g = manifest.levels[k].groups, i = ORDER.indexOf(k);
+    const allowed = hier.length && i > 0 ? new Set(inScope(scope, i).map(h => h[k])) : null;
+    return Object.keys(g).filter(x => !allowed || allowed.has(x))
+      .sort((a, b) => (g[b].n_calls || 0) - (g[a].n_calls || 0) || a.localeCompare(b));
+  }
+
+  // Moving between levels keeps the context: drilling down makes the current group the scope (Ovary at
+  // lineage level -> only the ovarian cell lines); going up selects the current group's parent.
+  function switchLevel(nl) {
+    const oi = ORDER.indexOf(level), ni = ORDER.indexOf(nl), anchor = group ? linesOf(level, group) : [];
+    if (anchor.length) {
+      if (ni > oi) {
+        ORDER.slice(0, oi).forEach(u => { if (u in scope) scope[u] = unique(anchor, u) || scope[u]; });
+        if (level in scope) scope[level] = group;
+        ORDER.slice(oi + 1).forEach(u => { if (u in scope) scope[u] = null; });
+        group = null;
+      } else {
+        group = majority(anchor, nl);
+        ORDER.forEach((u, i) => { if (u in scope) scope[u] = i < ni ? unique(anchor, u) : null; });
+      }
+    }
+    level = nl;
+    onLevel();
+  }
+
+  // jump to a group at another level (breadcrumb), with the levels above it scoped to its parents
+  function goTo(lv, g) {
+    const rows = linesOf(lv, g), ni = ORDER.indexOf(lv);
+    ORDER.forEach((u, i) => { if (u in scope) scope[u] = i < ni ? unique(rows, u) : null; });
+    level = lv; group = g;
+    onLevel();
+  }
+
+  function renderScope() {
+    const idx = ORDER.indexOf(level), el = U.el("atlas-scope");
+    if (!hier.length || idx === 0) { el.style.display = "none"; el.innerHTML = ""; return; }
+    el.style.display = "flex";
+    const sels = ORDER.slice(0, idx).map((u, i) => {
+      const rows = inScope(scope, i), cnt = {};
+      rows.forEach(h => { if (h[u]) cnt[h[u]] = (cnt[h[u]] || 0) + 1; });
+      const lbl = levelDef(u).label.toLowerCase();
+      return `<select class="sel scope-sel" data-u="${u}" title="show only the ${levelDef(level).label.toLowerCase()} groups inside one ${lbl}">
+        <option value="">All ${lbl}s (${rows.length} lines)</option>
+        ${Object.keys(cnt).sort((a, b) => a.localeCompare(b)).map(o =>
+          `<option value="${U.esc(o)}"${scope[u] === o ? " selected" : ""}>${U.esc(o)} (${cnt[o]} line${cnt[o] > 1 ? "s" : ""})</option>`).join("")}
+      </select>`;
+    });
+    const any = ORDER.slice(0, idx).some(u => scope[u]);
+    el.innerHTML = `<span class="ctl-label" title="narrow this level to the groups inside a lineage, primary disease or subtype">Within</span>`
+      + sels.join(`<span class="scope-sep">›</span>`)
+      + (any ? `<button class="dl-btn scope-clear" title="show every group at this level">clear</button>` : "");
+    el.querySelectorAll(".scope-sel").forEach(sel => sel.onchange = () => {
+      const u = sel.dataset.u, i = ORDER.indexOf(u);
+      scope[u] = sel.value || null;
+      // a narrower choice below this one survives only if it still fits
+      ORDER.slice(i + 1, idx).forEach(d => {
+        if (scope[d] && !inScope(scope, ORDER.indexOf(d)).some(h => h[d] === scope[d])) scope[d] = null;
+      });
+      // and a broader one above follows the new choice when it is unambiguous
+      if (scope[u]) ORDER.slice(0, i).forEach(a => { const p = unique(linesOf(u, scope[u]), a); if (p) scope[a] = p; });
+      renderScope(); renderGroupPicker(); renderTable();
+    });
+    const clr = el.querySelector(".scope-clear");
+    if (clr) clr.onclick = () => { Object.keys(scope).forEach(k => { scope[k] = null; }); renderScope(); renderGroupPicker(); renderTable(); };
   }
 
   function renderControls() {
@@ -33,7 +105,7 @@ const Atlas = (() => {
       `<button data-lv="${l.key}" aria-selected="${l.key === level}" title="${l.kind === "calls"
         ? "specificity calls are supported at this resolution" : "rankings only — the panel does not support calls here (few lines per group)"}">${l.label}</button>`).join("");
     U.el("atlas-level").querySelectorAll("button").forEach(b =>
-      b.onclick = () => { if (b.dataset.lv !== level) { level = b.dataset.lv; group = null; onLevel(); } });
+      b.onclick = () => { if (b.dataset.lv !== level) switchLevel(b.dataset.lv); });
   }
 
   function renderFdrControl() {
@@ -54,19 +126,21 @@ const Atlas = (() => {
     const gs = groupsFor(level), m = manifest.levels[level].groups;
     if (!combo) combo = Combo.make(U.el("atlas-group"), key => { group = key; renderTable(); });
     // line level: sort and show by the display name (NIH:OVCAR-3), keyed by DepMap's stripped name
-    const lab = g => m[g].label || g;
-    const order = level === "line" ? gs.slice().sort((a, b) => lab(a).localeCompare(lab(b))) : gs;
+    const nm = g => m[g].label || g;
+    const order = level === "line" ? gs.slice().sort((a, b) => nm(a).localeCompare(nm(b))) : gs;
     combo.setOptions(order.map(g => {
       const info = m[g];
       const tail = info.n_calls != null ? ` — ${info.n_calls} calls` : "";
-      return { key: g, label: `${lab(g)} (n=${info.n_lines}${tail})`, search: `${lab(g)} | ${g} | ${info.search || ""}` };
+      return { key: g, label: `${nm(g)} (n=${info.n_lines}${tail})`, search: `${nm(g)} | ${g} | ${info.search || ""}` };
     }));
+    U.el("atlas-group").placeholder = `${order.length} ${levelDef(level).label.toLowerCase()} group${order.length === 1 ? "" : "s"} — type to filter`;
     if (!group || !gs.includes(group)) group = order[0];
     combo.setValue(group);
   }
 
   async function onLevel() {
     renderControls();
+    renderScope();
     renderFdrControl();
     await loadLevel(level);
     renderGroupPicker();
@@ -115,10 +189,18 @@ const Atlas = (() => {
     const tiles = tilesOf(groupAll);                     // se_id -> rank of the domain it tiles
     rows = sortRows(currentRows());
 
-    U.el("atlas-desc").innerHTML =
+    // breadcrumb: the group's parents at the levels above, each a link to that group
+    const anchor = linesOf(level, group);
+    const crumbs = ORDER.slice(0, ORDER.indexOf(level)).map(u => {
+      const p = unique(anchor, u);
+      return p ? `<a class="crumb" href="#atlas" data-lv="${u}" data-g="${U.esc(p)}" title="open ${U.esc(p)} at ${levelDef(u).label.toLowerCase()} level">${U.esc(lab(u, p))}</a><span class="sep">›</span>` : "";
+    }).join("");
+    U.el("atlas-desc").innerHTML = crumbs +
       `<b>${U.esc(info.label || group)}</b><span class="sep">·</span><span class="mono">${info.n_lines} cell line${info.n_lines > 1 ? "s" : ""}</span>` +
       (isCalls ? `<span class="sep">·</span><span class="mono" title="catalogue entries; nested / tiling loci mean fewer independent SE domains — see the ↳ markers and About & methods">${info.n_calls.toLocaleString()} specific SEs</span><span>&nbsp;at permutation FDR ≤ 0.10</span>`
                : `<span class="rank-only-badge">rankings only</span>`);
+    U.el("atlas-desc").querySelectorAll(".crumb").forEach(c =>
+      c.onclick = e => { e.preventDefault(); goTo(c.dataset.lv, c.dataset.g); });
     U.el("atlas-warn").style.display = isCalls ? "none" : "block";
 
     const topN = 100;
@@ -159,6 +241,7 @@ const Atlas = (() => {
 
   async function init() {
     manifest = await DataLoader.loadJSON("data/manifest.json");
+    hier = (manifest.hierarchy || []).map(([line, lineage, disease, subtype]) => ({ line, lineage, disease, subtype }));
     document.querySelectorAll("#atlas-table th[data-sort]").forEach(th =>
       th.onclick = () => {
         if (sortKey === th.dataset.sort) sortAsc = !sortAsc;

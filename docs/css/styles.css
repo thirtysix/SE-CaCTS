@@ -284,6 +284,12 @@ td.gene{font-family:ui-monospace,Menlo,monospace; font-weight:650}
 .repo-cta .rc-t small{color:var(--muted); font-size:12.5px; margin-top:2px}
 .repo-cta .rc-go{margin-left:auto; color:var(--accent-deep); font-size:15px; flex:none}
 #atlas-fdr-wrap{align-items:center; gap:2px}
+/* atlas: scope a level by the levels above it ("Within" row) + breadcrumb in the group header */
+.scope-row{margin-top:-6px; gap:8px 8px}
+.scope-sel{max-width:300px; font-size:13px; padding:6px 9px}
+.scope-sep{color:var(--faint); font-size:15px}
+.desc .crumb{color:var(--accent-deep); font-weight:600}
+.desc .crumb:hover{text-decoration:underline}
 /* SE-domain tiling marker in the atlas Locus cell */
 .tiles-chip{display:inline-block; margin-left:8px; font-family:ui-monospace,Menlo,monospace; font-size:10.5px;
   font-weight:700; color:var(--amber); background:var(--hot-soft); border-radius:5px; padding:1px 6px; cursor:help; white-space:nowrap}

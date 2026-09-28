@@ -82,6 +82,30 @@ def line_aliases(pull_set):
     return out
 
 
+def line_hierarchy(pull_set, line_groups):
+    """[[line, lineage, disease, subtype], ...] for every scored line (line = the line-level group key),
+    with the same Oncotree labels the scorer grouped by: DepMap Model.csv, or the Cellosaurus-NCIt
+    crosswalk for a line outside DepMap. The dashboard uses it to scope each level by the levels above."""
+    ps = pd.read_csv(pull_set, sep="\t")
+    key = ps["key"] if "key" in ps.columns else ps["model_id"]
+    ps = ps.assign(key=key).dropna(subset=["key"]).drop_duplicates("key")
+    md = pd.read_csv(os.path.join(DATAROOT, "DepMap", "2026q1", "Model.csv"), index_col="ModelID")
+    lr = pd.read_csv(os.path.join(SECACTS, "phase1", "data", "lineage_resolved.tsv"), sep="\t").set_index("cvcl")
+    out = []
+    for r in ps.itertuples():
+        if r.key in md.index:
+            m = md.loc[r.key]
+            row = [m["StrippedCellLineName"], m["OncotreeLineage"], m["OncotreePrimaryDisease"], m["OncotreeSubtype"]]
+        elif r.cvcl in lr.index:
+            m = lr.loc[r.cvcl]
+            row = [m["cell_line"], m["lineage"], m["primary_disease"], m["subtype"]]
+        else:
+            continue
+        if row[0] in line_groups:
+            out.append([x if isinstance(x, str) else None for x in row])
+    return out
+
+
 def n_columns(path):
     """Sample count of a gzipped SE x sample matrix, from its header line alone."""
     with gzip.open(path, "rt") as fh:
@@ -183,6 +207,8 @@ def main():
                                      "n_groups": len(groups), "groups": groups}
         print(f"[stage] {short}: rankings for {len(groups)} groups (no calls — panel unsupported)")
 
+    manifest["hierarchy"] = line_hierarchy(a.pull_set, set(manifest["levels"]["line"]["groups"]))
+    print(f"[stage] hierarchy: {len(manifest['hierarchy'])} lines with lineage / disease / subtype")
     write_json("manifest.json", manifest)
 
     # ---- CN ablation (call-based, honest null)

@@ -23,7 +23,7 @@ const Overview = (() => {
 
     U.el("ov-guide").innerHTML = [
       ["▦", "atlas", "SE atlas",
-        "The core view. For any lineage or primary disease, the super-enhancers most specific to it — ranked by JSD, with the permutation FDR, the mean copy number at the locus, the nearest gene, the SE length and coordinates (each linked to the UCSC browser), and a ⇌ badge where the gene is <em>also</em> specific in expression. Filter by gene, tighten the FDR cutoff, or drop to subtype / cell-line rankings."],
+        "The core view. For any lineage or primary disease, the super-enhancers most specific to it — ranked by JSD, with the permutation FDR, the mean copy number at the locus, the nearest gene, the SE length and coordinates (each linked to the UCSC browser), and a ⇌ badge where the gene is <em>also</em> specific in expression. Filter by gene, tighten the FDR cutoff, or drop to subtype / cell-line rankings, narrowed to one lineage, disease or subtype so you can browse a group's cell lines without knowing their names."],
       ["⊘", "cn", "CN ablation",
         "Why the copy-number layer earns its place. Scoring with vs without correction: the calls it removes at recurrent amplicons (MYCN, MYC, OTX2 …) and the thousands of real, copy-neutral calls it <em>rescues</em> from amplicon noise in the null."],
       ["⇌", "concordance", "Concordance",
