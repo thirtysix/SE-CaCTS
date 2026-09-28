@@ -408,7 +408,7 @@ def main():
             rep = pd.DataFrame(rep_agg(Xv, np.asarray(codes), len(groups), a.agg), index=se_ids, columns=groups)
             gsize = pd.Series(lab).value_counts().reindex(groups)
             print(f"[score] {level}: {len(groups)} groups aggregated by {a.agg} over "
-                  f"{'experiments' if exp_units else 'lines'}", file=sys.stderr, flush=True)
+                  f"{a.line_members if exp_units else 'lines'}", file=sys.stderr, flush=True)
         else:
             rep, gsize = build_rep_matrix(lines_cor, model, level, min_group_n=1)
         rep.columns = [str(c) for c in rep.columns]
