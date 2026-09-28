@@ -1,0 +1,71 @@
+level	group	n_lines	n_spec_fdr05	n_spec_fdr10	n_spec_fdr25	top15_identity	genes
+OncotreeLineage	Biliary Tract	1	0	0	23	0	
+OncotreeLineage	Bladder/Urinary Tract	7	1	17	201	0	
+OncotreeLineage	Bone	18	490	774	1360	0	
+OncotreeLineage	Bowel	19	68	380	1234	1	HNF4A:5;CDX2:25;ASCL2:58;KLF5:311;CDX1:566;VDR:2054;TCF7L2:2065
+OncotreeLineage	Breast	41	34	254	837	0	ESR1:17;FOXA1:140;GRHL2:222;TFAP2C:313;SPDEF:350;GATA3:1139;XBP1:1819
+OncotreeLineage	CNS/Brain	12	57	180	530	0	
+OncotreeLineage	Cervix	3	2	8	40	0	
+OncotreeLineage	Esophagus/Stomach	23	7	48	437	0	
+OncotreeLineage	Eye	3	14	107	475	0	
+OncotreeLineage	Head and Neck	7	38	93	333	0	
+OncotreeLineage	Kidney	11	74	638	3121	0	
+OncotreeLineage	Liver	7	43	154	491	0	
+OncotreeLineage	Lung	63	163	637	2216	0	
+OncotreeLineage	Lymphoid	75	2344	3894	5844	0	MYB:164;LEF1:337;RUNX1:461;TCF7:4714;LMO2:5976;TAL1:14841;TLX3:19240;TLX1:26940
+OncotreeLineage	Myeloid	23	410	1197	2724	2	SPI1:9;CEBPA:23;RUNX1:57;GATA2:267;MYB:415;GATA1:4987
+OncotreeLineage	Ovary/Fallopian Tube	12	11	47	318	4	MECOM:1;SOX17:5;PAX8:50;GATA6:1896;WT1:3129
+OncotreeLineage	Pancreas	15	1	74	1013	0	
+OncotreeLineage	Peripheral Nervous System	14	437	990	2121	0	
+OncotreeLineage	Pleura	2	2	36	339	0	
+OncotreeLineage	Prostate	4	13	52	257	0	
+OncotreeLineage	Skin	13	841	1740	3311	0	
+OncotreeLineage	Soft Tissue	9	47	276	1192	0	
+OncotreeLineage	Testis	2	37	152	552	0	
+OncotreeLineage	Uterus	2	4	15	135	0	
+OncotreePrimaryDisease	Acute Myeloid Leukemia	19	0	512	1820	2	CEBPA:8;IRF8:13;SPI1:24;MEF2C:46;RUNX1:89;MYB:607
+OncotreePrimaryDisease	Adult-Type Diffuse Glioma	5	0	19	281	0	
+OncotreePrimaryDisease	B-Cell Acute Lymphoblastic Leukemia	10	7	1328	2667	0	
+OncotreePrimaryDisease	Bladder Urothelial Carcinoma	7	0	6	149	0	
+OncotreePrimaryDisease	Breast Ductal Carcinoma In Situ	1	0	5	40	0	ESR1:138;GRHL2:158;GATA3:787;FOXA1:1561;SPDEF:2055;TFAP2C:3305;XBP1:9895
+OncotreePrimaryDisease	Cervical Adenocarcinoma	1	0	0	7	0	
+OncotreePrimaryDisease	Cervical Squamous Cell Carcinoma	2	0	1	20	0	
+OncotreePrimaryDisease	Clear Cell Sarcoma	1	0	197	1125	0	
+OncotreePrimaryDisease	Colorectal Adenocarcinoma	19	0	242	1159	1	HNF4A:7;CDX2:25;ASCL2:58;KLF5:208;CDX1:605;TCF7L2:1812;VDR:2292
+OncotreePrimaryDisease	Diffuse Glioma	1	0	3	36	0	
+OncotreePrimaryDisease	Embryonal Tumor	6	3	153	432	0	
+OncotreePrimaryDisease	Endometrial Carcinoma	1	0	6	93	0	
+OncotreePrimaryDisease	Esophageal Squamous Cell Carcinoma	7	0	27	223	0	
+OncotreePrimaryDisease	Esophagogastric Adenocarcinoma	16	0	39	492	0	
+OncotreePrimaryDisease	Ewing Sarcoma	12	13	674	1250	0	
+OncotreePrimaryDisease	Fibrosarcoma	1	0	0	9	0	
+OncotreePrimaryDisease	Head and Neck Squamous Cell Carcinoma	7	0	60	266	0	
+OncotreePrimaryDisease	Hepatoblastoma	1	0	2	62	0	
+OncotreePrimaryDisease	Hepatocellular Carcinoma	6	0	68	322	0	
+OncotreePrimaryDisease	Intraductal Papillary Neoplasm of the Bile Duct	1	0	0	9	0	
+OncotreePrimaryDisease	Invasive Breast Carcinoma	40	0	173	818	0	ESR1:27;GRHL2:160;FOXA1:189;SPDEF:259;TFAP2C:311;GATA3:923;XBP1:2586
+OncotreePrimaryDisease	Leiomyosarcoma	1	0	4	122	0	
+OncotreePrimaryDisease	Liposarcoma	1	0	4	57	0	
+OncotreePrimaryDisease	Lung Neuroendocrine Tumor	19	0	682	2068	0	
+OncotreePrimaryDisease	Mature B-Cell Neoplasms	44	57	1993	3792	0	
+OncotreePrimaryDisease	Mature T and NK Neoplasms	6	0	217	821	0	
+OncotreePrimaryDisease	Melanoma	13	0	1073	2567	0	
+OncotreePrimaryDisease	Myeloproliferative Neoplasms	4	0	51	295	1	TAL1:14;GATA2:356;MYB:886;KLF1:1611;GATA1:4260
+OncotreePrimaryDisease	Neuroblastoma	14	0	669	1689	0	
+OncotreePrimaryDisease	Non-Hodgkin Lymphoma	2	0	47	547	0	
+OncotreePrimaryDisease	Non-Seminomatous Germ Cell Tumor	2	0	78	376	0	
+OncotreePrimaryDisease	Non-Small Cell Lung Cancer	43	0	166	1908	0	
+OncotreePrimaryDisease	Ocular Melanoma	2	0	71	401	0	
+OncotreePrimaryDisease	Osteosarcoma	6	0	20	179	0	
+OncotreePrimaryDisease	Ovarian Epithelial Tumor	11	0	28	290	4	MECOM:1;SOX17:5;PAX8:30;GATA6:2228;WT1:3030
+OncotreePrimaryDisease	Pancreatic Adenocarcinoma	15	0	42	904	0	
+OncotreePrimaryDisease	Pleural Mesothelioma	2	0	7	181	0	
+OncotreePrimaryDisease	Prostate Adenocarcinoma	4	0	27	192	0	
+OncotreePrimaryDisease	Renal Cell Carcinoma	9	0	268	2374	0	
+OncotreePrimaryDisease	Retinoblastoma	1	0	20	156	0	
+OncotreePrimaryDisease	Rhabdoid Cancer	2	0	31	176	0	
+OncotreePrimaryDisease	Rhabdomyosarcoma	5	0	224	910	0	
+OncotreePrimaryDisease	SMARCA4-deficient undifferentiated tumor	1	0	2	71	0	
+OncotreePrimaryDisease	Sex Cord Stromal Tumor	1	0	1	20	0	
+OncotreePrimaryDisease	T-Lymphoblastic Leukemia/Lymphoma	13	4	832	1787	0	MYB:169;RUNX1:351;TCF7:638;LEF1:797;TAL1:2206;LMO2:4272;TLX1:6139;TLX3:16103
+OncotreePrimaryDisease	Uterine Sarcoma/Mesenchymal	1	0	5	76	0	

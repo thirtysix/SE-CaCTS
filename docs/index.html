@@ -51,7 +51,7 @@
         <p class="lede">Every H3K27ac experiment called for super-enhancers with a copy-number-aware
         ROSE reimplementation, reduced to one atlas, and scored for <b>group-specificity</b> with the CaCTS
         Jensen–Shannon divergence. Significance uses a <b>label-permutation null</b> — the analytic
-        approximation it replaces failed calibration outright (6% false calls on shuffled labels).</p>
+        approximation it replaces failed calibration outright (5–6% false calls on shuffled labels).</p>
         <div class="lede-grid">
           <div class="lede-point"><span class="lp-lab">Calls:</span> supported at the <b>lineage</b> and
           <b>primary-disease</b> levels (permutation FDR ≤ 0.10).</div>
@@ -119,16 +119,18 @@
     <section class="panel" data-tab="cn">
       <div class="phead wide"><div class="eyebrow">Validation</div><h1>Copy-number ablation</h1>
         <p class="lede">Scoring with vs without CN correction, both under the permutation null. Two findings:
-        correction <b>removes</b> a handful of recurrent-amplicon false calls — and, dominantly, it
+        correction <b>removes</b> calls that ride recurrent amplicons (MYCN, MYC, OTX2 …) — and, dominantly, it
         <b>rescues</b> thousands of real, copy-neutral specific SEs that amplicon variance was masking in the
         null.</p>
       </div>
       <div class="two" id="cn-flow"></div>
       <div class="card" style="margin-top:18px">
-        <div class="card-h"><span class="pill tumor">removed</span><h3>Amplicon-driven false calls — every one a named recurrent lineage amplicon</h3></div>
+        <div class="card-h"><span class="pill tumor">removed</span><h3>Calls removed at amplified loci — recurrent lineage amplicons, strongest first</h3></div>
         <div class="card-b" style="padding:0"><div class="amp-list" id="cn-amp"></div></div>
         <div class="card-note">These pass the permutation FDR <em>without</em> CN correction and fail
-          <em>with</em> it — significant only because the locus is amplified. Identified with no prior gene list.</div>
+          <em>with</em> it, at a locus whose group-mean copy number exceeds 1.3× — significant because the locus is
+          amplified. Identified with no prior gene list. (Removed calls at copy-neutral loci are counted above but
+          not listed: they lose significance when correction tightens the null, not because of an amplicon.)</div>
       </div>
     </section>
 

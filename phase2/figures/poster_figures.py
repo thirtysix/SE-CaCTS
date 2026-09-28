@@ -125,17 +125,17 @@ def fig_resolution():
         h1, h2 = H1[H1.level == lev], H2[H2.level == lev]
         ax.set_xscale("log"); ax.set_yscale("symlog", linthresh=1, linscale=0.6)
         ax.set_xticks([1, 2, 5, 10, 20, 50], ["1", "2", "5", "10", "20", "50"])
-        ax.set_title(f"{LEVEL_LABEL[lev]}", fontsize=16, color=INK, loc="left")
-        ax.text(0.03, 0.97, f"groups with calls\nv1 {int((h1.n_spec_fdr10 > 0).sum())}/{len(h1)}"
-                            f"  →  v2 {int((h2.n_spec_fdr10 > 0).sum())}/{len(h2)}",
-                transform=ax.transAxes, va="top", fontsize=13, color=MUTED)
+        ax.set_title(f"{LEVEL_LABEL[lev]}", fontsize=16, color=INK, loc="left", pad=30)
+        ax.text(0.0, 1.02, f"groups with calls: {int((h1.n_spec_fdr10 > 0).sum())}/{len(h1)}"
+                           f" → {int((h2.n_spec_fdr10 > 0).sum())}/{len(h2)}",
+                transform=ax.transAxes, va="bottom", fontsize=12.5, color=MUTED)
         vgrid(ax); ax.xaxis.grid(True)
     axes[0].set_ylabel("specific SEs per group\n(FDR ≤ 0.10)")
     axes[1].set_xlabel("cell lines in the group")
     axes[0].set_yticks([0, 1, 10, 100, 1000], ["0", "1", "10", "100", "1,000"])
     axes[0].set_ylim(-0.3, 5000)
     h, l = axes[0].get_legend_handles_labels()
-    fig.legend(h, l, loc="upper right", ncol=2, bbox_to_anchor=(1.0, 1.08), handletextpad=0.3, columnspacing=1.4)
+    fig.legend(h, l, loc="upper right", ncol=2, bbox_to_anchor=(1.0, 1.13), handletextpad=0.3, columnspacing=1.4)
     fig.tight_layout(w_pad=1.2)
     save(fig, "fig2_resolution")
 
@@ -151,8 +151,7 @@ def fig_calibration():
     """The calibration test: the same procedure on real vs shuffled labels, analytic vs permutation null."""
     lev = "OncotreeLineage"
     H = pd.read_csv(os.path.join(SC, "atlas.s3.perm.hierarchy_summary.tsv"), sep="\t")
-    with gzip.open(os.path.join(RES, "atlas.s3.union_catalog.bed.gz"), "rt") as fh:
-        n_se = sum(1 for _ in fh)
+    n_se = len(pd.read_csv(os.path.join(SC, f"atlas.s3.perm.{lev}.fdr.tsv.gz"), sep="\t", usecols=[0]))
     n_tests = n_se * int((H.level == lev).sum())
     rows = [("Normal-approx. null", "real labels", _count_calls(os.path.join(SC, "atlas.s3.analytic"), lev)),
             ("Normal-approx. null", "shuffled labels", _count_calls(os.path.join(SC, "atlas.s3.analytic.shuffle"), lev)),
@@ -191,7 +190,7 @@ def _ablation_sets(lev):
 def fig_cn_ablation():
     """Left: calls without vs with CN correction. Right: CN at the disputed loci — removed vs rescued."""
     A = pd.read_csv(os.path.join(SC, "atlas.s3.perm.cn_ablation_calls.tsv"), sep="\t")
-    fig, (ax, bx) = plt.subplots(1, 2, figsize=(250 * MM, 100 * MM), gridspec_kw={"width_ratios": [1, 1.35]})
+    fig, (ax, bx) = plt.subplots(1, 2, figsize=(250 * MM, 105 * MM), gridspec_kw={"width_ratios": [1, 1.55]})
     levs = ["OncotreeLineage", "OncotreePrimaryDisease"]
     for i, lev in enumerate(levs):
         U, C, u, c = _ablation_sets(lev)
@@ -208,32 +207,28 @@ def fig_cn_ablation():
     ax.xaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(lambda v, _: f"{int(v):,}"))
 
     rng = np.random.default_rng(1)
-    kinds = [("rescued", "rescued by correction", TEAL), ("amplicon_driven", "removed by correction", RED)]
-    for j, (k, lab, col) in enumerate(kinds):
+    kinds = [("rescued", "rescued by correction", TEAL, 0.0), ("amplicon_driven", "removed by correction", RED, 1.0)]
+    for k, lab, col, yb in kinds:
         v = A[A.kind == k]["cn_mean"].clip(lower=0.3)
-        yj = j + rng.uniform(-0.28, 0.28, len(v)) * (1 if k == "rescued" else 0.35)
-        bx.scatter(v, yj, s=10 if k == "rescued" else 46, color=col, alpha=0.35 if k == "rescued" else 0.95,
-                   edgecolor="none" if k == "rescued" else SURF, linewidth=0.8, zorder=3)
-        med = v.median()
-        if k == "rescued":
-            bx.text(0.31, j + 0.36, f"{lab}  (n = {len(v):,}; median CN {med:.2f})", fontsize=13.5, color=INK)
-        else:
-            bx.text(0.31, j - 0.05, f"{lab}\n(n = {len(v):,}; median\nCN {med:.0f}×)", fontsize=13, color=INK,
-                    va="top", linespacing=1.1)
+        yj = yb + rng.uniform(-0.22, 0.22, len(v))
+        bx.scatter(v, yj, s=9, color=col, alpha=0.35, edgecolor="none", zorder=3)
+        med, amp = v.median(), 100 * (v > 1.3).mean()
+        bx.text(0.31, yb - 0.26, f"{lab}\nn = {len(v):,} · median CN {med:.2f} · {amp:.0f}% at CN > 1.3",
+                fontsize=13, color=INK, va="top", linespacing=1.15)
     amp = (A[A.kind == "amplicon_driven"].sort_values("cn_mean", ascending=False)
-           .drop_duplicates("nearest_gene").head(6))
-    for i, r in enumerate(amp.sort_values("cn_mean").itertuples()):
-        bx.annotate(r.nearest_gene, (r.cn_mean, 1.1), xytext=(0, 16 + 22 * (i % 2)),
-                    textcoords="offset points", ha="center", fontsize=13, color=INK, fontstyle="italic",
-                    arrowprops=dict(arrowstyle="-", color=FAINT, lw=0.8, shrinkA=0, shrinkB=3))
+           .drop_duplicates("nearest_gene").head(4).sort_values("cn_mean"))
+    for i, r in enumerate(amp.itertuples()):
+        bx.annotate(r.nearest_gene, (r.cn_mean, 1.2), xytext=(0, 14 + 22 * (i % 3)), textcoords="offset points",
+                    ha="center", fontsize=13, color=INK, fontstyle="italic",
+                    arrowprops=dict(arrowstyle="-", color=FAINT, lw=0.8, shrinkA=0, shrinkB=2))
     bx.axvline(1.0, color=FAINT, lw=1, zorder=1)
     bx.set_xscale("log")
     bx.set_xticks([0.5, 1, 2, 5, 10, 20, 50, 100], ["0.5", "1", "2", "5", "10", "20", "50", "100"])
     bx.set_yticks([]); bx.spines["left"].set_visible(False)
-    bx.set_ylim(-0.45, 1.95)
+    bx.set_ylim(-0.72, 1.75)
     bx.set_xlabel("mean copy number at the locus (group)")
     hgrid(bx)
-    fig.tight_layout(w_pad=2.0)
+    fig.tight_layout(w_pad=4.0)
     save(fig, "fig4_cn_ablation")
 
 
@@ -242,7 +237,7 @@ IDENTITY = [("Ovary/Fallopian Tube", ["PAX8", "SOX17", "MECOM"]), ("Bowel", ["CD
             ("Breast", ["ESR1", "GATA3", "FOXA1"]), ("Myeloid", ["SPI1", "CEBPA"]),
             ("Lymphoid", ["IKZF1", "PAX5"]), ("Skin", ["SOX10", "MITF"]),
             ("Peripheral Nervous System", ["PHOX2B", "HAND2"]), ("Lung", ["NKX2-1", "ASCL1"]),
-            ("Liver", ["HNF1A"]), ("Prostate", ["AR"]), ("Kidney", ["PAX2"])]
+            ("Liver", ["HNF1A"]), ("Prostate", ["AR"]), ("Kidney", ["PAX2"]), ("Head and Neck", ["TP63"])]
 
 
 def fig_identity():
@@ -266,7 +261,7 @@ def fig_identity():
             if g not in gc:
                 continue
             c, s, e = gc[g]
-            near = cat[(cat.chrom == c) & (cat.end >= s - 50_000) & (cat.start <= e + 50_000)].index
+            near = cat[(cat.chrom == c) & (cat.end >= s - 100_000) & (cat.start <= e + 100_000)].index   # score_pilot identity_near
             near = [x for x in near if x in J.index and np.isfinite(J.loc[x, grp])]
             if not near:
                 continue
@@ -358,7 +353,7 @@ def fig_cn_sources():
                 va="top", fontsize=14)
     ax.set_xticks([i * 3 + j for i in range(3) for j in range(2)], ["raw", "corrected"] * 3, fontsize=13.5)
     ax.axhline(0, color=FAINT, lw=1)
-    ax.set_ylabel("Spearman ρ, SE signal vs copy number\n(per cell line)")
+    ax.set_ylabel("per-line Spearman ρ,\nSE signal vs copy number")
     ax.set_ylim(-0.35, 0.5); vgrid(ax); ax.spines["bottom"].set_visible(False)
     save(fig, "fig7_cn_sources")
 

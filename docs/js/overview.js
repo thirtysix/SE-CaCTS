@@ -5,16 +5,16 @@ const Overview = (() => {
 
     U.el("snap").innerHTML = [
       [meta.n_ses.toLocaleString(), "super-enhancer loci", "union catalogue of SEs across the panel"],
-      [meta.n_lines, "cancer cell lines", "DepMap cell lines with QC-passed H3K27ac"],
+      [meta.n_lines, "cancer cell lines", "cancer cell lines with QC-passed H3K27ac and measured copy number"],
       [meta.n_samples.toLocaleString(), "H3K27ac samples", "individual experiments after the QC gate"],
       ["perm", "permutation-null FDR", "significance from a label-permutation null (B=1000)"],
     ].map(([b, l, t]) => `<div class="s" title="${U.esc(t)}"><b>${b}</b> ${l}</div>`).join("");
 
     U.el("ov-stats").innerHTML = [
       [meta.n_ses.toLocaleString(), "", "super-enhancer loci in the atlas", "the union catalogue of super-enhancers across all samples (≥25% reciprocal-overlap merge)"],
-      [meta.n_lines, "", "cancer cell lines (282, DepMap-joined)", "distinct DepMap cell lines with H3K27ac data that passed QC; replicate experiments are collapsed to the line"],
-      [meta.n_samples.toLocaleString(), "", "QC-passed H3K27ac experiments", "ChIP-Atlas H3K27ac experiments passing the ≥2,000-peak QC gate (of 2,916 pulled)"],
-      ["0", "good", "false calls on shuffled labels<br>(the analytic null gave 6.05%)", "the calibration test: run the whole procedure on data whose group labels are shuffled, so nothing real exists. A working FDR calls ≈ nothing — the permutation null does; the normal-approximation null called 6.05%"],
+      [meta.n_lines, "", "cancer cell lines, copy-number corrected", `distinct cancer cell lines with QC-passed H3K27ac and measured copy number (${Object.entries(meta.cn_sources || {}).map(([k, v]) => `${v} ${k}`).join(", ")}); replicate experiments are collapsed to the line`],
+      [meta.n_samples.toLocaleString(), "", "QC-passed H3K27ac experiments", `ChIP-Atlas H3K27ac experiments passing the ≥2,000-peak QC gate (of ${meta.n_pull.toLocaleString()} pulled)`],
+      [(meta.calibration ? meta.calibration.perm_shuffled_calls : 0).toLocaleString(), "good", `false calls on shuffled labels<br>(the analytic null gave ${meta.calibration ? meta.calibration.analytic_shuffled_pct : 6.05}%)`, `the calibration test: run the whole procedure on data whose group labels are shuffled, so nothing real exists. A working FDR calls ≈ nothing — the permutation null does; the normal-approximation null called ${meta.calibration ? meta.calibration.analytic_shuffled_pct : 6.05}% of ${meta.calibration ? meta.calibration.n_tests.toLocaleString() : ""} lineage tests`],
     ].map(([k, cls, l, t]) => `<div class="stat" title="${U.esc(t)}"><div class="k ${cls}">${k}</div><div class="l">${l}</div></div>`).join("");
 
     // panel-at-a-glance: which resolutions carry CALLS vs rankings only
@@ -24,7 +24,7 @@ const Overview = (() => {
        [meta.n_diseases, "primary diseases", "OncotreePrimaryDisease groups (e.g. Invasive Breast Carcinoma)"]].map(([n, l, t]) =>
         `<div class="ps-item" title="${U.esc(t)}"><span class="ps-n">${n}</span><span class="ps-l">${l}</span></div>`).join("") +
       `<span class="ps-cap" style="margin-left:8px" title="finer resolutions — rankings are shown but significance is NOT called, because most groups have too few cell lines">Rankings only</span>` +
-      [[meta.n_subtypes, "subtypes", "OncotreeSubtype groups — 29 of 75 contain a single cell line"],
+      [[meta.n_subtypes, "subtypes", `OncotreeSubtype groups — ${meta.n_subtypes_single} of ${meta.n_subtypes} contain a single cell line`],
        [meta.n_lines, "cell lines", "individual cell lines — permutation is degenerate for a single sample"]].map(([n, l, t]) =>
         `<div class="ps-item" title="${U.esc(t)}"><span class="ps-n">${n}</span><span class="ps-l">${l}</span></div>`).join("");
 
@@ -32,7 +32,7 @@ const Overview = (() => {
       ["▦", "atlas", "SE atlas",
         "The core view. For any lineage or primary disease, the super-enhancers most specific to it — ranked by JSD, with the permutation FDR, the mean copy number at the locus, the nearest gene, the SE length and coordinates (each linked to the UCSC browser), and a ⇌ badge where the gene is <em>also</em> specific in expression. Filter by gene, tighten the FDR cutoff, or drop to subtype / cell-line rankings."],
       ["⊘", "cn", "CN ablation",
-        "Why the copy-number layer earns its place. Scoring with vs without correction: the handful of recurrent-amplicon false calls it removes (MYCN, OTX2, FGFR2, ANO1) and the thousands of real, copy-neutral calls it <em>rescues</em> from amplicon noise in the null."],
+        "Why the copy-number layer earns its place. Scoring with vs without correction: the calls it removes at recurrent amplicons (MYCN, MYC, OTX2 …) and the thousands of real, copy-neutral calls it <em>rescues</em> from amplicon noise in the null."],
       ["⇌", "concordance", "Concordance",
         "The cross-layer validation. Genes next to a group-specific super-enhancer are themselves group-specific in DepMap expression far above chance — and the concordance decays with SE→gene distance while a shuffled control stays flat, the signature of a local regulatory link."],
       ["⌕", "finder", "SE finder",

@@ -1,0 +1,25 @@
+level	group	n_lines	n_spec_fdr05	n_spec_fdr10	n_spec_fdr25	top15_identity	genes
+OncotreeLineage	Biliary Tract	1	3712	4497	6119	0	
+OncotreeLineage	Bladder/Urinary Tract	7	2668	3364	4717	0	
+OncotreeLineage	Bone	18	2779	3237	4342	0	
+OncotreeLineage	Bowel	19	2403	2927	3999	1	HNF4A:6;CDX2:28;ASCL2:60;KLF5:368;CDX1:518;VDR:2111;TCF7L2:2272
+OncotreeLineage	Breast	41	1923	2418	3509	0	ESR1:34;FOXA1:112;GRHL2:241;TFAP2C:301;SPDEF:319;GATA3:1115;XBP1:1581
+OncotreeLineage	CNS/Brain	12	2856	3478	4830	0	
+OncotreeLineage	Cervix	3	1755	2447	4346	0	
+OncotreeLineage	Esophagus/Stomach	23	2154	2775	4100	0	
+OncotreeLineage	Eye	3	2818	3347	4726	0	
+OncotreeLineage	Head and Neck	7	2432	2972	4282	0	
+OncotreeLineage	Kidney	11	4110	5003	6727	0	
+OncotreeLineage	Liver	7	1843	2237	3198	0	
+OncotreeLineage	Lung	63	2774	3458	4958	0	
+OncotreeLineage	Lymphoid	75	4272	4919	6124	0	MYB:212;LEF1:310;RUNX1:450;TCF7:4579;LMO2:5870;TAL1:14219;TLX3:19178;TLX1:26444
+OncotreeLineage	Myeloid	23	2218	2685	3595	2	SPI1:7;CEBPA:32;RUNX1:44;GATA2:251;MYB:578;GATA1:4316
+OncotreeLineage	Ovary/Fallopian Tube	12	1660	2105	3175	4	MECOM:1;SOX17:5;PAX8:123;GATA6:2409;WT1:3491
+OncotreeLineage	Pancreas	15	1417	1940	3131	0	
+OncotreeLineage	Peripheral Nervous System	14	3167	3643	4730	0	
+OncotreeLineage	Pleura	2	3767	4493	5962	0	
+OncotreeLineage	Prostate	4	2497	2997	4082	0	
+OncotreeLineage	Skin	13	6013	6633	7963	0	
+OncotreeLineage	Soft Tissue	9	4285	5004	6524	0	
+OncotreeLineage	Testis	2	3856	4436	5734	0	
+OncotreeLineage	Uterus	2	1450	1872	2866	0	

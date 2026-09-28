@@ -1,0 +1,7 @@
+level	run	groups	groups_n1	groups_le4	groups_ge7	calls	groups_with_call	median_calls_per_group	lines_total
+OncotreeLineage	v1	24	2	7	15	6790	23	81.5	282
+OncotreeLineage	v2	24	1	7	17	12994	23	167.0	386
+OncotreePrimaryDisease	v1	44	14	23	15	4343	41	15.0	282
+OncotreePrimaryDisease	v2	46	14	22	18	11652	43	58.0	386
+OncotreeSubtype	v1	75	29	56	12	1	1	0.0	282
+OncotreeSubtype	v2	84	27	62	18	10	5	0.0	386

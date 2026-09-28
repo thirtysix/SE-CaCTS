@@ -1,0 +1,144 @@
+level	group	lines_a	lines_b	calls_a	calls_b	a_retained	retained_frac	b_new
+OncotreeLineage	Biliary Tract	1	1	0	0	0		0
+OncotreeLineage	Bladder/Urinary Tract	6	7	6	11	6	1.0	5
+OncotreeLineage	Bone	12	18	558	780	555	0.9946	190
+OncotreeLineage	Bowel	15	19	152	454	148	0.9737	281
+OncotreeLineage	Breast	32	41	224	316	216	0.9643	88
+OncotreeLineage	CNS/Brain	11	12	94	207	91	0.9681	111
+OncotreeLineage	Cervix	1	3	1	9	1	1.0	8
+OncotreeLineage	Esophagus/Stomach	15	23	50	72	45	0.9	28
+OncotreeLineage	Eye	2	3	41	125	40	0.9756	82
+OncotreeLineage	Head and Neck	7	7	69	99	68	0.9855	29
+OncotreeLineage	Kidney	6	11	63	838	62	0.9841	760
+OncotreeLineage	Liver	7	7	118	167	114	0.9661	48
+OncotreeLineage	Lung	47	63	246	688	234	0.9512	421
+OncotreeLineage	Lymphoid	44	75	2512	4204	2427	0.9662	1577
+OncotreeLineage	Myeloid	19	23	880	1285	864	0.9818	375
+OncotreeLineage	Ovary/Fallopian Tube	9	12	35	54	32	0.9143	18
+OncotreeLineage	Pancreas	12	15	21	102	20	0.9524	80
+OncotreeLineage	Peripheral Nervous System	12	14	625	1108	616	0.9856	440
+OncotreeLineage	Pleura	2	2	20	29	20	1.0	8
+OncotreeLineage	Prostate	3	4	17	61	16	0.9412	43
+OncotreeLineage	Skin	7	13	748	1877	732	0.9786	1033
+OncotreeLineage	Soft Tissue	8	9	189	323	183	0.9683	128
+OncotreeLineage	Testis	2	2	113	167	113	1.0	49
+OncotreeLineage	Uterus	2	2	8	18	8	1.0	10
+OncotreePrimaryDisease	Acute Myeloid Leukemia	16	19	259	616	256	0.9884	322
+OncotreePrimaryDisease	Adult-Type Diffuse Glioma	5	5	11	26	11	1.0	14
+OncotreePrimaryDisease	B-Cell Acute Lymphoblastic Leukemia	8	10	853	1450	830	0.973	535
+OncotreePrimaryDisease	Bladder Urothelial Carcinoma	6	7	1	6	1	1.0	5
+OncotreePrimaryDisease	Breast Ductal Carcinoma In Situ	1	1	3	12	3	1.0	9
+OncotreePrimaryDisease	Cervical Squamous Cell Carcinoma	1	2	1	2	1	1.0	1
+OncotreePrimaryDisease	Clear Cell Sarcoma	1	1	111	250	110	0.991	130
+OncotreePrimaryDisease	Colorectal Adenocarcinoma	15	19	59	317	56	0.9492	244
+OncotreePrimaryDisease	Diffuse Glioma	1	1	1	2	1	1.0	1
+OncotreePrimaryDisease	Embryonal Tumor	5	6	70	175	69	0.9857	102
+OncotreePrimaryDisease	Endometrial Carcinoma	1	1	4	8	4	1.0	3
+OncotreePrimaryDisease	Esophageal Squamous Cell Carcinoma	4	7	6	36	6	1.0	30
+OncotreePrimaryDisease	Esophagogastric Adenocarcinoma	11	16	27	54	27	1.0	27
+OncotreePrimaryDisease	Ewing Sarcoma	7	12	490	700	490	1.0	176
+OncotreePrimaryDisease	Fibrosarcoma	1	1	0	0	0		0
+OncotreePrimaryDisease	Head and Neck Squamous Cell Carcinoma	7	7	38	62	37	0.9737	24
+OncotreePrimaryDisease	Hepatoblastoma	1	1	0	1	0		1
+OncotreePrimaryDisease	Hepatocellular Carcinoma	6	6	30	73	29	0.9667	43
+OncotreePrimaryDisease	Intraductal Papillary Neoplasm of the Bile Duct	1	1	0	0	0		0
+OncotreePrimaryDisease	Invasive Breast Carcinoma	31	40	86	230	82	0.9535	141
+OncotreePrimaryDisease	Leiomyosarcoma	1	1	2	6	2	1.0	3
+OncotreePrimaryDisease	Liposarcoma	1	1	2	5	2	1.0	3
+OncotreePrimaryDisease	Lung Neuroendocrine Tumor	17	19	272	689	266	0.9779	389
+OncotreePrimaryDisease	Mature B-Cell Neoplasms	21	44	700	2288	671	0.9586	1524
+OncotreePrimaryDisease	Mature T and NK Neoplasms	6	6	144	267	144	1.0	112
+OncotreePrimaryDisease	Melanoma	7	13	270	1196	265	0.9815	885
+OncotreePrimaryDisease	Myeloproliferative Neoplasms	3	4	9	67	9	1.0	58
+OncotreePrimaryDisease	Neuroblastoma	12	14	347	766	342	0.9856	383
+OncotreePrimaryDisease	Non-Hodgkin Lymphoma	2	2	21	80	18	0.8571	60
+OncotreePrimaryDisease	Non-Seminomatous Germ Cell Tumor	2	2	45	83	45	1.0	35
+OncotreePrimaryDisease	Non-Small Cell Lung Cancer	29	43	16	274	14	0.875	257
+OncotreePrimaryDisease	Ocular Melanoma	1	2	27	87	26	0.963	60
+OncotreePrimaryDisease	Osteosarcoma	5	6	14	22	14	1.0	8
+OncotreePrimaryDisease	Ovarian Epithelial Tumor	9	11	12	35	12	1.0	22
+OncotreePrimaryDisease	Pancreatic Adenocarcinoma	12	15	4	63	3	0.75	59
+OncotreePrimaryDisease	Pleural Mesothelioma	2	2	1	3	1	1.0	2
+OncotreePrimaryDisease	Prostate Adenocarcinoma	3	4	6	35	6	1.0	28
+OncotreePrimaryDisease	Renal Cell Carcinoma	4	9	18	382	18	1.0	361
+OncotreePrimaryDisease	Retinoblastoma	1	1	6	28	6	1.0	22
+OncotreePrimaryDisease	Rhabdoid Cancer	2	2	13	36	13	1.0	22
+OncotreePrimaryDisease	Rhabdomyosarcoma	4	5	138	265	136	0.9855	120
+OncotreePrimaryDisease	SMARCA4-deficient undifferentiated tumor	1	1	1	5	1	1.0	4
+OncotreePrimaryDisease	T-Lymphoblastic Leukemia/Lymphoma	7	13	222	938	218	0.982	665
+OncotreePrimaryDisease	Uterine Sarcoma/Mesenchymal	1	1	3	9	3	1.0	6
+OncotreeSubtype	AML, NOS	2	2	0	0	0		0
+OncotreeSubtype	Acute Myeloid Leukemia	14	15	0	0	0		0
+OncotreeSubtype	Adenosquamous Carcinoma of the Stomach	1	1	0	0	0		0
+OncotreeSubtype	Alveolar Rhabdomyosarcoma	2	2	0	0	0		0
+OncotreeSubtype	Anaplastic Large-Cell Lymphoma ALK Negative	2	2	0	0	0		0
+OncotreeSubtype	Anaplastic Large-Cell Lymphoma ALK Positive	4	4	0	0	0		0
+OncotreeSubtype	Astrocytoma, IDH-Mutant	2	2	0	0	0		0
+OncotreeSubtype	Atypical Teratoid/Rhabdoid Tumor	2	2	0	0	0		0
+OncotreeSubtype	B-Cell Acute Lymphoblastic Leukemia	8	10	0	2	0		2
+OncotreeSubtype	Bladder Urothelial Carcinoma	6	7	0	0	0		0
+OncotreeSubtype	Breast Ductal Carcinoma In Situ	1	1	0	0	0		0
+OncotreeSubtype	Breast Invasive Carcinoma, NOS	3	3	0	0	0		0
+OncotreeSubtype	Breast Invasive Ductal Carcinoma	14	19	0	0	0		0
+OncotreeSubtype	Breast Invasive Lobular Carcinoma	4	5	0	0	0		0
+OncotreeSubtype	Burkitt Lymphoma	1	2	0	0	0		0
+OncotreeSubtype	Cervical Squamous Cell Carcinoma	1	2	0	0	0		0
+OncotreeSubtype	Chronic Lymphocytic Leukemia/Small Lymphocytic Lymphoma	1	1	0	0	0		0
+OncotreeSubtype	Chronic Myeloid Leukemia, BCR-ABL1+	3	4	0	0	0		0
+OncotreeSubtype	Clear Cell Ovarian Cancer	1	2	0	0	0		0
+OncotreeSubtype	Clear Cell Sarcoma	1	1	0	0	0		0
+OncotreeSubtype	Colon Adenocarcinoma	14	18	0	0	0		0
+OncotreeSubtype	Cutaneous Melanoma	1	3	0	0	0		0
+OncotreeSubtype	Dedifferentiated Liposarcoma	1	1	0	0	0		0
+OncotreeSubtype	Diffuse Large B-Cell Lymphoma, NOS	6	16	0	0	0		0
+OncotreeSubtype	Diffuse Type Stomach Adenocarcinoma	2	2	0	0	0		0
+OncotreeSubtype	Embryonal Carcinoma	2	2	0	0	0		0
+OncotreeSubtype	Embryonal Rhabdomyosarcoma	2	3	0	0	0		0
+OncotreeSubtype	Endometrial Carcinoma	1	1	0	0	0		0
+OncotreeSubtype	Endometrioid Ovarian Cancer	2	2	0	0	0		0
+OncotreeSubtype	Esophageal Squamous Cell Carcinoma	4	7	0	0	0		0
+OncotreeSubtype	Ewing Sarcoma	7	12	0	2	0		2
+OncotreeSubtype	Fibrosarcoma	1	1	0	0	0		0
+OncotreeSubtype	Glioblastoma, IDH-Wildtype	3	3	0	0	0		0
+OncotreeSubtype	Gliosarcoma	1	1	0	0	0		0
+OncotreeSubtype	Hepatoblastoma	1	1	0	0	0		0
+OncotreeSubtype	Hepatocellular Carcinoma	6	6	0	0	0		0
+OncotreeSubtype	High-Grade Serous Ovarian Cancer	4	4	0	0	0		0
+OncotreeSubtype	Hypopharynx Squamous Cell Carcinoma	1	1	0	0	0		0
+OncotreeSubtype	Intrahepatic Cholangiocarcinoma	1	1	0	0	0		0
+OncotreeSubtype	Invasive Breast Carcinoma	10	13	0	0	0		0
+OncotreeSubtype	Large Cell Lung Carcinoma	2	3	0	0	0		0
+OncotreeSubtype	Leiomyosarcoma	1	1	0	0	0		0
+OncotreeSubtype	Lung Adenocarcinoma	20	30	0	0	0		0
+OncotreeSubtype	Lung Squamous Cell Carcinoma	5	7	0	0	0		0
+OncotreeSubtype	Mantle Cell Lymphoma	3	7	0	1	0		1
+OncotreeSubtype	Medulloblastoma, Group 3	2	2	0	1	0		1
+OncotreeSubtype	Medulloblastoma, NOS	1	2	0	0	0		0
+OncotreeSubtype	Melanoma	6	10	0	0	0		0
+OncotreeSubtype	Neuroblastoma	12	14	0	0	0		0
+OncotreeSubtype	Non-Hodgkin Lymphoma	2	2	0	0	0		0
+OncotreeSubtype	Non-Small Cell Lung Cancer	2	3	0	0	0		0
+OncotreeSubtype	Oral Cavity Squamous Cell Carcinoma	5	5	0	0	0		0
+OncotreeSubtype	Oropharynx Squamous Cell Carcinoma	1	1	0	0	0		0
+OncotreeSubtype	Osteosarcoma	5	6	0	0	0		0
+OncotreeSubtype	Pancreatic Adenocarcinoma	12	15	0	0	0		0
+OncotreeSubtype	Papillary Renal Cell Carcinoma	1	1	0	0	0		0
+OncotreeSubtype	Plasma Cell Myeloma	8	11	0	0	0		0
+OncotreeSubtype	Pleural Mesothelioma, Biphasic Type	1	1	0	0	0		0
+OncotreeSubtype	Pleural Mesothelioma, Epithelioid Type	1	1	0	0	0		0
+OncotreeSubtype	Primary Effusion Lymphoma	2	3	0	0	0		0
+OncotreeSubtype	Prostate Adenocarcinoma	3	4	0	0	0		0
+OncotreeSubtype	Rectal Adenocarcinoma	1	1	0	0	0		0
+OncotreeSubtype	Renal Clear Cell Carcinoma	3	4	0	0	0		0
+OncotreeSubtype	Retinoblastoma	1	1	0	0	0		0
+OncotreeSubtype	Rhabdoid Cancer	2	2	0	0	0		0
+OncotreeSubtype	SMARCA4-deficient undifferentiated tumor	1	1	0	0	0		0
+OncotreeSubtype	Serous Ovarian Cancer	1	2	0	0	0		0
+OncotreeSubtype	Signet Ring Cell Carcinoma of the Stomach	1	1	0	0	0		0
+OncotreeSubtype	Small Cell Carcinoma of the Ovary	1	1	0	0	0		0
+OncotreeSubtype	Small Cell Lung Cancer	17	19	0	0	0		0
+OncotreeSubtype	Stomach Adenocarcinoma	3	4	0	0	0		0
+OncotreeSubtype	T-Cell Acute Lymphoblastic Leukemia	7	13	1	4	1	1.0	3
+OncotreeSubtype	Tubular Stomach Adenocarcinoma	4	4	0	0	0		0
+OncotreeSubtype	Uterine Leiomyosarcoma	1	1	0	0	0		0
+OncotreeSubtype	Uveal Melanoma	1	2	0	0	0		0

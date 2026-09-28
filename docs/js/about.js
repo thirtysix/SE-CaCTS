@@ -1,6 +1,9 @@
 /* about.js — method, data provenance, and the explicit "what is NOT claimed" section (from RESULTS.md). */
 const About = (() => {
-  function init() {
+  async function init() {
+    const m = await DataLoader.loadJSON("data/meta.json");
+    const src = Object.entries(m.cn_sources || {}).filter(([, v]) => v > 0);
+    const cal = m.calibration || { analytic_shuffled_pct: 6.05, perm_shuffled_calls: 0 };
     U.el("about-body").innerHTML = `
       <h3>What this is</h3>
       <p>A reference atlas of <b>lineage-specific super-enhancers</b> across the cancer cell-line panel.
@@ -15,9 +18,9 @@ const About = (() => {
           ROSE2. It stitches nearby enhancer peaks and applies the tangent-cutoff rule, but reads signal
           straight from the coverage track and can divide out copy number.</li>
         <li><b>Union atlas — reduce.</b> Per-sample SE calls are merged into one catalogue (≥ 25% reciprocal
-          overlap) of <b>42,943 SE loci</b>, and signal is quantified for every locus in every sample,
-          cross-study-normalized (S3norm) with a QC gate, and collapsed from 2,136 experiments to
-          <b>282 DepMap cell lines</b>.</li>
+          overlap) of <b>${m.n_ses.toLocaleString()} SE loci</b>, and signal is quantified for every locus in
+          every sample, cross-study-normalized (S3norm) with a QC gate, and collapsed from
+          ${m.n_samples.toLocaleString()} experiments to <b>${m.n_lines} cancer cell lines</b>.</li>
         <li><b>Specificity — CaCTS JSD.</b> For each Oncotree group, the per-group mean signal of every SE is
           scored by Jensen–Shannon divergence against a perfectly group-specific profile (via
           <code>pyCaCTS</code>). Lower score = more group-specific.</li>
@@ -29,15 +32,17 @@ const About = (() => {
       <b>measured, not assumed</b>: shuffle which cell line carries which group label, recompute the JSD,
       repeat 1,000×, and take a Benjamini–Hochberg FDR against that empirical null. This replaced a
       normal-approximation null that <b>failed calibration outright</b> — run on shuffled labels, where
-      nothing real exists to find, it called 6.05% of tests "specific"; the permutation null calls 0%.</p>
-      <div class="callout">Copy number is corrected at scoring time (DepMap WGS). Correction is not merely a
+      nothing real exists to find, it called ${cal.analytic_shuffled_pct}% of tests "specific"; the permutation null
+      made ${cal.perm_shuffled_calls.toLocaleString()} calls.</p>
+      <div class="callout">Copy number is corrected at scoring time, from measured copy number for every line
+      (${src.map(([k, v]) => `${k} for ${v}`).join(", ")}). Correction is not merely a
       penalty on amplified signal: at the group level it mainly <b>rescues</b> real, copy-neutral specificity
       that amplicon variance was masking in the permutation null — see the CN ablation tab.</div>
 
       <h3>Resolution — read this first</h3>
       <p>The panel supports specificity <b>calls only at the lineage and primary-disease levels</b>. At the
-      subtype and single-cell-line levels the atlas shows <b>rankings only</b>: 29 of 75 subtypes contain a
-      single cell line and 56 contain ≤ 4, and because the permutation preserves group size, a random handful
+      subtype and single-cell-line levels the atlas shows <b>rankings only</b>: ${m.n_subtypes_single} of
+      ${m.n_subtypes} subtypes contain a single cell line and ${m.n_subtypes_le4} contain ≤ 4, and because the permutation preserves group size, a random handful
       of lines is as "specific" as the real grouping. Rankings (which SE is most concentrated in a group)
       stay meaningful there; significance calls do not.</p>
 
@@ -60,10 +65,13 @@ const About = (() => {
 
       <h3>Data sources</h3>
       <ul>
-        <li><b>H3K27ac ChIP-seq</b> — ChIP-Atlas (hg38); 2,916 experiments pulled, 2,136 passing the ≥ 2,000-peak QC gate.</li>
+        <li><b>H3K27ac ChIP-seq</b> — ChIP-Atlas (hg38); ${m.n_pull.toLocaleString()} experiments pulled,
+          ${m.n_samples.toLocaleString()} passing the ≥ 2,000-peak QC gate.</li>
         <li><b>Cell-line annotation & copy number</b> — DepMap 2026q1: <code>Model.csv</code> (Oncotree
-          lineage / disease / subtype), <code>OmicsCNGeneWGS.csv</code> (WGS gene-level copy number), and the
-          protein-coding expression matrix (used for the concordance layer).</li>
+          lineage / disease / subtype), <code>OmicsCNGeneWGS.csv</code> (WGS gene-level copy number, the
+          preferred source), <code>OmicsCNGeneMC_WES.csv</code> (WES), and the protein-coding expression
+          matrix (used for the concordance layer). Cell Model Passports WES pureCN (2025) copy number for
+          lines DepMap WGS does not cover. Lines outside DepMap take Oncotree labels via Cellosaurus → NCIt.</li>
         <li><b>Gene coordinates</b> — Ensembl GRCh38.106.</li>
         <li><b>Engines</b> — <code>cnrose</code> (SE calling), <code>pyCaCTS</code> (JSD specificity + the
           permutation null).</li>

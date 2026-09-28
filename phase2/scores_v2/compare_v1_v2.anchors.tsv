@@ -1,0 +1,155 @@
+level	group	gene	rank_a	rank_b
+OncotreeLineage	Bowel	ASCL2	45	60
+OncotreeLineage	Bowel	CDX1	1756	518
+OncotreeLineage	Bowel	CDX2	14	28
+OncotreeLineage	Bowel	HNF4A	4	6
+OncotreeLineage	Bowel	KLF5	400	368
+OncotreeLineage	Bowel	TCF7L2	2348	2272
+OncotreeLineage	Bowel	VDR	2507	2111
+OncotreeLineage	Breast	ESR1	37	34
+OncotreeLineage	Breast	FOXA1	116	112
+OncotreeLineage	Breast	GATA3	1111	1115
+OncotreeLineage	Breast	GRHL2	206	241
+OncotreeLineage	Breast	SPDEF	290	319
+OncotreeLineage	Breast	TFAP2C	335	301
+OncotreeLineage	Breast	XBP1	1441	1581
+OncotreeLineage	Lymphoid	LEF1	173	310
+OncotreeLineage	Lymphoid	LMO2	8065	5870
+OncotreeLineage	Lymphoid	MYB	107	212
+OncotreeLineage	Lymphoid	RUNX1	315	450
+OncotreeLineage	Lymphoid	TAL1	13730	14219
+OncotreeLineage	Lymphoid	TCF7	3855	4579
+OncotreeLineage	Lymphoid	TLX1	23537	26444
+OncotreeLineage	Lymphoid	TLX3	16819	19178
+OncotreeLineage	Myeloid	CEBPA	53	32
+OncotreeLineage	Myeloid	GATA1	4154	4316
+OncotreeLineage	Myeloid	GATA2	325	251
+OncotreeLineage	Myeloid	MYB	681	578
+OncotreeLineage	Myeloid	RUNX1	42	44
+OncotreeLineage	Myeloid	SPI1	9	7
+OncotreeLineage	Ovary/Fallopian Tube	GATA6	1169	2409
+OncotreeLineage	Ovary/Fallopian Tube	MECOM	1	1
+OncotreeLineage	Ovary/Fallopian Tube	PAX8	90	123
+OncotreeLineage	Ovary/Fallopian Tube	SOX17	6	5
+OncotreeLineage	Ovary/Fallopian Tube	WT1	9482	3491
+OncotreePrimaryDisease	Acute Myeloid Leukemia	CEBPA	25	10
+OncotreePrimaryDisease	Acute Myeloid Leukemia	IRF8	18	12
+OncotreePrimaryDisease	Acute Myeloid Leukemia	MEF2C	24	35
+OncotreePrimaryDisease	Acute Myeloid Leukemia	MYB	835	736
+OncotreePrimaryDisease	Acute Myeloid Leukemia	RUNX1	70	73
+OncotreePrimaryDisease	Acute Myeloid Leukemia	SPI1	19	20
+OncotreePrimaryDisease	Breast Ductal Carcinoma In Situ	ESR1	119	150
+OncotreePrimaryDisease	Breast Ductal Carcinoma In Situ	FOXA1	1301	1677
+OncotreePrimaryDisease	Breast Ductal Carcinoma In Situ	GATA3	4013	2408
+OncotreePrimaryDisease	Breast Ductal Carcinoma In Situ	GRHL2	185	129
+OncotreePrimaryDisease	Breast Ductal Carcinoma In Situ	SPDEF	1658	2230
+OncotreePrimaryDisease	Breast Ductal Carcinoma In Situ	TFAP2C	1995	2545
+OncotreePrimaryDisease	Breast Ductal Carcinoma In Situ	XBP1	19939	10005
+OncotreePrimaryDisease	Colorectal Adenocarcinoma	ASCL2	42	55
+OncotreePrimaryDisease	Colorectal Adenocarcinoma	CDX1	1620	541
+OncotreePrimaryDisease	Colorectal Adenocarcinoma	CDX2	13	30
+OncotreePrimaryDisease	Colorectal Adenocarcinoma	HNF4A	6	7
+OncotreePrimaryDisease	Colorectal Adenocarcinoma	KLF5	289	267
+OncotreePrimaryDisease	Colorectal Adenocarcinoma	TCF7L2	1986	1953
+OncotreePrimaryDisease	Colorectal Adenocarcinoma	VDR	2623	2347
+OncotreePrimaryDisease	Invasive Breast Carcinoma	ESR1	40	41
+OncotreePrimaryDisease	Invasive Breast Carcinoma	FOXA1	165	133
+OncotreePrimaryDisease	Invasive Breast Carcinoma	GATA3	899	863
+OncotreePrimaryDisease	Invasive Breast Carcinoma	GRHL2	154	176
+OncotreePrimaryDisease	Invasive Breast Carcinoma	SPDEF	208	220
+OncotreePrimaryDisease	Invasive Breast Carcinoma	TFAP2C	358	311
+OncotreePrimaryDisease	Invasive Breast Carcinoma	XBP1	1869	2271
+OncotreePrimaryDisease	Myeloproliferative Neoplasms	GATA1	2696	3356
+OncotreePrimaryDisease	Myeloproliferative Neoplasms	GATA2	45	351
+OncotreePrimaryDisease	Myeloproliferative Neoplasms	KLF1	1252	1619
+OncotreePrimaryDisease	Myeloproliferative Neoplasms	MYB	1115	1072
+OncotreePrimaryDisease	Myeloproliferative Neoplasms	TAL1	39	14
+OncotreePrimaryDisease	Ovarian Epithelial Tumor	GATA6	1201	2876
+OncotreePrimaryDisease	Ovarian Epithelial Tumor	MECOM	1	1
+OncotreePrimaryDisease	Ovarian Epithelial Tumor	PAX8	60	72
+OncotreePrimaryDisease	Ovarian Epithelial Tumor	SOX17	5	5
+OncotreePrimaryDisease	Ovarian Epithelial Tumor	WT1	14114	3204
+OncotreePrimaryDisease	T-Lymphoblastic Leukemia/Lymphoma	LEF1	100	365
+OncotreePrimaryDisease	T-Lymphoblastic Leukemia/Lymphoma	LMO2	5464	4168
+OncotreePrimaryDisease	T-Lymphoblastic Leukemia/Lymphoma	MYB	266	183
+OncotreePrimaryDisease	T-Lymphoblastic Leukemia/Lymphoma	RUNX1	272	340
+OncotreePrimaryDisease	T-Lymphoblastic Leukemia/Lymphoma	TAL1	1589	2140
+OncotreePrimaryDisease	T-Lymphoblastic Leukemia/Lymphoma	TCF7	303	607
+OncotreePrimaryDisease	T-Lymphoblastic Leukemia/Lymphoma	TLX1	20084	5859
+OncotreePrimaryDisease	T-Lymphoblastic Leukemia/Lymphoma	TLX3	13271	16184
+OncotreeSubtype	Acute Myeloid Leukemia	CEBPA	8	11
+OncotreeSubtype	Acute Myeloid Leukemia	IRF8	10	8
+OncotreeSubtype	Acute Myeloid Leukemia	MEF2C	769	655
+OncotreeSubtype	Acute Myeloid Leukemia	MYB	1045	1499
+OncotreeSubtype	Acute Myeloid Leukemia	RUNX1	61	79
+OncotreeSubtype	Acute Myeloid Leukemia	SPI1	23	37
+OncotreeSubtype	Breast Ductal Carcinoma In Situ	ESR1	154	164
+OncotreeSubtype	Breast Ductal Carcinoma In Situ	FOXA1	1295	1694
+OncotreeSubtype	Breast Ductal Carcinoma In Situ	GATA3	3741	1859
+OncotreeSubtype	Breast Ductal Carcinoma In Situ	GRHL2	220	139
+OncotreeSubtype	Breast Ductal Carcinoma In Situ	SPDEF	1803	2303
+OncotreeSubtype	Breast Ductal Carcinoma In Situ	TFAP2C	2058	2362
+OncotreeSubtype	Breast Ductal Carcinoma In Situ	XBP1	20110	9626
+OncotreeSubtype	Breast Invasive Carcinoma, NOS	ESR1	19059	19008
+OncotreeSubtype	Breast Invasive Carcinoma, NOS	FOXA1	9368	7976
+OncotreeSubtype	Breast Invasive Carcinoma, NOS	GATA3	8940	9378
+OncotreeSubtype	Breast Invasive Carcinoma, NOS	GRHL2	1840	2203
+OncotreeSubtype	Breast Invasive Carcinoma, NOS	SPDEF	2863	3690
+OncotreeSubtype	Breast Invasive Carcinoma, NOS	TFAP2C	3177	3560
+OncotreeSubtype	Breast Invasive Carcinoma, NOS	XBP1	21851	24232
+OncotreeSubtype	Breast Invasive Ductal Carcinoma	ESR1	57	74
+OncotreeSubtype	Breast Invasive Ductal Carcinoma	FOXA1	426	301
+OncotreeSubtype	Breast Invasive Ductal Carcinoma	GATA3	900	420
+OncotreeSubtype	Breast Invasive Ductal Carcinoma	GRHL2	166	119
+OncotreeSubtype	Breast Invasive Ductal Carcinoma	SPDEF	300	337
+OncotreeSubtype	Breast Invasive Ductal Carcinoma	TFAP2C	198	160
+OncotreeSubtype	Breast Invasive Ductal Carcinoma	XBP1	4622	4701
+OncotreeSubtype	Breast Invasive Lobular Carcinoma	ESR1	22	20
+OncotreeSubtype	Breast Invasive Lobular Carcinoma	FOXA1	37	33
+OncotreeSubtype	Breast Invasive Lobular Carcinoma	GATA3	1381	1636
+OncotreeSubtype	Breast Invasive Lobular Carcinoma	GRHL2	342	428
+OncotreeSubtype	Breast Invasive Lobular Carcinoma	SPDEF	229	264
+OncotreeSubtype	Breast Invasive Lobular Carcinoma	TFAP2C	158	129
+OncotreeSubtype	Breast Invasive Lobular Carcinoma	XBP1	1081	1474
+OncotreeSubtype	Chronic Myeloid Leukemia, BCR-ABL1+	GATA1	2901	3298
+OncotreeSubtype	Chronic Myeloid Leukemia, BCR-ABL1+	GATA2	29	353
+OncotreeSubtype	Chronic Myeloid Leukemia, BCR-ABL1+	KLF1	1305	1746
+OncotreeSubtype	Chronic Myeloid Leukemia, BCR-ABL1+	MYB	1069	1401
+OncotreeSubtype	Chronic Myeloid Leukemia, BCR-ABL1+	TAL1	44	16
+OncotreeSubtype	Colon Adenocarcinoma	ASCL2	49	50
+OncotreeSubtype	Colon Adenocarcinoma	CDX1	2364	496
+OncotreeSubtype	Colon Adenocarcinoma	CDX2	10	17
+OncotreeSubtype	Colon Adenocarcinoma	HNF4A	4	7
+OncotreeSubtype	Colon Adenocarcinoma	KLF5	336	259
+OncotreeSubtype	Colon Adenocarcinoma	TCF7L2	1715	1724
+OncotreeSubtype	Colon Adenocarcinoma	VDR	2863	2496
+OncotreeSubtype	High-Grade Serous Ovarian Cancer	GATA6	928	1223
+OncotreeSubtype	High-Grade Serous Ovarian Cancer	MECOM	1882	1995
+OncotreeSubtype	High-Grade Serous Ovarian Cancer	PAX8	102	142
+OncotreeSubtype	High-Grade Serous Ovarian Cancer	SOX17	145	165
+OncotreeSubtype	High-Grade Serous Ovarian Cancer	WT1	5073	820
+OncotreeSubtype	Invasive Breast Carcinoma	ESR1	149	187
+OncotreeSubtype	Invasive Breast Carcinoma	FOXA1	159	98
+OncotreeSubtype	Invasive Breast Carcinoma	GATA3	604	518
+OncotreeSubtype	Invasive Breast Carcinoma	GRHL2	123	140
+OncotreeSubtype	Invasive Breast Carcinoma	SPDEF	111	102
+OncotreeSubtype	Invasive Breast Carcinoma	TFAP2C	393	464
+OncotreeSubtype	Invasive Breast Carcinoma	XBP1	1596	2170
+OncotreeSubtype	Serous Ovarian Cancer	GATA6	3050	9915
+OncotreeSubtype	Serous Ovarian Cancer	MECOM	2	2
+OncotreeSubtype	Serous Ovarian Cancer	PAX8	200	393
+OncotreeSubtype	Serous Ovarian Cancer	SOX17	18	9
+OncotreeSubtype	Serous Ovarian Cancer	WT1	33603	15655
+OncotreeSubtype	Small Cell Carcinoma of the Ovary	GATA6	14094	15151
+OncotreeSubtype	Small Cell Carcinoma of the Ovary	MECOM	5634	6550
+OncotreeSubtype	Small Cell Carcinoma of the Ovary	PAX8	18478	20924
+OncotreeSubtype	Small Cell Carcinoma of the Ovary	SOX17	18	19
+OncotreeSubtype	Small Cell Carcinoma of the Ovary	WT1	911	1289
+OncotreeSubtype	T-Cell Acute Lymphoblastic Leukemia	LEF1	66	250
+OncotreeSubtype	T-Cell Acute Lymphoblastic Leukemia	LMO2	5583	4646
+OncotreeSubtype	T-Cell Acute Lymphoblastic Leukemia	MYB	275	194
+OncotreeSubtype	T-Cell Acute Lymphoblastic Leukemia	RUNX1	319	397
+OncotreeSubtype	T-Cell Acute Lymphoblastic Leukemia	TAL1	1657	2052
+OncotreeSubtype	T-Cell Acute Lymphoblastic Leukemia	TCF7	269	600
+OncotreeSubtype	T-Cell Acute Lymphoblastic Leukemia	TLX1	18436	5147
+OncotreeSubtype	T-Cell Acute Lymphoblastic Leukemia	TLX3	12163	14686

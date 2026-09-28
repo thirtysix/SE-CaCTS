@@ -162,10 +162,13 @@ def main():
         n_corr = int(H[(H.level == col)]["n_spec_fdr10"].sum())
         abl["summary"].append({"level": label, "corrected": n_corr,
                                "amplicon_driven": int(len(amp)), "rescued": int(len(resc)),
+                               "removed_amplified": int((amp.cn_mean > 1.3).sum()),
                                "amp_median_cn": round(float(amp.cn_mean.median()), 1) if len(amp) else None,
                                "resc_median_cn": round(float(resc.cn_mean.median()), 3) if len(resc) else None})
     # the amplicon-driven calls, deduped to (group, gene) with the max cn
-    amp_all = A[A.kind == "amplicon_driven"].sort_values("cn_mean", ascending=False)
+    # only calls at an AMPLIFIED locus (group-mean CN > 1.3) are listed as amplicons; on the v2 panel the
+    # removed set also holds CN-neutral calls that lose significance when the null tightens
+    amp_all = A[(A.kind == "amplicon_driven") & (A.cn_mean > 1.3)].sort_values("cn_mean", ascending=False)
     seen = set()
     for r in amp_all.itertuples():
         key = (r.group, r.nearest_gene)
@@ -222,7 +225,11 @@ def main():
     meta["cn_sources"] = {lab: int(src.get(k, 0)) for k, lab in
                           (("depmap_wgs", "DepMap WGS"), ("cmp_wes", "CMP WES"), ("depmap_mc_wes", "DepMap WES"))}
     # calibration: calls made on SHUFFLED labels (lineage level) by each null, where those runs exist
-    n_tests = meta["n_ses"] * meta["n_lineages"]
+    # tests = SCORED loci x lineages (score_pilot drops loci with zero signal in every sample)
+    fmat = f"{PERM}.OncotreeLineage.fdr.tsv.gz"
+    meta["n_ses_scored"] = (len(pd.read_csv(fmat, sep="\t", usecols=[0])) if os.path.exists(fmat)
+                            else meta["n_ses"])
+    n_tests = meta["n_ses_scored"] * meta["n_lineages"]
     def shuffled_calls(prefix):
         f = f"{prefix}.OncotreeLineage.specific.tsv.gz"
         return int((pd.read_csv(f, sep="\t")["fdr"] <= 0.10).sum()) if os.path.exists(f) else None

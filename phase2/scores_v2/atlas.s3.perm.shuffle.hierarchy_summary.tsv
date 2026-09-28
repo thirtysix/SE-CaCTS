@@ -1,0 +1,155 @@
+level	group	n_lines	n_spec_fdr05	n_spec_fdr10	n_spec_fdr25	top15_identity	genes
+OncotreeLineage	Biliary Tract	1	0	0	0	0	
+OncotreeLineage	Bladder/Urinary Tract	7	0	0	0	0	
+OncotreeLineage	Bone	18	0	0	0	0	
+OncotreeLineage	Bowel	19	0	0	0	0	VDR:2461;TCF7L2:3361;CDX1:5213;KLF5:5655;HNF4A:8531;ASCL2:14405;CDX2:21775
+OncotreeLineage	Breast	41	0	0	0	0	TFAP2C:1804;GRHL2:2024;XBP1:2390;ESR1:7294;SPDEF:8439;FOXA1:20262;GATA3:33203
+OncotreeLineage	CNS/Brain	12	0	0	0	0	
+OncotreeLineage	Cervix	3	0	0	0	0	
+OncotreeLineage	Esophagus/Stomach	23	0	0	0	0	
+OncotreeLineage	Eye	3	0	0	0	0	
+OncotreeLineage	Head and Neck	7	0	0	0	0	
+OncotreeLineage	Kidney	11	0	0	0	0	
+OncotreeLineage	Liver	7	0	0	0	0	
+OncotreeLineage	Lung	63	0	0	0	0	
+OncotreeLineage	Lymphoid	75	0	0	0	0	MYB:158;RUNX1:309;LEF1:874;TCF7:1598;TAL1:3850;LMO2:5104;TLX1:15340;TLX3:23976
+OncotreeLineage	Myeloid	23	0	0	0	0	RUNX1:18;MYB:23;SPI1:516;CEBPA:7875;GATA2:10669;GATA1:20491
+OncotreeLineage	Ovary/Fallopian Tube	12	0	0	0	0	WT1:576;PAX8:2954;MECOM:3519;GATA6:5660;SOX17:13843
+OncotreeLineage	Pancreas	15	0	0	0	0	
+OncotreeLineage	Peripheral Nervous System	14	0	0	0	0	
+OncotreeLineage	Pleura	2	0	0	0	0	
+OncotreeLineage	Prostate	4	0	0	0	0	
+OncotreeLineage	Skin	13	0	0	0	0	
+OncotreeLineage	Soft Tissue	9	0	0	0	0	
+OncotreeLineage	Testis	2	0	0	0	0	
+OncotreeLineage	Uterus	2	0	0	0	0	
+OncotreePrimaryDisease	Acute Myeloid Leukemia	19	0	0	0	0	RUNX1:21;MEF2C:650;SPI1:942;IRF8:1592;MYB:2856;CEBPA:4849
+OncotreePrimaryDisease	Adult-Type Diffuse Glioma	5	0	0	0	0	
+OncotreePrimaryDisease	B-Cell Acute Lymphoblastic Leukemia	10	0	0	0	0	
+OncotreePrimaryDisease	Bladder Urothelial Carcinoma	7	0	0	0	0	
+OncotreePrimaryDisease	Breast Ductal Carcinoma In Situ	1	0	0	0	0	GRHL2:211;TFAP2C:2242;ESR1:2251;SPDEF:5321;FOXA1:11692;XBP1:17144;GATA3:39284
+OncotreePrimaryDisease	Cervical Adenocarcinoma	1	0	0	0	0	
+OncotreePrimaryDisease	Cervical Squamous Cell Carcinoma	2	0	0	0	0	
+OncotreePrimaryDisease	Clear Cell Sarcoma	1	0	0	0	0	
+OncotreePrimaryDisease	Colorectal Adenocarcinoma	19	0	0	0	0	VDR:1839;TCF7L2:2046;KLF5:6219;ASCL2:10596;HNF4A:11933;CDX1:14641;CDX2:21963
+OncotreePrimaryDisease	Diffuse Glioma	1	0	0	0	0	
+OncotreePrimaryDisease	Embryonal Tumor	6	0	0	0	0	
+OncotreePrimaryDisease	Endometrial Carcinoma	1	0	0	0	0	
+OncotreePrimaryDisease	Esophageal Squamous Cell Carcinoma	7	0	0	0	0	
+OncotreePrimaryDisease	Esophagogastric Adenocarcinoma	16	0	0	0	0	
+OncotreePrimaryDisease	Ewing Sarcoma	12	0	0	0	0	
+OncotreePrimaryDisease	Fibrosarcoma	1	0	0	0	0	
+OncotreePrimaryDisease	Head and Neck Squamous Cell Carcinoma	7	0	0	0	0	
+OncotreePrimaryDisease	Hepatoblastoma	1	0	0	0	0	
+OncotreePrimaryDisease	Hepatocellular Carcinoma	6	0	0	0	0	
+OncotreePrimaryDisease	Intraductal Papillary Neoplasm of the Bile Duct	1	0	0	0	0	
+OncotreePrimaryDisease	Invasive Breast Carcinoma	40	0	0	0	0	TFAP2C:1525;XBP1:2846;SPDEF:5419;GRHL2:6706;ESR1:7093;FOXA1:17430;GATA3:30474
+OncotreePrimaryDisease	Leiomyosarcoma	1	0	0	0	0	
+OncotreePrimaryDisease	Liposarcoma	1	0	0	0	0	
+OncotreePrimaryDisease	Lung Neuroendocrine Tumor	19	0	0	0	0	
+OncotreePrimaryDisease	Mature B-Cell Neoplasms	44	0	0	0	0	
+OncotreePrimaryDisease	Mature T and NK Neoplasms	6	0	0	0	0	
+OncotreePrimaryDisease	Melanoma	13	0	0	0	0	
+OncotreePrimaryDisease	Myeloproliferative Neoplasms	4	0	0	0	0	MYB:56;KLF1:3808;TAL1:12728;GATA2:13389;GATA1:14685
+OncotreePrimaryDisease	Neuroblastoma	14	0	0	0	0	
+OncotreePrimaryDisease	Non-Hodgkin Lymphoma	2	0	0	0	0	
+OncotreePrimaryDisease	Non-Seminomatous Germ Cell Tumor	2	0	0	0	0	
+OncotreePrimaryDisease	Non-Small Cell Lung Cancer	43	0	0	0	0	
+OncotreePrimaryDisease	Ocular Melanoma	2	0	0	0	0	
+OncotreePrimaryDisease	Osteosarcoma	6	0	0	0	0	
+OncotreePrimaryDisease	Ovarian Epithelial Tumor	11	0	0	0	0	WT1:1050;PAX8:2685;MECOM:3140;GATA6:6506;SOX17:23561
+OncotreePrimaryDisease	Pancreatic Adenocarcinoma	15	0	0	0	0	
+OncotreePrimaryDisease	Pleural Mesothelioma	2	0	0	0	0	
+OncotreePrimaryDisease	Prostate Adenocarcinoma	4	0	0	0	0	
+OncotreePrimaryDisease	Renal Cell Carcinoma	9	0	0	0	0	
+OncotreePrimaryDisease	Retinoblastoma	1	0	0	0	0	
+OncotreePrimaryDisease	Rhabdoid Cancer	2	0	0	0	0	
+OncotreePrimaryDisease	Rhabdomyosarcoma	5	0	0	0	0	
+OncotreePrimaryDisease	SMARCA4-deficient undifferentiated tumor	1	0	0	0	0	
+OncotreePrimaryDisease	Sex Cord Stromal Tumor	1	0	0	0	0	
+OncotreePrimaryDisease	T-Lymphoblastic Leukemia/Lymphoma	13	0	0	0	0	MYB:94;RUNX1:367;LMO2:952;LEF1:1665;TAL1:1690;TCF7:2090;TLX1:10706;TLX3:12272
+OncotreePrimaryDisease	Uterine Sarcoma/Mesenchymal	1	0	0	0	0	
+OncotreeSubtype	AML with Myelodysplasia-Related Changes	1	0	0	0	0	
+OncotreeSubtype	AML, NOS	2	0	0	0	0	
+OncotreeSubtype	Activated B-cell Type	2	0	0	0	0	
+OncotreeSubtype	Acute Myeloid Leukemia	15	0	0	0	1	RUNX1:13;MEF2C:710;IRF8:1269;SPI1:2083;MYB:2668;CEBPA:4575
+OncotreeSubtype	Acute Promyelocytic Leukemia	1	0	0	0	0	
+OncotreeSubtype	Adenocarcinoma of the Gastroesophageal Junction	1	0	0	0	0	
+OncotreeSubtype	Adenosquamous Carcinoma of the Stomach	1	0	0	0	0	
+OncotreeSubtype	Alveolar Rhabdomyosarcoma	2	0	0	0	0	
+OncotreeSubtype	Anaplastic Large-Cell Lymphoma ALK Negative	2	0	0	0	0	
+OncotreeSubtype	Anaplastic Large-Cell Lymphoma ALK Positive	4	0	0	0	0	
+OncotreeSubtype	Astrocytoma, IDH-Mutant	2	0	0	0	0	
+OncotreeSubtype	Atypical Teratoid/Rhabdoid Tumor	2	0	0	0	0	
+OncotreeSubtype	B-Cell Acute Lymphoblastic Leukemia	10	0	0	0	0	
+OncotreeSubtype	Bladder Urothelial Carcinoma	7	0	0	0	0	
+OncotreeSubtype	Breast Ductal Carcinoma In Situ	1	0	0	0	0	GRHL2:195;ESR1:2374;TFAP2C:2738;SPDEF:5156;FOXA1:11657;XBP1:18526;GATA3:40530
+OncotreeSubtype	Breast Invasive Carcinoma, NOS	3	0	0	0	0	SPDEF:209;FOXA1:1994;ESR1:5398;TFAP2C:9627;GRHL2:10529;GATA3:21630;XBP1:22582
+OncotreeSubtype	Breast Invasive Ductal Carcinoma	19	0	0	0	0	GRHL2:1064;TFAP2C:2848;SPDEF:12764;ESR1:17986;XBP1:20145;FOXA1:21983;GATA3:38571
+OncotreeSubtype	Breast Invasive Lobular Carcinoma	5	0	0	0	0	ESR1:532;TFAP2C:1538;GRHL2:2117;GATA3:8222;SPDEF:12610;FOXA1:17723;XBP1:34675
+OncotreeSubtype	Burkitt Lymphoma	2	0	0	0	0	
+OncotreeSubtype	Cervical Squamous Cell Carcinoma	2	0	0	0	0	
+OncotreeSubtype	Chronic Lymphocytic Leukemia/Small Lymphocytic Lymphoma	1	0	0	0	0	
+OncotreeSubtype	Chronic Myeloid Leukemia, BCR-ABL1+	4	0	0	0	0	MYB:46;KLF1:3756;TAL1:11849;GATA1:14872;GATA2:20289
+OncotreeSubtype	Clear Cell Ovarian Cancer	2	0	0	0	0	
+OncotreeSubtype	Clear Cell Sarcoma	1	0	0	0	0	
+OncotreeSubtype	Colon Adenocarcinoma	18	0	0	0	0	VDR:2462;TCF7L2:2527;ASCL2:7592;KLF5:9142;HNF4A:12657;CDX1:15969;CDX2:32692
+OncotreeSubtype	Cutaneous Melanoma	3	0	0	0	0	
+OncotreeSubtype	Dedifferentiated Liposarcoma	1	0	0	0	0	
+OncotreeSubtype	Diffuse Large B-Cell Lymphoma, NOS	16	0	0	0	0	
+OncotreeSubtype	Diffuse Type Stomach Adenocarcinoma	2	0	0	0	0	
+OncotreeSubtype	Embryonal Carcinoma	2	0	0	0	0	
+OncotreeSubtype	Embryonal Rhabdomyosarcoma	3	0	0	0	0	
+OncotreeSubtype	Endocervical Adenocarcinoma	1	0	0	0	0	
+OncotreeSubtype	Endometrial Carcinoma	1	0	0	0	0	
+OncotreeSubtype	Endometrioid Ovarian Cancer	2	0	0	0	0	
+OncotreeSubtype	Esophageal Adenocarcinoma	3	0	0	0	0	
+OncotreeSubtype	Esophageal Squamous Cell Carcinoma	7	0	0	0	0	
+OncotreeSubtype	Ewing Sarcoma	12	0	0	0	0	
+OncotreeSubtype	Fibrosarcoma	1	0	0	0	0	
+OncotreeSubtype	Germinal Center B-Cell Type	2	0	0	0	0	
+OncotreeSubtype	Glioblastoma, IDH-Wildtype	3	0	0	0	0	
+OncotreeSubtype	Gliosarcoma	1	0	0	0	0	
+OncotreeSubtype	Granulosa Cell Tumor	1	0	0	0	0	
+OncotreeSubtype	Hepatoblastoma	1	0	0	0	0	
+OncotreeSubtype	Hepatocellular Carcinoma	6	0	0	0	0	
+OncotreeSubtype	High-Grade Serous Ovarian Cancer	4	0	0	0	0	PAX8:310;GATA6:1924;SOX17:3372;MECOM:4713;WT1:29547
+OncotreeSubtype	Hypopharynx Squamous Cell Carcinoma	1	0	0	0	0	
+OncotreeSubtype	Intrahepatic Cholangiocarcinoma	1	0	0	0	0	
+OncotreeSubtype	Invasive Breast Carcinoma	13	0	0	0	0	XBP1:341;GRHL2:3591;TFAP2C:3710;ESR1:13559;SPDEF:18412;FOXA1:22685;GATA3:28669
+OncotreeSubtype	Large Cell Lung Carcinoma	3	0	0	0	0	
+OncotreeSubtype	Leiomyosarcoma	1	0	0	0	0	
+OncotreeSubtype	Lung Adenocarcinoma	30	0	0	0	0	
+OncotreeSubtype	Lung Squamous Cell Carcinoma	7	0	0	0	0	
+OncotreeSubtype	Mantle Cell Lymphoma	7	0	0	0	0	
+OncotreeSubtype	Medulloblastoma, Group 3	2	0	0	0	0	
+OncotreeSubtype	Medulloblastoma, NOS	2	0	0	0	0	
+OncotreeSubtype	Melanoma	10	0	0	0	0	
+OncotreeSubtype	Neuroblastoma	14	0	0	0	0	
+OncotreeSubtype	Non-Hodgkin Lymphoma	2	0	0	0	0	
+OncotreeSubtype	Non-Small Cell Lung Cancer	3	0	0	0	0	
+OncotreeSubtype	Oral Cavity Squamous Cell Carcinoma	5	0	0	0	0	
+OncotreeSubtype	Oropharynx Squamous Cell Carcinoma	1	0	0	0	0	
+OncotreeSubtype	Osteosarcoma	6	0	0	0	0	
+OncotreeSubtype	Pancreatic Adenocarcinoma	15	0	0	0	0	
+OncotreeSubtype	Papillary Renal Cell Carcinoma	1	0	0	0	0	
+OncotreeSubtype	Plasma Cell Myeloma	11	0	0	0	0	
+OncotreeSubtype	Pleural Mesothelioma, Biphasic Type	1	0	0	0	0	
+OncotreeSubtype	Pleural Mesothelioma, Epithelioid Type	1	0	0	0	0	
+OncotreeSubtype	Primary Effusion Lymphoma	3	0	0	0	0	
+OncotreeSubtype	Prostate Adenocarcinoma	4	0	0	0	0	
+OncotreeSubtype	Rectal Adenocarcinoma	1	0	0	0	0	
+OncotreeSubtype	Renal Cell Carcinoma	4	0	0	0	0	
+OncotreeSubtype	Renal Clear Cell Carcinoma	4	0	0	0	0	
+OncotreeSubtype	Retinoblastoma	1	0	0	0	0	
+OncotreeSubtype	Rhabdoid Cancer	2	0	0	0	0	
+OncotreeSubtype	SMARCA4-deficient undifferentiated tumor	1	0	0	0	0	
+OncotreeSubtype	Serous Ovarian Cancer	2	0	0	0	0	MECOM:1842;PAX8:4390;SOX17:9304;WT1:23558;GATA6:25803
+OncotreeSubtype	Signet Ring Cell Carcinoma of the Stomach	1	0	0	0	0	
+OncotreeSubtype	Small Cell Carcinoma of the Ovary	1	0	0	0	0	WT1:461;MECOM:1911;GATA6:3072;PAX8:5040;SOX17:6825
+OncotreeSubtype	Small Cell Lung Cancer	19	0	0	0	0	
+OncotreeSubtype	Stomach Adenocarcinoma	4	0	0	0	0	
+OncotreeSubtype	T-Cell Acute Lymphoblastic Leukemia	13	0	0	0	0	MYB:79;RUNX1:461;LMO2:1361;LEF1:1661;TCF7:1982;TAL1:7180;TLX1:10594;TLX3:11026
+OncotreeSubtype	Tubular Stomach Adenocarcinoma	4	0	0	0	0	
+OncotreeSubtype	Uterine Leiomyosarcoma	1	0	0	0	0	
+OncotreeSubtype	Uveal Melanoma	2	0	0	0	0	
