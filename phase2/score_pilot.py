@@ -44,7 +44,8 @@ from pycacts.score import cacts_score_matrix, rank_specific        # noqa: E402
 from pycacts.grouping import build_rep_matrix                      # noqa: E402
 from specificity import fdr_matrix                                 # noqa: E402
 from permutation import permutation_fdr                            # noqa: E402
-from cnrose.cn.depmap import load_gene_coords, DepMapGeneCN        # noqa: E402
+from cnrose.cn.depmap import load_gene_coords, DepMapGeneCN, DepMapMcWesCN   # noqa: E402
+from cnrose.cn.cmp import CellModelPassportsWesCN                  # noqa: E402
 from cnrose.cn.base import correct                                 # noqa: E402
 
 # master-TF / identity genes keyed by keywords in the Oncotree group label (specific rules first).
@@ -116,6 +117,14 @@ def main():
     ap.add_argument("--pull-set", default=os.path.join(SECACTS, "phase2/data/pull_set.tsv"))
     ap.add_argument("--model", default=os.path.join(DATAROOT, "DepMap/2026q1/Model.csv"))
     ap.add_argument("--cn-gene-csv", default=os.path.join(DATAROOT, "DepMap/2026q1/OmicsCNGeneWGS.csv"))
+    ap.add_argument("--cmp-wes", default=os.path.join(DATAROOT, "CellModelPassports/WES_pureCN_CNV_genes_latest.csv.gz"),
+                    help="CMP WES pureCN 2025 — CN for pull-set rows with cn_provider=cmp_wes")
+    ap.add_argument("--cmp-model-list", default=os.path.join(DATAROOT, "CellModelPassports/model_list_20240110.csv"))
+    ap.add_argument("--mc-wes", default=os.path.join(DATAROOT, "DepMap/2026q1/OmicsCNGeneMC_WES.csv"),
+                    help="DepMap MC_WES — CN for pull-set rows with cn_provider=depmap_mc_wes")
+    ap.add_argument("--model-condition", default=os.path.join(DATAROOT, "DepMap/2026q1/ModelCondition.csv"))
+    ap.add_argument("--lines-meta", default=os.path.join(SECACTS, "phase1/data/lineage_resolved.tsv"),
+                    help="Oncotree labels (by CVCL) for lines with no DepMap ModelID; their pull-set key is the CVCL")
     ap.add_argument("--gtf", default=os.path.join(DATAROOT, "0.human_genome/Homo_sapiens.GRCh38.106.chr.gtf.gz"))
     ap.add_argument("--gene-cache", default=cache_path("gene_coords.GRCh38.106.tsv"))
     ap.add_argument("--out", default=os.path.join(SECACTS, "phase2/rehearse/pilot_scores"))
@@ -145,7 +154,17 @@ def main():
                     help="Benjamini-Hochberg scope. 'global' (default) shares ONE testing budget across all "
                          "SE x group tests, making per-group counts comparable; 'pergroup' reproduces "
                          "pyCaCTS.empirical_fdr, under which a group can return zero calls.")
+    ap.add_argument("--levels", default=",".join(LEVELS),
+                    help=f"comma-separated hierarchy levels to score (default all: {','.join(LEVELS)})")
+    ap.add_argument("--shuffle-labels", type=int, default=None, metavar="SEED",
+                    help="CALIBRATION TEST: permute the Oncotree labels across the scored lines (one shared "
+                         "permutation, so the lineage/disease/subtype nesting and every group size are kept) "
+                         "before scoring. Nothing real then exists, so a calibrated FDR must call ~nothing.")
     a = ap.parse_args()
+    levels = [l for l in a.levels.split(",") if l]
+    bad = [l for l in levels if l not in LEVELS]
+    if bad:
+        ap.error(f"unknown level(s) {bad}; choose from {LEVELS}")
 
     M = pd.read_csv(a.signal, sep="\t", index_col=0)               # SE x SRX (uncorrected)
     coords = load_coords(a.catalog)
@@ -153,15 +172,52 @@ def main():
     se_ids = list(M.index)
 
     ps = pd.read_csv(a.pull_set, sep="\t")
-    srx_model = dict(zip(ps["srx"], ps["model_id"]))
+    # v2 pull sets carry `key` (ModelID, or CVCL for a line DepMap does not hold) and `cn_provider`;
+    # a v1 pull set is all DepMap WGS, keyed by ModelID.
+    if "key" not in ps.columns:
+        ps["key"], ps["cn_provider"] = ps["model_id"], "depmap_wgs"
+    srx_model = dict(zip(ps["srx"], ps["key"]))
     srx_model.update(EXTRA_MODEL)
     model = pd.read_csv(a.model, index_col="ModelID")
+    # lines outside DepMap get their Oncotree labels from the Cellosaurus-NCIt crosswalk (phase1 script 14)
+    extra = sorted(set(k for k in ps["key"].dropna() if k not in model.index))
+    if extra:
+        lm = pd.read_csv(a.lines_meta, sep="\t").set_index("cvcl").loc[extra]
+        add = pd.DataFrame({"StrippedCellLineName": lm["cell_line"], "OncotreeLineage": lm["lineage"],
+                            "OncotreePrimaryDisease": lm["primary_disease"], "OncotreeSubtype": lm["subtype"]},
+                           index=pd.Index(extra, name="ModelID"))
+        model = pd.concat([model, add])
+        print(f"[score] {len(extra)} line(s) outside DepMap, labelled from {os.path.basename(a.lines_meta)}",
+              file=sys.stderr, flush=True)
     name_of = model["StrippedCellLineName"].to_dict()
 
-    # scoring-time CN over each SE region, per sample (symmetric per-copy, floor 0.1)
+    # scoring-time CN over each SE region, per sample (symmetric per-copy, floor 0.1). Each line reads the
+    # source it was admitted on (phase1 script 15): DepMap WGS -> CMP WES pureCN 2025 -> DepMap MC_WES.
     gene_coords = load_gene_coords(a.gtf, cache_path=a.gene_cache)
     prov = DepMapGeneCN(a.cn_gene_csv, gene_coords)
-    prov.preload([srx_model.get(s) for s in samples if isinstance(srx_model.get(s), str)])
+    lines_ps = ps.dropna(subset=["key"]).drop_duplicates("key").set_index("key")
+    src_of = lines_ps["cn_provider"].to_dict()
+    cvcl_of = lines_ps["cvcl"].to_dict()
+    used = {srx_model.get(s) for s in samples if isinstance(srx_model.get(s), str)}
+    by_src = {p: [k for k in used if src_of.get(k, "depmap_wgs") == p]
+              for p in ("depmap_wgs", "cmp_wes", "depmap_mc_wes")}
+    prov.preload(by_src["depmap_wgs"])
+    cmp_prov = mcw_prov = None
+    if by_src["cmp_wes"]:
+        cmp_prov = CellModelPassportsWesCN(a.cmp_wes, a.cmp_model_list, cache_dir=cache_path("cmp_wes"))
+        cmp_prov.preload([cvcl_of[k] for k in by_src["cmp_wes"]])
+    if by_src["depmap_mc_wes"]:
+        mcw_prov = DepMapMcWesCN(a.mc_wes, a.model_condition, gene_coords)
+        mcw_prov.preload(by_src["depmap_mc_wes"])
+    def track_for(key):
+        src = src_of.get(key, "depmap_wgs")
+        if src == "cmp_wes":
+            return cmp_prov.track(cvcl_of[key])
+        if src == "depmap_mc_wes":
+            return mcw_prov.track(key)
+        return prov.track(key)
+    print("[score] CN source per line: " + ", ".join(f"{p}={len(v)}" for p, v in by_src.items()),
+          file=sys.stderr, flush=True)
     raw = M.values.astype(float)
     cn = np.ones_like(raw)
     # CN is a property of the CELL LINE, not the experiment, so evaluate region_cn once per ModelID and
@@ -173,7 +229,7 @@ def main():
         if not isinstance(mid, str):
             continue
         if mid not in cn_by_model:
-            tr = prov.track(mid)
+            tr = track_for(mid)
             cn_by_model[mid] = None if tr is None else np.fromiter(
                 (tr.region_cn(*coords[i]) for i in se_ids), dtype=float, count=len(se_ids))
             if len(cn_by_model) % 25 == 0:
@@ -182,7 +238,7 @@ def main():
         if cn_by_model[mid] is not None:
             cn[:, j] = cn_by_model[mid]
     n_cn = sum(v is not None for v in cn_by_model.values())
-    print(f"[score] scoring-time CN: {n_cn}/{len(cn_by_model)} models with a DepMap track "
+    print(f"[score] scoring-time CN: {n_cn}/{len(cn_by_model)} models with a CN track "
           f"({time.time() - t0:.0f}s)", file=sys.stderr, flush=True)
     # CN is always EVALUATED (it is reported per call as cn_mean, so any hit can be checked against the
     # copy number at its locus); --no-cn only skips APPLYING it. The two arms differ in exactly one step,
@@ -235,10 +291,20 @@ def main():
                 return g
         return None
 
+    if a.shuffle_labels is not None:
+        # one permutation of whole label ROWS among the scored lines: group sizes and the hierarchy's
+        # nesting survive exactly, only the line -> group assignment is destroyed
+        cols = ["OncotreeLineage", "OncotreePrimaryDisease", "OncotreeSubtype"]
+        scored = [k for k in lines_cor.columns if k in model.index]
+        perm = np.random.default_rng(a.shuffle_labels).permutation(len(scored))
+        model = model.copy()
+        model.loc[scored, cols] = model.loc[scored, cols].values[perm]
+        print(f"[score] CALIBRATION: Oncotree labels SHUFFLED across {len(scored)} lines "
+              f"(seed {a.shuffle_labels})", file=sys.stderr, flush=True)
     print(f"[score] {len(se_ids)} SEs; {len(samples)} samples -> {lines_cor.shape[1]} cell lines; "
           f"norm={a.norm}\n")
     summary = []
-    for level in LEVELS:
+    for level in levels:
         rep, gsize = build_rep_matrix(lines_cor, model, level, min_group_n=1)
         rep.columns = [str(c) for c in rep.columns]
         jsd = cacts_score_matrix(rep)

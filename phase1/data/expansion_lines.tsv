@@ -1,0 +1,123 @@
+cvcl	cell_line	key	model_id	sidm	cn_provider	lineage	primary_disease	subtype	lineage_source	n_qc_exp
+CVCL_0359	J82	ACH-000396	ACH-000396	SIDM00693	cmp_wes	Bladder/Urinary Tract	Bladder Urothelial Carcinoma	Bladder Urothelial Carcinoma	depmap	2
+CVCL_0036	RT4	ACH-000242	ACH-000242	SIDM01085	cmp_wes	Bladder/Urinary Tract	Bladder Urothelial Carcinoma	Bladder Urothelial Carcinoma	depmap	1
+CVCL_1208	EW-1	ACH-002110	ACH-002110	SIDM00205	cmp_wes	Bone	Ewing Sarcoma	Ewing Sarcoma	depmap	1
+CVCL_1214	EW-22	ACH-002116	ACH-002116	SIDM00196	cmp_wes	Bone	Ewing Sarcoma	Ewing Sarcoma	depmap	1
+CVCL_1216	EW-3	ACH-002118	ACH-002118	SIDM00202	cmp_wes	Bone	Ewing Sarcoma	Ewing Sarcoma	depmap	1
+CVCL_1217	EW-7	ACH-002119	ACH-002119	SIDM00201	cmp_wes	Bone	Ewing Sarcoma	Ewing Sarcoma	depmap	1
+CVCL_0312	HOS	ACH-000613	ACH-000613	SIDM00806	cmp_wes	Bone	Osteosarcoma	Osteosarcoma	depmap	1
+CVCL_1658	Rh1	CVCL_1658		SIDM00427	cmp_wes	Bone	Ewing Sarcoma	Ewing Sarcoma	cellosaurus_ncit	1
+CVCL_4989	U-CH2	ACH-002204	ACH-002204	SIDM01185	cmp_wes	Bone	Chordoma	Chordoma	depmap	2
+CVCL_0218	COLO 205	ACH-001039	ACH-001039	SIDM00826	cmp_wes	Bowel	Colorectal Adenocarcinoma	Colon Adenocarcinoma	depmap	5
+CVCL_0220	COLO 320HSR	ACH-002219	ACH-002219	SIDM00842	cmp_wes	Bowel	Colorectal Adenocarcinoma	Colon Adenocarcinoma	depmap	2
+CVCL_1151	CW-2	ACH-000998	ACH-000998	SIDM00282	cmp_wes	Bowel	Colorectal Adenocarcinoma	Colon Adenocarcinoma	depmap	1
+CVCL_1235	GP5d	ACH-001345	ACH-001345	SIDM00537	cmp_wes	Bowel	Colorectal Adenocarcinoma	Colon Adenocarcinoma	depmap	1
+CVCL_1266	HCC2998	ACH-001081	ACH-001081	SIDM00118	cmp_wes	Bowel	Colorectal Adenocarcinoma	Colon Adenocarcinoma	depmap	2
+CVCL_5112	SNU-C5	ACH-000970	ACH-000970	SIDM00498	cmp_wes	Bowel	Colorectal Adenocarcinoma	Colon Adenocarcinoma	depmap	1
+CVCL_1106	CAL-148	ACH-000902	ACH-000902	SIDM00938	cmp_wes	Breast	Invasive Breast Carcinoma	Breast Invasive Ductal Carcinoma	depmap	1
+CVCL_1408	MFM-223	ACH-001819	ACH-001819	SIDM00332	cmp_wes	Breast	Invasive Breast Carcinoma	Breast Invasive Ductal Carcinoma	depmap	3
+CVCL_3421	SUM 102PT	ACH-001388	ACH-001388	SIDM01837	depmap_mc_wes	Breast	Invasive Breast Carcinoma	Breast Invasive Ductal Carcinoma	depmap	1
+CVCL_5589	SUM 1315M02	ACH-001389	ACH-001389	SIDM01836	depmap_mc_wes	Breast	Invasive Breast Carcinoma	Breast Invasive Ductal Carcinoma	depmap	1
+CVCL_3422	SUM 149PT	ACH-001390	ACH-001390	SIDM01441	depmap_mc_wes	Breast	Invasive Breast Carcinoma	Breast Invasive Ductal Carcinoma	depmap	11
+CVCL_5423	SUM 159PT	ACH-001391	ACH-001391	SIDM01452	depmap_mc_wes	Breast	Invasive Breast Carcinoma	Invasive Breast Carcinoma	depmap	42
+CVCL_5591	SUM 185PE	ACH-001392	ACH-001392	SIDM01430	depmap_mc_wes	Breast	Invasive Breast Carcinoma	Invasive Breast Carcinoma	depmap	1
+CVCL_5594	SUM 229PE	ACH-001394	ACH-001394	SIDM01461	depmap_mc_wes	Breast	Invasive Breast Carcinoma	Invasive Breast Carcinoma	depmap	23
+CVCL_1661	ZR-75-30	ACH-000828	ACH-000828	SIDM00971	cmp_wes	Breast	Invasive Breast Carcinoma	Breast Invasive Lobular Carcinoma	depmap	5
+CVCL_1155	D283 Med	ACH-000055	ACH-000055	SIDM00888	cmp_wes	CNS/Brain	Embryonal Tumor	Medulloblastoma	depmap	5
+CVCL_VU70	HSJD-DIPG-007	ACH-002348	ACH-002348	SIDM01714	depmap_mc_wes	CNS/Brain	Diffuse Glioma	Diffuse Intrinsic Pontine Glioma	depmap	2
+CVCL_0556	T98G	ACH-000571	ACH-000571	SIDM01171	cmp_wes	CNS/Brain	Diffuse Glioma	Glioblastoma	depmap	1
+CVCL_0030	HeLa	ACH-001086	ACH-001086	SIDM00846	cmp_wes	Cervix	Cervical Adenocarcinoma	Endocervical Adenocarcinoma	depmap	55
+CVCL_0032	SiHa	ACH-000556	ACH-000556	SIDM01093	cmp_wes	Cervix	Cervical Squamous Cell Carcinoma	Cervical Squamous Cell Carcinoma	depmap	1
+CVCL_2035	ESO-26	ACH-001496	ACH-001496	SIDM00539	cmp_wes	Esophagus/Stomach	Esophagogastric Adenocarcinoma	Adenocarcinoma of the Gastroesophageal Junction	depmap	1
+CVCL_2045	FLO-1	ACH-001500	ACH-001500	SIDM01041	cmp_wes	Esophagus/Stomach	Esophagogastric Adenocarcinoma	Esophageal Adenocarcinoma	depmap	1
+CVCL_1825	KYAE-1	ACH-001544	ACH-001544	SIDM00530	cmp_wes	Esophagus/Stomach	Esophagogastric Adenocarcinoma	Esophageal Adenocarcinoma	depmap	1
+CVCL_1347	KYSE-140	ACH-000823	ACH-000823	SIDM01032	cmp_wes	Esophagus/Stomach	Esophageal Squamous Cell Carcinoma	Esophageal Squamous Cell Carcinoma	depmap	6
+CVCL_1354	KYSE-510	ACH-000824	ACH-000824	SIDM01026	cmp_wes	Esophagus/Stomach	Esophageal Squamous Cell Carcinoma	Esophageal Squamous Cell Carcinoma	depmap	1
+CVCL_4849	LMSU	ACH-000255	ACH-000255	SIDM01368	cmp_wes	Esophagus/Stomach	Esophagogastric Adenocarcinoma	Stomach Adenocarcinoma	depmap	8
+CVCL_1842	OACM5.1 C	ACH-001368	ACH-001368	SIDM00444	cmp_wes	Esophagus/Stomach	Esophagogastric Adenocarcinoma	Esophageal Adenocarcinoma	depmap	1
+CVCL_1843	OACP4 C	ACH-002292	ACH-002292	SIDM00445	cmp_wes	Esophagus/Stomach	Esophagogastric Adenocarcinoma	Esophageal Adenocarcinoma	depmap	1
+CVCL_2195	SK-GT-4	ACH-001654	ACH-001654	SIDM00483	cmp_wes	Esophagus/Stomach	Esophagogastric Adenocarcinoma	Esophageal Adenocarcinoma	depmap	1
+CVCL_4384	TMK-1	ACH-002202	ACH-002202	SIDM00040	cmp_wes	Esophagus/Stomach	Esophagogastric Adenocarcinoma	Stomach Adenocarcinoma	depmap	1
+CVCL_3174	TT	ACH-000561	ACH-000561	SIDM00322	cmp_wes	Esophagus/Stomach	Esophageal Squamous Cell Carcinoma	Esophageal Squamous Cell Carcinoma	depmap	6
+CVCL_C301	Mel202	ACH-001554	ACH-001554	SIDM01357	depmap_mc_wes	Eye	Ocular Melanoma	Uveal Melanoma	depmap	1
+CVCL_1056	A498	ACH-000555	ACH-000555	SIDM00124	cmp_wes	Kidney	Renal Cell Carcinoma	Renal Cell Carcinoma	depmap	7
+CVCL_1673	RXF 393L	ACH-002195	ACH-002195	SIDM00086	cmp_wes	Kidney	Renal Cell Carcinoma	Renal Cell Carcinoma	depmap	2
+CVCL_1705	SN-12C	ACH-002199	ACH-002199	SIDM00094	cmp_wes	Kidney	Renal Cell Carcinoma	Renal Cell Carcinoma	depmap	2
+CVCL_1773	TK-10	ACH-001208	ACH-001208	SIDM00113	cmp_wes	Kidney	Renal Cell Carcinoma	Renal Clear Cell Carcinoma	depmap	2
+CVCL_1911	UO-31	ACH-000428	ACH-000428	SIDM00112	cmp_wes	Kidney	Renal Cell Carcinoma	Renal Cell Carcinoma	depmap	2
+CVCL_1055	A-427	ACH-000757	ACH-000757	SIDM00810	cmp_wes	Lung	Non-Small Cell Lung Cancer	Lung Adenocarcinoma	depmap	1
+CVCL_0609	Calu-3	ACH-000392	ACH-000392	SIDM00922	cmp_wes	Lung	Non-Small Cell Lung Cancer	Lung Adenocarcinoma	depmap	5
+CVCL_2891	EBC-1	ACH-000563	ACH-000563	SIDM00486	cmp_wes	Lung	Non-Small Cell Lung Cancer	Lung Squamous Cell Carcinoma	depmap	2
+CVCL_1286	HOP-92	ACH-000825	ACH-000825	SIDM00134	cmp_wes	Lung	Non-Small Cell Lung Cancer	Non-Small Cell Lung Cancer	depmap	2
+CVCL_5480	LC-1/sq-SF	ACH-001113	ACH-001113	SIDM01226	depmap_mc_wes	Lung	Non-Small Cell Lung Cancer	Lung Squamous Cell Carcinoma	depmap	1
+CVCL_1373	LC-2/ad	ACH-002157	ACH-002157	SIDM00297	cmp_wes	Lung	Non-Small Cell Lung Cancer	Lung Adenocarcinoma	depmap	1
+CVCL_1460	NCI-H128	ACH-002286	ACH-002286	SIDM00650	cmp_wes	Lung	Lung Neuroendocrine Tumor	Small Cell Lung Cancer	depmap	5
+CVCL_1550	NCI-H2347	ACH-000875	ACH-000875	SIDM00726	cmp_wes	Lung	Non-Small Cell Lung Cancer	Lung Adenocarcinoma	depmap	1
+CVCL_1557	NCI-H322M	ACH-002172	ACH-002172	SIDM00117	cmp_wes	Lung	Non-Small Cell Lung Cancer	Lung Adenocarcinoma	depmap	2
+CVCL_1560	NCI-H378	ACH-002173	ACH-002173	SIDM00915	depmap_mc_wes	Lung	Lung Neuroendocrine Tumor	Small Cell Lung Cancer	depmap	1
+CVCL_1561	NCI-H441	ACH-000638	ACH-000638	SIDM00925	cmp_wes	Lung	Non-Small Cell Lung Cancer	Lung Adenocarcinoma	depmap	5
+CVCL_1590	NCI-H810	ACH-000789	ACH-000789	SIDM01116	cmp_wes	Lung	Non-Small Cell Lung Cancer	Large Cell Lung Carcinoma	depmap	1
+CVCL_1596	NCI-H847	ACH-001365	ACH-001365	SIDM01149	cmp_wes	Lung	Lung Neuroendocrine Tumor	Small Cell Lung Cancer	depmap	1
+CVCL_B260	PC-9	ACH-000779	ACH-000779	SIDM00236	depmap_mc_wes	Lung	Non-Small Cell Lung Cancer	Lung Adenocarcinoma	depmap	8
+CVCL_1652	RERF-LC-Ad2	ACH-000774	ACH-000774	SIDM01332	depmap_mc_wes	Lung	Non-Small Cell Lung Cancer	Lung Adenocarcinoma	depmap	1
+CVCL_1654	RERF-LC-KJ	ACH-000482	ACH-000482	SIDM00356	cmp_wes	Lung	Non-Small Cell Lung Cancer	Lung Adenocarcinoma	depmap	1
+CVCL_4900	Sq-1	ACH-000553	ACH-000553	SIDM01767	cmp_wes	Lung	Non-Small Cell Lung Cancer	Lung Squamous Cell Carcinoma	depmap	1
+CVCL_1787	VMRC-LCD	ACH-001233	ACH-001233	SIDM00320	cmp_wes	Lung	Non-Small Cell Lung Cancer	Lung Adenocarcinoma	depmap	1
+CVCL_1805	ALL-SIL	ACH-000105	ACH-000105	SIDM00994	cmp_wes	Lymphoid	Mature T and NK Neoplasms	Adult T-Cell Leukemia/Lymphoma	depmap	1
+CVCL_0207	CCRF-CEM	ACH-001738	ACH-001738	SIDM00121	cmp_wes	Lymphoid	T-Lymphoblastic Leukemia/Lymphoma	T-Lymphoblastic Leukemia/Lymphoma	depmap	3
+CVCL_1179	DOHH-2	ACH-000056	ACH-000056	SIDM00981	cmp_wes	Lymphoid	Mature B-Cell Neoplasms	Diffuse Large B-Cell Lymphoma, NOS	depmap	4
+CVCL_0008	Daudi	ACH-000786	ACH-000786	SIDM00845	cmp_wes	Lymphoid	Mature B-Cell Neoplasms	Burkitt Lymphoma	depmap	1
+CVCL_3302	Farage	ACH-001498	ACH-001498	SIDM00859	cmp_wes	Lymphoid	Mature B-Cell Neoplasms	Germinal Center B-Cell Type	depmap	2
+CVCL_1818	GRANTA-519	ACH-000073	ACH-000073	SIDM01058	cmp_wes	Lymphoid	Mature B-Cell Neoplasms	Mantle Cell Lymphoma	depmap	1
+CVCL_1242	HAL-01	ACH-002241	ACH-002241	SIDM00289	cmp_wes	Lymphoid	B-Lymphoblastic Leukemia/Lymphoma	B-Lymphoblastic Leukemia/Lymphoma	depmap	1
+CVCL_1865	JEKO-1	ACH-000357	ACH-000357	SIDM01038	cmp_wes	Lymphoid	Mature B-Cell Neoplasms	Mantle Cell Lymphoma	depmap	5
+CVCL_3728	JSC-1	ACH-002253	ACH-002253	SIDM00688	cmp_wes	Lymphoid	Mature B-Cell Neoplasms	Primary Effusion Lymphoma	depmap	1
+CVCL_1319	JVM-2	ACH-000106	ACH-000106	SIDM01013	cmp_wes	Lymphoid	Mature B-Cell Neoplasms	Mantle Cell Lymphoma	depmap	1
+CVCL_1326	KARPAS-45	ACH-002256	ACH-002256	SIDM01007	cmp_wes	Lymphoid	T-Lymphoblastic Leukemia/Lymphoma	T-Lymphoblastic Leukemia/Lymphoma	depmap	1
+CVCL_1334	KMS-12-BM	ACH-000380	ACH-000380	SIDM01020	cmp_wes	Lymphoid	Mature B-Cell Neoplasms	Plasma Cell Myeloma	depmap	1
+CVCL_2994	KMS-28BM	ACH-000419	ACH-000419	SIDM01657	depmap_mc_wes	Lymphoid	Mature B-Cell Neoplasms	Plasma Cell Myeloma	depmap	1
+CVCL_0089	MHH-CALL-3	ACH-000032	ACH-000032	SIDM01693	cmp_wes	Lymphoid	B-Lymphoblastic Leukemia/Lymphoma	B-Lymphoblastic Leukemia/Lymphoma with t(1;19)(q23;p13.3);TCF3-PBX1	depmap	1
+CVCL_1424	MOLT-16	ACH-000918	ACH-000918	SIDM00431	cmp_wes	Lymphoid	T-Lymphoblastic Leukemia/Lymphoma	T-Lymphoblastic Leukemia/Lymphoma	depmap	1
+CVCL_0013	MOLT-4	ACH-001127	ACH-001127	SIDM00145	cmp_wes	Lymphoid	T-Lymphoblastic Leukemia/Lymphoma	T-Lymphoblastic Leukemia/Lymphoma	depmap	6
+CVCL_1872	Mino	ACH-000220	ACH-000220	SIDM01667	cmp_wes	Lymphoid	Mature B-Cell Neoplasms	Mantle Cell Lymphoma	depmap	9
+CVCL_1876	NU-DHL-1	ACH-000388	ACH-000388	SIDM01780	cmp_wes	Lymphoid	Mature B-Cell Neoplasms	Diffuse Large B-Cell Lymphoma, NOS	depmap	2
+CVCL_8800	OCI-LY-3	ACH-000158	ACH-000158	SIDM01778	cmp_wes	Lymphoid	Mature B-Cell Neoplasms	Activated B-cell Type	depmap	14
+CVCL_1881	OCI-LY-7	ACH-001617	ACH-001617	SIDM00459	cmp_wes	Lymphoid	Mature B-Cell Neoplasms	Diffuse Large B-Cell Lymphoma, NOS	depmap	5
+CVCL_1880	OCI-Ly18	ACH-001616	ACH-001616		depmap_mc_wes	Lymphoid	Mature B-Cell Neoplasms	Diffuse Large B-Cell Lymphoma, NOS	depmap	2
+CVCL_1913	PEER	ACH-000519	ACH-000519	SIDM00991	cmp_wes	Lymphoid	T-Lymphoblastic Leukemia/Lymphoma	T-Lymphoblastic Leukemia/Lymphoma	depmap	1
+CVCL_3326	Pfeiffer	ACH-000140	ACH-000140	SIDM01775	cmp_wes	Lymphoid	Mature B-Cell Neoplasms	Diffuse Large B-Cell Lymphoma, NOS	depmap	3
+CVCL_1883	RC-K8	ACH-001638	ACH-001638	SIDM00448	cmp_wes	Lymphoid	Mature B-Cell Neoplasms	Germinal Center B-Cell Type	depmap	2
+CVCL_1885	RIVA	ACH-000398	ACH-000398	SIDM01858	depmap_mc_wes	Lymphoid	Mature B-Cell Neoplasms	Activated B-cell Type	depmap	4
+CVCL_1667	RPMI 8402	ACH-000636	ACH-000636	SIDM00403	cmp_wes	Lymphoid	T-Lymphoblastic Leukemia/Lymphoma	T-Lymphoblastic Leukemia/Lymphoma	depmap	5
+CVCL_1889	SU-DHL-10	ACH-000271	ACH-000271	SIDM00389	cmp_wes	Lymphoid	Mature B-Cell Neoplasms	Diffuse Large B-Cell Lymphoma, NOS	depmap	2
+CVCL_1735	SU-DHL-5	ACH-000660	ACH-000660	SIDM00406	cmp_wes	Lymphoid	Mature B-Cell Neoplasms	Diffuse Large B-Cell Lymphoma, NOS	depmap	2
+CVCL_2206	SU-DHL-6	ACH-000611	ACH-000611	SIDM00407	cmp_wes	Lymphoid	Mature B-Cell Neoplasms	Diffuse Large B-Cell Lymphoma, NOS	depmap	6
+CVCL_1736	TALL-1	ACH-000197	ACH-000197	SIDM00370	cmp_wes	Lymphoid	Mature T and NK Neoplasms	Adult T-Cell Leukemia/Lymphoma	depmap	1
+CVCL_3611	Toledo	ACH-000285	ACH-000285	SIDM01758	cmp_wes	Lymphoid	Mature B-Cell Neoplasms	Diffuse Large B-Cell Lymphoma, NOS	depmap	3
+CVCL_0566	U-266	ACH-000626	ACH-000626	SIDM00417	cmp_wes	Lymphoid	Mature B-Cell Neoplasms	Plasma Cell Myeloma	depmap	5
+CVCL_1902	WSU-DLCL2	ACH-000534	ACH-000534	SIDM00413	cmp_wes	Lymphoid	Mature B-Cell Neoplasms	Diffuse Large B-Cell Lymphoma, NOS	depmap	4
+CVCL_0002	HL-60	ACH-000002	ACH-000002	SIDM00829	cmp_wes	Myeloid	Acute Myeloid Leukemia	Acute Myeloid Leukemia	depmap	25
+CVCL_0374	KG-1	ACH-000386	ACH-000386	SIDM00785	cmp_wes	Myeloid	Acute Myeloid Leukemia	Acute Myeloid Leukemia	depmap	2
+CVCL_0425	MEG-01	ACH-000072	ACH-000072	SIDM00526	cmp_wes	Myeloid	Myeloproliferative Neoplasms	Chronic Myeloid Leukemia, BCR-ABL1+	depmap	10
+CVCL_1426	Mono-Mac-6	ACH-000006	ACH-000006	SIDM01023	cmp_wes	Myeloid	Acute Myeloid Leukemia	Acute Monoblastic/Monocytic Leukemia	depmap	3
+CVCL_0005	NB-4	ACH-000294	ACH-000294	SIDM00428	cmp_wes	Myeloid	Acute Myeloid Leukemia	Acute Myeloid Leukemia	depmap	9
+CVCL_1687	SCH	ACH-002198	ACH-002198	SIDM00383	cmp_wes	Other	Extra Gonadal Germ Cell Tumor	Extra Gonadal Germ Cell Tumor	depmap	1
+CVCL_0375	KGN	ACH-002149	ACH-002149	SIDM00302	cmp_wes	Ovary/Fallopian Tube	Sex Cord Stromal Tumor	Granulosa Cell Tumor	depmap	2
+CVCL_2686	PEO1	ACH-001630	ACH-001630	SIDM00472	cmp_wes	Ovary/Fallopian Tube	Ovarian Epithelial Tumor	Serous Ovarian Cancer	depmap	1
+CVCL_3613	TOV-21G	ACH-000885	ACH-000885	SIDM01169	cmp_wes	Ovary/Fallopian Tube	Ovarian Epithelial Tumor	Clear Cell Ovarian Cancer	depmap	4
+CVCL_B079	UWB1.289	ACH-001418	ACH-001418	SIDM00815	cmp_wes	Ovary/Fallopian Tube	Ovarian Epithelial Tumor	Serous Ovarian Cancer	depmap	6
+CVCL_1119	CFPAC-1	ACH-000138	ACH-000138	SIDM00130	cmp_wes	Pancreas	Pancreatic Adenocarcinoma	Pancreatic Adenocarcinoma	depmap	35
+CVCL_0026	Capan-2	ACH-000107	ACH-000107	SIDM00943	cmp_wes	Pancreas	Pancreatic Adenocarcinoma	Pancreatic Adenocarcinoma	depmap	9
+CVCL_0313	HPAF-II	ACH-000094	ACH-000094	SIDM00669	cmp_wes	Pancreas	Pancreatic Adenocarcinoma	Pancreatic Adenocarcinoma	depmap	5
+CVCL_1448	NB69	ACH-002083	ACH-002083	SIDM00244	cmp_wes	Peripheral Nervous System	Neuroblastoma	Neuroblastoma	depmap	4
+CVCL_0531	SK-N-SH	ACH-000149	ACH-000149	SIDM01098	cmp_wes	Peripheral Nervous System	Neuroblastoma	Neuroblastoma	depmap	6
+CVCL_2235	VCaP	ACH-000115	ACH-000115	SIDM01077	cmp_wes	Prostate	Prostate Adenocarcinoma	Prostate Adenocarcinoma	depmap	27
+CVCL_6357	451Lu	ACH-001002	ACH-001002	SIDM01240	cmp_wes	Skin	Melanoma	Cutaneous Melanoma	depmap	8
+CVCL_1122	CHL-1	ACH-001024	ACH-001024	SIDM01228	cmp_wes	Skin	Melanoma	Melanoma	depmap	6
+CVCL_U797	CJM	ACH-000458	ACH-000458	SIDM01512	depmap_mc_wes	Skin	Melanoma	Melanoma	depmap	1
+CVCL_1395	M-14	ACH-002159	ACH-002159	SIDM00003	cmp_wes	Skin	Melanoma	Melanoma	depmap	4
+CVCL_0526	SK-MEL-28	ACH-000615	ACH-000615	SIDM00081	cmp_wes	Skin	Melanoma	Cutaneous Melanoma	depmap	4
+CVCL_1780	UACC-62	ACH-000425	ACH-000425	SIDM00107	cmp_wes	Skin	Melanoma	Melanoma	depmap	2
+CVCL_6809	WM983B	ACH-000765	ACH-000765	SIDM01397	cmp_wes	Skin	Melanoma	Melanoma	depmap	4
+CVCL_1659	RH-18	ACH-000689	ACH-000689	SIDM00454	cmp_wes	Soft Tissue	Rhabdomyosarcoma	Embryonal Rhabdomyosarcoma	depmap	1
+CVCL_1730	SW 872	ACH-002310	ACH-002310	SIDM01159	cmp_wes	Soft Tissue	Liposarcoma	Liposarcoma	depmap	13

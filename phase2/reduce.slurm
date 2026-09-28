@@ -44,6 +44,10 @@ PEAK_DIR="${PEAK_DIR:-$WORK/data/bed20}"
 MIN_PEAKS="${MIN_PEAKS:-2000}"
 MAX_FAILED="${MAX_FAILED:-50}"
 RESULTS="${RESULTS:-$WORK/results}"
+# S3norm fits each sample independently against ONE reference sample. Pin it (e.g. the v1 medoid,
+# SRX16495452) when extending an atlas, so the samples already in it normalize bit-identically.
+S3_REF="${S3_REF:-medoid}"
+CATALOGS="${CATALOGS:-atlas atlas.cn atlas.s3 atlas.s3.cn}"
 
 if [[ -x "$VENV/bin/python" ]]; then PY="$VENV/bin/python"
 else echo "[reduce] FATAL: no python with pyBigWig at $VENV (build it: roihu/00_build_env.sh)" >&2; exit 1; fi
@@ -81,10 +85,15 @@ run () {   # run <out-prefix> <extra args...>
 
 # Four catalogs: {agnostic, CN-corrected} x {unnormalized, S3norm}. S3norm REQUIRES the QC gate — ungated it
 # is worse than quantile (DESIGN.md §normalization / PULL_DESIGN.md §8.5).
-run "$RESULTS/atlas"
-run "$RESULTS/atlas.cn"     --se-suffix .cn
-run "$RESULTS/atlas.s3"     --norm s3norm --min-peaks "$MIN_PEAKS"
-run "$RESULTS/atlas.s3.cn"  --se-suffix .cn --norm s3norm --min-peaks "$MIN_PEAKS"
+for cat in $CATALOGS; do
+  case "$cat" in
+    atlas)       run "$RESULTS/atlas" ;;
+    atlas.cn)    run "$RESULTS/atlas.cn"    --se-suffix .cn ;;
+    atlas.s3)    run "$RESULTS/atlas.s3"    --norm s3norm --s3-ref "$S3_REF" --min-peaks "$MIN_PEAKS" ;;
+    atlas.s3.cn) run "$RESULTS/atlas.s3.cn" --se-suffix .cn --norm s3norm --s3-ref "$S3_REF" --min-peaks "$MIN_PEAKS" ;;
+    *) echo "[reduce] unknown catalog: $cat" >&2; exit 1 ;;
+  esac
+done
 
-echo "[reduce] done -> $RESULTS/atlas{,.cn,.s3,.s3.cn}.*"
+echo "[reduce] done -> $RESULTS/{$CATALOGS}.*"
 echo "[reduce] NOTE: $n_failed samples failed and are NOT in the atlas; see $RESULTS/failed_srx.txt"
