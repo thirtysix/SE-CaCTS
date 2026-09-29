@@ -184,9 +184,9 @@ def main():
             return "pulled, check pending", r.v3_manifest
         if r.qc_pass_meta == 0:
             return "excluded", "ChIP-Atlas QC (reads/peaks) failed"
-        if r.route == "resolved" and r.cvcl not in cnstat:
+        if "resolved" in r.route and r.cvcl not in cnstat:
             return "out of scope", "line is not one of the 631 human cancer lines (non-cancer or excluded identity)"
-        if r.route == "resolved" and cnstat.get(r.cvcl, "").startswith(("lookup", "infer", "none")):
+        if cnstat.get(r.cvcl, "").startswith(("lookup", "infer", "none")) and "identity-gap" not in r.route:
             return "not pulled", f"line has no copy-number track ({cnstat[r.cvcl]})"
         return "not yet pulled", "in ChIP-Atlas hg38"
     R[["decision", "reason"]] = R.apply(lambda r: pd.Series(decide(r)), axis=1)
