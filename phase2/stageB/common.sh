@@ -43,7 +43,11 @@ fetch_one() {
     local SRA="$AX $S/sif/sra-tools.sif" run
     rm -rf "$d/runs"; mkdir -p "$d/runs"
     for run in ${runs//;/ }; do
-      $SRA prefetch --max-size 500G --check-rs no -O "$d/runs" "$run" || return 1
+      # 3 tries: a transient "cannot resolve remote location" (2026-09-29) otherwise sends the row to inexact ENA
+      for a in 1 2 3; do
+        $SRA prefetch --max-size 500G --check-rs no -O "$d/runs" "$run" && break
+        [ "$a" = 3 ] && return 1; sleep 60
+      done
       $SRA fasterq-dump --split-files --threads "${FETCH_THREADS:-1}" -t "$d/runs" -O "$d/runs" "$d/runs/$run/$run.sra" || return 1
       rm -rf "$d/runs/$run"
     done
