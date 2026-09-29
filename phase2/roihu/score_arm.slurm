@@ -15,14 +15,19 @@ PY=/projappl/${PROJ:?}/secacts_venv/bin/python
 REPO="$SB/dataroot/002.AI_projects/SE-CaCTS"
 OUT="$SB/out"; mkdir -p "$OUT"
 DISC="ACH-000232,ACH-000338,ACH-000856,ACH-000957,ACH-000960,ACH-000997,ACH-001106,ACH-000768"
-V2=(--signal "$W/results_v2/atlas.s3.se_signal.tsv" --catalog "$W/results_v2/atlas.s3.union_catalog.bed"
-    --pull-set "$REPO/phase2/data/pull_set.v2.tsv" --norm none
-    --fdr-method permutation --n-perm 1000 --dump-specific 0.10)
+# RES / PS pick the atlas (default v2). v3 adds input-inferred CN lines, so those two flags come along.
+RES="${RES:-$W/results_v2}"; PS="${PS:-$REPO/phase2/data/pull_set.v2.tsv}"
+V2=(--signal "$RES/atlas.s3.se_signal.tsv" --catalog "$RES/atlas.s3.union_catalog.bed"
+    --pull-set "$PS" --norm none
+    --fdr-method permutation --n-perm 1000 --dump-specific 0.10
+    --inferred-bins "$W/../cncal/bins" --blacklist "$W/../cncal/hg38-blacklist.v2.bed.gz")
 case "$ARM" in
   main)    args=("${V2[@]}" --out "$OUT/atlas.s3.perm" --cn-diagnostic --save-matrices) ;;
   nocn)    args=("${V2[@]}" --out "$OUT/atlas.s3.perm.nocn" --no-cn) ;;
   shuffle) args=("${V2[@]}" --out "$OUT/atlas.s3.perm.shuffle" --shuffle-labels 1
                  --levels OncotreeLineage,OncotreePrimaryDisease,OncotreeSubtype) ;;
+  noinf)   args=("${V2[@]}" --out "$OUT/atlas.s3.perm.noinf" --exclude-keys "$(cat "$REPO/phase2/data/v3_inferred_keys.txt")"
+                 --levels OncotreeLineage,OncotreePrimaryDisease) ;;
   nodisc)  args=("${V2[@]}" --out "$OUT/atlas.s3.perm.nodisc" --exclude-keys "$DISC"
                  --levels OncotreeLineage,OncotreePrimaryDisease) ;;
   cmpfirst) args=("${V2[@]}" --pull-set "$REPO/phase2/data/pull_set.v2.cmpfirst.tsv" --out "$OUT/atlas.s3.perm.cmpfirst"

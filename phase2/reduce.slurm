@@ -54,10 +54,13 @@ else echo "[reduce] FATAL: no python with pyBigWig at $VENV (build it: roihu/00_
 
 mkdir -p "$RESULTS"
 n_expect=$(grep -cv '^[[:space:]]*$' "$MANIFEST")
-n_done=$(find "$OUT" -name '*.done' | wc -l)
-n_failed=$(find "$OUT" -name '*.failed' | wc -l)
+# count THIS manifest's samples: out/ also holds pulls that are not in this atlas (v3: candidates that failed
+# their checks, perturbed experiments, Stage B)
+in_manifest() { awk -F/ 'NR==FNR{m[$1]=1; next} {b=$NF; sub(/\..*/,"",b); if (b in m) print}' "$MANIFEST" -; }
+n_done=$(find "$OUT" -name '*.done' | in_manifest | wc -l)
+n_failed=$(find "$OUT" -name '*.failed' | in_manifest | wc -l)
 echo "[reduce] manifest=$n_expect  done=$n_done  failed=$n_failed"
-find "$OUT" -name '*.failed' -printf '%f\n' | sed 's/\.failed$//' | sort > "$RESULTS/failed_srx.txt" 2>/dev/null || true
+find "$OUT" -name '*.failed' | in_manifest | xargs -r -n1 basename | sed 's/\.failed$//' | sort > "$RESULTS/failed_srx.txt" 2>/dev/null || true
 
 if (( n_failed > MAX_FAILED )) && [[ "${FORCE:-0}" != "1" ]]; then
   echo "[reduce] REFUSING: $n_failed failures > MAX_FAILED=$MAX_FAILED. Investigate $RESULTS/failed_srx.txt," >&2
@@ -74,7 +77,7 @@ FLAT="$WORK/.flat"
 rm -rf "$FLAT"; mkdir -p "$FLAT"
 find "$OUT" -mindepth 2 -maxdepth 2 -type f \
      \( -name '*.se.bed' -o -name "*.$GRID_LABEL.f32" -o -name '*.signal.tsv' \) \
-     -exec ln -sf {} "$FLAT/" \;
+  | in_manifest | while read -r f; do ln -sf "$f" "$FLAT/"; done
 echo "[reduce] linked $(ls "$FLAT" | wc -l) per-sample files"
 
 run () {   # run <out-prefix> <extra args...>
