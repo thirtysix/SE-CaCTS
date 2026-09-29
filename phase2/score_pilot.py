@@ -46,6 +46,8 @@ from specificity import fdr_matrix                                 # noqa: E402
 from permutation import permutation_fdr, permutation_fdr_units, rep_agg   # noqa: E402
 from cnrose.cn.depmap import load_gene_coords, DepMapGeneCN, DepMapMcWesCN   # noqa: E402
 from cnrose.cn.cmp import CellModelPassportsWesCN                  # noqa: E402
+from cnrose.cn.inferred import BinnedInputCN, load_blacklist       # noqa: E402
+from cnrose.cn.segfile import SegmentFileCN                        # noqa: E402
 from cnrose.cn.base import correct                                 # noqa: E402
 
 # master-TF / identity genes keyed by keywords in the Oncotree group label (specific rules first).
@@ -123,6 +125,14 @@ def main():
     ap.add_argument("--mc-wes", default=os.path.join(DATAROOT, "DepMap/2026q1/OmicsCNGeneMC_WES.csv"),
                     help="DepMap MC_WES — CN for pull-set rows with cn_provider=depmap_mc_wes")
     ap.add_argument("--model-condition", default=os.path.join(DATAROOT, "DepMap/2026q1/ModelCondition.csv"))
+    ap.add_argument("--ccle-segments", default=os.path.join(SECACTS, "phase2/data/cn_ccle_snp6.hg38.tsv.gz"),
+                    help="CCLE 2019 SNP6 lifted to hg38 — CN for pull-set rows with cn_provider=ccle_snp6 (FINDINGS §23)")
+    ap.add_argument("--inferred-bins", help="dir of <SRX>.npz input bins (phase1 script 20) — CN for rows with "
+                    "cn_provider=input_inferred (FINDINGS §24)")
+    ap.add_argument("--inferred-map", default=os.path.join(SECACTS, "phase2/analysis/out/cn_admissions.tsv"),
+                    help="TSV with key and cn_input (the admitted input SRX per line)")
+    ap.add_argument("--inferred-slope", type=float, default=0.81)
+    ap.add_argument("--blacklist", help="ENCODE hg38 blacklist v2 BED(.gz), for input_inferred")
     ap.add_argument("--lines-meta", default=os.path.join(SECACTS, "phase1/data/lineage_resolved.tsv"),
                     help="Oncotree labels (by CVCL) for lines with no DepMap ModelID; their pull-set key is the CVCL")
     ap.add_argument("--gtf", default=os.path.join(DATAROOT, "0.human_genome/Homo_sapiens.GRCh38.106.chr.gtf.gz"))
@@ -248,10 +258,11 @@ def main():
     prov = DepMapGeneCN(a.cn_gene_csv, gene_coords)
     lines_ps = ps.dropna(subset=["key"]).drop_duplicates("key").set_index("key")
     src_of = lines_ps["cn_provider"].to_dict()
-    cvcl_of = lines_ps["cvcl"].to_dict()
+    # a line scored on a relative's CN names that relative in `cn_cvcl` (phase1 script 23); CMP keys by CVCL
+    cvcl_of = (lines_ps["cn_cvcl"].fillna(lines_ps["cvcl"]) if "cn_cvcl" in lines_ps else lines_ps["cvcl"]).to_dict()
     used = {srx_model.get(s) for s in samples if isinstance(srx_model.get(s), str)}
     by_src = {p: [k for k in used if src_of.get(k, "depmap_wgs") == p]
-              for p in ("depmap_wgs", "cmp_wes", "depmap_mc_wes")}
+              for p in ("depmap_wgs", "cmp_wes", "depmap_mc_wes", "ccle_snp6", "input_inferred")}
     prov.preload(by_src["depmap_wgs"])
     cmp_prov = mcw_prov = None
     if by_src["cmp_wes"]:
@@ -260,8 +271,21 @@ def main():
     if by_src["depmap_mc_wes"]:
         mcw_prov = DepMapMcWesCN(a.mc_wes, a.model_condition, gene_coords)
         mcw_prov.preload(by_src["depmap_mc_wes"])
+    ccle_prov = SegmentFileCN(a.ccle_segments, "ccle_snp6") if by_src["ccle_snp6"] else None
+    inf_prov = None
+    if by_src["input_inferred"]:
+        if not (a.inferred_bins and a.blacklist):
+            sys.exit("[score] input_inferred lines need --inferred-bins and --blacklist")
+        im = pd.read_csv(a.inferred_map, sep="\t").dropna(subset=["cn_input"])
+        inf_prov = BinnedInputCN(a.inferred_bins, dict(zip(im["key"], im["cn_input"])),
+                                 blacklist=load_blacklist(a.blacklist), slope=a.inferred_slope)
+
     def track_for(key):
         src = src_of.get(key, "depmap_wgs")
+        if src == "ccle_snp6":
+            return ccle_prov.track(key)
+        if src == "input_inferred":
+            return inf_prov.track(key)
         if src == "cmp_wes":
             return cmp_prov.track(cvcl_of[key])
         if src == "depmap_mc_wes":

@@ -37,6 +37,8 @@ def main():
     for k in ("--seg", "--clinical", "--depmap-wgs", "--gene-coords", "--cnrose", "--out"):
         ap.add_argument(k, required=True)
     ap.add_argument("--chain", help="hg19ToHg38.over.chain.gz (UCSC)")
+    ap.add_argument("--export-keys", help="comma-separated ModelIDs: write their hg38 segments to --export and stop")
+    ap.add_argument("--export", help="TSV(.gz) of key, chrom, start, end, ratio for cnrose.cn.segfile")
     a = ap.parse_args()
     sys.path.insert(0, a.cnrose)
     import pandas as pd
@@ -44,6 +46,18 @@ def main():
     from cnrose.cn.depmap import DepMapGeneCN, load_gene_coords
 
     ccle = Ccle2019SnpCN(a.seg, a.clinical, chain=a.chain)
+    if a.export_keys:
+        rows = []
+        for k in a.export_keys.split(","):
+            t = ccle.track(k)
+            if t is None:
+                print(f"[21] {k}: no CCLE 2019 segments", file=sys.stderr)
+                continue
+            for c, (st, en, ra) in t._chrom.items():
+                rows += [(k, c, int(s), int(e), float(r)) for s, e, r in zip(st, en, ra)]
+        pd.DataFrame(rows, columns=["key", "chrom", "start", "end", "ratio"]).to_csv(a.export, sep="\t", index=False)
+        print(f"[21] exported {len({r[0] for r in rows})} lines, {len(rows)} segments -> {a.export}", file=sys.stderr)
+        return
     wgs = DepMapGeneCN(a.depmap_wgs, load_gene_coords(None, cache_path=a.gene_coords))
     both = sorted(set(ccle.sample_for) & set(wgs.index) if hasattr(wgs, "index") else set(ccle.sample_for))
     wgs.preload(both)

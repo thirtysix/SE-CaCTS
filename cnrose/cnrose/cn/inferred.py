@@ -304,3 +304,50 @@ class ChipInputInferredCN(CNProvider):
             cov = self.raw_bins(key)
             self._cache[key] = self.build_from_bins(cov, self.srx_for.get(key, "?")) if cov else None
         return self._cache[key]
+
+
+# ----------------------------------------------------------------------------- admitted lines (FINDINGS §24)
+HG38_AUTOSOMES = {
+    "chr1": 248956422, "chr2": 242193529, "chr3": 198295559, "chr4": 190214555, "chr5": 181538259,
+    "chr6": 170805979, "chr7": 159345973, "chr8": 145138636, "chr9": 138394717, "chr10": 133797422,
+    "chr11": 135086622, "chr12": 133275309, "chr13": 114364328, "chr14": 107043718, "chr15": 101991189,
+    "chr16": 90338345, "chr17": 83257441, "chr18": 80373285, "chr19": 58617616, "chr20": 64444167,
+    "chr21": 46709983, "chr22": 50818468}
+
+
+class BinnedInputCN(CNProvider):
+    """Input-inferred CN from PRE-FETCHED 50 kb bins (phase1/scripts/20_cn_input_calibration.py fetch, one
+    `<SRX>.npz` per input), so scoring needs no network. Same inference as the calibration (covered mean,
+    zero = deletion, blacklist, no GC, no segmentation), then the global compression slope fitted against
+    DepMap WGS: ratio -> ratio ** slope (log2 truth ~ 0.81 x log2 inferred, FINDINGS §24).
+
+    `input_for` maps a scoring key -> the admitted input SRX (the line's most coherent input).
+    """
+
+    def __init__(self, bins_dir, input_for, blacklist=None, slope=0.81, bin_size=50_000):
+        self.bins_dir = bins_dir
+        self.input_for = dict(input_for)
+        self.slope = slope
+        grid = {c: (np.arange(int(L // bin_size), dtype=np.int64) * bin_size,
+                    np.arange(1, int(L // bin_size) + 1, dtype=np.int64) * bin_size)
+                for c, L in HG38_AUTOSOMES.items()}
+        self._inf = ChipInputInferredCN({}, blacklist=blacklist or {}, bin_size=bin_size)
+        self._inf._grid, self._inf._bmask, self._inf._gc = grid, blacklist_mask(grid, blacklist or {}), None
+        self._cache = {}
+
+    def track(self, key):
+        if key in self._cache:
+            return self._cache[key]
+        import os
+        srx = self.input_for.get(key)
+        fn = os.path.join(self.bins_dir, f"{srx}.npz") if srx else None
+        tr = None
+        if fn and os.path.exists(fn):
+            z = np.load(fn)
+            raw = self._inf.build_from_bins({c: z[c] for c in z.files if c.startswith("chr")}, srx)
+            if raw is not None:
+                segs = [(c, int(s), int(e), float(r) ** self.slope)
+                        for c, (st, en, ra) in raw._chrom.items() for s, e, r in zip(st, en, ra)]
+                tr = CNTrack(segs, ploidy=2.0, source=f"InputInferred:{srx}^{self.slope}")
+        self._cache[key] = tr
+        return tr
