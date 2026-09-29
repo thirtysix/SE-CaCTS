@@ -299,3 +299,24 @@ td.gene{font-family:ui-monospace,Menlo,monospace; font-weight:650}
 /* About: the pipeline flow chart (inline SVG styled by the theme tokens) */
 .pipeline-card{padding:14px 12px; margin:0 0 14px}
 .pipeline-card svg{display:block; max-width:780px; margin:0 auto}
+
+/* Line view (prototype) */
+[data-tab="line"] .card{margin-bottom:16px}
+.lv-title{display:flex; align-items:baseline; gap:12px; flex-wrap:wrap}
+.lv-title h2{font-size:20px; font-weight:750}
+.lv-kpis{display:flex; gap:22px; flex-wrap:wrap; margin:12px 0 8px}
+.lv-kpis div{display:flex; flex-direction:column}
+.lv-kpis b{font-size:19px}
+.lv-kpis span{font-size:11.5px; color:var(--muted); text-transform:uppercase; letter-spacing:.04em}
+#lv-igv{background:#fff; min-height:420px; padding:6px 4px}
+.lv-exps{display:flex; flex-wrap:wrap; gap:4px 16px; margin-top:8px; max-height:120px; overflow:auto}
+.lv-exp{font-size:12.5px; white-space:nowrap; cursor:pointer}
+.lv-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px}
+@media (max-width: 900px){ .lv-grid{grid-template-columns:1fr} }
+.lv-scroll{max-height:420px; overflow:auto; padding:0}
+.lv-tbl tbody tr{cursor:pointer}
+.lv-tbl tbody tr:hover{background:var(--bg-alt)}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12px}
+.lv-grid > .card{min-width:0}
+#lv-igv{overflow-x:auto}
+@media (max-width: 600px){ #lv-combo, #lv-combo .combo-input{width:100%; min-width:0; max-width:100%} }

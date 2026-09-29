@@ -1,0 +1,1192 @@
+{
+"key": "ACH-000551",
+"group": "K562",
+"name": "K-562",
+"lineage": "Myeloid",
+"disease": "Myeloproliferative Neoplasms",
+"subtype": "Chronic Myeloid Leukemia, BCR-ABL1+",
+"cn_source": "depmap_wgs",
+"has_cn": true,
+"cn_max": 3,
+"comparison": {
+"stratum": "Myeloproliferative Neoplasms",
+"n_lines": 4
+},
+"n_called": 3069,
+"experiments": [
+{
+"srx": "DRX041639",
+"study": "PRJDB4219",
+"layout": "PAIRED",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/DRX041639.bw"
+},
+{
+"srx": "DRX041641",
+"study": "PRJDB4219",
+"layout": "PAIRED",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/DRX041641.bw"
+},
+{
+"srx": "ERX989273",
+"study": "PRJEB8620",
+"layout": "PAIRED",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/ERX989273.bw"
+},
+{
+"srx": "ERX989276",
+"study": "PRJEB8620",
+"layout": "PAIRED",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/ERX989276.bw"
+},
+{
+"srx": "ERX989283",
+"study": "PRJEB8620",
+"layout": "PAIRED",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/ERX989283.bw"
+},
+{
+"srx": "ERX989286",
+"study": "PRJEB8620",
+"layout": "PAIRED",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/ERX989286.bw"
+},
+{
+"srx": "ERX989293",
+"study": "PRJEB8620",
+"layout": "PAIRED",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/ERX989293.bw"
+},
+{
+"srx": "ERX989296",
+"study": "PRJEB8620",
+"layout": "PAIRED",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/ERX989296.bw"
+},
+{
+"srx": "SRX038624",
+"study": "PRJNA63443",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX038624.bw"
+},
+{
+"srx": "SRX067407",
+"study": "PRJNA63443",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX067407.bw"
+},
+{
+"srx": "SRX10184470",
+"study": "PRJNA705362",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX10184470.bw"
+},
+{
+"srx": "SRX10184471",
+"study": "PRJNA705362",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX10184471.bw"
+},
+{
+"srx": "SRX10184472",
+"study": "PRJNA705362",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX10184472.bw"
+},
+{
+"srx": "SRX10184486",
+"study": "PRJNA705362",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX10184486.bw"
+},
+{
+"srx": "SRX10184513",
+"study": "PRJNA705362",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX10184513.bw"
+},
+{
+"srx": "SRX12298971",
+"study": "PRJNA765350",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX12298971.bw"
+},
+{
+"srx": "SRX12298972",
+"study": "PRJNA765350",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX12298972.bw"
+},
+{
+"srx": "SRX12298976",
+"study": "PRJNA765350",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX12298976.bw"
+},
+{
+"srx": "SRX13497471",
+"study": "PRJNA791925",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX13497471.bw"
+},
+{
+"srx": "SRX13497472",
+"study": "PRJNA791925",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX13497472.bw"
+},
+{
+"srx": "SRX13497473",
+"study": "PRJNA791925",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX13497473.bw"
+},
+{
+"srx": "SRX13731620",
+"study": "PRJNA796335",
+"layout": "PAIRED",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX13731620.bw"
+},
+{
+"srx": "SRX13731623",
+"study": "PRJNA796335",
+"layout": "PAIRED",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX13731623.bw"
+},
+{
+"srx": "SRX13731626",
+"study": "PRJNA796335",
+"layout": "PAIRED",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX13731626.bw"
+},
+{
+"srx": "SRX13731629",
+"study": "PRJNA796335",
+"layout": "PAIRED",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX13731629.bw"
+},
+{
+"srx": "SRX13731638",
+"study": "PRJNA796335",
+"layout": "PAIRED",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX13731638.bw"
+},
+{
+"srx": "SRX14073943",
+"study": "PRJNA773732",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX14073943.bw"
+},
+{
+"srx": "SRX1560894",
+"study": "PRJNA275703",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX1560894.bw"
+},
+{
+"srx": "SRX20731972",
+"study": "PRJNA985672",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX20731972.bw"
+},
+{
+"srx": "SRX20731973",
+"study": "PRJNA985672",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX20731973.bw"
+},
+{
+"srx": "SRX20731974",
+"study": "PRJNA985672",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX20731974.bw"
+},
+{
+"srx": "SRX20731975",
+"study": "PRJNA985672",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX20731975.bw"
+},
+{
+"srx": "SRX2161993",
+"study": "PRJNA342801",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX2161993.bw"
+},
+{
+"srx": "SRX2161994",
+"study": "PRJNA342801",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX2161994.bw"
+},
+{
+"srx": "SRX2161995",
+"study": "PRJNA342801",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX2161995.bw"
+},
+{
+"srx": "SRX24726249",
+"study": "PRJNA1117467",
+"layout": "PAIRED",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX24726249.bw"
+},
+{
+"srx": "SRX24726250",
+"study": "PRJNA1117467",
+"layout": "PAIRED",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX24726250.bw"
+},
+{
+"srx": "SRX24726257",
+"study": "PRJNA1117467",
+"layout": "PAIRED",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX24726257.bw"
+},
+{
+"srx": "SRX24726258",
+"study": "PRJNA1117467",
+"layout": "PAIRED",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX24726258.bw"
+},
+{
+"srx": "SRX3445664",
+"study": "PRJNA421193",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX3445664.bw"
+},
+{
+"srx": "SRX3445665",
+"study": "PRJNA421193",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX3445665.bw"
+},
+{
+"srx": "SRX3445672",
+"study": "PRJNA421193",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX3445672.bw"
+},
+{
+"srx": "SRX3445673",
+"study": "PRJNA421193",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX3445673.bw"
+},
+{
+"srx": "SRX3445680",
+"study": "PRJNA421193",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX3445680.bw"
+},
+{
+"srx": "SRX3445681",
+"study": "PRJNA421193",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX3445681.bw"
+},
+{
+"srx": "SRX5516743",
+"study": "PRJNA526902",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX5516743.bw"
+},
+{
+"srx": "SRX5516744",
+"study": "PRJNA526902",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX5516744.bw"
+},
+{
+"srx": "SRX5516745",
+"study": "PRJNA526902",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX5516745.bw"
+},
+{
+"srx": "SRX5646086",
+"study": "PRJNA531105",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX5646086.bw"
+},
+{
+"srx": "SRX5907956",
+"study": "PRJNA545089",
+"layout": "PAIRED",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX5907956.bw"
+},
+{
+"srx": "SRX5907957",
+"study": "PRJNA545089",
+"layout": "PAIRED",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX5907957.bw"
+},
+{
+"srx": "SRX5907958",
+"study": "PRJNA545089",
+"layout": "PAIRED",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX5907958.bw"
+},
+{
+"srx": "SRX5907959",
+"study": "PRJNA545089",
+"layout": "PAIRED",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX5907959.bw"
+},
+{
+"srx": "SRX5907960",
+"study": "PRJNA545089",
+"layout": "PAIRED",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX5907960.bw"
+},
+{
+"srx": "SRX5907961",
+"study": "PRJNA545089",
+"layout": "PAIRED",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX5907961.bw"
+},
+{
+"srx": "SRX5974515",
+"study": "PRJNA546522",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX5974515.bw"
+},
+{
+"srx": "SRX5974516",
+"study": "PRJNA546522",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX5974516.bw"
+},
+{
+"srx": "SRX5974531",
+"study": "PRJNA546522",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX5974531.bw"
+},
+{
+"srx": "SRX5974532",
+"study": "PRJNA546522",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX5974532.bw"
+},
+{
+"srx": "SRX5974547",
+"study": "PRJNA546522",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX5974547.bw"
+},
+{
+"srx": "SRX5974548",
+"study": "PRJNA546522",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX5974548.bw"
+},
+{
+"srx": "SRX5974563",
+"study": "PRJNA546522",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX5974563.bw"
+},
+{
+"srx": "SRX5974564",
+"study": "PRJNA546522",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX5974564.bw"
+},
+{
+"srx": "SRX5974579",
+"study": "PRJNA546522",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX5974579.bw"
+},
+{
+"srx": "SRX5974580",
+"study": "PRJNA546522",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX5974580.bw"
+},
+{
+"srx": "SRX6793422",
+"study": "PRJNA563608",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX6793422.bw"
+},
+{
+"srx": "SRX6793423",
+"study": "PRJNA563608",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX6793423.bw"
+},
+{
+"srx": "SRX6866211",
+"study": "PRJNA566158",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX6866211.bw"
+},
+{
+"srx": "SRX6913084",
+"study": "PRJNA574473",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX6913084.bw"
+},
+{
+"srx": "SRX6913092",
+"study": "PRJNA574473",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX6913092.bw"
+},
+{
+"srx": "SRX7030820",
+"study": "PRJNA578731",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX7030820.bw"
+},
+{
+"srx": "SRX7030821",
+"study": "PRJNA578731",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX7030821.bw"
+},
+{
+"srx": "SRX7135412",
+"study": "PRJNA589301",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX7135412.bw"
+},
+{
+"srx": "SRX7135413",
+"study": "PRJNA589301",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX7135413.bw"
+},
+{
+"srx": "SRX7135414",
+"study": "PRJNA589301",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX7135414.bw"
+},
+{
+"srx": "SRX7135415",
+"study": "PRJNA589301",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX7135415.bw"
+},
+{
+"srx": "SRX7223900",
+"study": "PRJNA591956",
+"layout": "PAIRED",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX7223900.bw"
+},
+{
+"srx": "SRX7223904",
+"study": "PRJNA591956",
+"layout": "PAIRED",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX7223904.bw"
+},
+{
+"srx": "SRX7556099",
+"study": "PRJNA601191",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX7556099.bw"
+},
+{
+"srx": "SRX8848926",
+"study": "PRJNA601191",
+"layout": "PAIRED",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX8848926.bw"
+},
+{
+"srx": "SRX9243954",
+"study": "PRJNA550207",
+"layout": "PAIRED",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX9243954.bw"
+},
+{
+"srx": "SRX9243955",
+"study": "PRJNA550207",
+"layout": "PAIRED",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX9243955.bw"
+},
+{
+"srx": "SRX9243988",
+"study": "PRJNA550207",
+"layout": "PAIRED",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX9243988.bw"
+},
+{
+"srx": "SRX9243989",
+"study": "PRJNA550207",
+"layout": "PAIRED",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX9243989.bw"
+},
+{
+"srx": "SRX9243994",
+"study": "PRJNA550207",
+"layout": "PAIRED",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX9243994.bw"
+},
+{
+"srx": "SRX9243995",
+"study": "PRJNA550207",
+"layout": "PAIRED",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX9243995.bw"
+}
+],
+"vsall": {
+"n": 10014,
+"top": [
+{
+"rank": 1,
+"se": "USE_12727",
+"chrom": "chr13",
+"start": 107883268,
+"end": 107884425,
+"gene": "NALF1",
+"dist_kb": 15,
+"jsd": 0.5978,
+"fdr": 0.0,
+"cn": 0.61
+},
+{
+"rank": 2,
+"se": "USE_22330",
+"chrom": "chr2",
+"start": 24009721,
+"end": 24012031,
+"gene": "MFSD2B",
+"dist_kb": 0,
+"jsd": 0.6027,
+"fdr": 0.0,
+"cn": 0.98
+},
+{
+"rank": 3,
+"se": "USE_39085",
+"chrom": "chr7",
+"start": 10779644,
+"end": 10780640,
+"gene": "NDUFA4",
+"dist_kb": 151,
+"jsd": 0.6054,
+"fdr": 0.0,
+"cn": 0.97
+},
+{
+"rank": 4,
+"se": "USE_36485",
+"chrom": "chr6",
+"start": 11930729,
+"end": 11932232,
+"gene": "HIVEP1",
+"dist_kb": 76,
+"jsd": 0.6108,
+"fdr": 0.0,
+"cn": 1.28
+},
+{
+"rank": 5,
+"se": "USE_36878",
+"chrom": "chr6",
+"start": 28615407,
+"end": 28616781,
+"gene": "ZBED9",
+"dist_kb": 0,
+"jsd": 0.613,
+"fdr": 0.0,
+"cn": 1.41
+},
+{
+"rank": 6,
+"se": "USE_14244",
+"chrom": "chr14",
+"start": 101710508,
+"end": 101714219,
+"gene": "PPP2R5C",
+"dist_kb": 47,
+"jsd": 0.6139,
+"fdr": 0.0,
+"cn": 0.75
+},
+{
+"rank": 7,
+"se": "USE_21624",
+"chrom": "chr19",
+"start": 51546261,
+"end": 51548681,
+"gene": "SIGLEC6",
+"dist_kb": 14,
+"jsd": 0.6192,
+"fdr": 0.0,
+"cn": 1.04
+},
+{
+"rank": 8,
+"se": "USE_3879",
+"chrom": "chr1",
+"start": 207625921,
+"end": 207627147,
+"gene": "CR1",
+"dist_kb": 0,
+"jsd": 0.6199,
+"fdr": 0.0,
+"cn": 1.16
+},
+{
+"rank": 9,
+"se": "USE_12728",
+"chrom": "chr13",
+"start": 107900578,
+"end": 107927224,
+"gene": "NALF1",
+"dist_kb": 33,
+"jsd": 0.6217,
+"fdr": 0.0,
+"cn": 0.61
+},
+{
+"rank": 10,
+"se": "USE_41571",
+"chrom": "chr7",
+"start": 153412201,
+"end": 153413881,
+"gene": "DPP6",
+"dist_kb": 473,
+"jsd": 0.6221,
+"fdr": 0.0,
+"cn": 1.28
+},
+{
+"rank": 11,
+"se": "USE_3880",
+"chrom": "chr1",
+"start": 207647454,
+"end": 207654080,
+"gene": "CR1L",
+"dist_kb": 0,
+"jsd": 0.6224,
+"fdr": 0.0,
+"cn": 1.24
+},
+{
+"rank": 12,
+"se": "USE_14227",
+"chrom": "chr14",
+"start": 100770355,
+"end": 100772723,
+"gene": "DLK1",
+"dist_kb": 32,
+"jsd": 0.6243,
+"fdr": 0.0,
+"cn": 0.65
+},
+{
+"rank": 13,
+"se": "USE_6894",
+"chrom": "chr11",
+"start": 5504610,
+"end": 5505565,
+"gene": "HBG2",
+"dist_kb": 0,
+"jsd": 0.6246,
+"fdr": 0.0,
+"cn": 0.89
+},
+{
+"rank": 14,
+"se": "USE_37368",
+"chrom": "chr6",
+"start": 49635386,
+"end": 49647923,
+"gene": "RHAG",
+"dist_kb": 0,
+"jsd": 0.6261,
+"fdr": 0.0,
+"cn": 1.23
+},
+{
+"rank": 15,
+"se": "USE_39275",
+"chrom": "chr7",
+"start": 22702731,
+"end": 22709903,
+"gene": "STEAP1B",
+"dist_kb": 0,
+"jsd": 0.6277,
+"fdr": 0.0,
+"cn": 1.04
+},
+{
+"rank": 16,
+"se": "USE_40603",
+"chrom": "chr7",
+"start": 100640389,
+"end": 100642557,
+"gene": "TFR2",
+"dist_kb": 0,
+"jsd": 0.628,
+"fdr": 0.0,
+"cn": 1.35
+},
+{
+"rank": 17,
+"se": "USE_16357",
+"chrom": "chr16",
+"start": 21536121,
+"end": 21537807,
+"gene": "METTL9",
+"dist_kb": 59,
+"jsd": 0.6291,
+"fdr": 0.0,
+"cn": 1.06
+},
+{
+"rank": 18,
+"se": "USE_6637",
+"chrom": "chr10",
+"start": 124906185,
+"end": 124918491,
+"gene": "ZRANB1",
+"dist_kb": 23,
+"jsd": 0.6295,
+"fdr": 0.0,
+"cn": 0.0
+},
+{
+"rank": 19,
+"se": "USE_14019",
+"chrom": "chr14",
+"start": 90803384,
+"end": 90804699,
+"gene": "TTC7B",
+"dist_kb": 0,
+"jsd": 0.6309,
+"fdr": 0.0,
+"cn": 0.7
+},
+{
+"rank": 20,
+"se": "USE_2544",
+"chrom": "chr1",
+"start": 147377101,
+"end": 147379081,
+"gene": "CHD1L",
+"dist_kb": 81,
+"jsd": 0.6315,
+"fdr": 0.0,
+"cn": 0.97
+},
+{
+"rank": 21,
+"se": "USE_6241",
+"chrom": "chr10",
+"start": 102045294,
+"end": 102066597,
+"gene": "ARMH3",
+"dist_kb": 0,
+"jsd": 0.6319,
+"fdr": 0.0,
+"cn": 0.08
+},
+{
+"rank": 22,
+"se": "USE_26919",
+"chrom": "chr20",
+"start": 57524470,
+"end": 57527090,
+"gene": "CTCFL",
+"dist_kb": 0,
+"jsd": 0.6324,
+"fdr": 0.0,
+"cn": 1.04
+},
+{
+"rank": 23,
+"se": "USE_15670",
+"chrom": "chr15",
+"start": 88985556,
+"end": 88986190,
+"gene": "MFGE8",
+"dist_kb": 72,
+"jsd": 0.6331,
+"fdr": 0.0,
+"cn": 1.0
+},
+{
+"rank": 24,
+"se": "USE_6639",
+"chrom": "chr10",
+"start": 124916309,
+"end": 124925245,
+"gene": "ZRANB1",
+"dist_kb": 16,
+"jsd": 0.6333,
+"fdr": 0.0,
+"cn": 0.0
+},
+{
+"rank": 25,
+"se": "USE_21623",
+"chrom": "chr19",
+"start": 51530064,
+"end": 51549388,
+"gene": "SIGLEC6",
+"dist_kb": 0,
+"jsd": 0.6336,
+"fdr": 0.0,
+"cn": 1.04
+},
+{
+"rank": 26,
+"se": "USE_36881",
+"chrom": "chr6",
+"start": 28709249,
+"end": 28710534,
+"gene": "ZBED9",
+"dist_kb": 93,
+"jsd": 0.6337,
+"fdr": 0.0,
+"cn": 1.41
+},
+{
+"rank": 27,
+"se": "USE_6597",
+"chrom": "chr10",
+"start": 123136343,
+"end": 123137648,
+"gene": "HMX3",
+"dist_kb": 0,
+"jsd": 0.6341,
+"fdr": 0.0,
+"cn": 0.59
+},
+{
+"rank": 28,
+"se": "USE_9636",
+"chrom": "chr12",
+"start": 24695718,
+"end": 24697058,
+"gene": "BCAT1",
+"dist_kb": 112,
+"jsd": 0.6342,
+"fdr": 0.0,
+"cn": 0.92
+},
+{
+"rank": 29,
+"se": "USE_4845",
+"chrom": "chr10",
+"start": 7027716,
+"end": 7029394,
+"gene": "SFMBT2",
+"dist_kb": 129,
+"jsd": 0.6345,
+"fdr": 0.0,
+"cn": 0.92
+},
+{
+"rank": 30,
+"se": "USE_6638",
+"chrom": "chr10",
+"start": 124916287,
+"end": 124917798,
+"gene": "ZRANB1",
+"dist_kb": 24,
+"jsd": 0.6345,
+"fdr": 0.0,
+"cn": 0.0
+},
+{
+"rank": 31,
+"se": "USE_17405",
+"chrom": "chr16",
+"start": 90167861,
+"end": 90170755,
+"gene": "PRDM7",
+"dist_kb": 75,
+"jsd": 0.6347,
+"fdr": 0.0,
+"cn": 1.05
+},
+{
+"rank": 32,
+"se": "USE_9608",
+"chrom": "chr12",
+"start": 23550381,
+"end": 23556338,
+"gene": "SOX5",
+"dist_kb": 0,
+"jsd": 0.6353,
+"fdr": 0.0,
+"cn": 0.97
+},
+{
+"rank": 33,
+"se": "USE_20644",
+"chrom": "chr19",
+"start": 8032739,
+"end": 8034422,
+"gene": "CCL25",
+"dist_kb": 17,
+"jsd": 0.6355,
+"fdr": 0.0,
+"cn": 0.93
+},
+{
+"rank": 34,
+"se": "USE_3876",
+"chrom": "chr1",
+"start": 207518560,
+"end": 207521437,
+"gene": "CR1",
+"dist_kb": 0,
+"jsd": 0.6356,
+"fdr": 0.0,
+"cn": 1.16
+},
+{
+"rank": 35,
+"se": "USE_5224",
+"chrom": "chr10",
+"start": 30552012,
+"end": 30554428,
+"gene": "LYZL2",
+"dist_kb": 57,
+"jsd": 0.6356,
+"fdr": 0.0,
+"cn": 0.98
+},
+{
+"rank": 36,
+"se": "USE_29177",
+"chrom": "chr3",
+"start": 33900546,
+"end": 33902875,
+"gene": "PDCD6IP",
+"dist_kb": 30,
+"jsd": 0.6364,
+"fdr": 0.0,
+"cn": 1.27
+},
+{
+"rank": 37,
+"se": "USE_11599",
+"chrom": "chr12",
+"start": 131349815,
+"end": 131351632,
+"gene": "ADGRD1",
+"dist_kb": 208,
+"jsd": 0.637,
+"fdr": 0.0,
+"cn": 0.95
+},
+{
+"rank": 38,
+"se": "USE_11433",
+"chrom": "chr12",
+"start": 121933468,
+"end": 121934464,
+"gene": "CFAP251",
+"dist_kb": 0,
+"jsd": 0.6372,
+"fdr": 0.0,
+"cn": 1.1
+},
+{
+"rank": 39,
+"se": "USE_43681",
+"chrom": "chr8",
+"start": 124007085,
+"end": 124008245,
+"gene": "FER1L6",
+"dist_kb": 0,
+"jsd": 0.6373,
+"fdr": 0.0,
+"cn": 0.99
+},
+{
+"rank": 40,
+"se": "USE_20854",
+"chrom": "chr19",
+"start": 16887834,
+"end": 16890487,
+"gene": "F2RL3",
+"dist_kb": 0,
+"jsd": 0.6373,
+"fdr": 0.0,
+"cn": 0.99
+},
+{
+"rank": 41,
+"se": "USE_6728",
+"chrom": "chr10",
+"start": 131916714,
+"end": 131918895,
+"gene": "PPP2R2D",
+"dist_kb": 0,
+"jsd": 0.6374,
+"fdr": 0.0,
+"cn": 0.65
+},
+{
+"rank": 42,
+"se": "USE_20988",
+"chrom": "chr19",
+"start": 28603835,
+"end": 28608060,
+"gene": "UQCRFS1",
+"dist_kb": 597,
+"jsd": 0.6375,
+"fdr": 0.0,
+"cn": 0.96
+},
+{
+"rank": 43,
+"se": "USE_29611",
+"chrom": "chr3",
+"start": 60269852,
+"end": 60278595,
+"gene": "FHIT",
+"dist_kb": 0,
+"jsd": 0.6375,
+"fdr": 0.0,
+"cn": 0.55
+},
+{
+"rank": 44,
+"se": "USE_25109",
+"chrom": "chr2",
+"start": 216880327,
+"end": 216884395,
+"gene": "TNP1",
+"dist_kb": 20,
+"jsd": 0.6377,
+"fdr": 0.0,
+"cn": 0.65
+},
+{
+"rank": 45,
+"se": "USE_30014",
+"chrom": "chr3",
+"start": 101629507,
+"end": 101642378,
+"gene": "ZBTB11",
+"dist_kb": 6,
+"jsd": 0.6379,
+"fdr": 0.0,
+"cn": 0.72
+},
+{
+"rank": 46,
+"se": "USE_40771",
+"chrom": "chr7",
+"start": 107006753,
+"end": 107010336,
+"gene": "PRKAR2B",
+"dist_kb": 34,
+"jsd": 0.6382,
+"fdr": 0.0,
+"cn": 1.78
+},
+{
+"rank": 47,
+"se": "USE_40339",
+"chrom": "chr7",
+"start": 84879591,
+"end": 84881151,
+"gene": "SEMA3D",
+"dist_kb": 114,
+"jsd": 0.6385,
+"fdr": 0.0,
+"cn": 1.21
+},
+{
+"rank": 48,
+"se": "USE_42276",
+"chrom": "chr8",
+"start": 38081346,
+"end": 38082648,
+"gene": "EIF4EBP1",
+"dist_kb": 20,
+"jsd": 0.6387,
+"fdr": 0.0,
+"cn": 1.05
+},
+{
+"rank": 49,
+"se": "USE_37519",
+"chrom": "chr6",
+"start": 68040301,
+"end": 68041058,
+"gene": "ADGRB3",
+"dist_kb": 594,
+"jsd": 0.6389,
+"fdr": 0.0,
+"cn": 0.96
+},
+{
+"rank": 50,
+"se": "USE_5490",
+"chrom": "chr10",
+"start": 49298862,
+"end": 49301025,
+"gene": "C10orf71",
+"dist_kb": 0,
+"jsd": 0.6391,
+"fdr": 0.0,
+"cn": 1.29
+}
+]
+},
+"vsrel": {
+"n": 4,
+"top": [
+{
+"rank": 1,
+"se": "USE_12727",
+"chrom": "chr13",
+"start": 107883268,
+"end": 107884425,
+"gene": "NALF1",
+"dist_kb": 15,
+"jsd": 0.5978,
+"fdr": 0.0339,
+"cn": 0.61
+},
+{
+"rank": 2,
+"se": "USE_22330",
+"chrom": "chr2",
+"start": 24009721,
+"end": 24012031,
+"gene": "MFSD2B",
+"dist_kb": 0,
+"jsd": 0.6027,
+"fdr": 0.0519,
+"cn": 0.98
+},
+{
+"rank": 3,
+"se": "USE_39085",
+"chrom": "chr7",
+"start": 10779644,
+"end": 10780640,
+"gene": "NDUFA4",
+"dist_kb": 151,
+"jsd": 0.6054,
+"fdr": 0.0657,
+"cn": 0.97
+},
+{
+"rank": 4,
+"se": "USE_36485",
+"chrom": "chr6",
+"start": 11930729,
+"end": 11932232,
+"gene": "HIVEP1",
+"dist_kb": 76,
+"jsd": 0.6108,
+"fdr": 0.0928,
+"cn": 1.28
+}
+]
+}
+}

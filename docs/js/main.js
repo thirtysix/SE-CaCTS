@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
   TabManager.registerInit("cn", CN.init);
   TabManager.registerInit("concordance", Concordance.init);
   TabManager.registerInit("finder", Finder.init);
+  TabManager.registerInit("line", LineView.init);
   TabManager.registerInit("about", About.init);
   TabManager.init();
 });

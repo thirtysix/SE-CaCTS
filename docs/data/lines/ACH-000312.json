@@ -1,0 +1,1030 @@
+{
+"key": "ACH-000312",
+"group": "SKNBE2",
+"name": "SK-N-BE(2)",
+"lineage": "Peripheral Nervous System",
+"disease": "Neuroblastoma",
+"subtype": "Neuroblastoma",
+"cn_source": "depmap_wgs",
+"has_cn": true,
+"cn_max": 8,
+"comparison": {
+"stratum": "Neuroblastoma",
+"n_lines": 14
+},
+"n_called": 1411,
+"experiments": [
+{
+"srx": "SRX15156435",
+"study": "PRJNA835108",
+"layout": "PAIRED",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX15156435.bw"
+},
+{
+"srx": "SRX15156436",
+"study": "PRJNA835108",
+"layout": "PAIRED",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX15156436.bw"
+},
+{
+"srx": "SRX15156437",
+"study": "PRJNA835108",
+"layout": "PAIRED",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX15156437.bw"
+},
+{
+"srx": "SRX15156439",
+"study": "PRJNA835108",
+"layout": "PAIRED",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX15156439.bw"
+},
+{
+"srx": "SRX15156440",
+"study": "PRJNA835108",
+"layout": "PAIRED",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX15156440.bw"
+},
+{
+"srx": "SRX15156441",
+"study": "PRJNA835108",
+"layout": "PAIRED",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX15156441.bw"
+},
+{
+"srx": "SRX15156443",
+"study": "PRJNA835108",
+"layout": "PAIRED",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX15156443.bw"
+},
+{
+"srx": "SRX15156444",
+"study": "PRJNA835108",
+"layout": "PAIRED",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX15156444.bw"
+},
+{
+"srx": "SRX15156445",
+"study": "PRJNA835108",
+"layout": "PAIRED",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX15156445.bw"
+},
+{
+"srx": "SRX17473210",
+"study": "PRJNA877681",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX17473210.bw"
+},
+{
+"srx": "SRX17473211",
+"study": "PRJNA877681",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX17473211.bw"
+},
+{
+"srx": "SRX17473212",
+"study": "PRJNA877681",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX17473212.bw"
+},
+{
+"srx": "SRX17473213",
+"study": "PRJNA877681",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX17473213.bw"
+},
+{
+"srx": "SRX17984451",
+"study": "PRJNA892940",
+"layout": "PAIRED",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX17984451.bw"
+},
+{
+"srx": "SRX17984452",
+"study": "PRJNA892940",
+"layout": "PAIRED",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX17984452.bw"
+},
+{
+"srx": "SRX17984453",
+"study": "PRJNA892940",
+"layout": "PAIRED",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX17984453.bw"
+},
+{
+"srx": "SRX17984454",
+"study": "PRJNA892940",
+"layout": "PAIRED",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX17984454.bw"
+},
+{
+"srx": "SRX17984455",
+"study": "PRJNA892940",
+"layout": "PAIRED",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX17984455.bw"
+},
+{
+"srx": "SRX17984456",
+"study": "PRJNA892940",
+"layout": "PAIRED",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX17984456.bw"
+},
+{
+"srx": "SRX17984457",
+"study": "PRJNA892940",
+"layout": "PAIRED",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX17984457.bw"
+},
+{
+"srx": "SRX17984458",
+"study": "PRJNA892940",
+"layout": "PAIRED",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX17984458.bw"
+},
+{
+"srx": "SRX17984459",
+"study": "PRJNA892940",
+"layout": "PAIRED",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX17984459.bw"
+},
+{
+"srx": "SRX17984460",
+"study": "PRJNA892940",
+"layout": "PAIRED",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX17984460.bw"
+},
+{
+"srx": "SRX2911554",
+"study": "PRJNA355381",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX2911554.bw"
+},
+{
+"srx": "SRX4326265",
+"study": "PRJNA421166",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX4326265.bw"
+},
+{
+"srx": "SRX4326266",
+"study": "PRJNA421166",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX4326266.bw"
+},
+{
+"srx": "SRX6937059",
+"study": "PRJNA575505",
+"layout": "SINGLE",
+"bw": "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/SRX6937059.bw"
+}
+],
+"vsall": {
+"n": 3271,
+"top": [
+{
+"rank": 1,
+"se": "USE_22180",
+"chrom": "chr2",
+"start": 16271945,
+"end": 16272391,
+"gene": "CYRIA",
+"dist_kb": 277,
+"jsd": 0.514,
+"fdr": 0.0,
+"cn": 1.39
+},
+{
+"rank": 2,
+"se": "USE_22178",
+"chrom": "chr2",
+"start": 16260153,
+"end": 16272451,
+"gene": "CYRIA",
+"dist_kb": 277,
+"jsd": 0.5244,
+"fdr": 0.0,
+"cn": 1.39
+},
+{
+"rank": 3,
+"se": "USE_22187",
+"chrom": "chr2",
+"start": 16334502,
+"end": 16336171,
+"gene": "CYRIA",
+"dist_kb": 213,
+"jsd": 0.5356,
+"fdr": 0.0,
+"cn": 1.39
+},
+{
+"rank": 4,
+"se": "USE_22192",
+"chrom": "chr2",
+"start": 16393900,
+"end": 16395053,
+"gene": "CYRIA",
+"dist_kb": 154,
+"jsd": 0.539,
+"fdr": 0.0,
+"cn": 1.39
+},
+{
+"rank": 5,
+"se": "USE_22191",
+"chrom": "chr2",
+"start": 16392842,
+"end": 16393293,
+"gene": "CYRIA",
+"dist_kb": 156,
+"jsd": 0.5397,
+"fdr": 0.0,
+"cn": 1.39
+},
+{
+"rank": 6,
+"se": "USE_22181",
+"chrom": "chr2",
+"start": 16293128,
+"end": 16294295,
+"gene": "CYRIA",
+"dist_kb": 255,
+"jsd": 0.5407,
+"fdr": 0.0,
+"cn": 1.39
+},
+{
+"rank": 7,
+"se": "USE_22182",
+"chrom": "chr2",
+"start": 16293188,
+"end": 16293379,
+"gene": "CYRIA",
+"dist_kb": 256,
+"jsd": 0.5407,
+"fdr": 0.0,
+"cn": 1.39
+},
+{
+"rank": 8,
+"se": "USE_22185",
+"chrom": "chr2",
+"start": 16318213,
+"end": 16335437,
+"gene": "CYRIA",
+"dist_kb": 214,
+"jsd": 0.5436,
+"fdr": 0.0,
+"cn": 1.39
+},
+{
+"rank": 9,
+"se": "USE_22179",
+"chrom": "chr2",
+"start": 16271750,
+"end": 16303662,
+"gene": "CYRIA",
+"dist_kb": 245,
+"jsd": 0.5463,
+"fdr": 0.0,
+"cn": 1.39
+},
+{
+"rank": 10,
+"se": "USE_22189",
+"chrom": "chr2",
+"start": 16361392,
+"end": 16363915,
+"gene": "CYRIA",
+"dist_kb": 185,
+"jsd": 0.5535,
+"fdr": 0.0,
+"cn": 1.39
+},
+{
+"rank": 11,
+"se": "USE_22188",
+"chrom": "chr2",
+"start": 16351259,
+"end": 16375664,
+"gene": "CYRIA",
+"dist_kb": 173,
+"jsd": 0.5536,
+"fdr": 0.0,
+"cn": 1.39
+},
+{
+"rank": 12,
+"se": "USE_22190",
+"chrom": "chr2",
+"start": 16385117,
+"end": 16413978,
+"gene": "CYRIA",
+"dist_kb": 135,
+"jsd": 0.5606,
+"fdr": 0.0,
+"cn": 1.39
+},
+{
+"rank": 13,
+"se": "USE_22186",
+"chrom": "chr2",
+"start": 16319238,
+"end": 16320073,
+"gene": "CYRIA",
+"dist_kb": 229,
+"jsd": 0.5608,
+"fdr": 0.0,
+"cn": 1.39
+},
+{
+"rank": 14,
+"se": "USE_22183",
+"chrom": "chr2",
+"start": 16302962,
+"end": 16303641,
+"gene": "CYRIA",
+"dist_kb": 245,
+"jsd": 0.5628,
+"fdr": 0.0,
+"cn": 1.39
+},
+{
+"rank": 15,
+"se": "USE_22193",
+"chrom": "chr2",
+"start": 16412671,
+"end": 16413869,
+"gene": "CYRIA",
+"dist_kb": 135,
+"jsd": 0.5679,
+"fdr": 0.0,
+"cn": 1.39
+},
+{
+"rank": 16,
+"se": "USE_22184",
+"chrom": "chr2",
+"start": 16303096,
+"end": 16312684,
+"gene": "CYRIA",
+"dist_kb": 236,
+"jsd": 0.5679,
+"fdr": 0.0,
+"cn": 1.39
+},
+{
+"rank": 17,
+"se": "USE_22195",
+"chrom": "chr2",
+"start": 16419905,
+"end": 16421360,
+"gene": "CYRIA",
+"dist_kb": 128,
+"jsd": 0.6017,
+"fdr": 0.0,
+"cn": 1.39
+},
+{
+"rank": 18,
+"se": "USE_3317",
+"chrom": "chr1",
+"start": 179742393,
+"end": 179745482,
+"gene": "FAM163A",
+"dist_kb": 0,
+"jsd": 0.6045,
+"fdr": 0.0,
+"cn": 1.46
+},
+{
+"rank": 19,
+"se": "USE_17012",
+"chrom": "chr16",
+"start": 72197545,
+"end": 72199543,
+"gene": "PMFBP1",
+"dist_kb": 20,
+"jsd": 0.61,
+"fdr": 0.0,
+"cn": 1.0
+},
+{
+"rank": 20,
+"se": "USE_5396",
+"chrom": "chr10",
+"start": 43076520,
+"end": 43078742,
+"gene": "RET",
+"dist_kb": 0,
+"jsd": 0.6121,
+"fdr": 0.0,
+"cn": 0.94
+},
+{
+"rank": 21,
+"se": "USE_20139",
+"chrom": "chr18",
+"start": 57352386,
+"end": 57354572,
+"gene": "ST8SIA3",
+"dist_kb": 0,
+"jsd": 0.613,
+"fdr": 0.0,
+"cn": 0.49
+},
+{
+"rank": 22,
+"se": "USE_35713",
+"chrom": "chr5",
+"start": 154476279,
+"end": 154478132,
+"gene": "HAND1",
+"dist_kb": 0,
+"jsd": 0.6144,
+"fdr": 0.0,
+"cn": 1.0
+},
+{
+"rank": 23,
+"se": "USE_21593",
+"chrom": "chr19",
+"start": 50693459,
+"end": 50696316,
+"gene": "SHANK1",
+"dist_kb": 0,
+"jsd": 0.6181,
+"fdr": 0.0,
+"cn": 0.67
+},
+{
+"rank": 24,
+"se": "USE_3316",
+"chrom": "chr1",
+"start": 179732563,
+"end": 179744522,
+"gene": "FAM163A",
+"dist_kb": 0,
+"jsd": 0.6193,
+"fdr": 0.0,
+"cn": 1.46
+},
+{
+"rank": 25,
+"se": "USE_5391",
+"chrom": "chr10",
+"start": 42970122,
+"end": 42971365,
+"gene": "RET",
+"dist_kb": 105,
+"jsd": 0.6212,
+"fdr": 0.0,
+"cn": 0.94
+},
+{
+"rank": 26,
+"se": "USE_37758",
+"chrom": "chr6",
+"start": 101398941,
+"end": 101402765,
+"gene": "GRIK2",
+"dist_kb": 0,
+"jsd": 0.6225,
+"fdr": 0.0,
+"cn": 0.94
+},
+{
+"rank": 27,
+"se": "USE_8749",
+"chrom": "chr11",
+"start": 117443887,
+"end": 117445556,
+"gene": "DSCAML1",
+"dist_kb": 0,
+"jsd": 0.6234,
+"fdr": 0.0,
+"cn": 1.35
+},
+{
+"rank": 28,
+"se": "USE_32288",
+"chrom": "chr4",
+"start": 41873403,
+"end": 41874695,
+"gene": "TMEM33",
+"dist_kb": 60,
+"jsd": 0.6236,
+"fdr": 0.0,
+"cn": 1.08
+},
+{
+"rank": 29,
+"se": "USE_30454",
+"chrom": "chr3",
+"start": 128456673,
+"end": 128458897,
+"gene": "DNAJB8",
+"dist_kb": 3,
+"jsd": 0.6251,
+"fdr": 0.0,
+"cn": 1.0
+},
+{
+"rank": 30,
+"se": "USE_8018",
+"chrom": "chr11",
+"start": 72239909,
+"end": 72245357,
+"gene": "PHOX2A",
+"dist_kb": 0,
+"jsd": 0.6256,
+"fdr": 0.0,
+"cn": 1.34
+},
+{
+"rank": 31,
+"se": "USE_5395",
+"chrom": "chr10",
+"start": 43056641,
+"end": 43077485,
+"gene": "RET",
+"dist_kb": 0,
+"jsd": 0.6258,
+"fdr": 0.0,
+"cn": 0.94
+},
+{
+"rank": 32,
+"se": "USE_18731",
+"chrom": "chr17",
+"start": 61380850,
+"end": 61385141,
+"gene": "BCAS3",
+"dist_kb": 0,
+"jsd": 0.626,
+"fdr": 0.0,
+"cn": 1.33
+},
+{
+"rank": 33,
+"se": "USE_13199",
+"chrom": "chr14",
+"start": 35533318,
+"end": 35535980,
+"gene": "INSM2",
+"dist_kb": 0,
+"jsd": 0.6264,
+"fdr": 0.0,
+"cn": 1.15
+},
+{
+"rank": 34,
+"se": "USE_16754",
+"chrom": "chr16",
+"start": 55640490,
+"end": 55657035,
+"gene": "SLC6A2",
+"dist_kb": 0,
+"jsd": 0.6264,
+"fdr": 0.0,
+"cn": 1.0
+},
+{
+"rank": 35,
+"se": "USE_10079",
+"chrom": "chr12",
+"start": 49292921,
+"end": 49295957,
+"gene": "PRPH",
+"dist_kb": 0,
+"jsd": 0.6264,
+"fdr": 0.0,
+"cn": 1.02
+},
+{
+"rank": 36,
+"se": "USE_33930",
+"chrom": "chr5",
+"start": 16169114,
+"end": 16180489,
+"gene": "MARCHF11",
+"dist_kb": 0,
+"jsd": 0.6266,
+"fdr": 0.0,
+"cn": 1.04
+},
+{
+"rank": 37,
+"se": "USE_22194",
+"chrom": "chr2",
+"start": 16413299,
+"end": 16432303,
+"gene": "CYRIA",
+"dist_kb": 117,
+"jsd": 0.6278,
+"fdr": 0.0,
+"cn": 1.39
+},
+{
+"rank": 38,
+"se": "USE_19879",
+"chrom": "chr18",
+"start": 34222187,
+"end": 34224797,
+"gene": "NOL4",
+"dist_kb": 0,
+"jsd": 0.6283,
+"fdr": 0.0,
+"cn": 0.5
+},
+{
+"rank": 39,
+"se": "USE_15361",
+"chrom": "chr15",
+"start": 74290652,
+"end": 74292871,
+"gene": "CCDC33",
+"dist_kb": 0,
+"jsd": 0.6291,
+"fdr": 0.0,
+"cn": 1.02
+},
+{
+"rank": 40,
+"se": "USE_15360",
+"chrom": "chr15",
+"start": 74277709,
+"end": 74292372,
+"gene": "CCDC33",
+"dist_kb": 0,
+"jsd": 0.6291,
+"fdr": 0.0,
+"cn": 1.02
+},
+{
+"rank": 41,
+"se": "USE_35246",
+"chrom": "chr5",
+"start": 129459538,
+"end": 129462095,
+"gene": "ADAMTS19",
+"dist_kb": 0,
+"jsd": 0.6293,
+"fdr": 0.0,
+"cn": 0.95
+},
+{
+"rank": 42,
+"se": "USE_19161",
+"chrom": "chr17",
+"start": 76542368,
+"end": 76543423,
+"gene": "CYGB",
+"dist_kb": 0,
+"jsd": 0.6307,
+"fdr": 0.0,
+"cn": 1.4
+},
+{
+"rank": 43,
+"se": "USE_32287",
+"chrom": "chr4",
+"start": 41857167,
+"end": 41885723,
+"gene": "TMEM33",
+"dist_kb": 49,
+"jsd": 0.6325,
+"fdr": 0.0,
+"cn": 1.08
+},
+{
+"rank": 44,
+"se": "USE_33256",
+"chrom": "chr4",
+"start": 150579651,
+"end": 150584085,
+"gene": "LRBA",
+"dist_kb": 0,
+"jsd": 0.6325,
+"fdr": 0.0,
+"cn": 1.03
+},
+{
+"rank": 45,
+"se": "USE_46013",
+"chrom": "chr9",
+"start": 129394015,
+"end": 129395013,
+"gene": "NTMT1",
+"dist_kb": 213,
+"jsd": 0.6327,
+"fdr": 0.0,
+"cn": 1.07
+},
+{
+"rank": 46,
+"se": "USE_21014",
+"chrom": "chr19",
+"start": 30222709,
+"end": 30227249,
+"gene": "ZNF536",
+"dist_kb": 1,
+"jsd": 0.633,
+"fdr": 0.0,
+"cn": 0.79
+},
+{
+"rank": 47,
+"se": "USE_5909",
+"chrom": "chr10",
+"start": 79220814,
+"end": 79222028,
+"gene": "ZMIZ1",
+"dist_kb": 0,
+"jsd": 0.6331,
+"fdr": 0.0,
+"cn": 1.04
+},
+{
+"rank": 48,
+"se": "USE_41050",
+"chrom": "chr7",
+"start": 128361244,
+"end": 128361959,
+"gene": "PRRT4",
+"dist_kb": 0,
+"jsd": 0.6336,
+"fdr": 0.0,
+"cn": 1.03
+},
+{
+"rank": 49,
+"se": "USE_21075",
+"chrom": "chr19",
+"start": 33434741,
+"end": 33436414,
+"gene": "PEPD",
+"dist_kb": 0,
+"jsd": 0.6346,
+"fdr": 0.0,
+"cn": 0.72
+},
+{
+"rank": 50,
+"se": "USE_35901",
+"chrom": "chr5",
+"start": 168770031,
+"end": 168772867,
+"gene": "SLIT3",
+"dist_kb": 0,
+"jsd": 0.6347,
+"fdr": 0.0,
+"cn": 1.04
+}
+]
+},
+"vsrel": {
+"n": 20,
+"top": [
+{
+"rank": 1,
+"se": "USE_22180",
+"chrom": "chr2",
+"start": 16271945,
+"end": 16272391,
+"gene": "CYRIA",
+"dist_kb": 277,
+"jsd": 0.514,
+"fdr": 0.002,
+"cn": 1.39
+},
+{
+"rank": 2,
+"se": "USE_22178",
+"chrom": "chr2",
+"start": 16260153,
+"end": 16272451,
+"gene": "CYRIA",
+"dist_kb": 277,
+"jsd": 0.5244,
+"fdr": 0.002,
+"cn": 1.39
+},
+{
+"rank": 3,
+"se": "USE_22187",
+"chrom": "chr2",
+"start": 16334502,
+"end": 16336171,
+"gene": "CYRIA",
+"dist_kb": 213,
+"jsd": 0.5356,
+"fdr": 0.002,
+"cn": 1.39
+},
+{
+"rank": 4,
+"se": "USE_22192",
+"chrom": "chr2",
+"start": 16393900,
+"end": 16395053,
+"gene": "CYRIA",
+"dist_kb": 154,
+"jsd": 0.539,
+"fdr": 0.002,
+"cn": 1.39
+},
+{
+"rank": 5,
+"se": "USE_22191",
+"chrom": "chr2",
+"start": 16392842,
+"end": 16393293,
+"gene": "CYRIA",
+"dist_kb": 156,
+"jsd": 0.5397,
+"fdr": 0.002,
+"cn": 1.39
+},
+{
+"rank": 6,
+"se": "USE_22181",
+"chrom": "chr2",
+"start": 16293128,
+"end": 16294295,
+"gene": "CYRIA",
+"dist_kb": 255,
+"jsd": 0.5407,
+"fdr": 0.002,
+"cn": 1.39
+},
+{
+"rank": 7,
+"se": "USE_22182",
+"chrom": "chr2",
+"start": 16293188,
+"end": 16293379,
+"gene": "CYRIA",
+"dist_kb": 256,
+"jsd": 0.5407,
+"fdr": 0.002,
+"cn": 1.39
+},
+{
+"rank": 8,
+"se": "USE_22185",
+"chrom": "chr2",
+"start": 16318213,
+"end": 16335437,
+"gene": "CYRIA",
+"dist_kb": 214,
+"jsd": 0.5436,
+"fdr": 0.002,
+"cn": 1.39
+},
+{
+"rank": 9,
+"se": "USE_22179",
+"chrom": "chr2",
+"start": 16271750,
+"end": 16303662,
+"gene": "CYRIA",
+"dist_kb": 245,
+"jsd": 0.5463,
+"fdr": 0.002,
+"cn": 1.39
+},
+{
+"rank": 10,
+"se": "USE_22189",
+"chrom": "chr2",
+"start": 16361392,
+"end": 16363915,
+"gene": "CYRIA",
+"dist_kb": 185,
+"jsd": 0.5535,
+"fdr": 0.002,
+"cn": 1.39
+},
+{
+"rank": 11,
+"se": "USE_22188",
+"chrom": "chr2",
+"start": 16351259,
+"end": 16375664,
+"gene": "CYRIA",
+"dist_kb": 173,
+"jsd": 0.5536,
+"fdr": 0.002,
+"cn": 1.39
+},
+{
+"rank": 12,
+"se": "USE_22190",
+"chrom": "chr2",
+"start": 16385117,
+"end": 16413978,
+"gene": "CYRIA",
+"dist_kb": 135,
+"jsd": 0.5606,
+"fdr": 0.002,
+"cn": 1.39
+},
+{
+"rank": 13,
+"se": "USE_22186",
+"chrom": "chr2",
+"start": 16319238,
+"end": 16320073,
+"gene": "CYRIA",
+"dist_kb": 229,
+"jsd": 0.5608,
+"fdr": 0.002,
+"cn": 1.39
+},
+{
+"rank": 14,
+"se": "USE_22183",
+"chrom": "chr2",
+"start": 16302962,
+"end": 16303641,
+"gene": "CYRIA",
+"dist_kb": 245,
+"jsd": 0.5628,
+"fdr": 0.002,
+"cn": 1.39
+},
+{
+"rank": 15,
+"se": "USE_22193",
+"chrom": "chr2",
+"start": 16412671,
+"end": 16413869,
+"gene": "CYRIA",
+"dist_kb": 135,
+"jsd": 0.5679,
+"fdr": 0.002,
+"cn": 1.39
+},
+{
+"rank": 16,
+"se": "USE_22184",
+"chrom": "chr2",
+"start": 16303096,
+"end": 16312684,
+"gene": "CYRIA",
+"dist_kb": 236,
+"jsd": 0.5679,
+"fdr": 0.002,
+"cn": 1.39
+},
+{
+"rank": 17,
+"se": "USE_22195",
+"chrom": "chr2",
+"start": 16419905,
+"end": 16421360,
+"gene": "CYRIA",
+"dist_kb": 128,
+"jsd": 0.6017,
+"fdr": 0.0494,
+"cn": 1.39
+},
+{
+"rank": 18,
+"se": "USE_3317",
+"chrom": "chr1",
+"start": 179742393,
+"end": 179745482,
+"gene": "FAM163A",
+"dist_kb": 0,
+"jsd": 0.6045,
+"fdr": 0.0608,
+"cn": 1.46
+},
+{
+"rank": 19,
+"se": "USE_17012",
+"chrom": "chr16",
+"start": 72197545,
+"end": 72199543,
+"gene": "PMFBP1",
+"dist_kb": 20,
+"jsd": 0.61,
+"fdr": 0.0868,
+"cn": 1.0
+},
+{
+"rank": 20,
+"se": "USE_5396",
+"chrom": "chr10",
+"start": 43076520,
+"end": 43078742,
+"gene": "RET",
+"dist_kb": 0,
+"jsd": 0.6121,
+"fdr": 0.099,
+"cn": 0.94
+}
+]
+}
+}

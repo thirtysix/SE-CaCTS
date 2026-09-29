@@ -1,0 +1,44 @@
+{
+"ACH-000001": {
+"group": "NIHOVCAR3",
+"lineage": "Ovary/Fallopian Tube",
+"name": "NIH:OVCAR-3",
+"search": "NIHOVCAR3 | NIH:OVCAR-3 | NIHOVCAR3_OVARY | CVCL_0465 | High-Grade Serous Ovarian Cancer | OVCAR-3 | ACH-000001"
+},
+"ACH-000019": {
+"group": "MCF7",
+"lineage": "Breast",
+"name": "MCF-7",
+"search": "MCF7 | MCF-7 | MCF7_BREAST | CVCL_0031 | Invasive Breast Carcinoma | ACH-000019"
+},
+"ACH-000259": {
+"group": "KELLY",
+"lineage": "Peripheral Nervous System",
+"name": "KELLY",
+"search": "KELLY | KELLY_AUTONOMIC_GANGLIA | CVCL_2092 | Neuroblastoma | ACH-000259"
+},
+"ACH-000312": {
+"group": "SKNBE2",
+"lineage": "Peripheral Nervous System",
+"name": "SK-N-BE(2)",
+"search": "SKNBE2 | SK-N-BE(2) | SKNBE2_AUTONOMIC_GANGLIA | CVCL_0528 | Neuroblastoma | ACH-000312"
+},
+"ACH-000551": {
+"group": "K562",
+"lineage": "Myeloid",
+"name": "K-562",
+"search": "K562 | K-562 | K562_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE | CVCL_0004 | Chronic Myeloid Leukemia, BCR-ABL1+ | ACH-000551"
+},
+"ACH-000681": {
+"group": "A549",
+"lineage": "Lung",
+"name": "A549",
+"search": "A549 | A549_LUNG | CVCL_0023 | Lung Adenocarcinoma | ACH-000681"
+},
+"ACH-000995": {
+"group": "JURKAT",
+"lineage": "Lymphoid",
+"name": "JURKAT",
+"search": "JURKAT | JURKAT_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE | CVCL_0065 | T-Cell Acute Lymphoblastic Leukemia | Jurkat | ACH-000995"
+}
+}
