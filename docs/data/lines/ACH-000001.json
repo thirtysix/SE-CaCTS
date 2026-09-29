@@ -13,6 +13,7 @@
 "n_lines": 11
 },
 "n_called": 776,
+"n_experiments": 14,
 "experiments": [
 {
 "srx": "SRX13776894",
@@ -101,6 +102,7 @@
 ],
 "vsall": {
 "n": 248,
+"n_called_here": 71,
 "top": [
 {
 "rank": 1,
@@ -112,7 +114,10 @@
 "dist_kb": 0,
 "jsd": 0.638,
 "fdr": 0.0006,
-"cn": 1.18
+"cn": 1.18,
+"called": 4,
+"signal_rank": 643,
+"member": true
 },
 {
 "rank": 2,
@@ -124,7 +129,10 @@
 "dist_kb": 0,
 "jsd": 0.6394,
 "fdr": 0.0007,
-"cn": 0.0
+"cn": 0.0,
+"called": 0,
+"signal_rank": null,
+"member": false
 },
 {
 "rank": 3,
@@ -136,7 +144,10 @@
 "dist_kb": 0,
 "jsd": 0.645,
 "fdr": 0.0012,
-"cn": 0.0
+"cn": 0.0,
+"called": 0,
+"signal_rank": null,
+"member": false
 },
 {
 "rank": 4,
@@ -148,7 +159,10 @@
 "dist_kb": 0,
 "jsd": 0.6452,
 "fdr": 0.0012,
-"cn": 1.18
+"cn": 1.18,
+"called": 1,
+"signal_rank": 644,
+"member": true
 },
 {
 "rank": 5,
@@ -160,7 +174,10 @@
 "dist_kb": 745,
 "jsd": 0.6461,
 "fdr": 0.0014,
-"cn": 0.0
+"cn": 0.0,
+"called": 0,
+"signal_rank": null,
+"member": false
 },
 {
 "rank": 6,
@@ -172,7 +189,10 @@
 "dist_kb": 0,
 "jsd": 0.6465,
 "fdr": 0.0014,
-"cn": 1.92
+"cn": 1.92,
+"called": 10,
+"signal_rank": 375,
+"member": true
 },
 {
 "rank": 7,
@@ -184,7 +204,10 @@
 "dist_kb": 606,
 "jsd": 0.6504,
 "fdr": 0.0022,
-"cn": 0.97
+"cn": 0.97,
+"called": 1,
+"signal_rank": null,
+"member": false
 },
 {
 "rank": 8,
@@ -196,7 +219,10 @@
 "dist_kb": 0,
 "jsd": 0.6511,
 "fdr": 0.0024,
-"cn": 1.31
+"cn": 1.31,
+"called": 0,
+"signal_rank": null,
+"member": false
 },
 {
 "rank": 9,
@@ -208,7 +234,10 @@
 "dist_kb": 650,
 "jsd": 0.6513,
 "fdr": 0.0024,
-"cn": 0.0
+"cn": 0.0,
+"called": 0,
+"signal_rank": null,
+"member": false
 },
 {
 "rank": 10,
@@ -220,7 +249,10 @@
 "dist_kb": 0,
 "jsd": 0.652,
 "fdr": 0.0026,
-"cn": 0.0
+"cn": 0.0,
+"called": 0,
+"signal_rank": null,
+"member": false
 },
 {
 "rank": 11,
@@ -232,7 +264,10 @@
 "dist_kb": 0,
 "jsd": 0.652,
 "fdr": 0.0026,
-"cn": 0.0
+"cn": 0.0,
+"called": 0,
+"signal_rank": null,
+"member": false
 },
 {
 "rank": 12,
@@ -244,7 +279,10 @@
 "dist_kb": 0,
 "jsd": 0.6523,
 "fdr": 0.0027,
-"cn": 1.25
+"cn": 1.25,
+"called": 0,
+"signal_rank": null,
+"member": false
 },
 {
 "rank": 13,
@@ -256,7 +294,10 @@
 "dist_kb": 0,
 "jsd": 0.6529,
 "fdr": 0.0029,
-"cn": 0.95
+"cn": 0.95,
+"called": 0,
+"signal_rank": null,
+"member": false
 },
 {
 "rank": 14,
@@ -268,7 +309,10 @@
 "dist_kb": 589,
 "jsd": 0.654,
 "fdr": 0.0034,
-"cn": 0.97
+"cn": 0.97,
+"called": 1,
+"signal_rank": 734,
+"member": true
 },
 {
 "rank": 15,
@@ -280,7 +324,10 @@
 "dist_kb": 0,
 "jsd": 0.6547,
 "fdr": 0.0037,
-"cn": 0.0
+"cn": 0.0,
+"called": 0,
+"signal_rank": null,
+"member": false
 },
 {
 "rank": 16,
@@ -292,7 +339,10 @@
 "dist_kb": 95,
 "jsd": 0.6555,
 "fdr": 0.0041,
-"cn": 0.89
+"cn": 0.89,
+"called": 0,
+"signal_rank": null,
+"member": false
 },
 {
 "rank": 17,
@@ -304,7 +354,10 @@
 "dist_kb": 0,
 "jsd": 0.6557,
 "fdr": 0.0041,
-"cn": 1.01
+"cn": 1.01,
+"called": 1,
+"signal_rank": 440,
+"member": true
 },
 {
 "rank": 18,
@@ -316,7 +369,10 @@
 "dist_kb": 0,
 "jsd": 0.6558,
 "fdr": 0.0042,
-"cn": 0.95
+"cn": 0.95,
+"called": 0,
+"signal_rank": null,
+"member": false
 },
 {
 "rank": 19,
@@ -328,7 +384,10 @@
 "dist_kb": 0,
 "jsd": 0.6568,
 "fdr": 0.0047,
-"cn": 1.23
+"cn": 1.23,
+"called": 0,
+"signal_rank": null,
+"member": false
 },
 {
 "rank": 20,
@@ -340,7 +399,10 @@
 "dist_kb": 3,
 "jsd": 0.6572,
 "fdr": 0.0051,
-"cn": 1.81
+"cn": 1.81,
+"called": 7,
+"signal_rank": null,
+"member": false
 },
 {
 "rank": 21,
@@ -352,7 +414,10 @@
 "dist_kb": 20,
 "jsd": 0.6575,
 "fdr": 0.0053,
-"cn": 1.03
+"cn": 1.03,
+"called": 3,
+"signal_rank": null,
+"member": false
 },
 {
 "rank": 22,
@@ -364,7 +429,10 @@
 "dist_kb": 0,
 "jsd": 0.6577,
 "fdr": 0.0055,
-"cn": 1.11
+"cn": 1.11,
+"called": 3,
+"signal_rank": null,
+"member": false
 },
 {
 "rank": 23,
@@ -376,7 +444,10 @@
 "dist_kb": 27,
 "jsd": 0.6579,
 "fdr": 0.0056,
-"cn": 1.25
+"cn": 1.25,
+"called": 0,
+"signal_rank": null,
+"member": false
 },
 {
 "rank": 24,
@@ -388,7 +459,10 @@
 "dist_kb": 0,
 "jsd": 0.6584,
 "fdr": 0.006,
-"cn": 1.91
+"cn": 1.91,
+"called": 1,
+"signal_rank": 658,
+"member": true
 },
 {
 "rank": 25,
@@ -400,7 +474,10 @@
 "dist_kb": 0,
 "jsd": 0.6588,
 "fdr": 0.0063,
-"cn": 1.21
+"cn": 1.21,
+"called": 0,
+"signal_rank": null,
+"member": false
 },
 {
 "rank": 26,
@@ -412,7 +489,10 @@
 "dist_kb": 0,
 "jsd": 0.6591,
 "fdr": 0.0066,
-"cn": 0.74
+"cn": 0.74,
+"called": 1,
+"signal_rank": 586,
+"member": true
 },
 {
 "rank": 27,
@@ -424,7 +504,10 @@
 "dist_kb": 0,
 "jsd": 0.6596,
 "fdr": 0.0071,
-"cn": 1.81
+"cn": 1.81,
+"called": 7,
+"signal_rank": null,
+"member": false
 },
 {
 "rank": 28,
@@ -436,7 +519,10 @@
 "dist_kb": 258,
 "jsd": 0.66,
 "fdr": 0.0076,
-"cn": 0.0
+"cn": 0.0,
+"called": 0,
+"signal_rank": null,
+"member": false
 },
 {
 "rank": 29,
@@ -448,7 +534,10 @@
 "dist_kb": 20,
 "jsd": 0.6604,
 "fdr": 0.008,
-"cn": 1.27
+"cn": 1.27,
+"called": 0,
+"signal_rank": null,
+"member": false
 },
 {
 "rank": 30,
@@ -460,7 +549,10 @@
 "dist_kb": 0,
 "jsd": 0.6605,
 "fdr": 0.008,
-"cn": 1.12
+"cn": 1.12,
+"called": 3,
+"signal_rank": 397,
+"member": true
 },
 {
 "rank": 31,
@@ -472,7 +564,10 @@
 "dist_kb": 0,
 "jsd": 0.6608,
 "fdr": 0.0084,
-"cn": 1.58
+"cn": 1.58,
+"called": 0,
+"signal_rank": null,
+"member": false
 },
 {
 "rank": 32,
@@ -484,7 +579,10 @@
 "dist_kb": 4,
 "jsd": 0.6609,
 "fdr": 0.0086,
-"cn": 0.91
+"cn": 0.91,
+"called": 0,
+"signal_rank": null,
+"member": false
 },
 {
 "rank": 33,
@@ -496,7 +594,10 @@
 "dist_kb": 0,
 "jsd": 0.6611,
 "fdr": 0.0088,
-"cn": 1.21
+"cn": 1.21,
+"called": 0,
+"signal_rank": null,
+"member": false
 },
 {
 "rank": 34,
@@ -508,7 +609,10 @@
 "dist_kb": 0,
 "jsd": 0.6619,
 "fdr": 0.0099,
-"cn": 0.0
+"cn": 0.0,
+"called": 0,
+"signal_rank": null,
+"member": false
 },
 {
 "rank": 35,
@@ -520,7 +624,10 @@
 "dist_kb": 0,
 "jsd": 0.6621,
 "fdr": 0.0102,
-"cn": 1.23
+"cn": 1.23,
+"called": 0,
+"signal_rank": null,
+"member": false
 },
 {
 "rank": 36,
@@ -532,7 +639,10 @@
 "dist_kb": 5,
 "jsd": 0.6622,
 "fdr": 0.0103,
-"cn": 3.1
+"cn": 3.1,
+"called": 11,
+"signal_rank": 290,
+"member": true
 },
 {
 "rank": 37,
@@ -544,7 +654,10 @@
 "dist_kb": 0,
 "jsd": 0.6624,
 "fdr": 0.0106,
-"cn": 0.0
+"cn": 0.0,
+"called": 0,
+"signal_rank": null,
+"member": false
 },
 {
 "rank": 38,
@@ -556,7 +669,10 @@
 "dist_kb": 2,
 "jsd": 0.6624,
 "fdr": 0.0107,
-"cn": 1.81
+"cn": 1.81,
+"called": 7,
+"signal_rank": 473,
+"member": true
 },
 {
 "rank": 39,
@@ -568,7 +684,10 @@
 "dist_kb": 0,
 "jsd": 0.6625,
 "fdr": 0.0108,
-"cn": 1.27
+"cn": 1.27,
+"called": 4,
+"signal_rank": 600,
+"member": true
 },
 {
 "rank": 40,
@@ -580,7 +699,10 @@
 "dist_kb": 9,
 "jsd": 0.6628,
 "fdr": 0.0113,
-"cn": 1.01
+"cn": 1.01,
+"called": 3,
+"signal_rank": 622,
+"member": true
 },
 {
 "rank": 41,
@@ -592,7 +714,10 @@
 "dist_kb": 0,
 "jsd": 0.6629,
 "fdr": 0.0114,
-"cn": 0.0
+"cn": 0.0,
+"called": 0,
+"signal_rank": null,
+"member": false
 },
 {
 "rank": 42,
@@ -604,7 +729,10 @@
 "dist_kb": 26,
 "jsd": 0.663,
 "fdr": 0.0116,
-"cn": 1.31
+"cn": 1.31,
+"called": 0,
+"signal_rank": null,
+"member": false
 },
 {
 "rank": 43,
@@ -616,7 +744,10 @@
 "dist_kb": 27,
 "jsd": 0.6633,
 "fdr": 0.0122,
-"cn": 1.03
+"cn": 1.03,
+"called": 3,
+"signal_rank": 543,
+"member": true
 },
 {
 "rank": 44,
@@ -628,7 +759,10 @@
 "dist_kb": 0,
 "jsd": 0.6634,
 "fdr": 0.0124,
-"cn": 1.36
+"cn": 1.36,
+"called": 0,
+"signal_rank": null,
+"member": false
 },
 {
 "rank": 45,
@@ -640,7 +774,10 @@
 "dist_kb": 0,
 "jsd": 0.6635,
 "fdr": 0.0126,
-"cn": 1.33
+"cn": 1.33,
+"called": 0,
+"signal_rank": null,
+"member": false
 },
 {
 "rank": 46,
@@ -652,7 +789,10 @@
 "dist_kb": 0,
 "jsd": 0.6636,
 "fdr": 0.0127,
-"cn": 1.21
+"cn": 1.21,
+"called": 0,
+"signal_rank": null,
+"member": false
 },
 {
 "rank": 47,
@@ -664,7 +804,10 @@
 "dist_kb": 0,
 "jsd": 0.6637,
 "fdr": 0.013,
-"cn": 0.95
+"cn": 0.95,
+"called": 0,
+"signal_rank": null,
+"member": false
 },
 {
 "rank": 48,
@@ -676,7 +819,10 @@
 "dist_kb": 0,
 "jsd": 0.6638,
 "fdr": 0.0131,
-"cn": 0.0
+"cn": 0.0,
+"called": 0,
+"signal_rank": null,
+"member": false
 },
 {
 "rank": 49,
@@ -688,7 +834,10 @@
 "dist_kb": 0,
 "jsd": 0.6639,
 "fdr": 0.0133,
-"cn": 1.33
+"cn": 1.33,
+"called": 0,
+"signal_rank": null,
+"member": false
 },
 {
 "rank": 50,
@@ -700,12 +849,16 @@
 "dist_kb": 0,
 "jsd": 0.664,
 "fdr": 0.0137,
-"cn": 1.55
+"cn": 1.55,
+"called": 0,
+"signal_rank": null,
+"member": false
 }
 ]
 },
 "vsrel": {
 "n": 6,
+"n_called_here": 3,
 "top": [
 {
 "rank": 1,
@@ -717,7 +870,10 @@
 "dist_kb": 0,
 "jsd": 0.638,
 "fdr": 0.0601,
-"cn": 1.18
+"cn": 1.18,
+"called": 4,
+"signal_rank": 643,
+"member": true
 },
 {
 "rank": 2,
@@ -729,7 +885,10 @@
 "dist_kb": 0,
 "jsd": 0.6394,
 "fdr": 0.0637,
-"cn": 0.0
+"cn": 0.0,
+"called": 0,
+"signal_rank": null,
+"member": false
 },
 {
 "rank": 3,
@@ -741,7 +900,10 @@
 "dist_kb": 0,
 "jsd": 0.645,
 "fdr": 0.0882,
-"cn": 0.0
+"cn": 0.0,
+"called": 0,
+"signal_rank": null,
+"member": false
 },
 {
 "rank": 4,
@@ -753,7 +915,10 @@
 "dist_kb": 0,
 "jsd": 0.6452,
 "fdr": 0.089,
-"cn": 1.18
+"cn": 1.18,
+"called": 1,
+"signal_rank": 644,
+"member": true
 },
 {
 "rank": 5,
@@ -765,7 +930,10 @@
 "dist_kb": 745,
 "jsd": 0.6461,
 "fdr": 0.0938,
-"cn": 0.0
+"cn": 0.0,
+"called": 0,
+"signal_rank": null,
+"member": false
 },
 {
 "rank": 6,
@@ -777,7 +945,10 @@
 "dist_kb": 0,
 "jsd": 0.6465,
 "fdr": 0.0955,
-"cn": 1.92
+"cn": 1.92,
+"called": 10,
+"signal_rank": 375,
+"member": true
 }
 ]
 }

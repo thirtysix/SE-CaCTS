@@ -190,6 +190,10 @@
       <div class="card"><div class="card-b" id="lv-summary"></div></div>
       <div class="card lv-browser"><div class="card-h"><h3>Genome browser</h3>
           <span class="muted-s">coverage: ChIP-Atlas v1 bigWigs, raw RPM (not normalised across studies)</span></div>
+        <div class="lv-legend"><span><i style="background:#c0392b"></i><i style="background:#f0beb8"></i> specific vs relatives</span>
+          <span><i style="background:#e08214"></i><i style="background:#f6d6aa"></i> specific vs all lines</span>
+          <span>strong colour = an SE in this line · pale = specific signal, but no experiment of this line calls an SE there</span>
+          <span>labels: gene[specificity rank]; on the grey track gene[rank by the line's own signal], darker = called in more experiments</span></div>
         <div id="lv-igv"></div>
         <div class="card-note"><b>H3K27ac coverage tracks</b> (tick to add or remove):<div class="lv-exps" id="lv-exps"></div></div>
       </div>

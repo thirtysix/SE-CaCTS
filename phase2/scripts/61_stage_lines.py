@@ -39,6 +39,8 @@ OUT = os.path.join(ROOT, "docs", "data", "lines")
 PROTO = ["NIHOVCAR3", "MCF7", "K562", "A549", "KELLY", "JURKAT", "SKNBE2"]
 BW = "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/{}.bw"
 TOP = 50
+FULL = {"vsall": "224,130,20", "vsrel": "192,57,43"}      # SE called in this line
+PALE = {"vsall": "246,214,170", "vsrel": "240,190,184"}  # specific signal, but no experiment of the line calls an SE
 
 
 def protein_coding_coords(gtf, cache):
@@ -79,6 +81,25 @@ def nearest_genes(loci, coords):
         d = np.maximum(0, np.maximum(gs - e, s - ge))
         i = int(np.argmin(d))
         out.append((names[i], int(d[i] // 1000)))
+    return out
+
+
+def overlap_share(query, loci, called, share):
+    """For each locus: the largest share of the line's experiments calling ANY union SE that overlaps it. The
+    union catalog nests small loci inside large ones (37% of loci overlap another: the 25% reciprocal-overlap
+    merge keeps a 2 kb SE apart from the 90 kb SE around it), so membership alone under-counts calls."""
+    by = {}
+    for se in called:
+        c = loci.loc[se]
+        by.setdefault(c.chrom, []).append((int(c.start), int(c.end), float(share[se])))
+    idx = {c: tuple(np.array(x) for x in zip(*sorted(v))) for c, v in by.items()}
+    out = {}
+    for se, c in query.iterrows():
+        if c.chrom not in idx:
+            out[se] = 0.0; continue
+        st, en, sh = idx[c.chrom]
+        hit = (st < c.end) & (en > c.start)
+        out[se] = float(sh[hit].max()) if hit.any() else 0.0
     return out
 
 
@@ -137,6 +158,9 @@ def main():
                       usecols=[0, 1, 2, 3], names=["chrom", "start", "end", "se"]).set_index("se")
     pres = pd.read_csv(os.path.join(RES, "atlas.s3.se_presence.tsv.gz"), sep="\t", index_col=0,
                        usecols=lambda c: c == "se_id" or c in set(ps[ps.key.isin(want)].srx))
+    want_srx = set(ps[ps.key.isin(want)].srx)
+    sig = pd.read_csv(os.path.join(RES, "atlas.s3.se_signal.tsv.gz"), sep="\t", index_col=0,
+                      usecols=lambda c: c == "se_id" or c in want_srx)
     from cnrose.cn.depmap import load_gene_coords, DepMapGeneCN, DepMapMcWesCN
     from cnrose.cn.cmp import CellModelPassportsWesCN
     coords = load_gene_coords(None, cache_path=cache_path("gene_coords.GRCh38.106.tsv"))
@@ -167,15 +191,21 @@ def main():
         grp, name, lineage, disease, subtype = labels(key)
         exps = ps[ps.key == key].srx.tolist()
         called = pres[[s for s in exps if s in pres.columns]]
-        share = called.mean(axis=1)
-        share = share[share > 0]
+        share_all = called.mean(axis=1)
+        share = share_all[share_all > 0]
+        n_exp = called.shape[1]
+        mean_sig = sig[[c for c in exps if c in sig.columns]].mean(axis=1)
+        srank = mean_sig.loc[share.index].rank(ascending=False, method="first").astype(int)   # 1 = strongest called SE
         fn = lambda ext: os.path.join(OUT, f"{key}.{ext}")
         gz = lambda ext: gzip.open(fn(ext + ".gz"), "wt")
         with gz("called.bed") as fh:
             for se, v in share.items():
                 c = cat.loc[se]
-                fh.write(f"{c.chrom}\t{c.start}\t{c.end}\t{genes[se][0] or se}\t{int(round(1000 * v))}\n")
+                # no spaces in the name: igv.js splits BED on any whitespace, which would shift the colour column
+                fh.write(f"{c.chrom}\t{c.start}\t{c.end}\t{genes[se][0] or se}[{srank[se]}]\t{int(round(300 + 700 * v))}\n")   # floor: a rarely called SE stays visible
         tops = {}
+        spec_se = set().union(*[set(spec[t][grp].se) for t in ("vsall", "vsrel") if grp in spec[t]])
+        ov = overlap_share(cat.loc[sorted(spec_se)], cat, list(share.index), share) if spec_se else {}
         for tag in ("vsall", "vsrel"):
             d = spec[tag].get(grp)
             rows = []
@@ -184,12 +214,18 @@ def main():
                     for r in d.itertuples():
                         c = cat.loc[r.se]
                         g, dist = genes[r.se]
-                        fh.write(f"{c.chrom}\t{c.start}\t{c.end}\t{g} (FDR {r.fdr:.3g})\t{int(1000 * (1 - min(r.fdr, 1)))}\n")
+                        sh = ov.get(r.se, 0.0)             # overlap-based: called here if any called SE covers it
+                        rgb = FULL[tag] if sh > 0 else PALE[tag]       # pale = specific signal, but not an SE here
+                        fh.write(f"{c.chrom}\t{c.start}\t{c.end}\t{g}[{int(r.rank)}]\t{int(1000 * (1 - min(r.fdr, 1)))}"
+                                 f"\t.\t{c.start}\t{c.end}\t{rgb}\n")
                         if len(rows) < TOP:
                             rows.append({"rank": int(r.rank), "se": r.se, "chrom": c.chrom, "start": int(c.start),
                                          "end": int(c.end), "gene": g, "dist_kb": dist, "jsd": round(float(r.jsd), 4),
-                                         "fdr": round(float(r.fdr), 4), "cn": round(float(r.cn_mean), 2)})
-            tops[tag] = {"n": 0 if d is None else len(d), "top": rows}
+                                         "fdr": round(float(r.fdr), 4), "cn": round(float(r.cn_mean), 2),
+                                         "called": int(round(sh * n_exp)), "signal_rank": int(srank[r.se]) if r.se in srank.index else None,
+                                         "member": r.se in share.index})
+            n_called = 0 if d is None else int(sum(ov.get(x, 0) > 0 for x in d.se))
+            tops[tag] = {"n": 0 if d is None else len(d), "n_called_here": n_called, "top": rows}
         prov = src.cn_provider.get(key, "depmap_wgs")
         tr = (mcw.track(key) if prov == "depmap_mc_wes" else
               cmp.track(src.cvcl.get(key)) if prov == "cmp_wes" else wgs.track(key))
@@ -206,7 +242,7 @@ def main():
             "key": key, "group": grp, "name": name, "lineage": lineage, "disease": disease, "subtype": subtype,
             "cn_source": prov, "has_cn": tr is not None, "cn_max": cn_max,
             "comparison": None if st is None else {"stratum": st.stratum, "n_lines": int(st.lines_in_stratum)},
-            "n_called": int(len(share)),
+            "n_called": int(len(share)), "n_experiments": int(n_exp),
             "experiments": [{"srx": s, "study": study.get(s, ""), "layout": layout.get(s, ""), "bw": BW.format(s)}
                             for s in exps],
             "vsall": tops["vsall"], "vsrel": tops["vsrel"],

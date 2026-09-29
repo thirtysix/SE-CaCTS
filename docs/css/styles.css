@@ -320,3 +320,5 @@ td.gene{font-family:ui-monospace,Menlo,monospace; font-weight:650}
 .lv-grid > .card{min-width:0}
 #lv-igv{overflow-x:auto}
 @media (max-width: 600px){ #lv-combo, #lv-combo .combo-input{width:100%; min-width:0; max-width:100%} }
+.lv-legend{display:flex; flex-wrap:wrap; gap:6px 18px; padding:10px 18px 4px; font-size:12px; color:var(--muted)}
+.lv-legend i{display:inline-block; width:14px; height:9px; margin-right:2px; border-radius:2px; vertical-align:middle}
