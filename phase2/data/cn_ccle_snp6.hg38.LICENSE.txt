@@ -1,0 +1,12 @@
+cn_ccle_snp6.hg38.tsv.gz
+
+Derived from the Cancer Cell Line Encyclopedia (CCLE) 2019 copy-number segments (Affymetrix SNP6, hg19),
+as distributed by cBioPortal in the study `ccle_broad_2019` (file data_cna_hg19.seg). Source publication:
+Ghandi M, et al. Next-generation characterization of the Cancer Cell Line Encyclopedia. Nature 569, 503-508 (2019).
+
+Changes: segments for the listed DepMap models were lifted from hg19 to hg38 (UCSC hg19ToHg38 chain), split
+into pieces of at most 1 Mb, converted from log2 to linear ratio, and re-centred to a length-weighted median
+of 1.0 per line (cnrose/cnrose/cn/ccle.py; phase1/scripts/21_ccle_snp6_validate.py --export-keys).
+
+The source data are available under the Open Database License (ODbL 1.0,
+http://opendatacommons.org/licenses/odbl/1.0/). This derived table is offered under the same license.
