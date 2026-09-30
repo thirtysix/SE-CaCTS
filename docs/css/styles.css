@@ -372,3 +372,4 @@ select.sel:disabled{opacity:.55; cursor:not-allowed}
 .about-card li{margin:4px 0}
 .about-card .pipeline-card{margin:0 0 10px}
 #about-body{max-width:1240px}
+.lv-locus{white-space:nowrap}
