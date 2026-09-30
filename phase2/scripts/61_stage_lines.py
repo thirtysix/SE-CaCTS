@@ -53,7 +53,8 @@ CMP = {"all": ("atlas.s3.lines.all", "vsall", "all lines", None),
        "lineage": ("atlas.s3.lines.lin", "vslin", "lineage", "lineage")}
 FULL = {"vsall": "224,130,20", "vssub": "27,120,55", "vsdis": "192,57,43", "vslin": "123,50,148"}    # SE called in this line
 PALE = {"vsall": "246,214,170", "vssub": "178,221,190", "vsdis": "240,190,184", "vslin": "215,190,228"}  # specific signal, not an SE here
-COLS = ["rank", "se", "chrom", "start", "end", "gene", "dist_kb", "jsd", "fdr", "cn", "called", "signal_rank", "flag"]
+COLS = ["rank", "se", "chrom", "start", "end", "gene", "dist_kb", "jsd", "fdr", "cn", "called", "signal_rank", "flag", "pass"]
+LETTER = {"all": "A", "subtype": "S", "disease": "D", "lineage": "L"}     # which comparisons call the SE, e.g. "ADL"
 
 
 def clean(o):
@@ -275,8 +276,11 @@ def main():
                 spec_se |= set(top_any[c][grp].se.head(TOP))
         ov = overlap_share(cat.loc[sorted(spec_se)], cat, list(share.index), share) if spec_se else {}
         comps = {}
+        infos = {c: comparison(c, grp) for c in CMP}
+        passes = {c: set(spec[c][grp].se) if infos[c]["testable"] and grp in spec[c] else set() for c in CMP}
+        pass_of = lambda se: "".join(LETTER[c] for c in CMP if se in passes[c])             # noqa: E731
         for c, (_, tag, _, _) in CMP.items():
-            info = comparison(c, grp)
+            info = infos[c]
             d = spec[c].get(grp) if info["testable"] else None
             ranked = d if d is not None else top_any[c].get(grp)                     # untested: rankings only
             rows = []
@@ -293,7 +297,8 @@ def main():
                     cn = None if pd.isna(r.cn_mean) else round(float(r.cn_mean), 2)
                     rows.append([int(r.rank), r.se, cc.chrom, int(cc.start), int(cc.end), g, dist,
                                  round(float(r.jsd), 4), round(float(r.fdr), 4), cn, int(round(ov.get(r.se, 0.0) * n_exp)),
-                                 int(srank[r.se]) if r.se in srank.index else None, flag_of(cc.chrom, cn)])
+                                 int(srank[r.se]) if r.se in srank.index else None, flag_of(cc.chrom, cn),
+                                 pass_of(r.se)])
             info.update(n=0 if d is None else int(len(d)), n_called_here=0 if d is None else int(sum(ov.get(x, 0) > 0 for x in d.se)),
                         rankings_only=d is None, top=rows)
             comps[c] = info

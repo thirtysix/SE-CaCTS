@@ -27,10 +27,23 @@ const Finder = (() => {
     }).join("");
   }
 
+  const cache = {};
+  async function load() {
+    const v = U.getVariant(), f = U.variantFile("data/gene_index.json", v);
+    index = cache[v] || (cache[v] = await DataLoader.loadJSON(f));
+    const man = await DataLoader.loadJSON("data/manifest.json"), vs = man.variants || [];
+    const sel = U.el("finder-variant");
+    sel.parentElement.style.display = vs.length > 1 ? "inline-flex" : "none";
+    sel.innerHTML = vs.map(x => `<option value="${x.key}"${x.key === v ? " selected" : ""}>${U.esc(x.label)}</option>`).join("");
+    const vi = vs.find(x => x.key === v);
+    U.el("finder-variant-note").innerHTML = vi && v !== "main" ? `<b>Analysis: ${U.esc(vi.label)}.</b> ${U.esc(vi.desc || "")}` : "";
+  }
+
   async function init() {
-    index = await DataLoader.loadJSON("data/gene_index.json");
+    await load();
     const inp = U.el("finder-input");
     inp.addEventListener("input", () => render(inp.value));
+    U.el("finder-variant").onchange = async e => { U.setVariant(e.target.value); await load(); render(inp.value); };
     render(inp.value || "");
   }
   return { init };

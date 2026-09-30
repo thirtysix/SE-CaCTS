@@ -90,7 +90,7 @@ const LineView = (() => {
   function table(rows, id, rankingsOnly) {
     if (!rows.length) return `<p class="muted-s">None at FDR ≤ 0.1.</p>`;
     return `<table class="tbl lv-tbl" id="${id}"><thead><tr><th title="specificity rank (1 = most specific)">#</th><th>Nearest gene</th><th>kb</th><th>Locus</th><th title="experiments of this line whose SE calls cover the locus">Called in</th><th title="rank of the locus by this line's own signal among the SEs it calls (1 = strongest); blank = not an SE here">SE rank</th><th title="copy number at the SE in this line (ratio to the line median); the same flag as the SE atlas: amplified when > 1.3">CN</th><th>${rankingsOnly ? "FDR (not a call)" : "FDR"}</th></tr></thead><tbody>${
-      rows.map((r, i) => `<tr data-i="${i}" title="show in the browser"><td>${r.rank}</td><td><b>${U.esc(r.gene)}</b>${flagChip(r.flag)}</td><td>${r.dist_kb}</td>
+      rows.map((r, i) => `<tr data-i="${i}" title="show in the browser"><td>${r.rank}</td><td><b>${U.esc(r.gene)}</b>${U.passBadge(r.pass)}${flagChip(r.flag)}</td><td>${r.dist_kb}</td>
         <td class="mono">${r.chrom}:${(r.start / 1e6).toFixed(2)} Mb</td>
         <td class="${r.called ? "" : "muted-s"}">${r.called ? r.called + "/" + line.n_experiments : "not an SE here"}</td><td>${r.signal_rank ?? ""}</td>
         <td class="${U.cnClass(r.cn)}">${r.cn != null ? r.cn.toFixed(2) : ""}</td><td>${U.fmtFdr ? U.fmtFdr(r.fdr) : r.fdr}</td></tr>`).join("")}</tbody></table>`;

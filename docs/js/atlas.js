@@ -25,6 +25,14 @@ const Atlas = (() => {
   const lab = (lv, g) => (manifest.levels[lv].groups[g] || {}).label || g;
 
   const levelDef = k => U.LEVELS.find(l => l.key === k);
+  // analysis variant: applies to the CALL levels only; subtype rankings and cell-line comparisons use the main run
+  const variantOf = k => levelDef(k).kind === "calls" ? U.getVariant() : "main";
+  const vinfo = () => (manifest.variants || []).find(v => v.key === U.getVariant()) || null;
+  const ck = k => `${k}|${variantOf(k)}`;                                // cache key
+  const ginfo = (k, g) => {
+    const v = variantOf(k), vi = v !== "main" && (manifest.variants || []).find(x => x.key === v);
+    return (vi && vi.groups && vi.groups[k] && vi.groups[k][g]) || manifest.levels[k].groups[g] || {};
+  };
   const fmtLen = bp => bp == null ? "" : (bp < 1000 ? `${bp} bp` : `${(bp / 1000).toFixed(1)} kb`);
   // The staged FDR is rounded to 4 dp, so report anything below 0.001 as a bound rather than as a
   // spuriously precise number (at cell-line level the degenerate null rounds many rows to 0).
@@ -43,12 +51,13 @@ const Atlas = (() => {
       cache[k] = cache[k] || [];
       return cache[k];
     }
-    if (!cache[k]) {
-      const r = (await DataLoader.loadTSV(levelDef(k).file)).rows;
+    const key = ck(k);
+    if (!cache[key]) {
+      const r = (await DataLoader.loadTSV(U.variantFile(levelDef(k).file, variantOf(k)))).rows;
       r.forEach(x => { x.len = (x.end || 0) - (x.start || 0); });   // SE span, for the Length column + sort
-      cache[k] = r;
+      cache[key] = r;
     }
-    return cache[k];
+    return cache[key];
   }
 
   function groupsFor(k) {
@@ -155,7 +164,7 @@ const Atlas = (() => {
 
   let combo = null;
   function renderGroupPicker() {
-    const gs = groupsFor(level), m = manifest.levels[level].groups;
+    const gs = groupsFor(level), m = Object.fromEntries(Object.keys(manifest.levels[level].groups).map(g => [g, ginfo(level, g)]));
     if (!combo) combo = Combo.make(U.el("atlas-group"), key => { group = key; renderTable(); });
     // line level: sort and show by the display name (NIH:OVCAR-3), keyed by DepMap's stripped name
     const nm = g => m[g].label || g;
@@ -173,8 +182,20 @@ const Atlas = (() => {
     combo.setValue(group);
   }
 
+  function renderVariant() {
+    const vs = manifest.variants || [], sel = U.el("atlas-variant"), wrap = U.el("atlas-variant-wrap");
+    const isCalls = levelDef(level).kind === "calls";
+    wrap.style.display = vs.length > 1 && isCalls ? "inline-flex" : "none";
+    sel.innerHTML = vs.map(v => `<option value="${v.key}"${v.key === U.getVariant() ? " selected" : ""}>${U.esc(v.label)}</option>`).join("");
+    const v = vinfo();
+    U.el("atlas-variant-note").innerHTML = !v || v.key === "main" ? ""
+      : isCalls ? `<b>Analysis: ${U.esc(v.label)}.</b> ${U.esc(v.desc || "")}`
+      : `The ${U.esc(levelDef(level).label.toLowerCase())} view uses the default analysis; <b>${U.esc(v.label)}</b> applies to the lineage and primary-disease calls.`;
+  }
+
   async function onLevel() {
     renderControls();
+    renderVariant();
     renderScope();
     renderFdrControl();
     await loadLevel(level);
@@ -193,7 +214,7 @@ const Atlas = (() => {
 
   function currentRows() {
     const q = geneQuery.trim().toLowerCase();
-    return cache[level].filter(r => r.group === group
+    return cache[ck(level)].filter(r => r.group === group
       && (!q || String(r.gene || "").toLowerCase().includes(q))
       && (fdrMax >= 1 || (r.fdr != null && r.fdr <= fdrMax)));
   }
@@ -273,7 +294,7 @@ const Atlas = (() => {
     U.el("atlas-body").innerHTML = rows.map(r => `
       <tr>
         <td class="mono" title="specificity rank in this comparison (1 = most specific)">${r.rank}</td>
-        <td class="gene"><a class="gv-link" href="#line" data-locus="${r.chrom}:${Math.max(1, r.start - 25000)}-${r.end + 25000}" title="open ${U.esc(r.gene || r.se)} in the Genomic View (IGV) for ${U.esc(L.name)}">${U.esc(r.gene || "n/a")}</a><span class="th-sub">${r.dist_kb === 0 ? " overlaps" : " " + r.dist_kb + " kb"}</span>${r.flag ? ` <span class="flag-chip" title="possible artifact: ${U.esc(FLAG_TIP[r.flag] || r.flag)}">⚠ ${U.esc(r.flag)}</span>` : ""}</td>
+        <td class="gene"><a class="gv-link" href="#line" data-locus="${r.chrom}:${Math.max(1, r.start - 25000)}-${r.end + 25000}" title="open ${U.esc(r.gene || r.se)} in the Genomic View (IGV) for ${U.esc(L.name)}">${U.esc(r.gene || "n/a")}</a><span class="th-sub">${r.dist_kb === 0 ? " overlaps" : " " + r.dist_kb + " kb"}</span>${U.passBadge(r.pass)}${r.flag ? ` <span class="flag-chip" title="possible artifact: ${U.esc(FLAG_TIP[r.flag] || r.flag)}">⚠ ${U.esc(r.flag)}</span>` : ""}</td>
         <td class="mono num">${U.fmtJsd(r.jsd)}</td>
         <td class="mono num${c.testable && r.fdr <= 0.10 ? " sig" : ""}" title="${c.testable ? "permutation FDR in this comparison" : "shown for reference: this comparison was not tested"}">${fmtFdrVal(r.fdr)}</td>
         ${cnCell(r.cn_mean)}
@@ -288,6 +309,7 @@ const Atlas = (() => {
       ? `Top ${rows.length.toLocaleString()} of ${n.toLocaleString()} specific SEs in this comparison (permutation FDR ≤ 0.10), ranked by JSD; the full set is a track in the Genomic View. `
       : `This comparison was not tested (${U.esc(c.reason || "")}); the rows are the top of the ranking, not calls. `)
       + `A line is compared only with at least two independent studies and at least 4 lines in the comparison group. <b>Called</b> = experiments of this line whose SE calls cover the locus: specific signal is not always an SE in the line. `
+      + `The badge after each gene shows which of the four comparisons call it (${U.passBadge("ASDL")} all lines, same subtype, same disease, same lineage): all four rank by the same score and differ in which SEs pass, so a lineage programme reads <b>A…L</b> without <b>D</b>. `
       + `<span class="flag-chip" style="margin:0">⚠</span> marks known artifact classes (chrY; copy number below 0.3). Click a gene to open it in the Genomic View (IGV).`;
     document.querySelectorAll("#atlas-table th[data-sort]").forEach(th => {
       th.classList.toggle("sorted-asc", th.dataset.sort === sortKey && sortAsc);
@@ -298,9 +320,9 @@ const Atlas = (() => {
   function renderTable() {
     if (level === "line") return renderLine();
     U.el("atlas-cmp").style.display = "none";
-    const def = levelDef(level), info = manifest.levels[level].groups[group];
+    const def = levelDef(level), info = ginfo(level, group);
     const isCalls = def.kind === "calls";
-    const groupAll = cache[level].filter(r => r.group === group);
+    const groupAll = cache[ck(level)].filter(r => r.group === group);
     const total = groupAll.length;
     const tiles = tilesOf(groupAll);                     // se_id -> rank of the domain it tiles
     rows = sortRows(currentRows());
@@ -364,9 +386,10 @@ const Atlas = (() => {
         else { sortKey = th.dataset.sort; sortAsc = !["cn_mean", "len", "n_called"].includes(th.dataset.sort); }
         renderTable();
       });
+    U.el("atlas-variant").onchange = e => { U.setVariant(e.target.value); onLevel(); };
     const filterInput = U.el("atlas-filter");
     filterInput.addEventListener("input", () => { geneQuery = filterInput.value; renderTable(); });
-    U.el("atlas-dl").onclick = () => U.downloadTSV(`SE-CaCTS.${level}.${group}${level === "line" ? "." + cmpSel : ""}.tsv`, [
+    U.el("atlas-dl").onclick = () => U.downloadTSV(`SE-CaCTS.${level}.${group}${level === "line" ? "." + cmpSel : (variantOf(level) !== "main" ? "." + variantOf(level) : "")}.tsv`, [
       { label: "rank", key: "rank" }, { label: "se", key: "se" }, { label: "nearest_gene", key: "gene" },
       { label: "dist_kb", key: "dist_kb" }, { label: "jsd", key: "jsd" },
       { label: "fdr_permutation", key: "fdr" },

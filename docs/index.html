@@ -97,7 +97,10 @@
         <span class="ctl-label" id="atlas-fdr-wrap" style="display:none" title="tighten the specificity cutoff on the permutation FDR: every call already passes ≤ 0.10, so lower values keep only the most confidently specific super-enhancers">FDR ≤
           <span class="seg" id="atlas-fdr" role="tablist" style="margin-left:8px"></span></span>
         <button id="atlas-dl" class="dl-btn" title="download the current (filtered + sorted) view as TSV">⬇ TSV</button>
+        <label class="ctl-label" id="atlas-variant-wrap" title="which scoring run the lineage and disease calls come from">Analysis
+          <select id="atlas-variant" class="sel" style="margin-left:8px"></select></label>
       </div>
+      <div class="variant-note" id="atlas-variant-note"></div>
       <div class="controls scope-row" id="atlas-scope" style="display:none"></div>
       <div class="controls" id="atlas-cmp" style="display:none"></div>
       <div class="warn" id="atlas-warn" style="display:none"><b>Rankings only.</b> At this resolution most
@@ -169,6 +172,9 @@
       <input type="search" id="finder-input" class="sel big" placeholder="e.g. CDX2, SPI1, IGLL5, MECOM, PAX8…"
         autocomplete="off" spellcheck="false"
         title="enter a gene symbol; results list each lineage / disease where its nearest super-enhancer clears the permutation FDR">
+      <label class="ctl-label" title="which scoring run the calls come from" style="display:inline-flex;align-items:center;margin:10px 0">Analysis
+        <select id="finder-variant" class="sel" style="margin-left:8px"></select></label>
+      <div class="variant-note" id="finder-variant-note"></div>
       <div class="finder-res" id="finder-res"></div>
     </section>
 

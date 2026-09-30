@@ -31,5 +31,21 @@ const U = (() => {
     a.download = filename; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(a.href);
   };
 
-  return { el, esc, LEVELS, cnClass, fmtFdr, fmtJsd, ucsc, downloadTSV };
+  // which of a line's four comparisons call this SE: "ADL" -> A, D, L lit, S dim
+  const PASS = [["A", "all lines"], ["S", "same subtype"], ["D", "same primary disease"], ["L", "same lineage"]];
+  const passBadge = p => {
+    p = p || "";
+    const on = PASS.filter(([k]) => p.includes(k)).map(([, w]) => w);
+    const tip = on.length ? `specific vs ${on.join(", ")}` : "not called in any of the four comparisons (ranking only)";
+    return `<span class="pass-b" title="${esc(tip)}">${PASS.map(([k]) => `<i class="${p.includes(k) ? "on p" + k : ""}">${k}</i>`).join("")}</span>`;
+  };
+
+  // analysis variants (manifest.variants): "main" is the default run; others stage calls_<level>.<key>.tsv
+  let variant = "main";
+  try { variant = localStorage.getItem("secacts-variant") || "main"; } catch (_) { /* default */ }
+  const getVariant = () => variant;
+  const setVariant = v => { variant = v; try { localStorage.setItem("secacts-variant", v); } catch (_) { /* not kept */ } };
+  const variantFile = (file, v) => (!v || v === "main") ? file : file.replace(/\.(tsv|json)$/, `.${v}.$1`);
+
+  return { el, esc, LEVELS, cnClass, fmtFdr, fmtJsd, ucsc, downloadTSV, passBadge, getVariant, setVariant, variantFile };
 })();

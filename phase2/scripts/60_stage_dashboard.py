@@ -124,6 +124,11 @@ def main():
     ap.add_argument("--release-date", required=True, help="YYYY-MM-DD")
     ap.add_argument("--release-title", default="", help="one line: what this release is")
     ap.add_argument("--release-notes", default="", help="what changed since the previous release")
+    ap.add_argument("--main-label", default="Default", help="Analysis selector: the main run's name")
+    ap.add_argument("--main-desc", default="", help="Analysis selector: one line on the main run")
+    ap.add_argument("--variant", action="append", default=[],
+                    help="another scoring run for the Analysis selector: 'key|prefix|label|description' "
+                         "(prefix relative to --scores, e.g. atlas.s3.perm.nocn)")
     ap.add_argument("--pull-desc", default="", help="pipeline-chart step 1, lines separated by ' | ' (default: ChIP-Atlas only)")
     a = ap.parse_args()
     SCORES, RESULTS = a.scores, a.results
@@ -141,49 +146,65 @@ def main():
     conc_by = {(r.level, r.group, r.se): (r.gene, bool(r.concordant), float(r.rho)) for r in CP.itertuples()}
 
     manifest = {"levels": {}}
-    gene_index = {}                                                    # gene -> [{level,group,rank,fdr,cn,conc,rho}]
+
+    def stage_calls(prefix, suffix):
+        """calls_<level><suffix>.tsv and gene_index<suffix>.json from one scoring run; returns {level: groups}.
+        Concordance (nearest gene; is it group-specific in expression) is a property of the gene and group,
+        so every variant reads the main run's bridge pairs."""
+        gene_index, out = {}, {}
+        Hx = pd.read_csv(f"{prefix}.hierarchy_summary.tsv", sep="\t")
+        for short, col, label in CALL_LEVELS:
+            S = pd.read_csv(f"{prefix}.{col}.specific.tsv.gz", sep="\t").sort_values(["group", "rank"])
+            chrom, st, en, ncall, gene, dkb, conc, rho = [], [], [], [], [], [], [], []
+            for r in S.itertuples():
+                se = r.se
+                c, s_, e, nc = coords.get(se, ("", 0, 0, 0))
+                hit = conc_by.get((col, r.group, se))
+                if hit:                                                    # bridge nearest gene + concordance
+                    g, is_c, rr = hit
+                    d = 0  # bridge distance not carried; coord distance recomputed below for display
+                else:                                                     # no bridge pair -> coord-based nearest, no concordance
+                    g, is_c, rr = (nearest(c, (s_ + e) // 2) if c else ("", 0)), None, None
+                    if isinstance(g, tuple):
+                        g, d = g
+                    else:
+                        d = 0
+                chrom.append(c); st.append(s_); en.append(e); ncall.append(nc)
+                gene.append(g); dkb.append(d); conc.append("" if is_c is None else int(is_c))
+                rho.append("" if rr is None else round(rr, 3))
+            S = S.assign(chrom=chrom, start=st, end=en, n_called=ncall, gene=gene, dist_kb=dkb,
+                         conc=conc, rho=rho)
+            S = S[["group", "se", "rank", "jsd", "fdr", "cn_mean", "gene", "dist_kb", "conc", "rho",
+                   "chrom", "start", "end", "n_called"]]
+            S.round({"jsd": 4, "fdr": 4, "cn_mean": 3}).to_csv(os.path.join(OUT, f"calls_{short}{suffix}.tsv"),
+                                                               sep="\t", index=False)
+            for r in S.itertuples():                                   # gene index for the finder (call levels only)
+                if r.gene:
+                    gene_index.setdefault(r.gene, []).append(
+                        {"lv": short, "g": r.group, "r": int(r.rank), "fdr": round(float(r.fdr), 4),
+                         "cn": round(float(r.cn_mean), 2), "c": r.conc if r.conc != "" else None})
+            hsub = Hx[Hx.level == col]
+            out[short] = {r.group: {"n_lines": int(r.n_lines), "n_calls": int(r.n_spec_fdr10)} for r in hsub.itertuples()}
+            print(f"[stage] {short}{suffix}: {len(S):,} calls across {len(out[short])} groups")
+        for g in gene_index:
+            gene_index[g].sort(key=lambda x: x["r"])
+        write_json(f"gene_index{suffix}.json", gene_index)
+        print(f"[stage] gene index{suffix}: {len(gene_index):,} genes near a lineage/disease-specific SE")
+        return out
+
     # ---- CALL levels: stage every specific SE, annotated with gene + coordinates + concordance
+    main_groups = stage_calls(PERM, "")
     for short, col, label in CALL_LEVELS:
-        S = pd.read_csv(f"{PERM}.{col}.specific.tsv.gz", sep="\t").sort_values(["group", "rank"])
-        chrom, st, en, ncall, gene, dkb, conc, rho = [], [], [], [], [], [], [], []
-        for r in S.itertuples():
-            se = r.se
-            c, s, e, nc = coords.get(se, ("", 0, 0, 0))
-            hit = conc_by.get((col, r.group, se))
-            if hit:                                                    # bridge nearest gene + concordance
-                g, is_c, rr = hit
-                d = 0  # bridge distance not carried; coord distance recomputed below for display
-            else:                                                     # no bridge pair -> coord-based nearest, no concordance
-                g, is_c, rr = (nearest(c, (s + e) // 2) if c else ("", 0)), None, None
-                if isinstance(g, tuple):
-                    g, d = g
-                else:
-                    d = 0
-            chrom.append(c); st.append(s); en.append(e); ncall.append(nc)
-            gene.append(g); dkb.append(d); conc.append("" if is_c is None else int(is_c))
-            rho.append("" if rr is None else round(rr, 3))
-        S = S.assign(chrom=chrom, start=st, end=en, n_called=ncall, gene=gene, dist_kb=dkb,
-                     conc=conc, rho=rho)
-        S = S[["group", "se", "rank", "jsd", "fdr", "cn_mean", "gene", "dist_kb", "conc", "rho",
-               "chrom", "start", "end", "n_called"]]
-        S.round({"jsd": 4, "fdr": 4, "cn_mean": 3}).to_csv(os.path.join(OUT, f"calls_{short}.tsv"),
-                                                           sep="\t", index=False)
-        # gene index for the finder (only the call levels — honest)
-        for r in S.itertuples():
-            if r.gene:
-                gene_index.setdefault(r.gene, []).append(
-                    {"lv": short, "g": r.group, "r": int(r.rank), "fdr": round(float(r.fdr), 4),
-                     "cn": round(float(r.cn_mean), 2), "c": r.conc if r.conc != "" else None})
-        hsub = H[H.level == col]
-        groups = {r.group: {"n_lines": int(r.n_lines), "n_calls": int(r.n_spec_fdr10)}
-                  for r in hsub.itertuples()}
         manifest["levels"][short] = {"col": col, "label": label, "kind": "calls",
-                                     "n_groups": len(groups), "groups": groups}
-        print(f"[stage] {short}: {len(S):,} calls across {len(groups)} groups")
-    for g in gene_index:
-        gene_index[g].sort(key=lambda x: x["r"])
-    write_json("gene_index.json", gene_index)
-    print(f"[stage] gene index: {len(gene_index):,} genes near a lineage/disease-specific SE")
+                                     "n_groups": len(main_groups[short]), "groups": main_groups[short]}
+    # ---- analysis variants (the dashboard's Analysis selector): same levels, other scoring runs
+    manifest["variants"] = [{"key": "main", "label": a.main_label, "desc": a.main_desc,
+                             "n_calls": {k: sum(v["n_calls"] for v in g.values()) for k, g in main_groups.items()}}]
+    for spec in a.variant:
+        key, prefix, label, desc = (spec.split("|") + ["", ""])[:4]
+        vg = stage_calls(os.path.join(SCORES, prefix), f".{key}")
+        manifest["variants"].append({"key": key, "label": label, "desc": desc, "groups": vg,
+                                     "n_calls": {k: sum(x["n_calls"] for x in g.values()) for k, g in vg.items()}})
 
     # ---- RANK-ONLY levels: stage the top-N rankings (already gene/coord annotated); NO counts
     for short, col, label in RANK_LEVELS:
