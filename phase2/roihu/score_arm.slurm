@@ -22,6 +22,7 @@ RES="${RES:-$W/results_v2}"; PS="${PS:-$REPO/phase2/data/pull_set.v2.tsv}"
 V2=(--signal "$RES/atlas.s3.se_signal.tsv" --catalog "$RES/atlas.s3.union_catalog.bed"
     --pull-set "$PS" --norm none
     --fdr-method permutation --n-perm "${NPERM:-1000}" --keep-frac "${KEEPFRAC:-0.05}" --dump-specific 0.10
+    --perm-impl "${PERMIMPL:-tail}" --perm-workers "${PERMWORKERS:-1}"
     --inferred-bins "$W/../cncal/bins" --blacklist "$W/../cncal/hg38-blacklist.v2.bed.gz")
 case "$BASE" in
   main)    args=("${V2[@]}" --out "$OUT/atlas.s3.perm" --cn-diagnostic --save-matrices) ;;

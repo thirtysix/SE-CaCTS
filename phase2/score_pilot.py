@@ -43,7 +43,7 @@ sys.path.insert(0, os.path.join(SECACTS, "cnrose"))
 from pycacts.score import cacts_score_matrix, rank_specific        # noqa: E402
 from pycacts.grouping import build_rep_matrix                      # noqa: E402
 from specificity import fdr_matrix                                 # noqa: E402
-from permutation import permutation_fdr, permutation_fdr_units, rep_agg   # noqa: E402
+from permutation import permutation_fdr, permutation_fdr_count, permutation_fdr_units, rep_agg   # noqa: E402
 from cnrose.cn.depmap import load_gene_coords, DepMapGeneCN, DepMapMcWesCN   # noqa: E402
 from cnrose.cn.cmp import CellModelPassportsWesCN                  # noqa: E402
 from cnrose.cn.inferred import BinnedInputCN, load_blacklist       # noqa: E402
@@ -202,6 +202,10 @@ def main():
                     help="with a consensus --agg, groups with fewer members are not called (FDR set to 1): one "
                          "member has no consensus, and its 'specificity' measures how unlike a random line it is "
                          "(highest for tumour types with no relatives in the panel), not a group property")
+    ap.add_argument("--perm-impl", choices=["tail", "count"], default="tail",
+                    help="permutation bookkeeping: 'tail' keeps the null's left tail (original), 'count' counts "
+                         "null draws at or below each candidate test (same p-values, faster, parallel)")
+    ap.add_argument("--perm-workers", type=int, default=1, help="processes for --perm-impl count")
     ap.add_argument("--keep-frac", type=float, default=0.05,
                     help="share of the permutation null kept per group (only the left tail is ever read)")
     a = ap.parse_args()
@@ -473,8 +477,13 @@ def main():
                 print(f"[score] {len(small)} {level} groups with < {a.min_members} members left uncalled "
                       f"(rankings only)", file=sys.stderr, flush=True)
         elif a.fdr_method == "permutation" and level != "line":
-            FDR = np.power(10.0, permutation_fdr(jsd, lines_cor, model, level, n_perm=a.n_perm,
-                                                 keep_frac=a.keep_frac, scope=a.fdr_scope))
+            if a.perm_impl == "count":
+                FDR = np.power(10.0, permutation_fdr_count(jsd, lines_cor, model, level, n_perm=a.n_perm,
+                                                           keep_frac=a.keep_frac, scope=a.fdr_scope,
+                                                           n_workers=a.perm_workers))
+            else:
+                FDR = np.power(10.0, permutation_fdr(jsd, lines_cor, model, level, n_perm=a.n_perm,
+                                                     keep_frac=a.keep_frac, scope=a.fdr_scope))
         else:
             if a.fdr_method == "permutation":
                 print("  [perm] SKIPPING permutation at 'line' level (degenerate — permuting labels only "

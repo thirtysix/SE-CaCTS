@@ -135,6 +135,130 @@ def permutation_fdr(jsd, lines, model, level, n_perm=50, seed=0, keep_frac=0.05,
     return pd.DataFrame(out, index=jsd.index)[groups]
 
 
+# --------------------------------------------------------------------------------------------------------
+# Fast path, same answer. `permuted_nulls` keeps the smallest keep_frac of every group's null draws and
+# re-sorts them every 25 permutations; at B = 10,000 that sorting is over half the run time (measured
+# 2026-09-30: 0.37 s of ~0.72 s per permutation at the subtype level). But only observed tests in the far left
+# tail can ever be called, so it is enough to COUNT, for each such test, the null draws at or below it.
+# `permutation_fdr_count` does that, and splits the permutations over worker processes that each replay the
+# same seeded shuffle stream, so its null draws are exactly those of `permutation_fdr` with the same seed and
+# its p-values are identical wherever that function does not censor. Candidate tests (observed JSD at or below
+# a per-group limit) come from a short warm-up on a different seed, at 4x keep_frac; a self-check reports any
+# group whose limit landed inside the uncensored region, where a test could have been missed.
+# --------------------------------------------------------------------------------------------------------
+_W = {}                                                   # read-only state shared with forked workers
+
+
+def _count_worker(args):
+    w, n_workers = args
+    s = _W
+    rng = np.random.default_rng(s["seed"])
+    m2 = s["model"].copy()
+    counts = {g: np.zeros(len(c) + 1, dtype=np.int64) for g, c in s["cand"].items()}
+    done = 0
+    for b in range(s["n_perm"]):
+        perm = s["base"].copy()
+        rng.shuffle(perm)                                 # every worker advances the stream identically
+        if b % n_workers != w:
+            continue
+        m2.loc[s["present"], s["level"]] = perm
+        rep, _ = build_rep_matrix(s["lines"], m2, s["level"], min_group_n=s["min_group_n"])
+        rep.columns = [str(c) for c in rep.columns]
+        j = cacts_score_matrix(rep)
+        for g, cg in s["cand"].items():
+            if g not in j.columns:
+                continue
+            v = j[g].values.astype(np.float32).astype(np.float64)   # the stored precision of the slow path
+            v = v[v <= cg[-1]]
+            if v.size:
+                counts[g] += np.bincount(np.searchsorted(cg, v, side="left"), minlength=len(cg) + 1)
+        done += 1
+        if s["verbose"] and w == 0 and done % 250 == 0:
+            print(f"[perm-count]   worker 0: {done}/{len(range(w, s['n_perm'], n_workers))} permutations",
+                  file=sys.stderr, flush=True)
+    return counts
+
+
+def permutation_fdr_count(jsd, lines, model, level, n_perm=50, seed=0, keep_frac=0.05, scope="global",
+                          n_workers=1, warmup=32, margin=4.0, min_group_n=1, verbose=True):
+    """Same result as `permutation_fdr(..., seed=seed, keep_frac=keep_frac)`, computed by counting."""
+    if level == "line":
+        raise ValueError("permutation is degenerate at 'line' level")
+    import multiprocessing as mp
+    present = [c for c in lines.columns if c in model.index]
+    base = model.loc[present, level].values.copy()
+    n_se = lines.shape[0]
+    K = max(int(math.ceil(keep_frac * n_perm * n_se)), 1000)
+    m_total = n_perm * n_se
+    # warm-up on an independent stream: where does each group's null reach margin x keep_frac?
+    rng = np.random.default_rng(seed + 1_000_003)
+    m2 = model.copy()
+    warm = {}
+    for _ in range(warmup):
+        perm = base.copy(); rng.shuffle(perm)
+        m2.loc[present, level] = perm
+        rep, _ = build_rep_matrix(lines, m2, level, min_group_n=min_group_n)
+        rep.columns = [str(c) for c in rep.columns]
+        j = cacts_score_matrix(rep)
+        for g in j.columns:
+            warm.setdefault(g, []).append(j[g].values.astype(np.float32))
+    q = min(1.0, margin * keep_frac)
+    cand = {}
+    for g in jsd.columns:
+        if g not in warm:
+            continue
+        lim = float(np.quantile(np.concatenate(warm[g]), q))
+        x = jsd[g].values.astype(float)
+        c = np.sort(x[np.isfinite(x) & (x <= lim)])
+        if c.size:
+            cand[g] = c
+    del warm
+    if verbose:
+        print(f"[perm-count] {n_workers} workers; {n_perm:,} permutations; candidate tests "
+              f"{sum(len(c) for c in cand.values()):,} of {jsd.size:,} (null quantile {q:g}, warm-up {warmup})",
+              file=sys.stderr, flush=True)
+    _W.clear()
+    _W.update(lines=lines, model=model, level=level, present=present, base=base, seed=seed, n_perm=n_perm,
+              cand=cand, min_group_n=min_group_n, verbose=verbose)
+    if n_workers > 1:
+        with mp.get_context("fork").Pool(n_workers) as pool:
+            parts = pool.map(_count_worker, [(w, n_workers) for w in range(n_workers)])
+    else:
+        parts = [_count_worker((0, 1))]
+    lnp, short = {}, []
+    for g in jsd.columns:
+        x = jsd[g].values.astype(float)
+        if g not in cand:
+            lnp[g] = np.zeros_like(x)
+            continue
+        cg = cand[g]
+        cum = np.cumsum(sum(p[g] for p in parts))[:len(cg)]             # null draws <= each sorted candidate
+        if cum[-1] < K:
+            short.append(g)                                             # limit inside the uncensored region
+        pc = np.where(cum >= K, 1.0, (cum + 1.0) / (m_total + 1.0))     # the slow path censors past its K-th draw
+        p = np.ones_like(x)
+        idx = np.searchsorted(cg, x, side="left")
+        hit = (idx < len(cg)) & np.isfinite(x)
+        hit[hit] &= cg[idx[hit]] == x[hit]
+        p[hit] = pc[idx[hit]]
+        lnp[g] = np.log(np.clip(p, 1e-300, 1.0))
+    groups = list(jsd.columns)
+    if scope == "global":
+        flat = _bh_log10(np.concatenate([lnp[g] for g in groups])).reshape(len(groups), -1)
+        out = {g: flat[i] for i, g in enumerate(groups)}
+    else:
+        out = {g: _bh_log10(lnp[g]) for g in groups}
+    if verbose:
+        n_tests = jsd.size
+        print(f"[perm-count] {m_total:,} null draws/group; smallest attainable p = {1.0 / (m_total + 1):.2e}; "
+              f"BH bar at k=1 is {0.10 / n_tests:.2e} over {n_tests:,} tests"
+              f"{'  <-- RESOLUTION-LIMITED' if 1.0 / (m_total + 1) > 0.10 / n_tests else ''}",
+              file=sys.stderr, flush=True)
+        print(f"[perm-count] self-check: {len(short)} group(s) whose candidate limit fell inside the uncensored "
+              f"region{': ' + ', '.join(short[:10]) if short else ' (none; exact)'}", file=sys.stderr, flush=True)
+    return pd.DataFrame(out, index=jsd.index)[groups]
+
+
 def calibration_check(lines, model, level, n_perm=20, seed=1, fdr=0.10, verbose=True):
     """THE test that matters: run the whole procedure on data where the null is TRUE (labels shuffled).
     A calibrated method should call ~nothing. Returns (n_calls, n_tests)."""
