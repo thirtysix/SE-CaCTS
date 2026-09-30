@@ -20,8 +20,8 @@ const Finder = (() => {
       hits.forEach(h => { const k = h.lv + "|" + h.g; if (!byGroup[k] || h.r < byGroup[k].r) byGroup[k] = h; });
       const chips = Object.values(byGroup).sort((a, b) => a.r - b.r).map(h => {
         const conc = h.c === 1 ? "; and the gene is itself group-specific in expression (cross-layer concordant)" : "";
-        return `<span class="chip" title="${U.esc(g)} is the nearest gene to a super-enhancer specific to ${U.esc(h.g)} (${h.lv} level) at rank ${h.r}, permutation FDR ${h.fdr}${conc}">
-          <b>${U.esc(h.g)}</b> <span class="r">#${h.r}</span>${h.c === 1 ? ` <span class="cc" title="cross-layer concordant: the gene is itself group-specific in DepMap expression">⇌</span>` : ""}</span>`;
+        return `<a class="chip chip-link" href="#atlas" data-lv="${h.lv}" data-g="${U.esc(h.g)}" data-gene="${U.esc(g)}" title="${U.esc(g)} is the nearest gene to a super-enhancer specific to ${U.esc(h.g)} (${h.lv} level) at rank ${h.r}, permutation FDR ${h.fdr}${conc}. Click to open it in the SE atlas.">
+          <b>${U.esc(h.g)}</b> <span class="r">#${h.r}</span>${h.c === 1 ? ` <span class="cc" title="cross-layer concordant: the gene is itself group-specific in DepMap expression">⇌</span>` : ""}</a>`;
       }).join("");
       return `<div class="fr card"><span class="sym">${U.esc(g)}</span><div class="chips">${chips}</div></div>`;
     }).join("");
@@ -43,6 +43,14 @@ const Finder = (() => {
     await load();
     const inp = U.el("finder-input");
     inp.addEventListener("input", () => render(inp.value));
+    // a result opens its group in the SE atlas, filtered to the gene
+    U.el("finder-res").addEventListener("click", e => {
+      const a = e.target.closest("a.chip-link");
+      if (!a) return;
+      e.preventDefault();
+      Atlas.open(a.dataset.lv, a.dataset.g, a.dataset.gene);
+      location.hash = "atlas";
+    });
     U.el("finder-variant").onchange = async e => { U.setVariant(e.target.value); await load(); render(inp.value); };
     render(inp.value || "");
   }

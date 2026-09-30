@@ -90,6 +90,15 @@ const Atlas = (() => {
     onLevel();
   }
 
+  // open a group from another tab (the SE finder), filtered to one gene; before init, it waits for init
+  let ready = false, pendingOpen = null;
+  function open(lv, g, gene) {
+    if (!ready) { pendingOpen = { lv, g, gene }; return; }
+    geneQuery = gene || ""; U.el("atlas-filter").value = geneQuery;
+    fdrMax = 1;                                              // the finder's hit must not be hidden by a stricter cutoff
+    goTo(lv, g);
+  }
+
   // jump to a group at another level (breadcrumb), with the levels above it scoped to its parents
   function goTo(lv, g) {
     const rows = linesOf(lv, g), ni = ORDER.indexOf(lv);
@@ -443,7 +452,9 @@ const Atlas = (() => {
       { label: "start", key: "start" }, { label: "end", key: "end" },
       { label: "length_bp", key: "len" }, { label: "n_called_as_SE", key: "n_called" },
     ], rows);
-    await onLevel();
+    ready = true;
+    if (pendingOpen) { const p = pendingOpen; pendingOpen = null; open(p.lv, p.g, p.gene); }
+    else await onLevel();
   }
-  return { init };
+  return { init, open };
 })();
