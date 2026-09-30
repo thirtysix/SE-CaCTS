@@ -37,6 +37,17 @@ LABEL, PREV_LABEL = os.environ.get("POSTER_LABEL", "v2"), os.environ.get("POSTER
 TEAL, RED, ORANGE, VIOLET = "#008a7e", "#b4443a", "#d4731c", "#4a3aa7"
 OCHRE, BLUE = "#b8930f", "#3f6fb0"
 INK, MUTED, FAINT, GRID, SURF = "#12222a", "#5a6b73", "#9aa5a9", "#e3e8ea", "#ffffff"
+RAMP = ["#ffffff", "#bfe3de", "#5fb8ad", TEAL, "#0a4f49"]
+# poster palette variants: a roles JSON from ClaudeSkills/conference-poster/scripts/palette_roles.py replaces the
+# data colours (primary, secondary, the five CN-source categories, the FDR ramp) and the greys; unset = the above
+PALETTE = os.environ.get("POSTER_PALETTE")
+if PALETTE:
+    import json
+    _R = json.load(open(PALETTE))
+    TEAL, RED = _R["fig_primary"], _R["fig_secondary"]
+    _, ORANGE, VIOLET, OCHRE, BLUE = _R["fig_categories"][:5]
+    INK, MUTED, FAINT, GRID = _R["fig_ink"], _R["fig_muted"], _R["fig_faint"], _R["fig_grid"]
+    RAMP = _R["fig_ramp"]
 MM = 1 / 25.4
 
 plt.rcParams.update({
@@ -49,6 +60,14 @@ plt.rcParams.update({
     "legend.frameon": False, "svg.fonttype": "none", "pdf.fonttype": 42, "figure.dpi": 100,
     "savefig.facecolor": SURF,
 })
+
+
+def _cell_text(rgba):
+    """SURF or INK, whichever has the higher WCAG contrast on a heatmap cell (palette variants only)."""
+    lum = lambda c: sum(w * (v / 12.92 if v <= 0.04045 else ((v + 0.055) / 1.055) ** 2.4)      # noqa: E731
+                        for w, v in zip((0.2126, 0.7152, 0.0722), matplotlib.colors.to_rgb(c)))
+    ratio = lambda a, b: (max(lum(a), lum(b)) + 0.05) / (min(lum(a), lum(b)) + 0.05)          # noqa: E731
+    return SURF if ratio(SURF, rgba) >= ratio(INK, rgba) else INK
 
 
 def save(fig, name):
@@ -312,7 +331,7 @@ def fig_identity(width=215):
     M = np.array(rows)
     fig, ax = plt.subplots(figsize=(width * MM, 30 * MM + 8.0 * MM * len(rows)))
     from matplotlib.colors import LinearSegmentedColormap
-    cmap = LinearSegmentedColormap.from_list("teal", ["#ffffff", "#bfe3de", "#5fb8ad", TEAL, "#0a4f49"])
+    cmap = LinearSegmentedColormap.from_list("teal", RAMP)
     vmax = 3.0
     im = ax.imshow(np.minimum(M, vmax), cmap=cmap, vmin=0, vmax=vmax, aspect="auto", interpolation="nearest")
     for i, (g, grp, rank, fdr) in enumerate(lab):
@@ -323,7 +342,7 @@ def fig_identity(width=215):
             if fdrs[i][j] < 1.0:
                 ax.text(j, i, f"{ranks[i][j]:,}" + ("*" if fdrs[i][j] <= 0.10 else ""), ha="center", va="center", fontsize=10.5,
                         fontweight="bold" if fdrs[i][j] <= 0.10 else "normal",
-                        color=SURF if M[i, j] > 1.4 else INK)
+                        color=_cell_text(cmap(min(M[i, j], vmax) / vmax)) if PALETTE else SURF if M[i, j] > 1.4 else INK)
     ax.set_xticks(range(len(cols)), cols, rotation=40, ha="right", rotation_mode="anchor", fontsize=12.5)
     ax.set_yticks(range(len(lab)), [g for g, *_ in lab], fontsize=13.5)
     for t, (g, *_ ) in zip(ax.get_yticklabels(), lab):
