@@ -25,7 +25,9 @@ const Overview = (() => {
 
     U.el("ov-guide").innerHTML = [
       ["▦", "atlas", "SE atlas",
-        "The core view. For any lineage or primary disease, the super-enhancers most specific to it, ranked by JSD, with the permutation FDR, the mean copy number at the locus, the nearest gene, the SE length and coordinates (each linked to the UCSC browser), and a ⇌ badge where the gene is <em>also</em> specific in expression. Filter by gene, tighten the FDR cutoff, or drop to subtype / cell-line rankings, narrowed to one lineage, disease or subtype so you can browse a group's cell lines without knowing their names."],
+        "The core view. For any lineage or primary disease, the super-enhancers most specific to it, ranked by JSD, with the permutation FDR, the mean copy number at the locus, the nearest gene, the SE length and coordinates (each linked to the UCSC browser), and a ⇌ badge where the gene is <em>also</em> specific in expression. Filter by gene, tighten the FDR cutoff, or drop to subtype rankings or a single cell line, where each super-enhancer carries an FDR against all lines and against the lines of its lineage, disease and subtype. Narrow the list to one lineage, disease or subtype to browse a group's cell lines without knowing their names."],
+      ["≣", "line", "Genomic View (IGV)",
+        "Any of the cell lines in a genome browser: the super-enhancers it calls, those specific to it in each of the four comparisons, its copy number and its H3K27ac coverage. Click a row, or a gene in the SE atlas, to jump to that super-enhancer."],
       ["⊘", "cn", "CN ablation",
         "Why the copy-number layer earns its place. Scoring with vs without correction: the calls it removes at recurrent amplicons (MYCN, MYC, OTX2 …) and the thousands of real, copy-neutral calls it <em>rescues</em> from amplicon noise in the null."],
       ["⇌", "concordance", "Concordance",

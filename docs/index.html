@@ -54,10 +54,11 @@
         Jensen–Shannon divergence. Significance uses a <b>label-permutation null</b>; the analytic
         approximation it replaces failed calibration outright (5–6% false calls on shuffled labels).</p>
         <div class="lede-grid">
-          <div class="lede-point"><span class="lp-lab">Calls:</span> supported at the <b>lineage</b> and
-          <b>primary-disease</b> levels (permutation FDR ≤ 0.10).</div>
-          <div class="lede-point"><span class="lp-lab">Rankings only:</span> at <b>subtype</b> and
-          <b>cell-line</b> level: too few lines per group for a significance call.</div>
+          <div class="lede-point"><span class="lp-lab">Calls:</span> at the <b>lineage</b> and
+          <b>primary-disease</b> levels, and per <b>cell line</b> against all lines and its relatives, where it
+          has two independent studies (permutation FDR ≤ 0.10).</div>
+          <div class="lede-point"><span class="lp-lab">Rankings only:</span> at <b>subtype</b> level: most
+          subtypes hold too few lines for a significance call.</div>
         </div>
       </div>
       <div class="stat-grid" id="ov-stats"></div>
@@ -84,7 +85,7 @@
         column flags amplicon context: a high value means the locus is amplified in this group's lines.</p>
       </div>
       <div class="controls">
-        <span class="ctl-label" title="resolution: calls are supported at lineage/disease; subtype and cell line are rankings only">Level</span>
+        <span class="ctl-label" title="resolution: calls at lineage, primary disease and cell line; subtype is rankings only">Level</span>
         <div class="seg" id="atlas-level" role="tablist"></div>
         <div class="combo" id="atlas-combo">
           <input id="atlas-group" class="sel combo-input" type="text" role="combobox" aria-autocomplete="list"
