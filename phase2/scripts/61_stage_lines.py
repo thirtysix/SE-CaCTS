@@ -1,16 +1,20 @@
 #!/usr/bin/env python3
-"""Phase 2 — 61: per-line data for the dashboard's Line view (igv.js), FINDINGS 2026-09-29 §27.
+"""Phase 2 — 61: per-line data for the dashboard's Genomic View (igv.js) and the SE Atlas line level.
 
 For each line (scoring key = DepMap ModelID, or CVCL for lines DepMap does not hold):
-  docs/data/lines/<key>.json          summary: labels, experiments (SRX, study, layout, ChIP-Atlas bigWig URL),
-                                      the comparison set for "vs relatives", and the top specific SEs in both
-                                      senses, each with locus and nearest gene
-  docs/data/lines/<key>.called.bed.gz union SE loci called in any of the line's experiments
-                                      (score = share of its experiments that called it, x1000)
-  docs/data/lines/<key>.vsall.bed.gz  specific vs the whole panel (consensus, studies as members; FDR <= 0.1)
-  docs/data/lines/<key>.vsrel.bed.gz  specific vs relatives (within disease or lineage; FDR <= 0.1)
+  docs/data/lines/<key>.json           summary: labels, experiments (SRX, study, layout, ChIP-Atlas bigWig URL), and four
+                                       comparisons, each with its comparison set, whether it could be tested (and why
+                                       not), the number of specific SEs, and the top TOP of them (compact rows: `cols`)
+  docs/data/lines/<key>.called.bed.gz  union SE loci called in any of the line's experiments
+                                       (score = share of its experiments that called it, x1000)
+  docs/data/lines/<key>.vs{all,sub,dis,lin}.bed.gz   specific SEs (FDR <= 0.1, up to TRACK_MAX by rank) vs all lines,
+                                       vs the lines of the same subtype, primary disease, lineage
   docs/data/lines/<key>.cn.bedgraph.gz log2 CN ratio as scored (the line's CN source), runs of equal value merged
-  docs/data/lines/index.json          the lines that have a page
+  docs/data/lines/index.json           the lines that have a page
+
+Comparisons come from the `l*` arms of phase2/roihu/score_arm.slurm (consensus of studies, q25; the null shuffles
+labels among all lines, or among the lines of the same subtype / disease / lineage; FINDINGS §37). A line is not
+tested with one study, with no label at the level, or with fewer than 4 lines in its group.
 
 Coverage is NOT copied: the page streams ChIP-Atlas's own per-experiment bigWigs (CORS + range requests,
 verified 2026-09-29), raw RPM, unnormalised.
@@ -40,9 +44,22 @@ DOCS = os.environ.get("SECACTS_DOCS", os.path.join(ROOT, "docs"))   # stage a co
 OUT = os.path.join(DOCS, "data", "lines")
 PROTO = ["NIHOVCAR3", "MCF7", "K562", "A549", "KELLY", "JURKAT", "SKNBE2"]
 BW = "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/{}.bw"
-TOP = 50
-FULL = {"vsall": "224,130,20", "vsrel": "192,57,43"}      # SE called in this line
-PALE = {"vsall": "246,214,170", "vsrel": "240,190,184"}  # specific signal, but no experiment of the line calls an SE
+TOP, TRACK_MAX, STRATA_MIN = 100, 2000, 4
+SC_LINES = os.environ.get("SECACTS_SC_LINES", os.path.join(SC, "out_lines"))
+# comparison -> (arm prefix, track tag, level label, stratum column in the labels)
+CMP = {"all": ("atlas.s3.lines.all", "vsall", "all lines", None),
+       "subtype": ("atlas.s3.lines.sub", "vssub", "subtype", "subtype"),
+       "disease": ("atlas.s3.lines.dis", "vsdis", "primary disease", "disease"),
+       "lineage": ("atlas.s3.lines.lin", "vslin", "lineage", "lineage")}
+FULL = {"vsall": "224,130,20", "vssub": "27,120,55", "vsdis": "192,57,43", "vslin": "123,50,148"}    # SE called in this line
+PALE = {"vsall": "246,214,170", "vssub": "178,221,190", "vsdis": "240,190,184", "vslin": "215,190,228"}  # specific signal, not an SE here
+COLS = ["rank", "se", "chrom", "start", "end", "gene", "dist_kb", "jsd", "fdr", "cn", "called", "signal_rank", "flag"]
+
+
+def flag_of(chrom, cn):
+    """Known artifact classes, removed in v3.1 (ROADMAP): chrY presence depends on the line's sex, and dividing by
+    a copy number near 0 inflates noise in deep deletions."""
+    return "chrY" if chrom == "chrY" else ("CN<0.3" if cn is not None and cn < 0.3 else "")
 
 
 def protein_coding_coords(gtf, cache):
@@ -125,6 +142,13 @@ def cn_segments(track, tol=0.15, max_gap=1_000_000):
     return [r for r in rows if r[2] > r[1]]
 
 
+_STAGE = None
+
+
+def _stage_worker(key):
+    return _STAGE(key)
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--lines", default=",".join(PROTO), help="comma-separated line names (stripped) or 'all'")
@@ -169,11 +193,20 @@ def main():
     pc = protein_coding_coords(os.path.join(DATAROOT, "0.human_genome", "Homo_sapiens.GRCh38.106.chr.gtf.gz"),
                                cache_path("gene_coords.GRCh38.106.protein_coding.tsv"))
     genes = dict(zip(cat.index, nearest_genes(cat[["chrom", "start", "end"]].itertuples(index=False), pc)))
-    spec = {}
-    for tag, f in (("vsall", "atlas.s3.conss.line.specific.tsv.gz"), ("vsrel", "atlas.s3.hybl.line.specific.tsv.gz")):
-        d = pd.read_csv(os.path.join(SC, f), sep="\t")
-        spec[tag] = {g: x.sort_values("rank") for g, x in d[d.fdr <= 0.1].groupby("group")}
-    strata = pd.read_csv(os.path.join(SC, "atlas.s3.hybl.line.strata.tsv"), sep="\t").set_index("group")
+    spec, top_any, strata, members = {}, {}, {}, {}
+    for c, (pref, tag, _, _) in CMP.items():
+        d = pd.read_csv(os.path.join(SC_LINES, f"{pref}.line.specific.tsv.gz"), sep="\t")
+        spec[c] = {g: x.sort_values("rank") for g, x in d[d.fdr <= 0.1].groupby("group")}
+        t = pd.read_csv(os.path.join(SC_LINES, f"{pref}.line.top_specific.tsv"), sep="\t")
+        top_any[c] = {g: x.sort_values("rank") for g, x in t.groupby("group")}       # rankings, for untested lines
+        sp = os.path.join(SC_LINES, f"{pref}.line.strata.tsv")
+        if os.path.exists(sp):
+            st = pd.read_csv(sp, sep="\t", keep_default_na=False)
+            strata[c] = st.set_index("group")
+            members[c] = st[st.stratum != ""].groupby("stratum").group.apply(frozenset).to_dict()
+    H = pd.read_csv(os.path.join(SC_LINES, "atlas.s3.lines.all.hierarchy_summary.tsv"), sep="\t")
+    n_units = H[H.level == "line"].set_index("group").n_lines.to_dict()                    # studies per line
+    n_panel = int((H.level == "line").sum())
 
     src = ps.drop_duplicates("key").set_index("key")
     D = os.path.join(DATAROOT, "DepMap", "2026q1")
@@ -188,8 +221,26 @@ def main():
         cmp = CellModelPassportsWesCN(os.path.join(C, "WES_pureCN_CNV_genes_latest.csv.gz"),
                                       os.path.join(C, "model_list_20240110.csv"), cache_dir=cache_path("cmp_wes"))
 
-    index = json.load(open(os.path.join(OUT, "index.json"))) if os.path.exists(os.path.join(OUT, "index.json")) else {}
-    for key in want:
+    def comparison(c, grp):
+        """The comparison set of `grp` at level `c`, and whether it could be tested (and if not, why)."""
+        nu = int(n_units.get(grp, 0))
+        if c == "all":
+            out = {"stratum": None, "n_lines": n_panel}
+        else:
+            st = strata[c].loc[grp] if grp in strata[c].index else None
+            label = "" if st is None else str(st.stratum)
+            out = {"stratum": label or None, "n_lines": 0 if st is None or not label else int(st.lines_in_stratum)}
+        reason = None
+        if nu < 2:
+            reason = "one study only: calls need two independent studies"
+        elif c != "all" and not out["stratum"]:
+            reason = f"no {CMP[c][2]} label for this line"
+        elif c != "all" and out["n_lines"] < STRATA_MIN:
+            reason = f"only {out['n_lines']} line{'s' if out['n_lines'] != 1 else ''} in its {CMP[c][2]} (at least {STRATA_MIN} needed)"
+        out.update(level=CMP[c][2], testable=reason is None, reason=reason, same_as=None)
+        return out
+
+    def stage_one(key):
         grp, name, lineage, disease, subtype = labels(key)
         exps = ps[ps.key == key].srx.tolist()
         called = pres[[s for s in exps if s in pres.columns]]
@@ -198,36 +249,48 @@ def main():
         n_exp = called.shape[1]
         mean_sig = sig[[c for c in exps if c in sig.columns]].mean(axis=1)
         srank = mean_sig.loc[share.index].rank(ascending=False, method="first").astype(int)   # 1 = strongest called SE
-        fn = lambda ext: os.path.join(OUT, f"{key}.{ext}")
-        gz = lambda ext: gzip.open(fn(ext + ".gz"), "wt")
+        fn = lambda ext: os.path.join(OUT, f"{key}.{ext}")                                   # noqa: E731
+        gz = lambda ext: gzip.open(fn(ext + ".gz"), "wt")                                    # noqa: E731
         with gz("called.bed") as fh:
             for se, v in share.items():
                 c = cat.loc[se]
                 # no spaces in the name: igv.js splits BED on any whitespace, which would shift the colour column
-                fh.write(f"{c.chrom}\t{c.start}\t{c.end}\t{genes[se][0] or se}[{srank[se]}]\t{int(round(300 + 700 * v))}\n")   # floor: a rarely called SE stays visible
-        tops = {}
-        spec_se = set().union(*[set(spec[t][grp].se) for t in ("vsall", "vsrel") if grp in spec[t]])
+                fh.write(f"{c.chrom}\t{c.start}\t{c.end}\t{genes[se][0] or se}[{srank[se]}]\t{int(round(300 + 700 * v))}\n")
+        spec_se = set()
+        for c in CMP:
+            if grp in spec[c]:
+                spec_se |= set(spec[c][grp].se.head(TRACK_MAX))
+            if grp in top_any[c]:
+                spec_se |= set(top_any[c][grp].se.head(TOP))
         ov = overlap_share(cat.loc[sorted(spec_se)], cat, list(share.index), share) if spec_se else {}
-        for tag in ("vsall", "vsrel"):
-            d = spec[tag].get(grp)
+        comps = {}
+        for c, (_, tag, _, _) in CMP.items():
+            info = comparison(c, grp)
+            d = spec[c].get(grp) if info["testable"] else None
+            ranked = d if d is not None else top_any[c].get(grp)                     # untested: rankings only
             rows = []
             with gz(f"{tag}.bed") as fh:
                 if d is not None:
-                    for r in d.itertuples():
-                        c = cat.loc[r.se]
-                        g, dist = genes[r.se]
-                        sh = ov.get(r.se, 0.0)             # overlap-based: called here if any called SE covers it
-                        rgb = FULL[tag] if sh > 0 else PALE[tag]       # pale = specific signal, but not an SE here
-                        fh.write(f"{c.chrom}\t{c.start}\t{c.end}\t{g}[{int(r.rank)}]\t{int(1000 * (1 - min(r.fdr, 1)))}"
-                                 f"\t.\t{c.start}\t{c.end}\t{rgb}\n")
-                        if len(rows) < TOP:
-                            rows.append({"rank": int(r.rank), "se": r.se, "chrom": c.chrom, "start": int(c.start),
-                                         "end": int(c.end), "gene": g, "dist_kb": dist, "jsd": round(float(r.jsd), 4),
-                                         "fdr": round(float(r.fdr), 4), "cn": round(float(r.cn_mean), 2),
-                                         "called": int(round(sh * n_exp)), "signal_rank": int(srank[r.se]) if r.se in srank.index else None,
-                                         "member": r.se in share.index})
-            n_called = 0 if d is None else int(sum(ov.get(x, 0) > 0 for x in d.se))
-            tops[tag] = {"n": 0 if d is None else len(d), "n_called_here": n_called, "top": rows}
+                    for r in d.head(TRACK_MAX).itertuples():
+                        cc = cat.loc[r.se]; g, _ = genes[r.se]
+                        rgb = FULL[tag] if ov.get(r.se, 0.0) > 0 else PALE[tag]
+                        fh.write(f"{cc.chrom}\t{cc.start}\t{cc.end}\t{g}[{int(r.rank)}]\t{int(1000 * (1 - min(r.fdr, 1)))}"
+                                 f"\t.\t{cc.start}\t{cc.end}\t{rgb}\n")
+            if ranked is not None:
+                for r in ranked.head(TOP).itertuples():
+                    cc = cat.loc[r.se]; g, dist = genes[r.se]
+                    cn = None if pd.isna(r.cn_mean) else round(float(r.cn_mean), 2)
+                    rows.append([int(r.rank), r.se, cc.chrom, int(cc.start), int(cc.end), g, dist,
+                                 round(float(r.jsd), 4), round(float(r.fdr), 4), cn, int(round(ov.get(r.se, 0.0) * n_exp)),
+                                 int(srank[r.se]) if r.se in srank.index else None, flag_of(cc.chrom, cn)])
+            info.update(n=0 if d is None else int(len(d)), n_called_here=0 if d is None else int(sum(ov.get(x, 0) > 0 for x in d.se)),
+                        rankings_only=d is None, top=rows)
+            comps[c] = info
+        # the same comparison set at two levels (a subtype that IS its disease): say so rather than repeat silently
+        for lo, hi in (("subtype", "disease"), ("disease", "lineage")):
+            a_, b_ = comps[lo], comps[hi]
+            if a_["stratum"] and b_["stratum"] and members[lo].get(a_["stratum"]) == members[hi].get(b_["stratum"]):
+                a_["same_as"] = hi
         prov = src.cn_provider.get(key, "depmap_wgs")
         tr = (mcw.track(key) if prov == "depmap_mc_wes" else
               cmp.track(src.cvcl.get(key)) if prov == "cmp_wes" else wgs.track(key))
@@ -237,25 +300,37 @@ def main():
             cn_max = int(min(8, max(3, np.ceil(max(v for *_, v in segs)))))
             with gz("cn.bedgraph") as fh:
                 fh.write("track type=bedGraph\n")
-                for c, s, e, v in segs:
-                    fh.write(f"{c}\t{s}\t{e}\t{v}\n")
-        st = strata.loc[grp] if grp in strata.index else None
+                for c, st_, en, v in segs:
+                    fh.write(f"{c}\t{st_}\t{en}\t{v}\n")
+        for old in ("vsrel.bed.gz",):                                                          # pre-v3 file name
+            if os.path.exists(fn(old)):
+                os.remove(fn(old))
         summary = {
             "key": key, "group": grp, "name": name, "lineage": lineage, "disease": disease, "subtype": subtype,
             "cn_source": prov, "has_cn": tr is not None, "cn_max": cn_max,
-            "comparison": None if st is None else {"stratum": st.stratum, "n_lines": int(st.lines_in_stratum)},
-            "n_called": int(len(share)), "n_experiments": int(n_exp),
-            "experiments": [{"srx": s, "study": study.get(s, ""), "layout": layout.get(s, ""), "bw": BW.format(s)}
-                            for s in exps],
-            "vsall": tops["vsall"], "vsrel": tops["vsrel"],
+            "n_called": int(len(share)), "n_experiments": int(n_exp), "n_studies": int(n_units.get(grp, 0)),
+            "experiments": [{"srx": s_, "study": study.get(s_, ""), "layout": layout.get(s_, ""), "bw": BW.format(s_)}
+                            for s_ in exps],
+            "cols": COLS, "comparisons": comps,
         }
-        json.dump(summary, open(fn("json"), "w"), indent=0)
-        index[key] = {"group": grp, "name": name, "lineage": lineage,
-                      "search": line_groups.get(grp, {}).get("search", name)}
-        print(f"[61] {name}: {len(exps)} experiments, {len(share)} called SEs, vs all {tops['vsall']['n']}, "
-              f"vs relatives {tops['vsrel']['n']}, CN {prov}{'' if tr is not None else ' (missing)'}", file=sys.stderr)
-    json.dump(index, open(os.path.join(OUT, "index.json"), "w"), indent=0, sort_keys=True)
+        json.dump(summary, open(fn("json"), "w"), separators=(",", ":"))
+        return key, {"group": grp, "name": name, "lineage": lineage, "search": line_groups.get(grp, {}).get("search", name),
+                     "n": {c: comps[c]["n"] for c in CMP}}
 
+    index = {}
+    workers = int(os.environ.get("STAGE_WORKERS", 8))
+    global _STAGE
+    _STAGE = stage_one                                   # forked workers inherit it; a closure cannot be pickled
+    if workers > 1 and len(want) > 1:
+        import multiprocessing as mp
+        with mp.get_context("fork").Pool(workers) as pool:
+            done = pool.map(_stage_worker, want, chunksize=4)
+    else:
+        done = [stage_one(k) for k in want]
+    for k, v in done:
+        index[k] = v
+    json.dump(index, open(os.path.join(OUT, "index.json"), "w"), separators=(",", ":"), sort_keys=True)
+    print(f"[61] staged {len(done)} line(s) -> {OUT}", file=sys.stderr)
 
 if __name__ == "__main__":
     main()
