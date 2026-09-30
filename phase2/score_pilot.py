@@ -43,7 +43,8 @@ sys.path.insert(0, os.path.join(SECACTS, "cnrose"))
 from pycacts.score import cacts_score_matrix, rank_specific        # noqa: E402
 from pycacts.grouping import build_rep_matrix                      # noqa: E402
 from specificity import fdr_matrix                                 # noqa: E402
-from permutation import permutation_fdr, permutation_fdr_count, permutation_fdr_units, rep_agg   # noqa: E402
+from permutation import (permutation_fdr, permutation_fdr_count, permutation_fdr_units,   # noqa: E402
+                         permutation_fdr_units_count, rep_agg)
 from cnrose.cn.depmap import load_gene_coords, DepMapGeneCN, DepMapMcWesCN   # noqa: E402
 from cnrose.cn.cmp import CellModelPassportsWesCN                  # noqa: E402
 from cnrose.cn.inferred import BinnedInputCN, load_blacklist       # noqa: E402
@@ -192,7 +193,7 @@ def main():
                          "across independent studies and a study's shared batch effects cannot pose as one)")
     ap.add_argument("--srx-study", default=os.path.join(SECACTS, "phase2/data/srx_study.tsv"),
                     help="experiment -> study accession (for --line-members studies)")
-    ap.add_argument("--null-strata", default="none", choices=["none", "lineage", "disease", "adaptive"],
+    ap.add_argument("--null-strata", default="none", choices=["none", "lineage", "disease", "subtype", "adaptive"],
                     help="consensus levels: shuffle labels only among relatives, so a call means specific "
                          "relative to the group's lineage (or disease) rather than to the whole panel. "
                          "'adaptive' uses the primary disease when it holds >= --strata-min lines, else the "
@@ -445,32 +446,48 @@ def main():
         cn_rep.columns = [str(c) for c in cn_rep.columns]
         # one FDR matrix per level; global BH shares the testing budget across groups (specificity.py)
         if a.fdr_method == "permutation" and use_units and (level != "line" or exp_units):
-            strata = None
+            strata, untestable = None, set()
             if a.null_strata != "none":
-                # each unit's line, then that line's parent group; stratum sizes counted in lines
+                # each unit's line, then that line's parent group; stratum sizes counted in lines.
+                # A line with no label at the stratum level, or whose stratum holds fewer than --strata-min
+                # lines, has no relatives to compare with: it is not tested (left out of BH), and it is
+                # shuffled only with itself. (Before 2026-09-30 missing labels were pooled as a stratum "NA".)
                 unit_key = (unit_line if (exp_units and unit_line is not None) else
                             (col_model if exp_units else pd.Series(Xdf.columns, index=Xdf.columns))).loc[Xdf.columns]
-                lin = model["OncotreeLineage"].reindex(unit_key.values).fillna("NA").values
-                dis = model["OncotreePrimaryDisease"].reindex(unit_key.values).fillna("NA").values
-                if a.null_strata == "lineage":
-                    strata = lin
-                elif a.null_strata == "disease":
-                    strata = dis
+                col = {"lineage": "OncotreeLineage", "disease": "OncotreePrimaryDisease", "subtype": "OncotreeSubtype"}
+                lab_at = {k: model[c].reindex(unit_key.values).values for k, c in col.items()}
+                if a.null_strata == "adaptive":
+                    dis, lin = pd.Series(lab_at["disease"]), pd.Series(lab_at["lineage"])
+                    n_d = pd.DataFrame({"k": unit_key.values, "d": dis}).drop_duplicates("k").d.value_counts()
+                    strata = np.where(dis.notna() & (dis.map(n_d).fillna(0) >= a.strata_min), dis, lin)
                 else:
-                    per_line = pd.DataFrame({"k": unit_key.values, "d": dis}).drop_duplicates("k")
-                    n_d = per_line.d.value_counts()
-                    strata = np.where(pd.Series(dis).map(n_d).fillna(0).values >= a.strata_min, dis, lin)
-                sdf = pd.DataFrame({"group": lab, "stratum": strata, "line": unit_key.values})
+                    strata = lab_at[a.null_strata]
+                strata = pd.Series(strata, dtype=object)
+                missing = strata.isna().values
+                strata = np.where(missing, "__unlabelled__" + pd.Series(unit_key.values).astype(str), strata)
+                sdf = pd.DataFrame({"group": lab, "stratum": strata, "line": unit_key.values, "missing": missing})
                 n_lines = sdf.drop_duplicates("line").groupby("stratum").size()
-                out_s = sdf.drop_duplicates("group")[["group", "stratum"]].assign(
+                out_s = sdf.drop_duplicates("group")[["group", "stratum", "missing"]].assign(
                     lines_in_stratum=lambda d: d.stratum.map(n_lines).values)
+                out_s["testable"] = ~out_s.missing & (out_s.lines_in_stratum >= a.strata_min)
+                untestable = set(out_s.loc[~out_s.testable, "group"])
+                out_s["stratum"] = np.where(out_s.missing, "", out_s.stratum)
                 out_s["group"] = [name_of.get(g, g) if level == "line" else g for g in out_s.group]
-                out_s.to_csv(f"{a.out}.{level}.strata.tsv", sep="\t", index=False)
-                print(f"[score] {level}: null shuffles within {len(n_lines)} {a.null_strata} strata",
+                out_s.drop(columns="missing").to_csv(f"{a.out}.{level}.strata.tsv", sep="\t", index=False)
+                print(f"[score] {level}: null shuffles within {len(n_lines)} {a.null_strata} strata; "
+                      f"{len(untestable)} group(s) untestable (no label, or < {a.strata_min} lines in the stratum)",
                       file=sys.stderr, flush=True)
-            FDR = np.power(10.0, permutation_fdr_units(jsd, Xv, lab, a.agg, n_perm=a.n_perm,
-                                                       keep_frac=a.keep_frac, scope=a.fdr_scope,
-                                                       strata=strata))
+            if a.agg != "mean":                             # one-member groups are not tests either: out of BH
+                untestable |= {g for g in jsd.columns if int(gsize.get(g, 0)) < a.min_members}
+            if a.perm_impl == "count":
+                FDR = np.power(10.0, permutation_fdr_units_count(jsd, Xv, lab, a.agg, n_perm=a.n_perm,
+                                                                 keep_frac=a.keep_frac, scope=a.fdr_scope,
+                                                                 strata=strata, exclude=untestable,
+                                                                 n_workers=a.perm_workers))
+            else:
+                FDR = np.power(10.0, permutation_fdr_units(jsd, Xv, lab, a.agg, n_perm=a.n_perm,
+                                                           keep_frac=a.keep_frac, scope=a.fdr_scope,
+                                                           strata=strata, exclude=untestable))
             if a.agg != "mean":
                 small = [g for g in FDR.columns if int(gsize.get(g, 0)) < a.min_members]
                 FDR[small] = 1.0

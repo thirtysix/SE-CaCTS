@@ -46,6 +46,16 @@ case "$BASE" in
   cstudyshuf) args=("${V2[@]}" --out "$OUT/atlas.s3.conss.shuffle" --agg q25 --levels line --line-members studies --keep-frac 0.01 --shuffle-labels 1) ;;
   hsub)     args=("${V2[@]}" --out "$OUT/atlas.s3.hyb" --agg q25 --levels OncotreeSubtype --null-strata lineage) ;;
   hsubshuf) args=("${V2[@]}" --out "$OUT/atlas.s3.hyb.shuffle" --agg q25 --levels OncotreeSubtype --null-strata lineage --shuffle-labels 1) ;;
+  # per-line lists for the dashboard (2026-09-30): vs all lines, and vs relatives at subtype / disease / lineage.
+  # Untestable lines (one study; no label at the level; < 4 lines in the stratum) are left out of BH.
+  lall)     args=("${V2[@]}" --out "$OUT/atlas.s3.lines.all" --agg q25 --levels line --line-members studies --keep-frac 0.01 --strata-min 4) ;;
+  lallshuf) args=("${V2[@]}" --out "$OUT/atlas.s3.lines.all.shuffle" --agg q25 --levels line --line-members studies --keep-frac 0.01 --strata-min 4 --shuffle-labels 1) ;;
+  lsub)     args=("${V2[@]}" --out "$OUT/atlas.s3.lines.sub" --agg q25 --levels line --line-members studies --keep-frac 0.01 --strata-min 4 --null-strata subtype) ;;
+  lsubshuf) args=("${V2[@]}" --out "$OUT/atlas.s3.lines.sub.shuffle" --agg q25 --levels line --line-members studies --keep-frac 0.01 --strata-min 4 --null-strata subtype --shuffle-labels 1) ;;
+  ldis)     args=("${V2[@]}" --out "$OUT/atlas.s3.lines.dis" --agg q25 --levels line --line-members studies --keep-frac 0.01 --strata-min 4 --null-strata disease) ;;
+  ldisshuf) args=("${V2[@]}" --out "$OUT/atlas.s3.lines.dis.shuffle" --agg q25 --levels line --line-members studies --keep-frac 0.01 --strata-min 4 --null-strata disease --shuffle-labels 1) ;;
+  llin)     args=("${V2[@]}" --out "$OUT/atlas.s3.lines.lin" --agg q25 --levels line --line-members studies --keep-frac 0.01 --strata-min 4 --null-strata lineage) ;;
+  llinshuf) args=("${V2[@]}" --out "$OUT/atlas.s3.lines.lin.shuffle" --agg q25 --levels line --line-members studies --keep-frac 0.01 --strata-min 4 --null-strata lineage --shuffle-labels 1) ;;
   hline)    args=("${V2[@]}" --out "$OUT/atlas.s3.hybl" --agg q25 --levels line --line-members studies --null-strata adaptive --keep-frac 0.01) ;;
   hlineshuf) args=("${V2[@]}" --out "$OUT/atlas.s3.hybl.shuffle" --agg q25 --levels line --line-members studies --null-strata adaptive --keep-frac 0.01 --shuffle-labels 1) ;;
   hsmoke)   args=("${V2[@]}" --out "$OUT/hsmoke" --agg q25 --levels OncotreeSubtype,line --line-members studies --null-strata adaptive --n-perm 3 --keep-frac 0.01) ;;

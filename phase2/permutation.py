@@ -319,8 +319,131 @@ def rep_agg(X, codes, n_groups, agg):
     return out
 
 
+def _bh_units(lnp, groups, exclude, scope):
+    """BH over the testable groups only; an excluded group (e.g. too few relatives) is not a test, so it is
+    left out of the count m as well as given FDR 1."""
+    test = [g for g in groups if g not in exclude]
+    out = {g: np.zeros_like(lnp[g]) for g in groups if g in exclude}
+    if scope == "global" and test:
+        flat = _bh_log10(np.concatenate([lnp[g] for g in test])).reshape(len(test), -1)
+        out.update({g: flat[i] for i, g in enumerate(test)})
+    else:
+        out.update({g: _bh_log10(lnp[g]) for g in test})
+    return out
+
+
+def _units_blocks(strata):
+    if strata is None:
+        return None
+    st = np.asarray(strata)
+    return [np.flatnonzero(st == v) for v in pd.unique(st)]
+
+
+def _units_shuffle(rng, base, blocks):
+    perm = base.copy()
+    if blocks is None:
+        rng.shuffle(perm)
+    else:
+        for idx in blocks:
+            perm[idx] = rng.permutation(perm[idx])
+    return perm
+
+
+def _units_count_worker(args):
+    w, n_workers = args
+    s = _W
+    rng = np.random.default_rng(s["seed"])
+    groups, cand = s["groups"], s["cand"]
+    col = {g: i for i, g in enumerate(groups)}
+    counts = {g: np.zeros(len(c) + 1, dtype=np.int64) for g, c in cand.items()}
+    done, mine = 0, len(range(w, s["n_perm"], n_workers))
+    for b in range(s["n_perm"]):
+        perm = _units_shuffle(rng, s["base"], s["blocks"])        # every worker advances the stream identically
+        if b % n_workers != w:
+            continue
+        rep = pd.DataFrame(rep_agg(s["X"], perm, len(groups), s["agg"]), index=s["index"], columns=groups)
+        j = cacts_score_matrix(rep).values
+        for g, cg in cand.items():
+            v = j[:, col[g]].astype(np.float32).astype(np.float64)   # the stored precision of the slow path
+            v = v[v <= cg[-1]]
+            if v.size:
+                counts[g] += np.bincount(np.searchsorted(cg, v, side="left"), minlength=len(cg) + 1)
+        done += 1
+        if s["verbose"] and w == 0 and done % 100 == 0:
+            print(f"[perm-units-count]   worker 0: {done}/{mine} permutations", file=sys.stderr, flush=True)
+    return counts
+
+
+def permutation_fdr_units_count(jsd, X, labels, agg, n_perm=1000, seed=0, keep_frac=0.05, scope="global",
+                                verbose=True, strata=None, exclude=None, n_workers=1, warmup=16, margin=4.0):
+    """Same result as `permutation_fdr_units(...)` with the same seed, keep_frac, strata and exclude, by counting
+    null draws at candidate tests (see `permutation_fdr_count`). The warm-up estimates each group's null
+    quantile at margin x keep_frac as the mean of per-permutation quantiles (bounded memory at 500+ groups);
+    the self-check reports any group whose limit fell inside the uncensored region."""
+    import multiprocessing as mp
+    groups = list(jsd.columns)
+    gi = {g: i for i, g in enumerate(groups)}
+    base = np.array([gi[l] for l in labels])
+    blocks = _units_blocks(strata)
+    n_se = X.shape[0]
+    K = max(int(math.ceil(keep_frac * n_perm * n_se)), 1000)
+    m_total = n_perm * n_se
+    exclude = set(exclude or ())
+    q = min(1.0, margin * keep_frac)
+    rng = np.random.default_rng(seed + 1_000_003)
+    qsum = np.zeros(len(groups))
+    for _ in range(warmup):
+        perm = _units_shuffle(rng, base, blocks)
+        j = cacts_score_matrix(pd.DataFrame(rep_agg(X, perm, len(groups), agg), index=jsd.index, columns=groups)).values
+        qsum += np.nanquantile(j.astype(np.float32), q, axis=0)
+    lim = qsum / warmup
+    cand = {}
+    for g in groups:
+        if g in exclude:
+            continue
+        x = jsd[g].values.astype(float)
+        c = np.sort(x[np.isfinite(x) & (x <= lim[gi[g]])])
+        if c.size:
+            cand[g] = c
+    if verbose:
+        print(f"[perm-units-count] {n_workers} workers; {n_perm:,} permutations; agg={agg}; candidate tests "
+              f"{sum(len(c) for c in cand.values()):,} of {jsd.size:,}; {len(exclude)} group(s) excluded as untestable",
+              file=sys.stderr, flush=True)
+    _W.clear()
+    _W.update(X=X, base=base, blocks=blocks, seed=seed, n_perm=n_perm, groups=groups, cand=cand, agg=agg,
+              index=jsd.index, verbose=verbose)
+    if n_workers > 1:
+        with mp.get_context("fork").Pool(n_workers) as pool:
+            parts = pool.map(_units_count_worker, [(w, n_workers) for w in range(n_workers)])
+    else:
+        parts = [_units_count_worker((0, 1))]
+    lnp, short = {}, []
+    for g in groups:
+        x = jsd[g].values.astype(float)
+        p = np.ones_like(x)
+        if g in cand:
+            cg = cand[g]
+            cum = np.cumsum(sum(pt[g] for pt in parts))[:len(cg)]
+            if cum[-1] < K:
+                short.append(g)
+            pc = np.where(cum >= K, 1.0, (cum + 1.0) / (m_total + 1.0))
+            idx = np.searchsorted(cg, x, side="left")
+            hit = (idx < len(cg)) & np.isfinite(x)
+            hit[hit] &= cg[idx[hit]] == x[hit]
+            p[hit] = pc[idx[hit]]
+        lnp[g] = np.log(np.clip(p, 1e-300, 1.0))
+    out = _bh_units(lnp, groups, exclude, scope)
+    if verbose:
+        print(f"[perm-units-count] {m_total:,} null draws/group; smallest attainable p = {1.0 / (m_total + 1):.2e}; "
+              f"BH bar at k=1 is {0.10 / jsd.size:.2e} over {jsd.size:,} tests", file=sys.stderr, flush=True)
+        print(f"[perm-units-count] self-check: {len(short)} group(s) whose candidate limit fell inside the "
+              f"uncensored region{': ' + ', '.join(map(str, short[:10])) if short else ' (none; exact)'}",
+              file=sys.stderr, flush=True)
+    return pd.DataFrame(out, index=jsd.index)[groups]
+
+
 def permutation_fdr_units(jsd, X, labels, agg, n_perm=1000, seed=0, keep_frac=0.05, scope="global",
-                          verbose=True, strata=None):
+                          verbose=True, strata=None, exclude=None):
     """log10(FDR) for an SE x group JSD DataFrame whose groups aggregate UNITS (lines, or experiments)
     with `agg`; the null permutes which unit carries which label (group sizes kept) and re-aggregates the
     same way. X: SE x unit ndarray aligned to `labels` (group label per unit, same order as jsd.columns
@@ -368,19 +491,19 @@ def permutation_fdr_units(jsd, X, labels, agg, n_perm=1000, seed=0, keep_frac=0.
     _flush()
     m_total = n_perm * n_se
     lnp = {}
+    exclude = set(exclude or ())
     for g in groups:
         x = jsd[g].values.astype(float)
+        if g in exclude:                                  # not a test: left out of BH by _bh_units
+            lnp[g] = np.zeros_like(x)
+            continue
         v = kept[g]
         cutoff = float(v[-1]) if v.size >= K else float("inf")
         cnt = np.searchsorted(v, x, side="right").astype(float)
         p = (cnt + 1.0) / (m_total + 1.0)
         p = np.where(x > cutoff, 1.0, p)
         lnp[g] = np.log(np.clip(p, 1e-300, 1.0))
-    if scope == "global":
-        flat = _bh_log10(np.concatenate([lnp[g] for g in groups])).reshape(G, -1)
-        out = {g: flat[i] for i, g in enumerate(groups)}
-    else:
-        out = {g: _bh_log10(lnp[g]) for g in groups}
+    out = _bh_units(lnp, groups, exclude, scope)
     if verbose:
         print(f"[perm-units] agg={agg}; {m_total:,} null draws/group; smallest attainable p = "
               f"{1.0 / (m_total + 1):.2e}; BH bar at k=1 is {0.10 / jsd.size:.2e} over {jsd.size:,} tests",
