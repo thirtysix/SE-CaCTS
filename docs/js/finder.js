@@ -36,7 +36,7 @@ const Finder = (() => {
     sel.parentElement.style.display = vs.length > 1 ? "inline-flex" : "none";
     sel.innerHTML = vs.map(x => `<option value="${x.key}"${x.key === v ? " selected" : ""}>${U.esc(x.label)}</option>`).join("");
     const vi = vs.find(x => x.key === v);
-    U.el("finder-variant-note").innerHTML = vi && v !== "main" ? `<b>Analysis: ${U.esc(vi.label)}.</b> ${U.esc(vi.desc || "")}` : "";
+    U.el("finder-variant-info").title = vi ? `${vi.label}: ${vi.desc || ""}` : "";
   }
 
   async function init() {

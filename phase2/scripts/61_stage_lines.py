@@ -44,17 +44,20 @@ DOCS = os.environ.get("SECACTS_DOCS", os.path.join(ROOT, "docs"))   # stage a co
 OUT = os.path.join(DOCS, "data", "lines")
 PROTO = ["NIHOVCAR3", "MCF7", "K562", "A549", "KELLY", "JURKAT", "SKNBE2"]
 BW = "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/{}.bw"
-TOP, TRACK_MAX, STRATA_MIN = 100, 2000, 4
+TOP, TRACK_MAX, STRATA_MIN = 200, 2000, 4
 SC_LINES = os.environ.get("SECACTS_SC_LINES", os.path.join(SC, "out_lines"))
 # comparison -> (arm prefix, track tag, level label, stratum column in the labels)
 CMP = {"all": ("atlas.s3.lines.all", "vsall", "all lines", None),
-       "subtype": ("atlas.s3.lines.sub", "vssub", "subtype", "subtype"),
+       "lineage": ("atlas.s3.lines.lin", "vslin", "lineage", "lineage"),
        "disease": ("atlas.s3.lines.dis", "vsdis", "primary disease", "disease"),
-       "lineage": ("atlas.s3.lines.lin", "vslin", "lineage", "lineage")}
+       "subtype": ("atlas.s3.lines.sub", "vssub", "subtype", "subtype")}
 FULL = {"vsall": "224,130,20", "vssub": "27,120,55", "vsdis": "192,57,43", "vslin": "123,50,148"}    # SE called in this line
 PALE = {"vsall": "246,214,170", "vssub": "178,221,190", "vsdis": "240,190,184", "vslin": "215,190,228"}  # specific signal, not an SE here
-COLS = ["rank", "se", "chrom", "start", "end", "gene", "dist_kb", "jsd", "fdr", "cn", "called", "signal_rank", "flag", "pass"]
-LETTER = {"all": "A", "subtype": "S", "disease": "D", "lineage": "L"}     # which comparisons call the SE, e.g. "ADL"
+# one table per line, rows = the "vs all" basis (every relatives call is also a vs-all call, checked 2026-09-30),
+# with one FDR column per comparison: a number when called (<= 0.10), null when tested but not called
+COLS = ["rank", "se", "chrom", "start", "end", "gene", "dist_kb", "jsd", "fdr_all", "fdr_lineage", "fdr_disease",
+        "fdr_subtype", "cn", "called", "signal_rank", "flag", "pass"]
+LETTER = {"all": "A", "lineage": "L", "disease": "D", "subtype": "S"}     # which comparisons call the SE, e.g. "ALD"
 
 
 def clean(o):
@@ -277,13 +280,11 @@ def main():
         ov = overlap_share(cat.loc[sorted(spec_se)], cat, list(share.index), share) if spec_se else {}
         comps = {}
         infos = {c: comparison(c, grp) for c in CMP}
-        passes = {c: set(spec[c][grp].se) if infos[c]["testable"] and grp in spec[c] else set() for c in CMP}
-        pass_of = lambda se: "".join(LETTER[c] for c in CMP if se in passes[c])             # noqa: E731
-        for c, (_, tag, _, _) in CMP.items():
-            info = infos[c]
-            d = spec[c].get(grp) if info["testable"] else None
-            ranked = d if d is not None else top_any[c].get(grp)                     # untested: rankings only
-            rows = []
+        called_in = {c: (spec[c][grp].set_index("se").fdr if infos[c]["testable"] and grp in spec[c] else pd.Series(dtype=float))
+                     for c in CMP}
+        pass_of = lambda se: "".join(LETTER[c] for c in CMP if se in called_in[c].index)    # noqa: E731
+        for c, (_, tag, _, _) in CMP.items():                                           # tracks: every call, to TRACK_MAX
+            d = spec[c].get(grp) if infos[c]["testable"] else None
             with gz(f"{tag}.bed") as fh:
                 if d is not None:
                     for r in d.head(TRACK_MAX).itertuples():
@@ -291,17 +292,21 @@ def main():
                         rgb = FULL[tag] if ov.get(r.se, 0.0) > 0 else PALE[tag]
                         fh.write(f"{cc.chrom}\t{cc.start}\t{cc.end}\t{g}[{int(r.rank)}]\t{int(1000 * (1 - min(r.fdr, 1)))}"
                                  f"\t.\t{cc.start}\t{cc.end}\t{rgb}\n")
-            if ranked is not None:
-                for r in ranked.head(TOP).itertuples():
-                    cc = cat.loc[r.se]; g, dist = genes[r.se]
-                    cn = None if pd.isna(r.cn_mean) else round(float(r.cn_mean), 2)
-                    rows.append([int(r.rank), r.se, cc.chrom, int(cc.start), int(cc.end), g, dist,
-                                 round(float(r.jsd), 4), round(float(r.fdr), 4), cn, int(round(ov.get(r.se, 0.0) * n_exp)),
-                                 int(srank[r.se]) if r.se in srank.index else None, flag_of(cc.chrom, cn),
-                                 pass_of(r.se)])
-            info.update(n=0 if d is None else int(len(d)), n_called_here=0 if d is None else int(sum(ov.get(x, 0) > 0 for x in d.se)),
-                        rankings_only=d is None, top=rows)
-            comps[c] = info
+            infos[c].update(n=0 if d is None else int(len(d)),
+                            n_called_here=0 if d is None else int(sum(ov.get(x, 0) > 0 for x in d.se)))
+            comps[c] = infos[c]
+        # the table: the vs-all calls by rank (or, untested, the top of the vs-all ranking)
+        base = spec["all"].get(grp) if infos["all"]["testable"] else None
+        base = base if base is not None else top_any["all"].get(grp)
+        rows = []
+        if base is not None:
+            for r in base.head(TOP).itertuples():
+                cc = cat.loc[r.se]; g, dist = genes[r.se]
+                cn = None if pd.isna(r.cn_mean) else round(float(r.cn_mean), 2)
+                fdrs = [(round(float(called_in[c][r.se]), 4) if r.se in called_in[c].index else None) for c in CMP]
+                rows.append([int(r.rank), r.se, cc.chrom, int(cc.start), int(cc.end), g, dist, round(float(r.jsd), 4),
+                             *fdrs, cn, int(round(ov.get(r.se, 0.0) * n_exp)),
+                             int(srank[r.se]) if r.se in srank.index else None, flag_of(cc.chrom, cn), pass_of(r.se)])
         # the same comparison set at two levels (a subtype that IS its disease): say so rather than repeat silently
         for lo, hi in (("subtype", "disease"), ("disease", "lineage")):
             a_, b_ = comps[lo], comps[hi]
@@ -327,7 +332,7 @@ def main():
             "n_called": int(len(share)), "n_experiments": int(n_exp), "n_studies": int(n_units.get(grp, 0)),
             "experiments": [{"srx": s_, "study": study.get(s_, ""), "layout": layout.get(s_, ""), "bw": BW.format(s_)}
                             for s_ in exps],
-            "cols": COLS, "comparisons": comps,
+            "cols": COLS, "rows": rows, "comparisons": comps,
         }
         json.dump(clean(summary), open(fn("json"), "w"), separators=(",", ":"), allow_nan=False)
         return key, {"group": grp, "name": name, "lineage": lineage, "search": line_groups.get(grp, {}).get("search", name),

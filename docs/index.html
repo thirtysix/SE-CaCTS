@@ -98,9 +98,8 @@
           <span class="seg" id="atlas-fdr" role="tablist" style="margin-left:8px"></span></span>
         <button id="atlas-dl" class="dl-btn" title="download the current (filtered + sorted) view as TSV">⬇ TSV</button>
         <label class="ctl-label" id="atlas-variant-wrap" title="which scoring run the lineage and disease calls come from">Analysis
-          <select id="atlas-variant" class="sel" style="margin-left:8px"></select></label>
+          <select id="atlas-variant" class="sel" style="margin-left:8px"></select><span class="info-i" id="atlas-variant-info">ⓘ</span></label>
       </div>
-      <div class="variant-note" id="atlas-variant-note"></div>
       <div class="controls scope-row" id="atlas-scope" style="display:none"></div>
       <div class="controls" id="atlas-cmp" style="display:none"></div>
       <div class="warn" id="atlas-warn" style="display:none"><b>Rankings only.</b> At this resolution most
@@ -173,8 +172,7 @@
         autocomplete="off" spellcheck="false"
         title="enter a gene symbol; results list each lineage / disease where its nearest super-enhancer clears the permutation FDR">
       <label class="ctl-label" title="which scoring run the calls come from" style="display:inline-flex;align-items:center;margin:10px 0">Analysis
-        <select id="finder-variant" class="sel" style="margin-left:8px"></select></label>
-      <div class="variant-note" id="finder-variant-note"></div>
+        <select id="finder-variant" class="sel" style="margin-left:8px"></select><span class="info-i" id="finder-variant-info">ⓘ</span></label>
       <div class="finder-res" id="finder-res"></div>
     </section>
 
@@ -183,8 +181,8 @@
       <div class="phead wide"><div class="eyebrow">Explore</div><h1>Genomic View (IGV)</h1>
         <p class="lede">One cell line in a genome browser: the super-enhancers it calls, the ones specific to it in
         four comparisons (<b style="color:#e08214">vs all lines</b>, and vs the other lines of its
-        <b style="color:#1b7837">subtype</b>, <b style="color:#c0392b">primary disease</b> and
-        <b style="color:#7b3294">lineage</b>), its copy number as scored, and its H3K27ac coverage. Click a row in any
+        <b style="color:#7b3294">lineage</b>, <b style="color:#c0392b">primary disease</b> and
+        <b style="color:#1b7837">subtype</b>), its copy number as scored, and its H3K27ac coverage. Click a row in the
         table to jump to that super-enhancer.</p>
       </div>
       <div class="controls">
@@ -199,14 +197,14 @@
       <div class="card lv-browser"><div class="card-h"><h3>Genome browser</h3>
           <span class="muted-s">coverage: ChIP-Atlas v1 bigWigs, raw RPM (not normalised across studies)</span></div>
         <div class="lv-legend"><span><i style="background:#e08214"></i> vs all lines</span>
-          <span><i style="background:#1b7837"></i> vs same subtype</span><span><i style="background:#c0392b"></i> vs same primary disease</span>
-          <span><i style="background:#7b3294"></i> vs same lineage</span>
+          <span><i style="background:#7b3294"></i> vs same lineage</span><span><i style="background:#c0392b"></i> vs same primary disease</span>
+          <span><i style="background:#1b7837"></i> vs same subtype</span>
           <span>strong colour = an SE in this line · pale = specific signal, but no experiment of this line calls an SE there</span>
           <span>labels: gene[specificity rank]; on the grey track gene[rank by the line's own signal], darker = called in more experiments</span></div>
         <div id="lv-igv"></div>
         <div class="card-note"><b>H3K27ac coverage tracks</b> (tick to add or remove):<div class="lv-exps" id="lv-exps"></div></div>
       </div>
-      <div class="lv-grid" id="lv-cmps"></div>
+      <div id="lv-cmps"></div>
     </section>
 
     <section class="panel" data-tab="about">

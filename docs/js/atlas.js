@@ -5,9 +5,10 @@
 const Atlas = (() => {
   let manifest, level = "lineage", group = null, rows = [], cache = {};
   // cell-line level: the per-line comparison files, and the comparison on show
-  let lineIdx = null, keyOf = {}, lineData = null, cmpSel = "all";
-  const CMPS = [["all", "All lines", "all lines"], ["subtype", "Same subtype", "subtype"],
-                ["disease", "Same disease", "primary disease"], ["lineage", "Same lineage", "lineage"]];
+  let lineIdx = null, keyOf = {}, lineData = null, passSel = null;
+  const CMPS = [["all", "All", "all lines"], ["lineage", "Lineage", "lineage"],          // broad to narrow
+                ["disease", "Disease", "primary disease"], ["subtype", "Subtype", "subtype"]];
+  let baseHead = null;                                   // the call-level table header, restored off the line level
   let sortKey = "rank", sortAsc = true, geneQuery = "", fdrMax = 1;
   // Hierarchy scoping. Every scored line has one lineage, primary disease and subtype (manifest.hierarchy),
   // so a level can be restricted to the groups inside a choice made at the levels above it.
@@ -150,14 +151,16 @@ const Atlas = (() => {
   }
 
   function renderFdrControl() {
-    // FDR threshold filter, only meaningful where calls exist (gotcha 72). Hidden at rankings-only levels.
-    const isCalls = levelDef(level).kind === "calls";
-    U.el("atlas-fdr-wrap").style.display = isCalls ? "flex" : "none";
-    if (!isCalls) { fdrMax = 1; return; }
+    // FDR threshold filter where calls exist (gotcha 72): lineage / disease, and the cell-line table's "vs all"
+    // column. Shown but disabled at subtype, where the panel supports rankings only, so the bar never jumps.
+    const kind = levelDef(level).kind, active = kind === "calls" || kind === "lines";
+    U.el("atlas-fdr-wrap").style.display = "flex";
+    if (!active) fdrMax = 1;
+    const why = "subtype shows rankings only: most subtypes hold too few cell lines for a significance call";
     const opts = [[1, "All"], [0.10, "≤ 0.10"], [0.05, "≤ 0.05"], [0.01, "≤ 0.01"]];
     U.el("atlas-fdr").innerHTML = opts.map(([v, l]) =>
-      `<button data-fdr="${v}" aria-selected="${v === fdrMax}" title="${v === 1
-        ? "show every call (all pass the ≤ 0.10 gate)" : `keep only super-enhancers at permutation FDR ${l}`}">${l}</button>`).join("");
+      `<button data-fdr="${v}" aria-selected="${v === fdrMax}"${active ? "" : " disabled"} title="${!active ? why : v === 1
+        ? "show every call (all pass the ≤ 0.10 gate)" : `keep only super-enhancers at permutation FDR ${l}${kind === "lines" ? " vs all lines" : ""}`}">${l}</button>`).join("");
     U.el("atlas-fdr").querySelectorAll("button").forEach(b =>
       b.onclick = () => { fdrMax = +b.dataset.fdr; renderFdrControl(); renderTable(); });
   }
@@ -185,13 +188,22 @@ const Atlas = (() => {
   function renderVariant() {
     const vs = manifest.variants || [], sel = U.el("atlas-variant"), wrap = U.el("atlas-variant-wrap");
     const isCalls = levelDef(level).kind === "calls";
-    wrap.style.display = vs.length > 1 && isCalls ? "inline-flex" : "none";
-    sel.innerHTML = vs.map(v => `<option value="${v.key}"${v.key === U.getVariant() ? " selected" : ""}>${U.esc(v.label)}</option>`).join("");
-    const v = vinfo();
-    U.el("atlas-variant-note").innerHTML = !v || v.key === "main" ? ""
-      : isCalls ? `<b>Analysis: ${U.esc(v.label)}.</b> ${U.esc(v.desc || "")}`
-      : `The ${U.esc(levelDef(level).label.toLowerCase())} view uses the default analysis; <b>${U.esc(v.label)}</b> applies to the lineage and primary-disease calls.`;
+    wrap.style.display = vs.length > 1 ? "inline-flex" : "none";
+    // off the call levels the view exists for the default analysis only: show it, disabled; the choice is kept
+    const shown = isCalls ? U.getVariant() : "main";
+    sel.disabled = !isCalls;
+    wrap.title = isCalls ? "which scoring run the lineage and disease calls come from"
+      : `the ${levelDef(level).label.toLowerCase()} view is computed for the default analysis only`;
+    sel.innerHTML = vs.map(v => `<option value="${v.key}"${v.key === shown ? " selected" : ""}>${U.esc(v.label)}</option>`).join("");
+    // the description sits in a tooltip (and a chip in the summary bar), so switching never moves the page
+    const v = vs.find(x => x.key === shown) || vs[0];
+    U.el("atlas-variant-info").title = v ? `${v.label}: ${v.desc || ""}` : "";
   }
+  // a short "analysis: ..." chip for the summary bar when a non-default run is on show
+  const variantChip = () => {
+    const v = variantOf(level) !== "main" && vinfo();
+    return v ? `<span class="sep">·</span><span class="variant-chip" title="${U.esc(v.label)}: ${U.esc(v.desc || "")}">analysis: ${U.esc(v.label)}</span>` : "";
+  };
 
   async function onLevel() {
     renderControls();
@@ -206,7 +218,9 @@ const Atlas = (() => {
   function sortRows(r) {
     const s = [...r].sort((a, b) => {
       let x = a[sortKey], y = b[sortKey];
-      if (typeof x === "string") { x = x.toLowerCase(); y = (y || "").toLowerCase(); }
+      if (x == null || x === "") x = Infinity;
+      if (y == null || y === "") y = Infinity;
+      if (typeof x === "string") { x = x.toLowerCase(); y = String(y).toLowerCase(); }
       return x < y ? -1 : x > y ? 1 : 0;
     });
     return sortAsc ? s : s.reverse();
@@ -256,70 +270,99 @@ const Atlas = (() => {
     }).join("");
   }
 
+  function bindSort() {
+    document.querySelectorAll("#atlas-table th[data-sort]").forEach(th =>
+      th.onclick = () => {
+        if (sortKey === th.dataset.sort) sortAsc = !sortAsc;
+        else { sortKey = th.dataset.sort; sortAsc = !["cn_mean", "len", "n_called", "pass_ord"].includes(th.dataset.sort); }
+        renderTable();
+      });
+  }
+  function setHead(html) {
+    const th = document.querySelector("#atlas-table thead");
+    if (th.innerHTML !== html) { th.innerHTML = html; bindSort(); }
+  }
+
   async function renderLine() {
-    const g = group, key = keyOf[g], cmpEl = U.el("atlas-cmp");
+    const g = group, key = keyOf[g];
     U.el("atlas-warn").style.display = "none";
+    if (!["rank", "gene", "jsd", "cn_mean", "n_called", "len", "pass_ord"].includes(sortKey) && !sortKey.startsWith("fdr_")) { sortKey = "rank"; sortAsc = true; }
     if (!key) {
-      cmpEl.style.display = "none";
       U.el("atlas-desc").innerHTML = `<b>${U.esc(lab("line", g))}</b><span class="sep">·</span>no per-line data`;
-      U.el("atlas-body").innerHTML = `<tr><td colspan="8" class="empty">no per-line data for this line</td></tr>`;
+      U.el("atlas-body").innerHTML = `<tr><td colspan="10" class="empty">no per-line data for this line</td></tr>`;
       rows = []; return;
     }
     if (!lineData || lineData.key !== key) {
       const d = await DataLoader.loadJSON(`data/lines/${key}.json`);
       if (group !== g || level !== "line") return;                   // the user moved on while it loaded
-      lineData = d;
+      lineData = d; passSel = null;                                  // a new line shows every combination
     }
-    const L = lineData, C = L.comparisons, c = C[cmpSel];
-    cmpEl.style.display = "flex";
-    cmpEl.innerHTML = `<span class="ctl-label" title="which lines this line is compared with">Compared with</span><div class="seg" role="tablist">${
-      CMPS.map(([k, label]) => `<button data-c="${k}" aria-selected="${k === cmpSel}" title="${U.esc(cmpTitle(C[k], k))}${C[k].testable ? "" : " · not tested: " + U.esc(C[k].reason || "")}">${label}<span class="th-sub"> ${C[k].testable ? C[k].n.toLocaleString() : "–"}</span></button>`).join("")}</div>`;
-    cmpEl.querySelectorAll("button[data-c]").forEach(b => b.onclick = () => { cmpSel = b.dataset.c; renderLine(); });
-
-    const N = L.n_experiments;
-    const all = (c.top || []).map(a => {
-      const o = Object.fromEntries(L.cols.map((col, i) => [col, a[i]]));
-      return { ...o, cn_mean: o.cn, n_called: o.called, len: (o.end || 0) - (o.start || 0), group: g };
-    });
-    const q = geneQuery.trim().toLowerCase();
-    rows = sortRows(all.filter(r => !q || String(r.gene || "").toLowerCase().includes(q)));
-    const status = c.testable
-      ? `<span class="mono">${c.n.toLocaleString()} specific SEs</span><span>&nbsp;at permutation FDR ≤ 0.10</span>`
-      : `<span class="rank-only-badge">not tested</span> <span class="cmp-status">${U.esc(c.reason || "")}; rankings below</span>`;
-    const same = c.same_as ? `<span class="sep">·</span><span class="cmp-status">the same lines as the ${U.esc(CMPS.find(x => x[0] === c.same_as)[2])} comparison</span>` : "";
-    U.el("atlas-desc").innerHTML = crumbsHtml("line", g) + `<b>${U.esc(L.name)}</b><span class="sep">·</span><span class="cmp-status"><b>${U.esc(cmpTitle(c, cmpSel))}</b></span><span class="sep">·</span>${status}${same}`;
-    U.el("atlas-desc").querySelectorAll(".crumb").forEach(el => el.onclick = e => { e.preventDefault(); goTo(el.dataset.lv, el.dataset.g); });
-    const tiles = tilesOf(all);
-    const cnCell = v => v == null ? `<td class="mono">n/a</td>` : `<td class="mono ${U.cnClass(v)}">${(+v).toFixed(2)}</td>`;
-    U.el("atlas-body").innerHTML = rows.map(r => `
-      <tr>
-        <td class="mono" title="specificity rank in this comparison (1 = most specific)">${r.rank}</td>
-        <td class="gene"><a class="gv-link" href="#line" data-locus="${r.chrom}:${Math.max(1, r.start - 25000)}-${r.end + 25000}" title="open ${U.esc(r.gene || r.se)} in the Genomic View (IGV) for ${U.esc(L.name)}">${U.esc(r.gene || "n/a")}</a><span class="th-sub">${r.dist_kb === 0 ? " overlaps" : " " + r.dist_kb + " kb"}</span>${U.passBadge(r.pass)}${r.flag ? ` <span class="flag-chip" title="possible artifact: ${U.esc(FLAG_TIP[r.flag] || r.flag)}">⚠ ${U.esc(r.flag)}</span>` : ""}</td>
-        <td class="mono num">${U.fmtJsd(r.jsd)}</td>
-        <td class="mono num${c.testable && r.fdr <= 0.10 ? " sig" : ""}" title="${c.testable ? "permutation FDR in this comparison" : "shown for reference: this comparison was not tested"}">${fmtFdrVal(r.fdr)}</td>
-        ${cnCell(r.cn_mean)}
-        <td class="coord"><a href="${U.ucsc(r.chrom, r.start, r.end)}" target="_blank" rel="noopener" title="${r.se}: open in the UCSC genome browser (GRCh38)">${r.chrom}:${(+r.start).toLocaleString()}–${(+r.end).toLocaleString()}</a>${tiles[r.se] != null
-          ? `<span class="tiles-chip" title="same super-enhancer domain as row #${tiles[r.se]} above">↳ tiles #${tiles[r.se]}</span>` : ""}</td>
-        <td class="mono num">${fmtLen(r.len)}</td>
-        <td class="mono num" title="experiments of ${U.esc(L.name)} whose SE calls cover this locus (of ${N}); 0 = specific signal, but not an SE in this line">${r.n_called}/${N}</td>
-      </tr>`).join("") || `<tr><td colspan="8" class="empty">${c.testable ? "no specific super-enhancers in this comparison" : "no rankings available"}</td></tr>`;
-    U.el("atlas-body").querySelectorAll("a.gv-link").forEach(a => a.onclick = e => { e.preventDefault(); LineView.goto(key, a.dataset.locus); });
-    const n = c.testable ? c.n : 0;
-    U.el("atlas-foot").innerHTML = (c.testable
-      ? `Top ${rows.length.toLocaleString()} of ${n.toLocaleString()} specific SEs in this comparison (permutation FDR ≤ 0.10), ranked by JSD; the full set is a track in the Genomic View. `
-      : `This comparison was not tested (${U.esc(c.reason || "")}); the rows are the top of the ranking, not calls. `)
-      + `A line is compared only with at least two independent studies and at least 4 lines in the comparison group. <b>Called</b> = experiments of this line whose SE calls cover the locus: specific signal is not always an SE in the line. `
-      + `The badge after each gene shows which of the four comparisons call it (${U.passBadge("ASDL")} all lines, same subtype, same disease, same lineage): all four rank by the same score and differ in which SEs pass, so a lineage programme reads <b>A…L</b> without <b>D</b>. `
-      + `<span class="flag-chip" style="margin:0">⚠</span> marks known artifact classes (chrY; copy number below 0.3). Click a gene to open it in the Genomic View (IGV).`;
+    const L = lineData, C = L.comparisons, c0 = C.all, N = L.n_experiments;
+    const COL = { all: "#e08214", lineage: "#7b3294", disease: "#c0392b", subtype: "#1b7837" };
+    const tip = k => { const c = C[k];
+      return `${cmpTitle(c, k)}${c.testable ? ` · ${c.n.toLocaleString()} called` : ` · not tested: ${c.reason || ""}`}${c.same_as ? ` · the same lines as the ${CMPS.find(x => x[0] === c.same_as)[2]} comparison` : ""}`; };
+    setHead(`<tr>
+      <th data-sort="rank" title="specificity rank (1 = most specific); one score, the same for all four comparisons. Click to sort.">Rank</th>
+      <th data-sort="gene" title="nearest protein-coding gene. Click to sort.">Nearest gene</th>
+      <th data-sort="pass_ord" title="which comparisons call the SE: A all lines, L same lineage, D same disease, S same subtype. Click to sort (broadest first); ▾ to filter.">Called vs ${U.passHeadBtn("atlas", passSel)}</th>
+      <th data-sort="jsd" title="CaCTS score = Jensen–Shannon divergence. Lower = more specific. Click to sort.">JSD</th>
+      ${CMPS.map(([k, w]) => `<th data-sort="fdr_${k}" style="color:${COL[k]}" title="${U.esc(tip(k))}. Click to sort (not-called rows last).">vs. ${w} FDR</th>`).join("")}
+      <th data-sort="cn_mean" title="copy-number ratio at the SE in this line (1 = neutral; > 1.3 amplified). Click to sort.">Copy no.</th>
+      <th title="genomic locus (GRCh38); links to UCSC">Locus</th>
+      <th data-sort="n_called" title="experiments of this line whose SE calls cover the locus. Click to sort.">Called</th></tr>`);
     document.querySelectorAll("#atlas-table th[data-sort]").forEach(th => {
       th.classList.toggle("sorted-asc", th.dataset.sort === sortKey && sortAsc);
       th.classList.toggle("sorted-desc", th.dataset.sort === sortKey && !sortAsc);
     });
+
+    const all = (L.rows || []).map(a => {
+      const o = Object.fromEntries(L.cols.map((col, i) => [col, a[i]]));
+      return { ...o, cn_mean: o.cn, n_called: o.called, len: (o.end || 0) - (o.start || 0), group: g, pass_ord: U.passOrd(o.pass) };
+    });
+    const q = geneQuery.trim().toLowerCase();
+    rows = sortRows(all.filter(r => (!q || String(r.gene || "").toLowerCase().includes(q)) && (!passSel || passSel.has(r.pass || ""))
+                                  && (fdrMax >= 1 || (r.fdr_all != null && r.fdr_all <= fdrMax))));
+    const sets = CMPS.slice(1).map(([k, w, lvl]) => { const c = C[k];
+      return c.testable ? `<span title="${U.esc(tip(k))}">${w.toLowerCase()} <b>${c.n.toLocaleString()}</b> <span class="muted-s">(vs ${Math.max(0, c.n_lines - 1)} in ${U.esc(c.stratum || "")})</span></span>`
+                        : `<span title="${U.esc(tip(k))}">${w.toLowerCase()} <span class="muted-s">not tested</span></span>`; }).join(`<span class="sep">·</span>`);
+    const status = c0.testable
+      ? `<span class="mono">${c0.n.toLocaleString()}</span>&nbsp;specific vs all ${Math.max(0, c0.n_lines - 1)} other lines<span class="sep">·</span>of those, called within its ${sets}`
+      : `<span class="rank-only-badge">not tested</span> <span class="cmp-status">${U.esc(c0.reason || "")}; the rows are the top of the ranking</span>`;
+    U.el("atlas-desc").innerHTML = crumbsHtml("line", g) + `<b>${U.esc(L.name)}</b><span class="sep">·</span><span class="cmp-status">${status}</span>`;
+    U.el("atlas-desc").querySelectorAll(".crumb").forEach(el => el.onclick = e => { e.preventDefault(); goTo(el.dataset.lv, el.dataset.g); });
+    const fdrTd = (r, k) => { const c = C[k], v = r["fdr_" + k];
+      if (!c.testable) return `<td class="mono num muted-s" title="not tested: ${U.esc(c.reason || "")}">–</td>`;
+      return v == null ? `<td class="mono num muted-s" title="tested vs ${U.esc(c.level)}, not called">&gt; 0.10</td>`
+                       : `<td class="mono num sig" title="called vs ${U.esc(c.level)} at FDR ≤ 0.10">${fmtFdrVal(v)}</td>`; };
+    const tiles = tilesOf(all);
+    const cnCell = v => v == null ? `<td class="mono">n/a</td>` : `<td class="mono ${U.cnClass(v)}">${(+v).toFixed(2)}</td>`;
+    U.el("atlas-body").innerHTML = rows.map(r => `
+      <tr>
+        <td class="mono">${r.rank}</td>
+        <td class="gene"><a class="gv-link" href="#line" data-locus="${r.chrom}:${Math.max(1, r.start - 25000)}-${r.end + 25000}" title="open ${U.esc(r.gene || r.se)} in the Genomic View (IGV) for ${U.esc(L.name)}">${U.esc(r.gene || "n/a")}</a><span class="th-sub">${r.dist_kb === 0 ? " overlaps" : " " + r.dist_kb + " kb"}</span>${r.flag ? ` <span class="flag-chip" title="possible artifact: ${U.esc(FLAG_TIP[r.flag] || r.flag)}">⚠ ${U.esc(r.flag)}</span>` : ""}</td>
+        <td>${U.passBadge(r.pass)}</td>
+        <td class="mono num">${U.fmtJsd(r.jsd)}</td>
+        ${CMPS.map(([k]) => fdrTd(r, k)).join("")}
+        ${cnCell(r.cn_mean)}
+        <td class="coord"><a href="${U.ucsc(r.chrom, r.start, r.end)}" target="_blank" rel="noopener" title="${r.se}: open in the UCSC genome browser (GRCh38)">${r.chrom}:${(+r.start).toLocaleString()}–${(+r.end).toLocaleString()}</a>${tiles[r.se] != null
+          ? `<span class="tiles-chip" title="same super-enhancer domain as row #${tiles[r.se]} above">↳ tiles #${tiles[r.se]}</span>` : ""}</td>
+        <td class="mono num" title="experiments of ${U.esc(L.name)} whose SE calls cover this locus (of ${N}); 0 = specific signal, but not an SE in this line">${r.n_called}/${N}</td>
+      </tr>`).join("") || `<tr><td colspan="11" class="empty">${!c0.testable && fdrMax < 1 ? "this line was not tested, so there is no FDR to filter on" : c0.testable ? (passSel || fdrMax < 1 ? "no rows pass the current filters" : "no specific super-enhancers") : "no rankings available"}</td></tr>`;
+    U.el("atlas-body").querySelectorAll("a.gv-link").forEach(a => a.onclick = e => { e.preventDefault(); LineView.goto(key, a.dataset.locus); });
+    U.wirePassHead("atlas", all, passSel, s => { passSel = s; renderLine(); });
+    U.el("atlas-foot").innerHTML = (c0.testable
+      ? `Top ${rows.length.toLocaleString()} of ${c0.n.toLocaleString()} super-enhancers specific vs all lines (permutation FDR ≤ 0.10), ranked by JSD. `
+      : `Not tested (${U.esc(c0.reason || "")}); the rows are the top of the ranking, not calls. `)
+      + `All four comparisons share this score and differ only in the null: all lines, or only the other lines of the same lineage, primary disease or subtype. Each FDR column says whether the super-enhancer also stands out there (<b>&gt; 0.10</b> = tested, not called; <b>–</b> = not tested; hover a header for the comparison set). Every relatives call is also a vs-all call, so this list holds them all. `
+      + `<b>Called vs</b> repeats the called comparisons (${U.passBadge("ALDS")}); click it to sort, or ▾ to filter by combination: a lineage programme reads <b>A·L</b> without <b>D</b>. `
+      + `A comparison is tested only with at least two independent studies and at least 4 lines in the group. <b>Called</b> = experiments of this line whose SE calls cover the locus. <span class="flag-chip" style="margin:0">⚠</span> marks known artifact classes (chrY; copy number below 0.3). Click a gene to open it in the Genomic View (IGV).`;
   }
 
   function renderTable() {
     if (level === "line") return renderLine();
-    U.el("atlas-cmp").style.display = "none";
+    U.el("atlas-cmp").style.display = "none"; U.el("atlas-cmp").innerHTML = "";
+    U.closePassHead();
+    if (baseHead) setHead(baseHead);
     const def = levelDef(level), info = ginfo(level, group);
     const isCalls = def.kind === "calls";
     const groupAll = cache[ck(level)].filter(r => r.group === group);
@@ -336,7 +379,7 @@ const Atlas = (() => {
     U.el("atlas-desc").innerHTML = crumbs +
       `<b>${U.esc(info.label || group)}</b><span class="sep">·</span><span class="mono">${info.n_lines} cell line${info.n_lines > 1 ? "s" : ""}</span>` +
       (isCalls ? `<span class="sep">·</span><span class="mono" title="catalogue entries; nested / tiling loci mean fewer independent SE domains, see the ↳ markers and About & methods">${info.n_calls.toLocaleString()} specific SEs</span><span>&nbsp;at permutation FDR ≤ 0.10</span>`
-               : `<span class="rank-only-badge">rankings only</span>`);
+               : `<span class="rank-only-badge">rankings only</span>`) + variantChip();
     U.el("atlas-desc").querySelectorAll(".crumb").forEach(c =>
       c.onclick = e => { e.preventDefault(); goTo(c.dataset.lv, c.dataset.g); });
     U.el("atlas-warn").style.display = isCalls ? "none" : "block";
@@ -380,19 +423,18 @@ const Atlas = (() => {
   async function init() {
     manifest = await DataLoader.loadJSON("data/manifest.json");
     hier = (manifest.hierarchy || []).map(([line, lineage, disease, subtype]) => ({ line, lineage, disease, subtype }));
-    document.querySelectorAll("#atlas-table th[data-sort]").forEach(th =>
-      th.onclick = () => {
-        if (sortKey === th.dataset.sort) sortAsc = !sortAsc;
-        else { sortKey = th.dataset.sort; sortAsc = !["cn_mean", "len", "n_called"].includes(th.dataset.sort); }
-        renderTable();
-      });
+    baseHead = document.querySelector("#atlas-table thead").innerHTML;
+    bindSort();
     U.el("atlas-variant").onchange = e => { U.setVariant(e.target.value); onLevel(); };
     const filterInput = U.el("atlas-filter");
     filterInput.addEventListener("input", () => { geneQuery = filterInput.value; renderTable(); });
-    U.el("atlas-dl").onclick = () => U.downloadTSV(`SE-CaCTS.${level}.${group}${level === "line" ? "." + cmpSel : (variantOf(level) !== "main" ? "." + variantOf(level) : "")}.tsv`, [
+    U.el("atlas-dl").onclick = () => U.downloadTSV(`SE-CaCTS.${level}.${group}${level !== "line" && variantOf(level) !== "main" ? "." + variantOf(level) : ""}.tsv`, [
       { label: "rank", key: "rank" }, { label: "se", key: "se" }, { label: "nearest_gene", key: "gene" },
       { label: "dist_kb", key: "dist_kb" }, { label: "jsd", key: "jsd" },
-      { label: "fdr_permutation", key: "fdr" },
+      ...(level === "line" ? [{ label: "fdr_vs_all", key: "fdr_all" }, { label: "fdr_vs_lineage", key: "fdr_lineage" },
+                              { label: "fdr_vs_disease", key: "fdr_disease" }, { label: "fdr_vs_subtype", key: "fdr_subtype" },
+                              { label: "called_in", key: "pass" }]
+                           : [{ label: "fdr_permutation", key: "fdr" }]),
       { label: "cn_mean", key: "cn_mean" }, { label: "gene_concordant", key: "conc" },
       { label: "gene_expr_rho", key: "rho" }, { label: "chrom", key: "chrom" },
       { label: "start", key: "start" }, { label: "end", key: "end" },

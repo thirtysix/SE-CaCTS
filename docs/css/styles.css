@@ -342,3 +342,24 @@ a.gv-link:hover{color:var(--accent-deep)}
 .pass-b i.on{color:#fff; border-color:transparent}
 .pass-b i.pA{background:#e08214} .pass-b i.pS{background:#1b7837} .pass-b i.pD{background:#c0392b} .pass-b i.pL{background:#7b3294}
 .variant-note{font-size:12.5px; color:var(--muted); margin:2px 0 8px}
+.pass-opt{display:inline-flex; align-items:center; gap:4px; margin-right:12px; font-size:12.5px; cursor:pointer}
+.pass-opt .pass-b{margin-left:2px}
+.pass-filter{display:flex; flex-wrap:wrap; align-items:center; gap:4px; margin:6px 0 10px}
+th.th-btn{cursor:pointer}
+.gene .th-sub{white-space:nowrap}
+.pass-dd{border:none; background:none; cursor:pointer; font:inherit; font-size:11px; color:var(--muted); padding:0 4px; border-radius:4px}
+.pass-dd:hover{background:var(--bg-alt)}
+.pass-dd.on{color:#fff; background:var(--accent)}
+.pass-pop{position:absolute; z-index:60; display:none; flex-direction:column; align-items:flex-start; gap:2px; padding:8px 10px;
+  background:var(--surface); border:1px solid var(--border); border-radius:9px; box-shadow:var(--sh); text-transform:none}
+.pass-pop .pass-opt{margin:2px 0}
+.pass-pop .pass-all{margin-top:4px}
+.seg button:disabled{opacity:.45; cursor:not-allowed}
+select.sel:disabled{opacity:.55; cursor:not-allowed}
+.info-i{margin-left:6px; font-size:13px; color:var(--muted); cursor:help}
+.variant-chip{display:inline-block; padding:0 7px; border-radius:6px; font-size:12px; font-weight:600; color:#8a5a00;
+  background:#fdf1d6; border:1px solid #f0d49a; white-space:nowrap}
+:root[data-theme="dark"] .variant-chip{color:#f4cf7a; background:#3a2e12; border-color:#6b5320}
+/* the Analysis label + select + info icon must fit a phone: let the select shrink */
+#atlas-variant-wrap, #finder-variant-wrap{max-width:100%; min-width:0}
+#atlas-variant, #finder-variant{min-width:0; max-width:calc(100vw - 150px)}

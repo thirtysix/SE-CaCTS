@@ -8,13 +8,14 @@ const LineView = (() => {
   const DIR = "data/lines/";
   const DEFAULT_COVERAGE = 3;                  // coverage tracks shown on open (one per study where possible)
   let index = null, combo = null, browser = null, line = null, token = 0, pending = null;
+  let passSel = null, sort = { k: "rank", asc: true };        // table filter (pass patterns) and sort
 
   // comparison -> track file tag, colour, level word
-  const CMP = [
+  const CMP = [                                // broad to narrow
     ["all", "vsall", "#e08214", "all lines"],
-    ["subtype", "vssub", "#1b7837", "subtype"],
-    ["disease", "vsdis", "#c0392b", "primary disease"],
     ["lineage", "vslin", "#7b3294", "lineage"],
+    ["disease", "vsdis", "#c0392b", "primary disease"],
+    ["subtype", "vssub", "#1b7837", "subtype"],
   ];
   const COLORS = { called: "#7a7a7a", cn: "#2b6cb0", cnNeg: "#9b2c2c", cov: "#3d3d3d" };
   const CN_LABEL = { depmap_wgs: "DepMap WGS", depmap_mc_wes: "DepMap WES", cmp_wes: "CMP WES", ccle_snp6: "CCLE SNP6",
@@ -28,8 +29,19 @@ const LineView = (() => {
     const k = Math.max(0, c.n_lines - 1);
     return `Specific vs. ${k} other line${k === 1 ? "" : "s"} in the same ${lvl} (${c.stratum})`;
   }
-  const rowsOf = L => Object.fromEntries(CMP.map(([k]) => [k,
-    (L.comparisons[k].top || []).map(a => Object.fromEntries(L.cols.map((c, i) => [c, a[i]])))]));
+  const rowsOf = L => (L.rows || []).map(a => { const o = Object.fromEntries(L.cols.map((c, i) => [c, a[i]])); o.pass_ord = U.passOrd(o.pass); return o; });
+  function sorted(rows) {
+    const v = (r, k) => { const x = r[k]; return x == null || x === "" ? Infinity : x; };
+    const out = [...rows].sort((a, b) => v(a, sort.k) < v(b, sort.k) ? -1 : v(a, sort.k) > v(b, sort.k) ? 1 : 0);
+    return sort.asc ? out : out.reverse();
+  }
+  // FDR cell for one comparison: the value when called, "> 0.10" when tested but not called, "–" when not tested
+  function fdrCell(L, r, k) {
+    const c = L.comparisons[k], v = r["fdr_" + k];
+    if (!c.testable) return `<td class="muted-s" title="not tested: ${U.esc(c.reason || "")}">–</td>`;
+    return v == null ? `<td class="muted-s" title="tested, not called at FDR ≤ 0.10">&gt; 0.10</td>`
+                     : `<td class="sig" title="called at FDR ≤ 0.10">${v < 0.001 ? "<0.001" : v.toFixed(3)}</td>`;
+  }
 
   async function init() {
     index = await DataLoader.loadJSON(DIR + "index.json");
@@ -62,7 +74,7 @@ const LineView = (() => {
     const my = ++token;
     line = await DataLoader.loadJSON(`${DIR}${key}.json`);
     if (my !== token) return;
-    line.rows = rowsOf(line);
+    line.rows = rowsOf(line); passSel = null; sort = { k: "rank", asc: true };
     renderSummary(); renderTables(); renderExperiments();
     await renderBrowser(my);
   }
@@ -87,35 +99,40 @@ const LineView = (() => {
                      "CN<0.3": "copy number below 0.3 here: dividing by a near-zero copy number inflates noise in deep deletions (removed in the next release)" };
   const flagChip = f => f ? ` <span class="flag-chip" title="possible artifact: ${U.esc(FLAG_TIP[f] || f)}">⚠ ${U.esc(f)}</span>` : "";
 
-  function table(rows, id, rankingsOnly) {
-    if (!rows.length) return `<p class="muted-s">None at FDR ≤ 0.1.</p>`;
-    return `<table class="tbl lv-tbl" id="${id}"><thead><tr><th title="specificity rank (1 = most specific)">#</th><th>Nearest gene</th><th>kb</th><th>Locus</th><th title="experiments of this line whose SE calls cover the locus">Called in</th><th title="rank of the locus by this line's own signal among the SEs it calls (1 = strongest); blank = not an SE here">SE rank</th><th title="copy number at the SE in this line (ratio to the line median); the same flag as the SE atlas: amplified when > 1.3">CN</th><th>${rankingsOnly ? "FDR (not a call)" : "FDR"}</th></tr></thead><tbody>${
-      rows.map((r, i) => `<tr data-i="${i}" title="show in the browser"><td>${r.rank}</td><td><b>${U.esc(r.gene)}</b>${U.passBadge(r.pass)}${flagChip(r.flag)}</td><td>${r.dist_kb}</td>
-        <td class="mono">${r.chrom}:${(r.start / 1e6).toFixed(2)} Mb</td>
-        <td class="${r.called ? "" : "muted-s"}">${r.called ? r.called + "/" + line.n_experiments : "not an SE here"}</td><td>${r.signal_rank ?? ""}</td>
-        <td class="${U.cnClass(r.cn)}">${r.cn != null ? r.cn.toFixed(2) : ""}</td><td>${U.fmtFdr ? U.fmtFdr(r.fdr) : r.fdr}</td></tr>`).join("")}</tbody></table>`;
-  }
-
   function renderTables() {
-    const L = line;
-    U.el("lv-cmps").innerHTML = CMP.map(([k, , col]) => {
-      const c = L.comparisons[k], n = c.testable ? c.n : 0, top = L.rows[k].length;
-      const count = !c.testable ? `not tested: ${U.esc(c.reason || "")}`
-                  : (n > top ? `top ${top} of ${n.toLocaleString()} at FDR ≤ 0.1` : `${n.toLocaleString()} at FDR ≤ 0.1`);
-      const same = c.same_as ? `<p class="muted-s">The same lines as the ${U.esc(CMP.find(x => x[0] === c.same_as)[3])} comparison.</p>` : "";
-      const body = c.testable ? table(L.rows[k], `lv-t-${k}`, false)
-        : (L.rows[k].length ? `<p class="muted-s">Rankings only (no significance test):</p>` + table(L.rows[k], `lv-t-${k}`, true)
-                            : `<p class="muted-s">No comparison available.</p>`);
-      return `<div class="card"><div class="card-h"><h3 style="color:${col}">${U.esc(cmpTitle(c, k))}</h3><span class="muted-s">${count}</span></div>
-        <div class="card-b scroll lv-scroll">${same}${body}</div></div>`;
-    }).join("");
-    for (const [k] of CMP) {
-      const t = U.el(`lv-t-${k}`), rows = L.rows[k];
-      if (t) t.addEventListener("click", e => {
-        const tr = e.target.closest("tr[data-i]");
-        if (tr && browser) { browser.search(locus(rows[+tr.dataset.i])); U.el("lv-igv").scrollIntoView({ behavior: "smooth", block: "start" }); }
-      });
-    }
+    const L = line, c0 = L.comparisons.all, nAll = c0.testable ? c0.n : 0;
+    const rows = sorted(L.rows.filter(r => !passSel || passSel.has(r.pass || "")));
+    const arrow = k => sort.k === k ? (sort.asc ? " ▲" : " ▼") : "";
+    const head = CMP.map(([k, , col, w]) => { const c = L.comparisons[k];
+      return `<th class="th-btn" data-k="fdr_${k}" style="color:${col}" title="${U.esc(cmpTitle(c, k))}${c.testable ? ` · ${c.n.toLocaleString()} called` : " · not tested: " + U.esc(c.reason || "")}${c.same_as ? " · the same lines as the " + U.esc(CMP.find(x => x[0] === c.same_as)[3]) + " comparison" : ""}">vs. ${k === "all" ? "All" : w === "primary disease" ? "Disease" : w[0].toUpperCase() + w.slice(1)} FDR${arrow("fdr_" + k)}</th>`; }).join("");
+    const count = !c0.testable ? `not tested: ${U.esc(c0.reason || "")}; the rows are the top of the ranking`
+      : (nAll > L.rows.length ? `top ${L.rows.length} of ${nAll.toLocaleString()} specific vs all lines` : `${nAll.toLocaleString()} specific vs all lines`)
+        + (passSel ? ` · ${rows.length} shown` : "");
+    const body = !rows.length ? `<p class="muted-s">${passSel ? "No rows with the selected combinations." : "None."}</p>` :
+      `<table class="tbl lv-tbl" id="lv-t"><thead><tr><th class="th-btn" data-k="rank" title="specificity rank (1 = most specific); the same score for every comparison. Click to sort.">#${arrow("rank")}</th><th>Nearest gene</th><th class="th-btn" data-k="pass_ord" title="which comparisons call the SE: A all lines, L same lineage, D same disease, S same subtype. Click to sort (broadest first); ▾ to filter.">Called vs${arrow("pass_ord")} ${U.passHeadBtn("lv", passSel)}</th><th>kb</th><th>Locus</th>${head}<th title="experiments of this line whose SE calls cover the locus">Called in</th><th title="rank of the locus by this line's own signal among the SEs it calls (1 = strongest); blank = not an SE here">SE rank</th><th title="copy number at the SE in this line (ratio to the line median); amplified when > 1.3">CN</th></tr></thead><tbody>${
+        rows.map((r, i) => `<tr data-i="${i}" title="show in the browser"><td>${r.rank}</td><td><b>${U.esc(r.gene)}</b>${flagChip(r.flag)}</td><td>${U.passBadge(r.pass)}</td><td>${r.dist_kb}</td>
+          <td class="mono">${r.chrom}:${(r.start / 1e6).toFixed(2)} Mb</td>${CMP.map(([k]) => fdrCell(L, r, k)).join("")}
+          <td class="${r.called ? "" : "muted-s"}">${r.called ? r.called + "/" + L.n_experiments : "not an SE here"}</td><td>${r.signal_rank ?? ""}</td>
+          <td class="${U.cnClass(r.cn)}">${r.cn != null ? r.cn.toFixed(2) : ""}</td></tr>`).join("")}</tbody></table>`;
+    U.el("lv-cmps").innerHTML = `<div class="card"><div class="card-h"><h3>Specific super-enhancers, one row each, with the FDR of every comparison</h3>
+      <span class="muted-s">${count}</span></div><div class="card-b"><div class="scroll lv-scroll">${body}</div></div>
+      <div class="card-note">Ranked by the specificity score, which is the same for all four comparisons; they differ in
+      the null (all lines, or only the other lines of the same lineage, disease or subtype), so each column says whether
+      the super-enhancer stands out in that comparison. <b>&gt; 0.10</b> = tested, not called; <b>–</b> = not tested
+      (hover the column header for why). <b>Called vs</b> repeats the called comparisons (${U.passBadge("ALDS")}); click
+      a header to sort, and ▾ on Called vs to filter by combination (a lineage programme reads A·L without D).</div></div>`;
+    U.wirePassHead("lv", L.rows, passSel, s => { passSel = s; renderTables(); });
+    U.el("lv-cmps").querySelectorAll("th.th-btn").forEach(th => th.onclick = e => {
+      e.stopPropagation();
+      const k = th.dataset.k;
+      sort = sort.k === k ? { k, asc: !sort.asc } : { k, asc: k !== "pass_ord" };
+      renderTables();
+    });
+    const t = U.el("lv-t");
+    if (t) t.addEventListener("click", e => {
+      const tr = e.target.closest("tr[data-i]");
+      if (tr && browser) { browser.search(locus(rows[+tr.dataset.i])); U.el("lv-igv").scrollIntoView({ behavior: "smooth", block: "start" }); }
+    });
   }
 
   function renderExperiments() {
@@ -147,7 +164,7 @@ const LineView = (() => {
     host.innerHTML = "";
     const want = pending && pending.key === L.key ? pending.locus : null;
     pending = null;
-    const first = CMP.map(([k]) => L.comparisons[k].testable ? L.rows[k][0] : null).find(Boolean) || L.rows.all[0];
+    const first = L.rows[0];
     browser = await igv.createBrowser(host, { genome: "hg38", locus: want || (first ? locus(first) : "MYC"), tracks: [] });
     if (my !== token) return;
     const f = ext => `${DIR}${L.key}.${ext}`;

@@ -31,13 +31,55 @@ const U = (() => {
     a.download = filename; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(a.href);
   };
 
-  // which of a line's four comparisons call this SE: "ADL" -> A, D, L lit, S dim
-  const PASS = [["A", "all lines"], ["S", "same subtype"], ["D", "same primary disease"], ["L", "same lineage"]];
+  // which of a line's four comparisons call this SE, broad to narrow: "ALD" -> A, L, D lit, S dim
+  const PASS = [["A", "all lines"], ["L", "same lineage"], ["D", "same primary disease"], ["S", "same subtype"]];
   const passBadge = p => {
     p = p || "";
     const on = PASS.filter(([k]) => p.includes(k)).map(([, w]) => w);
     const tip = on.length ? `specific vs ${on.join(", ")}` : "not called in any of the four comparisons (ranking only)";
     return `<span class="pass-b" title="${esc(tip)}">${PASS.map(([k]) => `<i class="${p.includes(k) ? "on p" + k : ""}">${k}</i>`).join("")}</span>`;
+  };
+
+  // sort key for a pass pattern: A=8, L=4, D=2, S=1, so descending lists ALDS, ALD, ALS, AL, ... A, then none
+  const passOrd = p => (p || "").split("").reduce((t, k) => t + ({ A: 8, L: 4, D: 2, S: 1 }[k] || 0), 0);
+  // checkbox per pass pattern present in `rows` (with counts); `sel` = Set of shown patterns or null for all
+  const passFilter = (el, rows, sel, onChange) => {
+    const cnt = {};
+    rows.forEach(r => { const p = r.pass || ""; cnt[p] = (cnt[p] || 0) + 1; });
+    const pats = Object.keys(cnt).sort((a, b) => passOrd(b) - passOrd(a));
+    const on = p => !sel || sel.has(p);
+    el.innerHTML = pats.map(p => `<label class="pass-opt" title="${p ? "called vs " + p.split("").join(", ") : "not called in any comparison (rankings)"}"><input type="checkbox" data-p="${p}"${on(p) ? " checked" : ""}>${passBadge(p)}<span class="muted-s">${cnt[p]}</span></label>`).join("") +
+      `<button class="dl-btn pass-all" title="show every combination">all</button>`;
+    el.querySelectorAll("input[data-p]").forEach(cb => cb.onchange = () => {
+      const s = new Set([...el.querySelectorAll("input[data-p]:checked")].map(x => x.dataset.p));
+      onChange(s.size === pats.length ? null : s);
+    });
+    el.querySelector(".pass-all").onclick = () => onChange(null);
+  };
+
+  // the filter lives in the "Called vs" column header: a ▾ button opens it in a popover that stays open while
+  // boxes are ticked (the table re-renders, then calls this again), and closes on an outside click or Esc
+  let popFor = null;
+  const passHeadBtn = (tableId, sel) => `<button class="pass-dd${sel ? " on" : ""}" data-t="${tableId}" title="filter by combination of called comparisons${sel ? " (filtered)" : ""}" aria-label="filter">▾</button>`;
+  const wirePassHead = (tableId, rows, sel, onChange) => {
+    let pop = document.getElementById("pass-pop");
+    if (!pop) {
+      pop = document.createElement("div"); pop.id = "pass-pop"; pop.className = "pass-pop"; document.body.appendChild(pop);
+      document.addEventListener("click", e => { if (popFor && !pop.contains(e.target) && !e.target.closest(".pass-dd")) { popFor = null; pop.style.display = "none"; } });
+      document.addEventListener("keydown", e => { if (e.key === "Escape" && popFor) { popFor = null; pop.style.display = "none"; } });
+      window.addEventListener("hashchange", () => { popFor = null; pop.style.display = "none"; });
+    }
+    const btn = document.querySelector(`.pass-dd[data-t="${tableId}"]`);
+    const place = () => {
+      if (popFor !== tableId || !btn) { if (popFor === tableId || !popFor) pop.style.display = "none"; return; }
+      passFilter(pop, rows, sel, onChange);
+      const r = btn.getBoundingClientRect();
+      pop.style.display = "flex";
+      pop.style.left = `${Math.max(8, Math.min(r.left + window.scrollX, window.scrollX + document.documentElement.clientWidth - pop.offsetWidth - 8))}px`;
+      pop.style.top = `${r.bottom + window.scrollY + 4}px`;
+    };
+    if (btn) btn.onclick = e => { e.stopPropagation(); popFor = popFor === tableId ? null : tableId; place(); };
+    place();
   };
 
   // analysis variants (manifest.variants): "main" is the default run; others stage calls_<level>.<key>.tsv
@@ -47,5 +89,7 @@ const U = (() => {
   const setVariant = v => { variant = v; try { localStorage.setItem("secacts-variant", v); } catch (_) { /* not kept */ } };
   const variantFile = (file, v) => (!v || v === "main") ? file : file.replace(/\.(tsv|json)$/, `.${v}.$1`);
 
-  return { el, esc, LEVELS, cnClass, fmtFdr, fmtJsd, ucsc, downloadTSV, passBadge, getVariant, setVariant, variantFile };
+  const closePassHead = () => { popFor = null; const p = document.getElementById("pass-pop"); if (p) p.style.display = "none"; };
+  return { el, esc, LEVELS, cnClass, fmtFdr, fmtJsd, ucsc, downloadTSV, passBadge, passOrd, passFilter, passHeadBtn, wirePassHead, closePassHead,
+           getVariant, setVariant, variantFile };
 })();
