@@ -91,27 +91,26 @@ def fig_panel_expansion():
     """Lines per lineage in the scored atlas, split by the copy-number source that admitted them."""
     L = atlas_panel()
     order = [k for k, _, _ in PROVIDERS if k in set(L["cn"])]
-    lab = {k: ("DepMap WGS (v1 panel)" if k == "depmap_wgs" else f"+ {n}") for k, n, _ in PROVIDERS}
+    lab = {k: n for k, n, _ in PROVIDERS}
     col = {k: c for k, _, c in PROVIDERS}
     T = L.groupby(["lineage", "cn"]).size().unstack(fill_value=0).reindex(columns=order, fill_value=0)
     T = T.loc[T.sum(axis=1).sort_values().index]
-    fig, ax = plt.subplots(figsize=(250 * MM, 190 * MM))
+    fig, ax = plt.subplots(figsize=(205 * MM, 140 * MM))
     y = np.arange(len(T))
     left = np.zeros(len(T))
     for c in order:
         v = T[c].values
         ax.barh(y, v, left=left, height=0.68, color=col[c], label=lab[c], edgecolor=SURF, linewidth=1.2)
         left += v
-    for yi, tot, new in zip(y, left, T[[c for c in order if c != "depmap_wgs"]].sum(axis=1).values):
-        ax.text(tot + 0.6, yi, f"{int(tot)}" + (f"  (+{int(new)})" if new else ""), va="center",
-                fontsize=13, color=MUTED)
-    ax.set_yticks(y, T.index, fontsize=14)
-    ax.set_xlabel("cell lines in the scored atlas")
-    ax.set_xlim(0, left.max() * 1.18)
+    for yi, tot in zip(y, left):
+        ax.text(tot + 0.6, yi, f"{int(tot)}", va="center", fontsize=12.5, color=MUTED)
+    ax.set_yticks(y, T.index, fontsize=13)
+    ax.set_ylim(-0.6, len(T) - 0.4)
+    ax.set_xlabel("cell lines")
+    ax.set_xlim(0, left.max() * 1.08)
     hgrid(ax); ax.spines["left"].set_visible(False)
-    n1, n2 = int(T["depmap_wgs"].sum()), int(T.values.sum())
-    ax.legend(loc="lower right", handlelength=1.1, borderaxespad=0.2,
-              title=f"{n1} → {n2} lines (+{100 * (n2 - n1) / n1:.0f}%)", title_fontsize=15)
+    ax.legend(loc="lower right", handlelength=1.1, borderaxespad=0.2, fontsize=13.5,
+              title="copy-number source", title_fontsize=14, alignment="left")
     save(fig, "fig1_panel_expansion")
 
 
@@ -207,16 +206,16 @@ def _ablation_pair(lev):
     return n(u), n(c)
 
 
-ABL_LABEL = dict(LEVEL_LABEL, line="Cell line (consensus of studies)")
+ABL_LABEL = dict(LEVEL_LABEL, line="Cell line")
 
 
-def fig_cn_ablation(levs=("OncotreeLineage", "OncotreePrimaryDisease"), name="fig4_cn_ablation"):
+def fig_cn_ablation(levs=("OncotreeLineage", "OncotreePrimaryDisease"), name="fig4_cn_ablation", width=420):
     """Left: calls without vs with CN correction per level. Right: CN at the disputed loci — removed vs rescued,
     with the rescues inside deep deletions (CN < 0.3) shown apart as the correction artifacts they are."""
     A = pd.read_csv(os.path.join(SC, "atlas.s3.perm.cn_ablation_calls.tsv"), sep="\t")
     levs = [l for l in levs if _ablation_pair(l) is not None]
     k = len(levs)
-    fig, (ax, bx) = plt.subplots(1, 2, figsize=(250 * MM, (40 + 32 * k) * MM), gridspec_kw={"width_ratios": [1, 1.55]})
+    fig, (ax, bx) = plt.subplots(1, 2, figsize=(width * MM, (38 + 36 * k) * MM), gridspec_kw={"width_ratios": [1, 1.7]})
     ticks, labs = [], []
     per_level = k > 2          # counts differ by orders of magnitude across levels: scale bars within each level
     for i, lev in enumerate(levs):
@@ -233,7 +232,7 @@ def fig_cn_ablation(levs=("OncotreeLineage", "OncotreePrimaryDisease"), name="fi
     ax.set_ylim(-1.1, (k - 1) * 2.4 + 1.5); ax.spines["left"].set_visible(False)
     if per_level:
         ax.set_xlim(0, 1.45); ax.set_xticks([]); ax.spines["bottom"].set_visible(False)
-        ax.set_xlabel("specific SEs (FDR ≤ 0.10); bars scaled within each level")
+        ax.set_xlabel("specific super-enhancers (FDR ≤ 0.10)")
     else:
         ax.set_xlabel("specific SEs (FDR ≤ 0.10)"); hgrid(ax)
         ax.set_xlim(0, ax.get_xlim()[1] * 1.3)
@@ -241,30 +240,22 @@ def fig_cn_ablation(levs=("OncotreeLineage", "OncotreePrimaryDisease"), name="fi
 
     rng = np.random.default_rng(1)
     dele = (A.kind == "rescued") & (A.cn_mean < DEL_CN)
-    kinds = [(A[(A.kind == "rescued") & ~dele], "rescued by correction", TEAL, 0.0),
-             (A[A.kind == "amplicon_driven"], "removed by correction", RED, 1.0)]
-    for d, lab, col, yb in kinds:
+    kinds = [(A[(A.kind == "rescued") & ~dele], TEAL, 0.0), (A[A.kind == "amplicon_driven"], RED, 1.0)]
+    for d, col, yb in kinds:
         v = d["cn_mean"]
-        bx.scatter(v, yb + rng.uniform(-0.22, 0.22, len(v)), s=9, color=col, alpha=0.35, edgecolor="none", zorder=3)
-        bx.text(0.37, yb - 0.26, f"{lab}\nn = {len(v):,} · median CN {v.median():.2f} · {100 * (v > 1.3).mean():.0f}% at CN > 1.3",
-                fontsize=13, color=INK, va="top", linespacing=1.15)
-    v = A[dele]["cn_mean"].clip(lower=0.05)
-    bx.scatter(v, 0.0 + rng.uniform(-0.22, 0.22, len(v)), s=16, facecolor="none", edgecolor=MUTED, lw=0.9, zorder=4)
+        bx.scatter(v, yb + rng.uniform(-0.3, 0.3, len(v)), s=10, color=col, alpha=0.35, edgecolor="none", zorder=3)
+    v = A[dele]["cn_mean"].clip(lower=0.05)          # deletion "rescues": open circles on grey, not counted
+    bx.scatter(v, 0.0 + rng.uniform(-0.3, 0.3, len(v)), s=18, facecolor="none", edgecolor=MUTED, lw=0.9, zorder=4)
     bx.axvspan(0.045, DEL_CN, color=GRID, alpha=0.55, zorder=0, lw=0)
-    bx.text(0.052, 0.62, f"CN < {DEL_CN}:\n{len(v)} “rescues”\nin deletions,\nno chrY:\nartifacts,\nnot counted",
-            fontsize=11.5, color=MUTED, va="center", linespacing=1.05)
-    amp = (A[A.kind == "amplicon_driven"].sort_values("cn_mean", ascending=False)
-           .drop_duplicates("nearest_gene").head(4).sort_values("cn_mean"))
-    for i, r in enumerate(amp.itertuples()):
-        bx.annotate(r.nearest_gene, (r.cn_mean, 1.2), xytext=(0, 14 + 22 * (i % 3)), textcoords="offset points",
-                    ha="center", fontsize=13, color=INK, fontstyle="italic",
-                    arrowprops=dict(arrowstyle="-", color=FAINT, lw=0.8, shrinkA=0, shrinkB=2))
     bx.axvline(1.0, color=FAINT, lw=1, zorder=1)
     bx.set_xscale("log"); bx.set_xlim(0.045, 150)
     bx.set_xticks([0.1, 0.3, 1, 3, 10, 30, 100], ["0.1", "0.3", "1", "3", "10", "30", "100"])
-    bx.set_yticks([]); bx.spines["left"].set_visible(False)
-    bx.set_ylim(-0.72, 1.75)
-    bx.set_xlabel("mean copy number at the locus (group)")
+    bx.set_yticks([0, 1], ["added", "removed"], fontsize=16)
+    for t, c in zip(bx.get_yticklabels(), (TEAL, RED)):
+        t.set_color(c); t.set_fontweight("bold")
+    bx.spines["left"].set_visible(False)
+    bx.set_ylim(-0.55, 1.55)
+    bx.set_xlabel("mean copy number of the group at the locus")
     hgrid(bx)
     fig.tight_layout(w_pad=4.0)
     save(fig, name)
@@ -283,7 +274,7 @@ IDENTITY = [("Ovary/Fallopian Tube", ["PAX8", "SOX17", "MECOM"]), ("Bowel", ["CD
             ("Liver", ["HNF1A"]), ("Prostate", ["AR"]), ("Kidney", ["PAX2"]), ("Head and Neck", ["TP63"])]
 
 
-def fig_identity():
+def fig_identity(width=215):
     """Known lineage master TFs: the lineage-best SE near each gene, and its FDR in every lineage."""
     sys.path.insert(0, os.path.join(SECACTS, "cnrose"))
     sys.path.insert(0, SECACTS)
@@ -296,7 +287,7 @@ def fig_identity():
     cat = pd.read_csv(os.path.join(RES, "atlas.s3.union_catalog.bed.gz"), sep="\t", header=None,
                       usecols=[0, 1, 2, 3], names=["chrom", "start", "end", "se"]).set_index("se")
     cols = [g for g, _ in IDENTITY if g in J.columns]
-    rows, lab = [], []
+    rows, lab, ranks, fdrs = [], [], [], []
     for grp, genes in IDENTITY:
         if grp not in J.columns:
             continue
@@ -309,21 +300,28 @@ def fig_identity():
             if not near:
                 continue
             best = min(near, key=lambda x: J.loc[x, grp])
-            rows.append(-np.log10(F.loc[best, cols].astype(float).clip(lower=1e-12)).values)
-            rank = int((J[grp] < J.loc[best, grp]).sum()) + 1
-            lab.append((g, grp, rank, float(F.loc[best, grp])))
+            fdr = F.loc[best, cols].astype(float)
+            rows.append(-np.log10(fdr.clip(lower=1e-12)).values)
+            ranks.append([int((J[c] < J.loc[best, c]).sum()) + 1 for c in cols])
+            fdrs.append(fdr.values)
+            lab.append((g, grp, ranks[-1][cols.index(grp)], float(fdr[grp])))
     M = np.array(rows)
-    fig, ax = plt.subplots(figsize=(250 * MM, 16 * MM + 9.2 * MM * len(rows)))
+    fig, ax = plt.subplots(figsize=(width * MM, 30 * MM + 8.0 * MM * len(rows)))
     from matplotlib.colors import LinearSegmentedColormap
     cmap = LinearSegmentedColormap.from_list("teal", ["#ffffff", "#bfe3de", "#5fb8ad", TEAL, "#0a4f49"])
     vmax = 3.0
     im = ax.imshow(np.minimum(M, vmax), cmap=cmap, vmin=0, vmax=vmax, aspect="auto", interpolation="nearest")
     for i, (g, grp, rank, fdr) in enumerate(lab):
         j = cols.index(grp)
-        ax.add_patch(plt.Rectangle((j - 0.5, i - 0.5), 1, 1, fill=False, edgecolor=INK, lw=1.6))
-    ax.set_xticks(range(len(cols)), cols, rotation=35, ha="right", fontsize=13)
-    ax.set_yticks(range(len(lab)), [f"{g}  #{r:,}" + ("" if f <= 0.10 else "  (n.s.)") for g, _, r, f in lab],
-                  fontsize=13.5)
+        ax.add_patch(plt.Rectangle((j - 0.46, i - 0.44), 0.92, 0.88, fill=False, edgecolor=INK, lw=1.8, zorder=5))
+    for i in range(len(lab)):
+        for j in range(len(cols)):
+            if fdrs[i][j] < 1.0:
+                ax.text(j, i, f"{ranks[i][j]:,}", ha="center", va="center", fontsize=10.5,
+                        fontweight="bold" if fdrs[i][j] <= 0.10 else "normal",
+                        color=SURF if M[i, j] > 1.4 else INK)
+    ax.set_xticks(range(len(cols)), cols, rotation=40, ha="right", rotation_mode="anchor", fontsize=12.5)
+    ax.set_yticks(range(len(lab)), [g for g, *_ in lab], fontsize=13.5)
     for t, (g, *_ ) in zip(ax.get_yticklabels(), lab):
         t.set_fontstyle("italic")
     ax.tick_params(length=0)
