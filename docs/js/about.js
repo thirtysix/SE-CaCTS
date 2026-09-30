@@ -155,12 +155,18 @@ const About = (() => {
       variance was masking in the permutation null (see the CN ablation tab).</div>
 
       <h3>Resolution: read this first</h3>
-      <p>The panel supports specificity <b>calls only at the lineage and primary-disease levels</b>. At the
-      subtype and single-cell-line levels the atlas shows <b>rankings only</b>: ${m.n_subtypes_single} of
-      ${m.n_subtypes} subtypes contain a single cell line and ${m.n_subtypes_le4} contain four or fewer, and
-      because the permutation preserves group size, a random handful of lines is as "specific" as the real
-      grouping. Rankings (which SE is most concentrated in a group) stay meaningful there; significance calls
-      do not.</p>
+      <p>The panel supports specificity <b>calls at the lineage and primary-disease levels</b>. At the
+      subtype level the atlas shows <b>rankings only</b>: ${m.n_subtypes_single} of ${m.n_subtypes} subtypes
+      contain a single cell line and ${m.n_subtypes_le4} contain four or fewer, and because the permutation
+      preserves group size, a random handful of lines is as "specific" as the real grouping. Rankings (which SE
+      is most concentrated in a group) stay meaningful there; significance calls do not.</p>
+      <p><b>Cell lines</b> are scored by what their independent studies agree on (a consensus: the value at least
+      75% of the studies reach), and each line is compared four ways: with <b>all lines</b>, and with the other
+      lines of its <b>subtype</b>, <b>primary disease</b> and <b>lineage</b> (the null shuffles labels only among
+      those relatives, so a super-enhancer shared across the group is not called). A comparison is tested only
+      when the line has at least two independent studies and the group holds at least four lines; otherwise the
+      list is a ranking. Shuffled labels give no calls in any of the four comparisons. "Specific" means specific
+      H3K27ac signal: the <b>Called</b> column says whether the line's own experiments call a super-enhancer there.</p>
 
       <h3>SE to gene links, and why one gene can appear many times</h3>
       <p>Each SE is labelled with its nearest protein-coding gene. That is a <b>locational label, not a scored

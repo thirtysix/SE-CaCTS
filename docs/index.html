@@ -28,7 +28,7 @@
       <button data-tab="cn" title="what copy-number correction removes (amplicons) and rescues"><span class="ico">⊘</span> CN ablation</button>
       <button data-tab="concordance" title="do specific SEs sit next to genes specific to the same group?"><span class="ico">⇌</span> Concordance</button>
       <button data-tab="finder" title="look up every group where a gene's nearby SE is specific"><span class="ico">⌕</span> SE finder</button>
-      <button data-tab="line" title="one cell line in a genome browser: its super-enhancers, the ones specific to it, copy number and H3K27ac coverage"><span class="ico">≣</span> Line view</button>
+      <button data-tab="line" title="one cell line in a genome browser: its super-enhancers, the ones specific to it, copy number and H3K27ac coverage"><span class="ico">≣</span> Genomic View (IGV)</button>
       <button data-tab="about" title="method, the permutation FDR, and what is not claimed"><span class="ico">ⓘ</span> About &amp; methods</button>
     </nav>
     <div class="side-foot">
@@ -99,6 +99,7 @@
         <button id="atlas-dl" class="dl-btn" title="download the current (filtered + sorted) view as TSV">⬇ TSV</button>
       </div>
       <div class="controls scope-row" id="atlas-scope" style="display:none"></div>
+      <div class="controls" id="atlas-cmp" style="display:none"></div>
       <div class="warn" id="atlas-warn" style="display:none"><b>Rankings only.</b> At this resolution most
         groups have too few cell lines for the permutation null to support a significance call: a random
         handful of lines scores as "specifically" as the real grouping. The order below is meaningful; the
@@ -173,11 +174,12 @@
 
     <!-- About -->
     <section class="panel" data-tab="line">
-      <div class="phead wide"><div class="eyebrow">Explore · prototype</div><h1>Line view</h1>
-        <p class="lede">One cell line in a genome browser: the super-enhancers it calls, the ones specific to it
-        (<b style="color:#e08214">vs all lines</b>: reproducible across its studies and not ubiquitous;
-        <b style="color:#c0392b">vs relatives</b>: distinctive within its disease or lineage), its copy number as
-        scored, and its H3K27ac coverage. Click a row in either table to jump to that super-enhancer.</p>
+      <div class="phead wide"><div class="eyebrow">Explore</div><h1>Genomic View (IGV)</h1>
+        <p class="lede">One cell line in a genome browser: the super-enhancers it calls, the ones specific to it in
+        four comparisons (<b style="color:#e08214">vs all lines</b>, and vs the other lines of its
+        <b style="color:#1b7837">subtype</b>, <b style="color:#c0392b">primary disease</b> and
+        <b style="color:#7b3294">lineage</b>), its copy number as scored, and its H3K27ac coverage. Click a row in any
+        table to jump to that super-enhancer.</p>
       </div>
       <div class="controls">
         <div class="combo" id="lv-combo">
@@ -190,19 +192,15 @@
       <div class="card"><div class="card-b" id="lv-summary"></div></div>
       <div class="card lv-browser"><div class="card-h"><h3>Genome browser</h3>
           <span class="muted-s">coverage: ChIP-Atlas v1 bigWigs, raw RPM (not normalised across studies)</span></div>
-        <div class="lv-legend"><span><i style="background:#c0392b"></i><i style="background:#f0beb8"></i> specific vs relatives</span>
-          <span><i style="background:#e08214"></i><i style="background:#f6d6aa"></i> specific vs all lines</span>
+        <div class="lv-legend"><span><i style="background:#e08214"></i> vs all lines</span>
+          <span><i style="background:#1b7837"></i> vs same subtype</span><span><i style="background:#c0392b"></i> vs same primary disease</span>
+          <span><i style="background:#7b3294"></i> vs same lineage</span>
           <span>strong colour = an SE in this line · pale = specific signal, but no experiment of this line calls an SE there</span>
           <span>labels: gene[specificity rank]; on the grey track gene[rank by the line's own signal], darker = called in more experiments</span></div>
         <div id="lv-igv"></div>
         <div class="card-note"><b>H3K27ac coverage tracks</b> (tick to add or remove):<div class="lv-exps" id="lv-exps"></div></div>
       </div>
-      <div class="lv-grid">
-        <div class="card"><div class="card-h"><h3 style="color:#c0392b">Specific vs relatives</h3><span class="muted-s" id="lv-vsrel-n"></span></div>
-          <div class="card-b scroll lv-scroll" id="lv-vsrel"></div></div>
-        <div class="card"><div class="card-h"><h3 style="color:#e08214">Specific vs all lines</h3><span class="muted-s" id="lv-vsall-n"></span></div>
-          <div class="card-b scroll lv-scroll" id="lv-vsall"></div></div>
-      </div>
+      <div class="lv-grid" id="lv-cmps"></div>
     </section>
 
     <section class="panel" data-tab="about">

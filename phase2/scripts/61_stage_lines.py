@@ -56,6 +56,17 @@ PALE = {"vsall": "246,214,170", "vssub": "178,221,190", "vsdis": "240,190,184", 
 COLS = ["rank", "se", "chrom", "start", "end", "gene", "dist_kb", "jsd", "fdr", "cn", "called", "signal_rank", "flag"]
 
 
+def clean(o):
+    """NaN (a missing label) is not JSON: write null."""
+    if isinstance(o, float) and o != o:
+        return None
+    if isinstance(o, dict):
+        return {k: clean(v) for k, v in o.items()}
+    if isinstance(o, (list, tuple)):
+        return [clean(v) for v in o]
+    return o
+
+
 def flag_of(chrom, cn):
     """Known artifact classes, removed in v3.1 (ROADMAP): chrY presence depends on the line's sex, and dividing by
     a copy number near 0 inflates noise in deep deletions."""
@@ -313,7 +324,7 @@ def main():
                             for s_ in exps],
             "cols": COLS, "comparisons": comps,
         }
-        json.dump(summary, open(fn("json"), "w"), separators=(",", ":"))
+        json.dump(clean(summary), open(fn("json"), "w"), separators=(",", ":"), allow_nan=False)
         return key, {"group": grp, "name": name, "lineage": lineage, "search": line_groups.get(grp, {}).get("search", name),
                      "n": {c: comps[c]["n"] for c in CMP}}
 
@@ -329,7 +340,7 @@ def main():
         done = [stage_one(k) for k in want]
     for k, v in done:
         index[k] = v
-    json.dump(index, open(os.path.join(OUT, "index.json"), "w"), separators=(",", ":"), sort_keys=True)
+    json.dump(clean(index), open(os.path.join(OUT, "index.json"), "w"), separators=(",", ":"), sort_keys=True, allow_nan=False)
     print(f"[61] staged {len(done)} line(s) -> {OUT}", file=sys.stderr)
 
 if __name__ == "__main__":

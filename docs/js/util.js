@@ -9,7 +9,7 @@ const U = (() => {
     { key: "lineage", label: "Lineage", kind: "calls", file: "data/calls_lineage.tsv" },
     { key: "disease", label: "Primary disease", kind: "calls", file: "data/calls_disease.tsv" },
     { key: "subtype", label: "Subtype", kind: "rankings", file: "data/rank_subtype.tsv" },
-    { key: "line", label: "Cell line", kind: "rankings", file: "data/rank_line.tsv" },
+    { key: "line", label: "Cell line", kind: "lines", file: null },   // per-line comparisons, data/lines/<key>.json
   ];
 
   // CN class from a group-mean copy-number ratio

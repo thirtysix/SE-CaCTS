@@ -16,9 +16,11 @@ const Overview = (() => {
       [[meta.n_lineages, "lineages", "OncotreeLineage groups (e.g. Breast, Lung, Ovary/Fallopian Tube)"],
        [meta.n_diseases, "primary diseases", "OncotreePrimaryDisease groups (e.g. Invasive Breast Carcinoma)"]].map(([n, l, t]) =>
         `<div class="ps-item" title="${U.esc(t)}"><span class="ps-n">${n}</span><span class="ps-l">${l}</span></div>`).join("") +
-      `<span class="ps-cap" style="margin-left:8px" title="finer resolutions, rankings are shown but significance is NOT called, because most groups have too few cell lines">Rankings only</span>` +
-      [[meta.n_subtypes, "subtypes", `OncotreeSubtype groups, ${meta.n_subtypes_single} of ${meta.n_subtypes} contain a single cell line`],
-       [meta.n_lines, "cell lines", "individual cell lines, permutation is degenerate for a single sample"]].map(([n, l, t]) =>
+      `<span class="ps-cap" style="margin-left:8px" title="rankings are shown but significance is NOT called, because most subtypes have too few cell lines">Rankings only</span>` +
+      [[meta.n_subtypes, "subtypes", `OncotreeSubtype groups, ${meta.n_subtypes_single} of ${meta.n_subtypes} contain a single cell line`]].map(([n, l, t]) =>
+        `<div class="ps-item" title="${U.esc(t)}"><span class="ps-n">${n}</span><span class="ps-l">${l}</span></div>`).join("") +
+      `<span class="ps-cap" style="margin-left:8px" title="each line compared with all lines and with its subtype, primary disease and lineage; called where it has two independent studies and at least four lines to compare with">Per line</span>` +
+      [[meta.n_lines, "cell lines", "four comparisons per line (SE Atlas, cell-line level, and the Genomic View)"]].map(([n, l, t]) =>
         `<div class="ps-item" title="${U.esc(t)}"><span class="ps-n">${n}</span><span class="ps-l">${l}</span></div>`).join("");
 
     U.el("ov-guide").innerHTML = [

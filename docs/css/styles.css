@@ -101,7 +101,7 @@ td.mono.ess-dep{color:var(--amber); font-weight:700}
   border:1px solid var(--border); border-radius:8px; padding:7px 12px; cursor:pointer}
 .dl-btn:hover{border-color:var(--accent); background:var(--accent-soft)}
 /* searchable combobox group picker: visible dropdown that also filters as you type */
-.combo{position:relative; display:inline-block; min-width:405px; max-width:100%}
+.combo{position:relative; display:inline-block; min-width:min(405px, 100%); max-width:100%}
 .combo-input{width:100%; padding-right:28px}
 .combo::after{content:"▾"; position:absolute; right:11px; top:11px; font-size:11px; color:var(--muted); pointer-events:none; transition:transform .15s}
 .combo.open::after{transform:rotate(180deg)}
@@ -322,3 +322,15 @@ td.gene{font-family:ui-monospace,Menlo,monospace; font-weight:650}
 @media (max-width: 600px){ #lv-combo, #lv-combo .combo-input{width:100%; min-width:0; max-width:100%} }
 .lv-legend{display:flex; flex-wrap:wrap; gap:6px 18px; padding:10px 18px 4px; font-size:12px; color:var(--muted)}
 .lv-legend i{display:inline-block; width:14px; height:9px; margin-right:2px; border-radius:2px; vertical-align:middle}
+
+/* possible-artifact flag (chrY, deep deletion) on per-line lists; removed in the next release */
+.flag-chip{display:inline-block; margin-left:6px; padding:0 5px; border-radius:5px; font-size:10.5px; font-weight:700;
+  color:#8a5a00; background:#fdf1d6; border:1px solid #f0d49a; white-space:nowrap}
+:root[data-theme="dark"] .flag-chip{color:#f4cf7a; background:#3a2e12; border-color:#6b5320}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .flag-chip{color:#f4cf7a; background:#3a2e12; border-color:#6b5320} }
+/* gene -> Genomic View link in the SE Atlas line level */
+a.gv-link{color:inherit; text-decoration:underline dotted; text-underline-offset:3px}
+a.gv-link:hover{color:var(--accent-deep)}
+.cmp-status{font-size:13px; color:var(--muted)}
+.cmp-status b{color:var(--text)}
+#atlas-desc > b, #atlas-desc .crumb{white-space:nowrap}
