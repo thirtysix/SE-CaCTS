@@ -278,7 +278,14 @@ def fig_cn_ablation(levs=("OncotreeLineage", "OncotreePrimaryDisease"), name="fi
     for t, c in zip(bx.get_yticklabels(), (TEAL, RED)):
         t.set_color(c); t.set_fontweight("bold")
     bx.spines["left"].set_visible(False)
-    bx.set_ylim(-0.55, 1.55)
+    # the far right of "removed": the highest-CN amplicons, named (as in the first version of this panel)
+    amp = (A[A.kind == "amplicon_driven"].sort_values("cn_mean", ascending=False)
+           .drop_duplicates("nearest_gene").head(6).sort_values("cn_mean"))
+    for i, r in enumerate(amp.itertuples()):
+        bx.annotate(r.nearest_gene, (r.cn_mean, 1.32), xytext=(0, 12 + 20 * (i % 3)), textcoords="offset points",
+                    ha="center", fontsize=13, color=INK, fontstyle="italic",
+                    arrowprops=dict(arrowstyle="-", color=FAINT, lw=0.8, shrinkA=0, shrinkB=2))
+    bx.set_ylim(-0.55, 1.95)
     bx.set_xlabel("mean copy number of the group at the locus")
     hgrid(bx)
     fig.tight_layout(w_pad=4.0)
