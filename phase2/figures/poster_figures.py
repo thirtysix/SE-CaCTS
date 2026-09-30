@@ -231,13 +231,15 @@ def _ablation_pair(lev):
 ABL_LABEL = dict(LEVEL_LABEL, line="Cell line")
 
 
-def fig_cn_ablation(levs=("OncotreeLineage", "OncotreePrimaryDisease"), name="fig4_cn_ablation", width=420):
+def fig_cn_ablation(levs=("OncotreeLineage", "OncotreePrimaryDisease"), name="fig4_cn_ablation", width=420,
+                    base_mm=38, per_level_mm=48):
     """Left: calls without vs with CN correction per level. Right: CN at the disputed loci — removed vs rescued,
     with the rescues inside deep deletions (CN < 0.3) shown apart as the correction artifacts they are."""
     A = pd.read_csv(os.path.join(SC, "atlas.s3.perm.cn_ablation_calls.tsv"), sep="\t")
     levs = [l for l in levs if _ablation_pair(l) is not None]
     k = len(levs)
-    fig, (ax, bx) = plt.subplots(1, 2, figsize=(width * MM, (38 + 48 * k) * MM), gridspec_kw={"width_ratios": [1, 1.7]})
+    fig, (ax, bx) = plt.subplots(1, 2, figsize=(width * MM, (base_mm + per_level_mm * k) * MM),
+                                 gridspec_kw={"width_ratios": [1, 1.7]})
     ticks, labs = [], []
     per_level = k > 2          # counts differ by orders of magnitude across levels: scale bars within each level
     for i, lev in enumerate(levs):
@@ -286,7 +288,8 @@ def fig_cn_ablation(levs=("OncotreeLineage", "OncotreePrimaryDisease"), name="fi
 def fig_cn_ablation_all():
     """fig4 at lineage, disease and cell line (consensus of studies). Subtype is left out: its counts swing with
     how BH is pooled (FINDINGS §37), so the poster makes no subtype claim."""
-    fig_cn_ablation(("OncotreeLineage", "OncotreePrimaryDisease", "line"), "fig4b_cn_ablation_levels")
+    fig_cn_ablation(("OncotreeLineage", "OncotreePrimaryDisease", "line"), "fig4b_cn_ablation_levels",
+                    base_mm=30, per_level_mm=34)                    # compact: the poster's panel 03 also holds Fig. 7
 
 
 # pre-specified identity TFs per lineage, from the literature — shown whether or not they pass
