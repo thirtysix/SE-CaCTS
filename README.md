@@ -18,18 +18,22 @@ epigenomic analog of what CaCTS does for master transcription factors.*
 | **2,422** | untreated or control H3K27ac experiments | from ChIP-Atlas, plus SRA data it lacks run through its own v1 pipeline |
 | **46,443** | union super-enhancer loci | in the scored, QC-gated catalogue |
 | **519** | cancer cell lines | after QC, each with copy number, across **25** Oncotree lineages and **56** primary diseases |
-| **18,639** | lineage-specific super-enhancers | in **25 of 25** lineages, at a calibrated permutation FDR ≤ 0.10 |
-| **17,031** | disease-specific super-enhancers | in **54 of 56** primary diseases, same threshold |
+| **15,324** | lineage-specific super-enhancers | in **24 of 25** lineages, at a calibrated permutation FDR ≤ 0.10, each a super-enhancer in its own lineage |
+| **13,950** | disease-specific super-enhancers | in **49 of 56** primary diseases, same rule |
 
 The scored atlas is the QC-gated arm: **1,945** of those experiments, over **46,443** loci, collapsed to
 the 519 cell lines above. Copy number comes from DepMap WGS for 282 lines, Cell Model Passports WES for 133,
 DepMap WES for 21 and CCLE SNP6 for 3, and is inferred from ChIP input for 80 (a weaker correction; the
-dashboard's Analysis selector shows the atlas without those lines). This is the **v3** atlas (2026-09-30):
+dashboard's Analysis selector shows the atlas without those lines). This is the **v3.0.1** atlas (2026-09-30):
 **baseline only**, meaning drug-treated, knocked-down and otherwise perturbed experiments, input controls and
 other marks were removed after every experiment's GEO record was read. The v2 atlas (386 lines, treated
 experiments included) is kept in `phase2/results_v2/` and `phase2/scores_v2/`; 87.8% of its lineage calls
 reappear in v3, and no quality measure degraded (calibration, expression concordance, master-regulator
-recovery: 20 of 22 in their own lineage).
+recovery). **v3.0.1** adds a rule: a specific locus must also be a super-enhancer in its group, i.e. at least one
+experiment of the lineage, disease or line calls a super-enhancer overlapping it
+(`phase2/scripts/74_called_filter.py`). Scoring measures signal at every locus any experiment calls, so before
+this 18% of lineage calls and 74% of per-line calls were loci where the group had the most H3K27ac but called no
+super-enhancer. Master regulators found in their own lineage: 19 of 22 (HNF4A drops out).
 
 ---
 
@@ -118,13 +122,13 @@ can be picked up cold.
 - **The negative controls are the convincing part** (v1 panel): six triple-negative breast lines bury ESR1
   at ranks 11,000–21,000, while lobular carcinoma (near-always ER+) gives ESR1 #22. The method was never
   told which lines were ER+.
-- **Copy-number correction validates itself twice.** It removes 1,015 calls, 72% of them at amplified
-  loci and led by recurrent amplicons found unprompted: MYCN in neuroblastoma (CN 71×, with co-amplified
-  DDX1), MYC and POU5F1B at 8q24, OTX2. It also **rescues** 9,585 copy-neutral calls (median CN 1.00) that
-  amplicon spikes were hiding in the permutation null: +28% at lineage level, twice as many at disease
+- **Copy-number correction validates itself twice.** At lineage and disease level it removes 1,498 calls,
+  61% of them at amplified loci and led by recurrent amplicons found unprompted: MYCN in neuroblastoma (CN 47×,
+  with co-amplified DDX1), MYC and POU5F1B at 8q24, OTX2. It also **rescues** 6,935 copy-neutral calls (median
+  CN 1.01) that amplicon spikes were hiding in the permutation null: +12% at lineage level, +37% at disease
   level. (v1's "67 → 6,790" at lineage level was a BH threshold effect; see `RESULTS.md`.)
 - **An independent layer agrees.** Genes beside a group-specific SE are themselves specific to that same
-  group in DepMap expression at **16.0%** vs a 4.27% background (**3.7×**) at lineage level (5.2× at
+  group in DepMap expression at **15.3%** vs a 4.12% background (**3.7×**) at lineage level (5.1× at
   disease level), decaying monotonically with SE→gene distance while a group-shuffled control stays flat.
   On v1 this rate roughly **doubled** on the permutation-filtered set versus the analytic one, independent
   evidence that the permutation FDR removes noise rather than signal.
