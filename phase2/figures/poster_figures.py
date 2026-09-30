@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Poster figure panels for SE-CaCTS (v2 atlas), print-ready: SVG + PDF + 300-dpi PNG per panel.
+"""Poster figure panels for SE-CaCTS (v2 by default; v3 via POSTER_* below), print-ready: SVG + PDF + 300-dpi PNG per panel.
 
 Sized for an A0 portrait poster with ~260 mm columns: every panel is drawn at its final physical size, so
 the type sizes below are the printed sizes (16-18 pt text reads at ~1.5 m). Titles are left to the poster
@@ -29,8 +29,13 @@ RES = os.environ.get("POSTER_RES", os.path.join(SECACTS, "phase2", "results_v2")
 SC = os.environ.get("POSTER_SC", os.path.join(SECACTS, "phase2", "scores_v2"))
 SC1 = os.path.join(SECACTS, "phase2", "scores")
 OUT = os.environ.get("POSTER_OUT", os.path.join(SECACTS, "poster", "figures"))
+# the atlas drawn and the one it is compared with (fig2): v2 vs v1 by default, v3 vs v2 via 72_finish_v3.sh
+PS = os.environ.get("POSTER_PS", os.path.join(SECACTS, "phase2", "data", "pull_set.v2.tsv"))
+PREV_SC = os.environ.get("POSTER_PREV_SC", SC1)
+LABEL, PREV_LABEL = os.environ.get("POSTER_LABEL", "v2"), os.environ.get("POSTER_PREV_LABEL", "v1")
 
 TEAL, RED, ORANGE, VIOLET = "#008a7e", "#b4443a", "#d4731c", "#4a3aa7"
+OCHRE, BLUE = "#b8930f", "#3f6fb0"
 INK, MUTED, FAINT, GRID, SURF = "#12222a", "#5a6b73", "#9aa5a9", "#e3e8ea", "#ffffff"
 MM = 1 / 25.4
 
@@ -64,24 +69,30 @@ def vgrid(ax):
 
 
 # ---------------------------------------------------------------------------------------------- data
-def v2_panel():
-    """Lines in the scored v2 atlas (post-QC-gate), with CN source and lineage."""
-    ps = pd.read_csv(os.path.join(SECACTS, "phase2/data/pull_set.v2.tsv"), sep="\t")
+# CN sources in the order they were added to the atlas, with the colour each keeps in every panel
+PROVIDERS = [("depmap_wgs", "DepMap WGS", TEAL), ("cmp_wes", "CMP WES", ORANGE), ("depmap_mc_wes", "DepMap WES", VIOLET),
+             ("ccle_snp6", "CCLE SNP6", OCHRE), ("input_inferred", "inferred from ChIP input", BLUE)]
+
+
+def atlas_panel():
+    """Lines in the scored atlas (post-QC-gate), with CN source and lineage."""
+    ps = pd.read_csv(PS, sep="\t")
     kept = set(pd.read_csv(os.path.join(RES, "atlas.s3.s3norm_params.tsv.gz"), sep="\t")["sample"])
     ps = ps[ps.srx.isin(kept)]
     lin = pd.read_csv(os.path.join(SECACTS, "phase1/data/lineage_resolved.tsv"), sep="\t").set_index("cvcl")
-    L = ps.groupby("key").agg(cvcl=("cvcl", "first"), cn=("cn_provider", "first"), n=("srx", "size"))
-    L["lineage"] = L["cvcl"].map(lin["lineage"])
+    L = ps.groupby("key").agg(cvcl=("cvcl", "first"), cn=("cn_provider", "first"), n=("srx", "size"),
+                              ps_lineage=("lineage", "first"))
+    L["lineage"] = L["cvcl"].map(lin["lineage"]).fillna(L["ps_lineage"])
     return L
 
 
 # ------------------------------------------------------------------------------------------ panels
 def fig_panel_expansion():
     """Lines per lineage in the scored atlas, split by the copy-number source that admitted them."""
-    L = v2_panel()
-    order = ["depmap_wgs", "cmp_wes", "depmap_mc_wes"]
-    lab = {"depmap_wgs": "DepMap WGS (v1 panel)", "cmp_wes": "+ CMP WES (new)", "depmap_mc_wes": "+ DepMap WES (new)"}
-    col = {"depmap_wgs": TEAL, "cmp_wes": ORANGE, "depmap_mc_wes": VIOLET}
+    L = atlas_panel()
+    order = [k for k, _, _ in PROVIDERS if k in set(L["cn"])]
+    lab = {k: ("DepMap WGS (v1 panel)" if k == "depmap_wgs" else f"+ {n}") for k, n, _ in PROVIDERS}
+    col = {k: c for k, _, c in PROVIDERS}
     T = L.groupby(["lineage", "cn"]).size().unstack(fill_value=0).reindex(columns=order, fill_value=0)
     T = T.loc[T.sum(axis=1).sort_values().index]
     fig, ax = plt.subplots(figsize=(250 * MM, 190 * MM))
@@ -91,7 +102,7 @@ def fig_panel_expansion():
         v = T[c].values
         ax.barh(y, v, left=left, height=0.68, color=col[c], label=lab[c], edgecolor=SURF, linewidth=1.2)
         left += v
-    for yi, tot, new in zip(y, left, T[["cmp_wes", "depmap_mc_wes"]].sum(axis=1).values):
+    for yi, tot, new in zip(y, left, T[[c for c in order if c != "depmap_wgs"]].sum(axis=1).values):
         ax.text(tot + 0.6, yi, f"{int(tot)}" + (f"  (+{int(new)})" if new else ""), va="center",
                 fontsize=13, color=MUTED)
     ax.set_yticks(y, T.index, fontsize=14)
@@ -109,15 +120,16 @@ LEVEL_LABEL = {"OncotreeLineage": "Lineage", "OncotreePrimaryDisease": "Primary 
 
 
 def fig_resolution():
-    """Calls per group against lines per group, v1 vs v2, one small multiple per hierarchy level."""
-    H1 = pd.read_csv(os.path.join(SC1, "atlas.s3.perm.hierarchy_summary.tsv"), sep="\t")
+    """Calls per group against lines per group, previous vs current atlas, one small multiple per level."""
+    H1 = pd.read_csv(os.path.join(PREV_SC, "atlas.s3.perm.hierarchy_summary.tsv"), sep="\t")
     H2 = pd.read_csv(os.path.join(SC, "atlas.s3.perm.hierarchy_summary.tsv"), sep="\t")
+    nl = lambda H: int(H.loc[H.level == "OncotreeLineage", "n_lines"].sum())         # noqa: E731
     levs = list(LEVEL_LABEL)
     fig, axes = plt.subplots(1, 3, figsize=(250 * MM, 105 * MM), sharey=True)
     rng = np.random.default_rng(0)
     for ax, lev in zip(axes, levs):
-        for H, lab, face, edge, z in ((H1, "v1 · 282 lines", "none", FAINT, 2),
-                                      (H2, "v2 · 386 lines", TEAL, SURF, 3)):
+        for H, lab, face, edge, z in ((H1, f"{PREV_LABEL} · {nl(H1)} lines", "none", FAINT, 2),
+                                      (H2, f"{LABEL} · {nl(H2)} lines", TEAL, SURF, 3)):
             h = H[H.level == lev]
             x = h["n_lines"].values * np.exp(rng.uniform(-0.06, 0.06, len(h)))      # de-overlap
             ax.scatter(x, h["n_spec_fdr10"].values, s=46, facecolor=face, edgecolor=edge if face != "none" else FAINT,
@@ -339,8 +351,8 @@ def fig_concordance():
 def fig_cn_sources():
     """Correction strength by CN source: signal-vs-CN correlation per line, before and after correction."""
     D = pd.read_csv(os.path.join(SC, "atlas.s3.perm.cn_by_line.tsv"), sep="\t")
-    order = [("depmap_wgs", "DepMap WGS", TEAL), ("cmp_wes", "CMP WES", ORANGE), ("depmap_mc_wes", "DepMap WES", VIOLET)]
-    fig, ax = plt.subplots(figsize=(250 * MM, 90 * MM))
+    order = [p for p in PROVIDERS if p[0] in set(D.cn_source)]
+    fig, ax = plt.subplots(figsize=(250 * MM, (90 if len(order) <= 3 else 105) * MM))
     rng = np.random.default_rng(2)
     for i, (k, lab, col) in enumerate(order):
         d = D[D.cn_source == k]
@@ -349,12 +361,12 @@ def fig_cn_sources():
             ax.scatter(xs, d[c], s=22, color=col if j else FAINT, alpha=alpha, edgecolor="none", zorder=3)
             m = d[c].median()
             ax.plot([i * 3 + j - 0.32, i * 3 + j + 0.32], [m, m], color=INK, lw=2.2, zorder=4)
-        ax.text(i * 3 + 0.5, ax.get_ylim()[1] if False else 0.47, f"{lab}\n(n = {len(d)})", ha="center",
-                va="top", fontsize=14)
-    ax.set_xticks([i * 3 + j for i in range(3) for j in range(2)], ["raw", "corrected"] * 3, fontsize=13.5)
+        ax.text(i * 3 + 0.5, 0.66, f"{lab}\n(n = {len(d)})".replace("inferred from ", "inferred from\n"), ha="center",
+                va="top", fontsize=13.5, linespacing=1.1)
+    ax.set_xticks([i * 3 + j for i in range(len(order)) for j in range(2)], ["raw", "corr."] * len(order), fontsize=13.5)
     ax.axhline(0, color=FAINT, lw=1)
     ax.set_ylabel("per-line Spearman ρ,\nSE signal vs copy number")
-    ax.set_ylim(-0.35, 0.5); vgrid(ax); ax.spines["bottom"].set_visible(False)
+    ax.set_ylim(-0.35, 0.68 if len(order) > 3 else 0.5); vgrid(ax); ax.spines["bottom"].set_visible(False)
     save(fig, "fig7_cn_sources")
 
 

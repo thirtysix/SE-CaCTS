@@ -34,6 +34,8 @@ if [[ " $STEPS " == *" derive "* ]]; then
 fi
 if [[ " $STEPS " == *" figures "* ]]; then
   POSTER_RES="$RES" POSTER_SC="$SC" POSTER_OUT="$SECACTS/poster/figures_v3" \
+    POSTER_PS="$SECACTS/phase2/data/pull_set.v3.tsv" POSTER_PREV_SC="$SECACTS/phase2/scores_v2" \
+    POSTER_LABEL=v3 POSTER_PREV_LABEL=v2 \
     "$PY" "$SECACTS/phase2/figures/poster_figures.py"
   echo "[72] figures -> poster/figures_v3"
 fi
