@@ -23,7 +23,7 @@ from playwright.async_api import async_playwright
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SECACTS = os.path.abspath(os.path.join(HERE, "..", ".."))
-DOCS = os.path.join(SECACTS, "docs")
+DOCS = os.environ.get("SECACTS_DOCS", os.path.join(SECACTS, "docs"))   # a staged copy, e.g. the next release
 
 
 def serve():

@@ -7,19 +7,24 @@ const About = (() => {
 
   function pipelineSVG(m) {
     const cn = Object.entries(m.cn_sources || {}).filter(([, v]) => v > 0).map(([k, v]) => `${k} ${v}`).join(" · ");
+    const inferred = (m.cn_sources || {})["inferred from ChIP input"] || 0;
+    const measured = Object.entries(m.cn_sources || {}).filter(([k, v]) => v > 0 && k !== "inferred from ChIP input")
+      .map(([k, v]) => `${k} ${v}`).join(" · ");
     const steps = [
-      ["H3K27ac ChIP-seq", [`ChIP-Atlas, hg38: ${fmt(m.n_pull)} experiments on human cancer cell lines`]],
+      ["H3K27ac ChIP-seq", m.pull_desc || [`ChIP-Atlas, hg38: ${fmt(m.n_pull)} experiments on human cancer cell lines`]],
       ["Super-enhancer calling", ["cnrose: ROSE re-implemented on the bigWig coverage", "(calls identical to ROSE2)"]],
       ["Union catalogue", [`${fmt(m.n_ses)} super-enhancer loci; exact signal for every locus in every sample`]],
       ["Cross-study normalization", ["S3norm, behind a QC gate of 2,000 peaks:", `${fmt(m.n_samples)} experiments from ${fmt(m.n_lines)} cell lines`]],
-      ["Copy-number correction", ["measured copy number for every line:", cn]],
+      ["Copy-number correction", inferred ? [measured, `and ${inferred} lines with copy number inferred from ChIP input`]
+                                          : ["measured copy number for every line:", cn]],
       ["Specificity score", ["CaCTS Jensen-Shannon divergence at each Oncotree level:", "lineage, primary disease, subtype, cell line"]],
       ["Significance", ["label-permutation FDR (1,000 shuffles, group sizes kept);", `${fmt((m.calibration || {}).perm_shuffled_calls)} calls on shuffled labels`]],
       ["Specific super-enhancers", [`${fmt(m.n_lineage_calls)} lineage and ${fmt(m.n_disease_calls)} disease calls (FDR ≤ 0.10),`, "checked by CN ablation and expression concordance"]],
     ];
     const inputs = [                                   // [target step index, title, subtitle]
-      [0, "ChIP-Atlas", "bigWig coverage + peaks"],
-      [4, "DepMap, Cell Model Passports", "WGS / WES copy number"],
+      m.pull_desc ? [0, "ChIP-Atlas, SRA, GEO", "coverage, reads, sample metadata"] : [0, "ChIP-Atlas", "bigWig coverage + peaks"],
+      (m.cn_sources || {})["inferred from ChIP input"] ? [4, "DepMap, CMP, CCLE", "WGS / WES / SNP6; ChIP input"]
+                                                         : [4, "DepMap, Cell Model Passports", "WGS / WES copy number"],
       [5, "DepMap Model, Cellosaurus", "Oncotree labels per line"],
       [7, "DepMap RNA-seq", "expression, for validation"],
     ];

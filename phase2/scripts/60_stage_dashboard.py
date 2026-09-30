@@ -124,6 +124,7 @@ def main():
     ap.add_argument("--release-date", required=True, help="YYYY-MM-DD")
     ap.add_argument("--release-title", default="", help="one line: what this release is")
     ap.add_argument("--release-notes", default="", help="what changed since the previous release")
+    ap.add_argument("--pull-desc", default="", help="pipeline-chart step 1, lines separated by ' | ' (default: ChIP-Atlas only)")
     a = ap.parse_args()
     SCORES, RESULTS = a.scores, a.results
     PERM = os.path.join(SCORES, "atlas.s3.perm")
@@ -285,6 +286,8 @@ def main():
     meta["cn_sources"] = {lab: int(src.get(k, 0)) for k, lab in
                           (("depmap_wgs", "DepMap WGS"), ("cmp_wes", "CMP WES"), ("depmap_mc_wes", "DepMap WES"),
                                          ("ccle_snp6", "CCLE SNP6"), ("input_inferred", "inferred from ChIP input"))}
+    if a.pull_desc:
+        meta["pull_desc"] = [x.strip() for x in a.pull_desc.split("|")]
     # calibration: calls made on SHUFFLED labels (lineage level) by each null, where those runs exist
     # tests = SCORED loci x lineages (score_pilot drops loci with zero signal in every sample)
     fmat = f"{PERM}.OncotreeLineage.fdr.tsv.gz"

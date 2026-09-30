@@ -218,20 +218,26 @@ def fig_cn_ablation(levs=("OncotreeLineage", "OncotreePrimaryDisease"), name="fi
     k = len(levs)
     fig, (ax, bx) = plt.subplots(1, 2, figsize=(250 * MM, (40 + 32 * k) * MM), gridspec_kw={"width_ratios": [1, 1.55]})
     ticks, labs = [], []
+    per_level = k > 2          # counts differ by orders of magnitude across levels: scale bars within each level
     for i, lev in enumerate(levs):
         nu, nc = _ablation_pair(lev)
+        sc = 1 / max(nu, nc, 1) if per_level else 1
         yb = (k - 1 - i) * 2.4
-        ax.barh(yb + 0.45, nu, height=0.7, color=FAINT)
-        ax.barh(yb - 0.45, nc, height=0.7, color=TEAL)
-        ax.text(nu, yb + 0.45, f"  {nu:,}", va="center", fontsize=14, color=MUTED)
-        ax.text(nc, yb - 0.45, f"  {nc:,}", va="center", fontsize=14, color=INK, fontweight="bold")
+        ax.barh(yb + 0.45, nu * sc, height=0.7, color=FAINT)
+        ax.barh(yb - 0.45, nc * sc, height=0.7, color=TEAL)
+        ax.text(nu * sc, yb + 0.45, f"  {nu:,}", va="center", fontsize=14, color=MUTED)
+        ax.text(nc * sc, yb - 0.45, f"  {nc:,}", va="center", fontsize=14, color=INK, fontweight="bold")
         ax.text(0, yb + 1.05, ABL_LABEL[lev], fontsize=15, fontweight="bold", va="bottom")
         ticks += [yb + 0.45, yb - 0.45]; labs += ["uncorrected", "CN-corrected"]
     ax.set_yticks(ticks, labs)
-    ax.set_xlabel("specific SEs (FDR ≤ 0.10)")
-    ax.set_ylim(-1.1, (k - 1) * 2.4 + 1.5); hgrid(ax); ax.spines["left"].set_visible(False)
-    ax.set_xlim(0, ax.get_xlim()[1] * 1.3)
-    ax.xaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(lambda v, _: f"{int(v):,}"))
+    ax.set_ylim(-1.1, (k - 1) * 2.4 + 1.5); ax.spines["left"].set_visible(False)
+    if per_level:
+        ax.set_xlim(0, 1.45); ax.set_xticks([]); ax.spines["bottom"].set_visible(False)
+        ax.set_xlabel("specific SEs (FDR ≤ 0.10); bars scaled within each level")
+    else:
+        ax.set_xlabel("specific SEs (FDR ≤ 0.10)"); hgrid(ax)
+        ax.set_xlim(0, ax.get_xlim()[1] * 1.3)
+        ax.xaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(lambda v, _: f"{int(v):,}"))
 
     rng = np.random.default_rng(1)
     dele = (A.kind == "rescued") & (A.cn_mean < DEL_CN)

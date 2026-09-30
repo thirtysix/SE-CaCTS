@@ -2338,31 +2338,21 @@ SRX29630051	MSTO-211H	CVCL_1430	ACH-000335	Pleura	Pleural Mesothelioma, Biphasic
 SRX29630029	MSTO-211H	CVCL_1430	ACH-000335	Pleura	Pleural Mesothelioma, Biphasic Type	ACH-000335	depmap_wgs		stageB
 SRX20118987	R1-AD1	CVCL_ZC60		Prostate	Prostate Adenocarcinoma	CVCL_ZC60	input_inferred		stageB
 SRX34536104	OVCAR-8	CVCL_1629	ACH-000696	Ovary/Fallopian Tube	High-Grade Serous Ovarian Cancer	ACH-000696	depmap_wgs		stageB
-SRX32258778	90-8TL	CVCL_1B47		Peripheral Nervous System	Malignant Peripheral Nerve Sheath Tumor	CVCL_1B47	input_inferred		stageB
 SRX29630028	MSTO-211H	CVCL_1430	ACH-000335	Pleura	Pleural Mesothelioma, Biphasic Type	ACH-000335	depmap_wgs		stageB
 SRX20118988	R1-AD1	CVCL_ZC60		Prostate	Prostate Adenocarcinoma	CVCL_ZC60	input_inferred		stageB
-SRX15949751	BT-474	CVCL_0179	ACH-000927	Breast	Breast Invasive Ductal Carcinoma	ACH-000927	depmap_wgs		stageB
-SRX33309223	HCCLM3	CVCL_6832		Liver	Hepatocellular Carcinoma	CVCL_6832	input_inferred		stageB
-SRX28639570	Caki-1	CVCL_0234	ACH-000433	Kidney	Renal Clear Cell Carcinoma	ACH-000433	depmap_wgs		stageB
-SRX10653002	KARPAS-299	CVCL_1324	ACH-000053	Lymphoid	Anaplastic Large-Cell Lymphoma ALK Positive	ACH-000053	depmap_wgs		stageB
-SRX32258782	90-8TL	CVCL_1B47		Peripheral Nervous System	Malignant Peripheral Nerve Sheath Tumor	CVCL_1B47	input_inferred		stageB
 SRX25912991	LNCAP	CVCL_0395	ACH-000977	Prostate	Prostate Adenocarcinoma	ACH-000977	cmp_wes	CVCL_1379	stageB
 SRX17042658	SU-DIPG-IV	CVCL_IT39		CNS/Brain	Diffuse Intrinsic Pontine Glioma	CVCL_IT39	input_inferred		stageB
 SRX19738131	SU-DIPG-IV	CVCL_IT39		CNS/Brain	Diffuse Intrinsic Pontine Glioma	CVCL_IT39	input_inferred		stageB
-SRX33309222	HCCLM3	CVCL_6832		Liver	Hepatocellular Carcinoma	CVCL_6832	input_inferred		stageB
 SRX20188906	CAMA-1	CVCL_1115	ACH-000783	Breast	Breast Invasive Lobular Carcinoma	ACH-000783	depmap_wgs		stageB
 SRX30647467	NCI-H1155	CVCL_1456	ACH-000980	Lung	Large Cell Lung Carcinoma	ACH-000980	cmp_wes		stageB
 SRX20292749	COLO-800	CVCL_1135	ACH-000401	Skin	Cutaneous Melanoma	ACH-000401	cmp_wes		stageB
-SRX10652985	SU-DHL-1	CVCL_0538	ACH-000664	Lymphoid	Anaplastic Large-Cell Lymphoma ALK Positive	ACH-000664	depmap_wgs		stageB
 SRX26709348	NCI-H660	CVCL_1576	ACH-000177	Prostate	Prostate Small Cell Carcinoma	ACH-000177	cmp_wes		stageB
-SRX26535969	OVCAR-8	CVCL_1629	ACH-000696	Ovary/Fallopian Tube	High-Grade Serous Ovarian Cancer	ACH-000696	depmap_wgs		stageB
 SRX27114351	MUTZ-3	CVCL_1433	ACH-000084	Myeloid	AML with Myelodysplasia-Related Changes	ACH-000084	input_inferred		stageB
 SRX29630052	MSTO-211H	CVCL_1430	ACH-000335	Pleura	Pleural Mesothelioma, Biphasic Type	ACH-000335	depmap_wgs		stageB
 SRX25913038	LNCAP	CVCL_0395	ACH-000977	Prostate	Prostate Adenocarcinoma	ACH-000977	cmp_wes	CVCL_1379	stageB
 SRX17042657	SU-DIPG-IV	CVCL_IT39		CNS/Brain	Diffuse Intrinsic Pontine Glioma	CVCL_IT39	input_inferred		stageB
 SRX33093564	QGP-1	CVCL_3143	ACH-000347	Pancreas	Pancreatic Neuroendocrine Tumor	ACH-000347	cmp_wes		stageB
 SRX33093563	QGP-1	CVCL_3143	ACH-000347	Pancreas	Pancreatic Neuroendocrine Tumor	ACH-000347	cmp_wes		stageB
-SRX22643556	SNU-1079	CVCL_5008	ACH-000209	Biliary Tract	Intrahepatic Cholangiocarcinoma	ACH-000209	cmp_wes		stageB
 SRX24406255	SYO1	CVCL_7146	ACH-001275	Bone	Osteosarcoma	ACH-001275	input_inferred		stageB
 SRX25913018	LNCAP	CVCL_0395	ACH-000977	Prostate	Prostate Adenocarcinoma	ACH-000977	cmp_wes	CVCL_1379	stageB
 SRX27240990	MUTZ-3	CVCL_1433	ACH-000084	Myeloid	AML with Myelodysplasia-Related Changes	ACH-000084	input_inferred		stageB
@@ -2370,11 +2360,7 @@ SRX27410581	SU-DHL-5	CVCL_1735	ACH-000660	Lymphoid	Diffuse Large B-Cell Lymphoma
 SRX27240988	MUTZ-3	CVCL_1433	ACH-000084	Myeloid	AML with Myelodysplasia-Related Changes	ACH-000084	input_inferred		stageB
 SRX15949749	BT-483	CVCL_2319	ACH-000818	Breast	Breast Invasive Ductal Carcinoma	ACH-000818	cmp_wes		stageB
 SRX26997398	LNCAP	CVCL_0395	ACH-000977	Prostate	Prostate Adenocarcinoma	ACH-000977	cmp_wes	CVCL_1379	stageB
-SRX25275879	NCI-H1417	CVCL_1469	ACH-001591	Lung	Small Cell Lung Cancer	ACH-001591	depmap_mc_wes		stageB
 SRX25759851	AN3 CA	CVCL_0028	ACH-000940	Uterus	Endometrial Carcinoma	ACH-000940	cmp_wes		stageB
-SRX31110524	NCI-H661	CVCL_1577	ACH-000853	Lung	Large Cell Lung Carcinoma	ACH-000853	cmp_wes		stageB
-SRX24585404	ACHN	CVCL_1067	ACH-000046	Kidney	Papillary Renal Cell Carcinoma	ACH-000046	depmap_wgs		stageB
-SRX28249429	SJSA-1	CVCL_1697	ACH-000748	Bone	Osteosarcoma	ACH-000748	depmap_wgs		stageB
 SRX28238972	NCI-H226	CVCL_1544	ACH-000367	Pleura	Pleural Mesothelioma, Epithelioid Type	ACH-000367	depmap_wgs		stageB
 SRX19935204	NAMALWA	CVCL_0067	ACH-000944	Lymphoid	Burkitt Lymphoma	ACH-000944	cmp_wes		stageB
 SRX20188905	CAMA-1	CVCL_1115	ACH-000783	Breast	Breast Invasive Lobular Carcinoma	ACH-000783	depmap_wgs		stageB
@@ -2382,110 +2368,56 @@ SRX25634248	C4-2B	CVCL_4784		Prostate	Prostate Adenocarcinoma	CVCL_4784	input_in
 SRX24406256	SYO1	CVCL_7146	ACH-001275	Bone	Osteosarcoma	ACH-001275	input_inferred		stageB
 SRX30647474	NCI-H1155	CVCL_1456	ACH-000980	Lung	Large Cell Lung Carcinoma	ACH-000980	cmp_wes		stageB
 SRX20079512	HT	CVCL_1290	ACH-000914	Lymphoid	Diffuse Large B-Cell Lymphoma, NOS	ACH-000914	depmap_wgs		stageB
-SRX28639569	Caki-1	CVCL_0234	ACH-000433	Kidney	Renal Clear Cell Carcinoma	ACH-000433	depmap_wgs		stageB
 SRX28238971	NCI-H226	CVCL_1544	ACH-000367	Pleura	Pleural Mesothelioma, Epithelioid Type	ACH-000367	depmap_wgs		stageB
 SRX19947787	NCI-H441	CVCL_1561	ACH-000638	Lung	Lung Adenocarcinoma	ACH-000638	cmp_wes		stageB
 SRX28193388	GRANTA-519	CVCL_1818	ACH-000073	Lymphoid	Mantle Cell Lymphoma	ACH-000073	cmp_wes		stageB
-SRX31889175	huH-1	CVCL_2956	ACH-000475	Liver	Hepatocellular Carcinoma	ACH-000475	cmp_wes		stageB
 SRX25968018	Capan-1	CVCL_0237	ACH-000354	Pancreas	Pancreatic Adenocarcinoma	ACH-000354	depmap_wgs		stageB
-SRX31889174	huH-1	CVCL_2956	ACH-000475	Liver	Hepatocellular Carcinoma	ACH-000475	cmp_wes		stageB
 SRX25913030	LNCAP	CVCL_0395	ACH-000977	Prostate	Prostate Adenocarcinoma	ACH-000977	cmp_wes	CVCL_1379	stageB
 SRX19947806	NCI-H358	CVCL_1559	ACH-000860	Lung	Lung Adenocarcinoma	ACH-000860	cmp_wes		stageB
-SRX31889176	huH-1	CVCL_2956	ACH-000475	Liver	Hepatocellular Carcinoma	ACH-000475	cmp_wes		stageB
 SRX31312819	769-P	CVCL_1050	ACH-000411	Kidney	Renal Clear Cell Carcinoma	ACH-000411	cmp_wes		stageB
-SRX20079510	DB	CVCL_1168	ACH-000334	Lymphoid	Diffuse Large B-Cell Lymphoma, NOS	ACH-000334	depmap_wgs		stageB
-SRX24406254	SYO1	CVCL_7146	ACH-001275	Bone	Osteosarcoma	ACH-001275	input_inferred		stageB
 SRX20079527	SU-DHL-5	CVCL_1735	ACH-000660	Lymphoid	Diffuse Large B-Cell Lymphoma, NOS	ACH-000660	cmp_wes		stageB
-SRX23958385	MCC26	CVCL_2585	ACH-001552	Skin	Merkel Cell Carcinoma	ACH-001552	depmap_mc_wes		stageB
 SRX19935550	NAMALWA	CVCL_0067	ACH-000944	Lymphoid	Burkitt Lymphoma	ACH-000944	cmp_wes		stageB
-SRX28043357	LoVo	CVCL_0399	ACH-000950	Bowel	Colon Adenocarcinoma	ACH-000950	depmap_wgs		stageB
-SRX25968019	Capan-1	CVCL_0237	ACH-000354	Pancreas	Pancreatic Adenocarcinoma	ACH-000354	depmap_wgs		stageB
 SRX20079532	WSU-DLCL2	CVCL_1902	ACH-000534	Lymphoid	Diffuse Large B-Cell Lymphoma, NOS	ACH-000534	cmp_wes		stageB
 SRX20079509	BJAB	CVCL_5711	ACH-001447	Lymphoid	Burkitt Lymphoma	ACH-001447	depmap_wgs		stageB
 SRX27296302	TCC-PAN2	CVCL_3178	ACH-000502	Pancreas	Pancreatic Adenocarcinoma	ACH-000502	cmp_wes		stageB
 SRX27296303	TCC-PAN2	CVCL_3178	ACH-000502	Pancreas	Pancreatic Adenocarcinoma	ACH-000502	cmp_wes		stageB
 SRX15949747	HCC1569	CVCL_1255	ACH-000930	Breast	Breast Invasive Ductal Carcinoma	ACH-000930	depmap_wgs		stageB
-SRX31889177	huH-1	CVCL_2956	ACH-000475	Liver	Hepatocellular Carcinoma	ACH-000475	cmp_wes		stageB
-SRX24405657	HSSY2	CVCL_8719	ACH-002085	Soft Tissue	Synovial Sarcoma	ACH-002085	input_inferred		stageB
 SRX28091199	PEO1	CVCL_2686	ACH-001630	Ovary/Fallopian Tube	Serous Ovarian Cancer	ACH-001630	cmp_wes		stageB
 SRX21840023	HOS	CVCL_0312	ACH-000613	Bone	Osteosarcoma	ACH-000613	cmp_wes		stageB
 SRX19935553	NAMALWA	CVCL_0067	ACH-000944	Lymphoid	Burkitt Lymphoma	ACH-000944	cmp_wes		stageB
 SRX28229011	CHLA-9	CVCL_M150	ACH-001034	Bone	Ewing Sarcoma	ACH-001034	depmap_mc_wes		stageB
 SRX25634250	LNCAP	CVCL_0395	ACH-000977	Prostate	Prostate Adenocarcinoma	ACH-000977	cmp_wes	CVCL_1379	stageB
-SRX27266310	OCI-LY1	CVCL_1879		Lymphoid	Diffuse Large B-Cell Lymphoma, NOS	CVCL_1879	input_inferred		stageB
 SRX30647482	NCI-H1155	CVCL_1456	ACH-000980	Lung	Large Cell Lung Carcinoma	ACH-000980	cmp_wes		stageB
-SRX27266311	OCI-LY1	CVCL_1879		Lymphoid	Diffuse Large B-Cell Lymphoma, NOS	CVCL_1879	input_inferred		stageB
 SRX27410582	SU-DHL-5	CVCL_1735	ACH-000660	Lymphoid	Diffuse Large B-Cell Lymphoma, NOS	ACH-000660	cmp_wes		stageB
 SRX30424654	GSC23	CVCL_DR59		CNS/Brain	Glioblastoma	CVCL_DR59	input_inferred		stageB
 SRX31783210	LAMA-84	CVCL_0388	ACH-000301	Myeloid	Chronic Myeloid Leukemia, BCR-ABL1+	ACH-000301	cmp_wes		stageB
 SRX28193387	GRANTA-519	CVCL_1818	ACH-000073	Lymphoid	Mantle Cell Lymphoma	ACH-000073	cmp_wes		stageB
 SRX26709343	LNCAP	CVCL_0395	ACH-000977	Prostate	Prostate Adenocarcinoma	ACH-000977	cmp_wes	CVCL_1379	stageB
-SRX27383414	LNCAP	CVCL_0395	ACH-000977	Prostate	Prostate Adenocarcinoma	ACH-000977	cmp_wes	CVCL_1379	stageB
 SRX23396263	OE19	CVCL_1622	ACH-000679	Esophagus/Stomach	Esophageal Squamous Cell Carcinoma	ACH-000679	depmap_wgs		stageB
 SRX29039406	EWS502	CVCL_S740	ACH-000279	Bone	Ewing Sarcoma	ACH-000279	depmap_wgs		stageB
-SRX26634093	LA-N-5	CVCL_0389		Peripheral Nervous System	Neuroblastoma	CVCL_0389	input_inferred		stageB
-SRX25709013	UT-7	CVCL_2233	ACH-001230	Myeloid	Acute Megakaryoblastic Leukemia	ACH-001230	ccle_snp6		stageB
-SRX31783208	KCL-22	CVCL_2091	ACH-000983	Myeloid	Chronic Myeloid Leukemia, BCR-ABL1+	ACH-000983	cmp_wes		stageB
 SRX20079528	TMD8	CVCL_A442		Lymphoid	Activated B-cell Type	CVCL_A442	input_inferred		stageB
-SRX26405538	SUP-B15	CVCL_0103	ACH-000059	Lymphoid	B-Cell Acute Lymphoblastic Leukemia	ACH-000059	depmap_wgs		stageB
 SRX26185667	OVCAR-8	CVCL_1629	ACH-000696	Ovary/Fallopian Tube	High-Grade Serous Ovarian Cancer	ACH-000696	depmap_wgs		stageB
-SRX23841024	FaDu	CVCL_1218	ACH-000846	Head and Neck	Hypopharynx Squamous Cell Carcinoma	ACH-000846	depmap_wgs		stageB
 SRX4715699	B-CPAP	CVCL_0153	ACH-000456	Thyroid	Poorly Differentiated Thyroid Cancer	ACH-000456	cmp_wes		stageB
 SRX4715700	CAL-62	CVCL_1112	ACH-000174	Thyroid	Anaplastic Thyroid Cancer	ACH-000174	cmp_wes		stageB
 SRX28092459	SH-EP	CVCL_0524	ACH-000149	Peripheral Nervous System	Neuroblastoma	ACH-000149	depmap_mc_wes	CVCL_0531	stageB
-SRX24405655	HSSY2	CVCL_8719	ACH-002085	Soft Tissue	Synovial Sarcoma	ACH-002085	input_inferred		stageB
-SRX25275880	NCI-H1417	CVCL_1469	ACH-001591	Lung	Small Cell Lung Cancer	ACH-001591	depmap_mc_wes		stageB
 SRX26405558	BV-173	CVCL_0181	ACH-000432	Lymphoid	B-Cell Acute Lymphoblastic Leukemia	ACH-000432	cmp_wes		stageB
 SRX33118386	UACC-62	CVCL_1780	ACH-000425	Skin	Melanoma	ACH-000425	cmp_wes		stageB
-SRX30566095	HCC827	CVCL_2063	ACH-000012	Lung	Lung Adenocarcinoma	ACH-000012	depmap_wgs		stageB
 SRX33118384	UACC-62	CVCL_1780	ACH-000425	Skin	Melanoma	ACH-000425	cmp_wes		stageB
 SRX33118385	UACC-62	CVCL_1780	ACH-000425	Skin	Melanoma	ACH-000425	cmp_wes		stageB
 SRX26709354	LNCAP	CVCL_0395	ACH-000977	Prostate	Prostate Adenocarcinoma	ACH-000977	cmp_wes	CVCL_1379	stageB
-SRX31110523	NCI-H661	CVCL_1577	ACH-000853	Lung	Large Cell Lung Carcinoma	ACH-000853	cmp_wes		stageB
-SRX25589229	F-36P	CVCL_2037	ACH-000487	Myeloid	AML, NOS	ACH-000487	cmp_wes		stageB
-SRX24405656	HSSY2	CVCL_8719	ACH-002085	Soft Tissue	Synovial Sarcoma	ACH-002085	input_inferred		stageB
 SRX24466161	EWS502	CVCL_S740	ACH-000279	Bone	Ewing Sarcoma	ACH-000279	depmap_wgs		stageB
-SRX25382434	KGN	CVCL_0375	ACH-002149	Ovary/Fallopian Tube	Granulosa Cell Tumor	ACH-002149	cmp_wes		stageB
 SRX20079526	RC-K8	CVCL_1883	ACH-001638	Lymphoid	Germinal Center B-Cell Type	ACH-001638	cmp_wes		stageB
 SRX16037463	AGS	CVCL_0139	ACH-000880	Esophagus/Stomach	Stomach Adenocarcinoma	ACH-000880	depmap_wgs		stageB
-SRX29113595	SUP-B15	CVCL_0103	ACH-000059	Lymphoid	B-Cell Acute Lymphoblastic Leukemia	ACH-000059	depmap_wgs		stageB
-SRX25966418	AGS	CVCL_0139	ACH-000880	Esophagus/Stomach	Stomach Adenocarcinoma	ACH-000880	depmap_wgs		stageB
-SRX26536116	CCRF-CEM	CVCL_0207	ACH-001738	Lymphoid	T-Cell Acute Lymphoblastic Leukemia	ACH-001738	cmp_wes		stageB
 SRX28412011	NCI-H520	CVCL_1566	ACH-000395	Lung	Lung Squamous Cell Carcinoma	ACH-000395	depmap_wgs		stageB
 SRX31634483	PSN1	CVCL_1644	ACH-000320	Pancreas	Pancreatic Adenocarcinoma	ACH-000320	cmp_wes		stageB
-SRX30196359	MDA PCa 2b	CVCL_4748	ACH-000952	Prostate	Prostate Adenocarcinoma	ACH-000952	cmp_wes		stageB
-SRX26634091	LA-N-5	CVCL_0389		Peripheral Nervous System	Neuroblastoma	CVCL_0389	input_inferred		stageB
-SRX30094119	LNCAP	CVCL_0395	ACH-000977	Prostate	Prostate Adenocarcinoma	ACH-000977	cmp_wes	CVCL_1379	stageB
-SRX30196360	MDA PCa 2b	CVCL_4748	ACH-000952	Prostate	Prostate Adenocarcinoma	ACH-000952	cmp_wes		stageB
-SRX28412010	NCI-H520	CVCL_1566	ACH-000395	Lung	Lung Squamous Cell Carcinoma	ACH-000395	depmap_wgs		stageB
 SRX28654742	LNCAP	CVCL_0395	ACH-000977	Prostate	Prostate Adenocarcinoma	ACH-000977	cmp_wes	CVCL_1379	stageB
-SRX24405658	HSSY2	CVCL_8719	ACH-002085	Soft Tissue	Synovial Sarcoma	ACH-002085	input_inferred		stageB
 SRX24784380	AN3 CA	CVCL_0028	ACH-000940	Uterus	Endometrial Carcinoma	ACH-000940	cmp_wes		stageB
-SRX29113587	SUP-B15	CVCL_0103	ACH-000059	Lymphoid	B-Cell Acute Lymphoblastic Leukemia	ACH-000059	depmap_wgs		stageB
 SRX25879891	LNCAP	CVCL_0395	ACH-000977	Prostate	Prostate Adenocarcinoma	ACH-000977	cmp_wes	CVCL_1379	stageB
 SRX23718621	KYSE-450	CVCL_1353	ACH-000865	Esophagus/Stomach	Esophageal Squamous Cell Carcinoma	ACH-000865	cmp_wes		stageB
-SRX507398	NCCIT	CVCL_1451	ACH-001578	Testis	Embryonal Carcinoma	ACH-001578	depmap_wgs		stageB
 SRX21165346	LNCAP	CVCL_0395	ACH-000977	Prostate	Prostate Adenocarcinoma	ACH-000977	cmp_wes	CVCL_1379	stageB
 SRX23146857	LNCAP	CVCL_0395	ACH-000977	Prostate	Prostate Adenocarcinoma	ACH-000977	cmp_wes	CVCL_1379	stageB
-SRX30251283	NCI-H146	CVCL_1473	ACH-000506	Lung	Small Cell Lung Cancer	ACH-000506	depmap_wgs		stageB
 SRX29113602	BV-173	CVCL_0181	ACH-000432	Lymphoid	B-Cell Acute Lymphoblastic Leukemia	ACH-000432	cmp_wes		stageB
-SRX23794235	KMS-12-BM	CVCL_1334	ACH-000380	Lymphoid	Plasma Cell Myeloma	ACH-000380	cmp_wes		stageB
 SRX29113603	BV-173	CVCL_0181	ACH-000432	Lymphoid	B-Cell Acute Lymphoblastic Leukemia	ACH-000432	cmp_wes		stageB
 SRX23396262	OE19	CVCL_1622	ACH-000679	Esophagus/Stomach	Esophageal Squamous Cell Carcinoma	ACH-000679	depmap_wgs		stageB
-SRX29113586	SUP-B15	CVCL_0103	ACH-000059	Lymphoid	B-Cell Acute Lymphoblastic Leukemia	ACH-000059	depmap_wgs		stageB
 SRX25736653	HPB-ALL	CVCL_1820	ACH-000942	Lymphoid	T-Cell Acute Lymphoblastic Leukemia	ACH-000942	cmp_wes		stageB
-SRX21165379	NCI-H660	CVCL_1576	ACH-000177	Prostate	Prostate Small Cell Carcinoma	ACH-000177	cmp_wes		stageB
-SRX25275878	NCI-H1417	CVCL_1469	ACH-001591	Lung	Small Cell Lung Cancer	ACH-001591	depmap_mc_wes		stageB
-SRX31286470	RPMI 8402	CVCL_1667	ACH-000636	Lymphoid	T-Cell Acute Lymphoblastic Leukemia	ACH-000636	cmp_wes		stageB
-SRX29113596	SUP-B15	CVCL_0103	ACH-000059	Lymphoid	B-Cell Acute Lymphoblastic Leukemia	ACH-000059	depmap_wgs		stageB
-SRX30251287	NCI-H146	CVCL_1473	ACH-000506	Lung	Small Cell Lung Cancer	ACH-000506	depmap_wgs		stageB
-SRX31783214	SUP-B15	CVCL_0103	ACH-000059	Lymphoid	B-Cell Acute Lymphoblastic Leukemia	ACH-000059	depmap_wgs		stageB
 SRX31783216	BV-173	CVCL_0181	ACH-000432	Lymphoid	B-Cell Acute Lymphoblastic Leukemia	ACH-000432	cmp_wes		stageB
-SRX28654746	LNCAP	CVCL_0395	ACH-000977	Prostate	Prostate Adenocarcinoma	ACH-000977	cmp_wes	CVCL_1379	stageB
-SRX30251322	NCI-H146	CVCL_1473	ACH-000506	Lung	Small Cell Lung Cancer	ACH-000506	depmap_wgs		stageB
-SRX26535971	NCI-H226	CVCL_1544	ACH-000367	Pleura	Pleural Mesothelioma, Epithelioid Type	ACH-000367	depmap_wgs		stageB
-SRX28238976	NCI-H520	CVCL_1566	ACH-000395	Lung	Lung Squamous Cell Carcinoma	ACH-000395	depmap_wgs		stageB
-SRX26535870	NCI-H23	CVCL_1547	ACH-000900	Lung	Lung Adenocarcinoma	ACH-000900	depmap_wgs		stageB
-SRX28238975	NCI-H520	CVCL_1566	ACH-000395	Lung	Lung Squamous Cell Carcinoma	ACH-000395	depmap_wgs		stageB
-SRX19935615	NAMALWA	CVCL_0067	ACH-000944	Lymphoid	Burkitt Lymphoma	ACH-000944	cmp_wes		stageB
-SRX26535867	U-251 MG	CVCL_0021	ACH-000232	CNS/Brain	Astrocytoma, IDH-Mutant	ACH-000232	depmap_wgs		stageB

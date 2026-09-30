@@ -30,6 +30,7 @@ case "$BASE" in
                  --levels OncotreeLineage,OncotreePrimaryDisease,OncotreeSubtype) ;;
   noinf)   args=("${V2[@]}" --out "$OUT/atlas.s3.perm.noinf" --exclude-keys "$(cat "$REPO/phase2/data/v3_inferred_keys.txt")"
                  --levels OncotreeLineage,OncotreePrimaryDisease) ;;
+  noinfall) args=("${V2[@]}" --out "$OUT/atlas.s3.perm.noinfall" --exclude-keys "$(cat "$REPO/phase2/data/v3_inferred_keys.txt")") ;;
   nodisc)  args=("${V2[@]}" --out "$OUT/atlas.s3.perm.nodisc" --exclude-keys "$DISC"
                  --levels OncotreeLineage,OncotreePrimaryDisease) ;;
   cmpfirst) args=("${V2[@]}" --pull-set "$REPO/phase2/data/pull_set.v2.cmpfirst.tsv" --out "$OUT/atlas.s3.perm.cmpfirst"
