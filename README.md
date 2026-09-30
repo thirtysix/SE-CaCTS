@@ -2,9 +2,10 @@
 
 ### ▶ [**Explore the atlas: thirtysix.github.io/SE-CaCTS**](https://thirtysix.github.io/SE-CaCTS/)
 
-Browse the lineage-specific super-enhancers for any of 24 cancer lineages and 46 primary diseases, with
-copy number at each locus, the nearest gene, cross-layer concordance and a per-gene lookup. No install,
-no backend.
+Browse the lineage-specific super-enhancers for any of 25 cancer lineages and 56 primary diseases, and each
+of 519 cell lines compared with all lines and with the lines of its subtype, disease and lineage, with copy
+number at each locus, the nearest gene, cross-layer concordance, a per-gene lookup and a genome browser. No
+install, no backend.
 
 [![SE-CaCTS dashboard](assets/screenshots/dashboard-overview.png)](https://thirtysix.github.io/SE-CaCTS/)
 
@@ -14,17 +15,21 @@ epigenomic analog of what CaCTS does for master transcription factors.*
 
 | | | |
 |---|---|---|
-| **3,468** | H3K27ac experiments | pulled from ChIP-Atlas and called for super-enhancers |
-| **47,101** | union super-enhancer loci | in the scored, QC-gated catalogue |
-| **386** | cancer cell lines | after QC, each with **measured copy number**, across **24** Oncotree lineages and **46** primary diseases |
-| **12,994** | lineage-specific super-enhancers | in **23 of 24** lineages, at a calibrated permutation FDR ≤ 0.10 |
-| **11,652** | disease-specific super-enhancers | in **43 of 46** primary diseases, same threshold |
+| **2,422** | untreated or control H3K27ac experiments | from ChIP-Atlas, plus SRA data it lacks run through its own v1 pipeline |
+| **46,443** | union super-enhancer loci | in the scored, QC-gated catalogue |
+| **519** | cancer cell lines | after QC, each with copy number, across **25** Oncotree lineages and **56** primary diseases |
+| **18,639** | lineage-specific super-enhancers | in **25 of 25** lineages, at a calibrated permutation FDR ≤ 0.10 |
+| **17,031** | disease-specific super-enhancers | in **54 of 56** primary diseases, same threshold |
 
-The scored atlas is the QC-gated arm: **2,563** of those experiments, over **47,101** loci, collapsed to
-the 386 cell lines above. Copy number comes from DepMap WGS for 282 lines, Cell Model Passports WES for 91
-and DepMap WES for 13. Those are the numbers the dashboard shows, and every result below comes from them.
-This is the **v2** atlas (2026-09-28); the 282-line v1 atlas it extends is kept in `phase2/results/` and
-`phase2/scores/`, and 97% of its calls reappear in v2.
+The scored atlas is the QC-gated arm: **1,945** of those experiments, over **46,443** loci, collapsed to
+the 519 cell lines above. Copy number comes from DepMap WGS for 282 lines, Cell Model Passports WES for 133,
+DepMap WES for 21 and CCLE SNP6 for 3, and is inferred from ChIP input for 80 (a weaker correction; the
+dashboard's Analysis selector shows the atlas without those lines). This is the **v3** atlas (2026-09-30):
+**baseline only**, meaning drug-treated, knocked-down and otherwise perturbed experiments, input controls and
+other marks were removed after every experiment's GEO record was read. The v2 atlas (386 lines, treated
+experiments included) is kept in `phase2/results_v2/` and `phase2/scores_v2/`; 87.8% of its lineage calls
+reappear in v3, and no quality measure degraded (calibration, expression concordance, master-regulator
+recovery: 20 of 22 in their own lineage).
 
 ---
 
@@ -59,9 +64,9 @@ of one.
 
 ## Analysis Steps
 
-**Status (2026-09-28): the v2 atlas is built, scored, validated, and browsable.** Phases 1, 2, 3b, 4, 5, 6
-and 7 are done. What remains open is copy-number *inference* for lines no measured source covers, which is
-scope expansion rather than a blocker. See below.
+**Status (2026-09-30): the v3 atlas is built, scored, validated, and browsable.** Phases 1 to 7 are done,
+including copy-number inference from ChIP input for lines no measured source covers. The v3.1 plan (label
+fixes, a stricter copy-number floor, subtype-level testing) is in `ROADMAP.md`.
 
 | phase | what | state |
 |---|---|---|
@@ -73,7 +78,8 @@ scope expansion rather than a blocker. See below.
 | 6 | cross-layer concordance bridge (SE ↔ expression) | done, both stages |
 | 7 | results dashboard | done, `docs/` (served by GitHub Pages) |
 | 3b | CN-source expansion: CMP WES + DepMap WES → **v2 atlas, 386 lines** | done 2026-09-28 (~10 BU) |
-| 3 | CN *inference* from ChIP input, for lines no measured source covers | **open**: per-line agreement too variable (r 0.15–0.96) to use yet |
+| 3 | CN *inference* from ChIP input, for lines no measured source covers | done: used for 80 lines that pass a quality gate; corrects less than measured copy number |
+| v3 | baseline-only atlas: every experiment's GEO record read, perturbed experiments removed; own processing of SRA data ChIP-Atlas lacks | done 2026-09-30 (519 lines) |
 
 **The atlas.** Two pulls ran on Roihu with the same code: 2,916 experiments for the v1 panel (one retired
 SRX) and 552 more for the 122 lines that became copy-number-correctable through whole-exome sources. The
@@ -89,7 +95,8 @@ Jaccard 1.0000).
 used **fails an outright calibration test**: run on shuffled group labels, where nothing real exists to
 find, it calls **5.2%** of tests "specific" (vs 7.4% on real data; 6.05% vs 7.4% on v1). It is a
 non-functional FDR, not a loose one. The canonical run is now a **label-permutation null** (B = 1,000),
-which makes **0 calls** on shuffled labels across 7.25 million tests at three levels. Every count in this repo is the permutation one; the analytic counts are void.
+which makes **0 calls** on shuffled labels across 8.5 million tests at three levels in v3 (7.25 million in
+v2). Every count in this repo is the permutation one; the analytic counts are void.
 See `RESULTS.md` for the calibration test and what it means for every count here.
 
 **Read `RESULTS.md` for what is actually claimable.** It is deliberately narrower than the raw outputs.
@@ -175,6 +182,11 @@ The staged `data/` is committed, so this works straight from a clone with no set
 |---|---|
 | [![SE atlas](assets/screenshots/dashboard-atlas.png)](https://thirtysix.github.io/SE-CaCTS/#atlas) | [![CN ablation](assets/screenshots/dashboard-cn-ablation.png)](https://thirtysix.github.io/SE-CaCTS/#cn) |
 | The most group-specific super-enhancers for a group, with permutation FDR, copy number, nearest gene, locus and how many experiments called each one. | What correction removes (named recurrent amplicons) versus what it rescues (real, copy-neutral specificity). |
+
+| One cell line, four comparisons | Genomic View (IGV) |
+|---|---|
+| [![Cell-line comparisons](assets/screenshots/dashboard-atlas-line.png)](https://thirtysix.github.io/SE-CaCTS/#atlas) | [![Genomic View](assets/screenshots/dashboard-genomic-view.png)](https://thirtysix.github.io/SE-CaCTS/#line) |
+| Each line's specific super-enhancers against all lines and against the other lines of its subtype, disease and lineage; a badge shows which comparisons call each one. | Any of the 519 lines in igv.js: its super-enhancers, the four comparisons as tracks, copy number, and ChIP-Atlas coverage streamed per experiment. |
 
 [![Cross-layer concordance](assets/screenshots/dashboard-concordance.png)](https://thirtysix.github.io/SE-CaCTS/#concordance)
 
