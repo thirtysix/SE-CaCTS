@@ -191,42 +191,62 @@ def fig_calibration():
     save(fig, "fig3_calibration")
 
 
-def _ablation_sets(lev):
-    U = pd.read_csv(os.path.join(SC, f"atlas.s3.perm.nocn.{lev}.specific.tsv.gz"), sep="\t")
-    C = pd.read_csv(os.path.join(SC, f"atlas.s3.perm.{lev}.specific.tsv.gz"), sep="\t")
-    U, C = U[U.fdr <= 0.10], C[C.fdr <= 0.10]
-    u, c = set(zip(U.group, U.se)), set(zip(C.group, C.se))
-    return U, C, u, c
+DEL_CN = 0.3   # below this group-mean CN, dividing by CN (floored at 0.1) inflates noise: deletions, absent chrY
 
 
-def fig_cn_ablation():
-    """Left: calls without vs with CN correction. Right: CN at the disputed loci — removed vs rescued."""
+def _ablation_pair(lev):
+    """(uncorrected, corrected) distinct (group, SE) calls at FDR <= 0.10. Cell line comes from the consensus-of-
+    studies arm, which has a permutation null; the mean arm falls back to the analytic null at line level."""
+    stem = ("atlas.s3.conss", "line") if lev == "line" else ("atlas.s3.perm", lev)
+    u = os.path.join(SC, f"{stem[0]}.nocn.{stem[1]}.specific.tsv.gz")
+    c = os.path.join(SC, f"{stem[0]}.{stem[1]}.specific.tsv.gz")
+    if not (os.path.exists(u) and os.path.exists(c)):
+        return None
+    n = lambda f: len({(g, e) for g, e, q in pd.read_csv(f, sep="\t", usecols=["group", "se", "fdr"])   # noqa: E731
+                       .itertuples(index=False) if q <= 0.10})
+    return n(u), n(c)
+
+
+ABL_LABEL = dict(LEVEL_LABEL, line="Cell line (consensus of studies)")
+
+
+def fig_cn_ablation(levs=("OncotreeLineage", "OncotreePrimaryDisease"), name="fig4_cn_ablation"):
+    """Left: calls without vs with CN correction per level. Right: CN at the disputed loci — removed vs rescued,
+    with the rescues inside deep deletions (CN < 0.3) shown apart as the correction artifacts they are."""
     A = pd.read_csv(os.path.join(SC, "atlas.s3.perm.cn_ablation_calls.tsv"), sep="\t")
-    fig, (ax, bx) = plt.subplots(1, 2, figsize=(250 * MM, 105 * MM), gridspec_kw={"width_ratios": [1, 1.55]})
-    levs = ["OncotreeLineage", "OncotreePrimaryDisease"]
+    levs = [l for l in levs if _ablation_pair(l) is not None]
+    k = len(levs)
+    fig, (ax, bx) = plt.subplots(1, 2, figsize=(250 * MM, (40 + 32 * k) * MM), gridspec_kw={"width_ratios": [1, 1.55]})
+    ticks, labs = [], []
     for i, lev in enumerate(levs):
-        U, C, u, c = _ablation_sets(lev)
-        yb = (1 - i) * 2.4
-        ax.barh(yb + 0.45, len(u), height=0.7, color=FAINT)
-        ax.barh(yb - 0.45, len(c), height=0.7, color=TEAL)
-        ax.text(len(u) + 80, yb + 0.45, f"{len(u):,}", va="center", fontsize=14, color=MUTED)
-        ax.text(len(c) + 80, yb - 0.45, f"{len(c):,}", va="center", fontsize=14, color=INK, fontweight="bold")
-        ax.text(0, yb + 1.05, LEVEL_LABEL[lev], fontsize=15, fontweight="bold", va="bottom")
-    ax.set_yticks([2.85, 1.95, 0.45, -0.45], ["uncorrected", "CN-corrected"] * 2)
+        nu, nc = _ablation_pair(lev)
+        yb = (k - 1 - i) * 2.4
+        ax.barh(yb + 0.45, nu, height=0.7, color=FAINT)
+        ax.barh(yb - 0.45, nc, height=0.7, color=TEAL)
+        ax.text(nu, yb + 0.45, f"  {nu:,}", va="center", fontsize=14, color=MUTED)
+        ax.text(nc, yb - 0.45, f"  {nc:,}", va="center", fontsize=14, color=INK, fontweight="bold")
+        ax.text(0, yb + 1.05, ABL_LABEL[lev], fontsize=15, fontweight="bold", va="bottom")
+        ticks += [yb + 0.45, yb - 0.45]; labs += ["uncorrected", "CN-corrected"]
+    ax.set_yticks(ticks, labs)
     ax.set_xlabel("specific SEs (FDR ≤ 0.10)")
-    ax.set_ylim(-1.1, 3.9); hgrid(ax); ax.spines["left"].set_visible(False)
-    ax.set_xlim(0, ax.get_xlim()[1] * 1.25)
+    ax.set_ylim(-1.1, (k - 1) * 2.4 + 1.5); hgrid(ax); ax.spines["left"].set_visible(False)
+    ax.set_xlim(0, ax.get_xlim()[1] * 1.3)
     ax.xaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(lambda v, _: f"{int(v):,}"))
 
     rng = np.random.default_rng(1)
-    kinds = [("rescued", "rescued by correction", TEAL, 0.0), ("amplicon_driven", "removed by correction", RED, 1.0)]
-    for k, lab, col, yb in kinds:
-        v = A[A.kind == k]["cn_mean"].clip(lower=0.3)
-        yj = yb + rng.uniform(-0.22, 0.22, len(v))
-        bx.scatter(v, yj, s=9, color=col, alpha=0.35, edgecolor="none", zorder=3)
-        med, amp = v.median(), 100 * (v > 1.3).mean()
-        bx.text(0.31, yb - 0.26, f"{lab}\nn = {len(v):,} · median CN {med:.2f} · {amp:.0f}% at CN > 1.3",
+    dele = (A.kind == "rescued") & (A.cn_mean < DEL_CN)
+    kinds = [(A[(A.kind == "rescued") & ~dele], "rescued by correction", TEAL, 0.0),
+             (A[A.kind == "amplicon_driven"], "removed by correction", RED, 1.0)]
+    for d, lab, col, yb in kinds:
+        v = d["cn_mean"]
+        bx.scatter(v, yb + rng.uniform(-0.22, 0.22, len(v)), s=9, color=col, alpha=0.35, edgecolor="none", zorder=3)
+        bx.text(0.37, yb - 0.26, f"{lab}\nn = {len(v):,} · median CN {v.median():.2f} · {100 * (v > 1.3).mean():.0f}% at CN > 1.3",
                 fontsize=13, color=INK, va="top", linespacing=1.15)
+    v = A[dele]["cn_mean"].clip(lower=0.05)
+    bx.scatter(v, 0.0 + rng.uniform(-0.22, 0.22, len(v)), s=16, facecolor="none", edgecolor=MUTED, lw=0.9, zorder=4)
+    bx.axvspan(0.045, DEL_CN, color=GRID, alpha=0.55, zorder=0, lw=0)
+    bx.text(0.052, 0.62, f"CN < {DEL_CN}:\n{len(v)} “rescues”\nin deletions,\nno chrY:\nartifacts,\nnot counted",
+            fontsize=11.5, color=MUTED, va="center", linespacing=1.05)
     amp = (A[A.kind == "amplicon_driven"].sort_values("cn_mean", ascending=False)
            .drop_duplicates("nearest_gene").head(4).sort_values("cn_mean"))
     for i, r in enumerate(amp.itertuples()):
@@ -234,14 +254,19 @@ def fig_cn_ablation():
                     ha="center", fontsize=13, color=INK, fontstyle="italic",
                     arrowprops=dict(arrowstyle="-", color=FAINT, lw=0.8, shrinkA=0, shrinkB=2))
     bx.axvline(1.0, color=FAINT, lw=1, zorder=1)
-    bx.set_xscale("log")
-    bx.set_xticks([0.5, 1, 2, 5, 10, 20, 50, 100], ["0.5", "1", "2", "5", "10", "20", "50", "100"])
+    bx.set_xscale("log"); bx.set_xlim(0.045, 150)
+    bx.set_xticks([0.1, 0.3, 1, 3, 10, 30, 100], ["0.1", "0.3", "1", "3", "10", "30", "100"])
     bx.set_yticks([]); bx.spines["left"].set_visible(False)
     bx.set_ylim(-0.72, 1.75)
     bx.set_xlabel("mean copy number at the locus (group)")
     hgrid(bx)
     fig.tight_layout(w_pad=4.0)
-    save(fig, "fig4_cn_ablation")
+    save(fig, name)
+
+
+def fig_cn_ablation_all():
+    """fig4 with every level that has a calibrated null: lineage, disease, subtype, cell line."""
+    fig_cn_ablation(("OncotreeLineage", "OncotreePrimaryDisease", "OncotreeSubtype", "line"), "fig4b_cn_ablation_levels")
 
 
 # pre-specified identity TFs per lineage, from the literature — shown whether or not they pass
@@ -371,7 +396,7 @@ def fig_cn_sources():
 
 
 PANELS = {"expansion": fig_panel_expansion, "resolution": fig_resolution, "calibration": fig_calibration,
-          "ablation": fig_cn_ablation, "identity": fig_identity, "concordance": fig_concordance,
+          "ablation": fig_cn_ablation, "ablation_levels": fig_cn_ablation_all, "identity": fig_identity, "concordance": fig_concordance,
           "cnsources": fig_cn_sources}
 
 if __name__ == "__main__":

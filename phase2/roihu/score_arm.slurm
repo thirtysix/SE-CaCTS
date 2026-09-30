@@ -13,7 +13,9 @@ SB="${SB:?}"; W="${W:?}"; ARM="${ARM:?}"
 export SECACTS_DATAROOT="$SB/dataroot" OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1
 PY=/projappl/${PROJ:?}/secacts_venv/bin/python
 REPO="$SB/dataroot/002.AI_projects/SE-CaCTS"
-OUT="$SB/out"; mkdir -p "$OUT"
+OUT="${OUTDIR:-$SB/out}"; mkdir -p "$OUT"
+# ARM=<arm>_nocn runs <arm> with CN correction off, writing <prefix>.nocn.* (the uncorrected atlas side by side)
+BASE="${ARM%_nocn}"; NOCN=$([ "$BASE" != "$ARM" ] && echo 1 || true)
 DISC="ACH-000232,ACH-000338,ACH-000856,ACH-000957,ACH-000960,ACH-000997,ACH-001106,ACH-000768"
 # RES / PS pick the atlas (default v2). v3 adds input-inferred CN lines, so those two flags come along.
 RES="${RES:-$W/results_v2}"; PS="${PS:-$REPO/phase2/data/pull_set.v2.tsv}"
@@ -21,7 +23,7 @@ V2=(--signal "$RES/atlas.s3.se_signal.tsv" --catalog "$RES/atlas.s3.union_catalo
     --pull-set "$PS" --norm none
     --fdr-method permutation --n-perm 1000 --dump-specific 0.10
     --inferred-bins "$W/../cncal/bins" --blacklist "$W/../cncal/hg38-blacklist.v2.bed.gz")
-case "$ARM" in
+case "$BASE" in
   main)    args=("${V2[@]}" --out "$OUT/atlas.s3.perm" --cn-diagnostic --save-matrices) ;;
   nocn)    args=("${V2[@]}" --out "$OUT/atlas.s3.perm.nocn" --no-cn) ;;
   shuffle) args=("${V2[@]}" --out "$OUT/atlas.s3.perm.shuffle" --shuffle-labels 1
@@ -56,6 +58,10 @@ case "$ARM" in
                  --pull-set "$REPO/phase2/data/pull_set.tsv" --norm none --levels OncotreeLineage
                  --out "$OUT/regress_v1") ;;
 esac
+if [ -n "$NOCN" ]; then
+  for k in "${!args[@]}"; do [ "${args[$k]}" = "--out" ] && args[$((k + 1))]="${args[$((k + 1))]}.nocn"; done
+  args+=(--no-cn)
+fi
 echo "[arm] $ARM on $(hostname) $(date -Is)"
 "$PY" "$REPO/phase2/score_pilot.py" "${args[@]}" > "$OUT/$ARM.stdout" 2> "$OUT/$ARM.stderr"
 echo "[arm] $ARM done $(date -Is)"

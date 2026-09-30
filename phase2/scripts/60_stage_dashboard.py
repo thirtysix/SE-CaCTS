@@ -37,7 +37,7 @@ from secacts_env import DATAROOT                                    # noqa: E402
 
 SCORES = os.path.join(PHASE2, "scores")          # overridden by --scores / --results in main()
 RESULTS = os.path.join(PHASE2, "results")
-OUT = os.path.join(SECACTS, "docs", "data")
+OUT = os.path.join(os.environ.get("SECACTS_DOCS", os.path.join(SECACTS, "docs")), "data")   # SECACTS_DOCS: stage a copy, e.g. for screenshots
 PERM = os.path.join(SCORES, "atlas.s3.perm")
 
 # levels the panel supports as CALLS vs rankings-only (gotcha 72)
@@ -283,7 +283,8 @@ def main():
     kept = set(pd.read_csv(os.path.join(RESULTS, "atlas.s3.s3norm_params.tsv.gz"), sep="\t")["sample"])
     src = ps[ps.srx.isin(kept)].drop_duplicates("key")["cn_provider"].value_counts()
     meta["cn_sources"] = {lab: int(src.get(k, 0)) for k, lab in
-                          (("depmap_wgs", "DepMap WGS"), ("cmp_wes", "CMP WES"), ("depmap_mc_wes", "DepMap WES"))}
+                          (("depmap_wgs", "DepMap WGS"), ("cmp_wes", "CMP WES"), ("depmap_mc_wes", "DepMap WES"),
+                                         ("ccle_snp6", "CCLE SNP6"), ("input_inferred", "inferred from ChIP input"))}
     # calibration: calls made on SHUFFLED labels (lineage level) by each null, where those runs exist
     # tests = SCORED loci x lineages (score_pilot drops loci with zero signal in every sample)
     fmat = f"{PERM}.OncotreeLineage.fdr.tsv.gz"

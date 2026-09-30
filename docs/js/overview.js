@@ -5,7 +5,7 @@ const Overview = (() => {
 
     U.el("ov-stats").innerHTML = [
       [meta.n_ses.toLocaleString(), "", "super-enhancer loci in the atlas", "the union catalogue of super-enhancers across all samples (≥25% reciprocal-overlap merge)"],
-      [meta.n_lines, "", "cancer cell lines, copy-number corrected", `distinct cancer cell lines with QC-passed H3K27ac and measured copy number (${Object.entries(meta.cn_sources || {}).map(([k, v]) => `${v} ${k}`).join(", ")}); replicate experiments are collapsed to the line`],
+      [meta.n_lines, "", "cancer cell lines, copy-number corrected", `distinct cancer cell lines with QC-passed H3K27ac and copy number (${Object.entries(meta.cn_sources || {}).map(([k, v]) => `${v} ${k}`).join(", ")}); replicate experiments are collapsed to the line`],
       [meta.n_samples.toLocaleString(), "", "QC-passed H3K27ac experiments", `ChIP-Atlas H3K27ac experiments passing the ≥2,000-peak QC gate (of ${meta.n_pull.toLocaleString()} pulled)`],
       [(meta.calibration ? meta.calibration.perm_shuffled_calls : 0).toLocaleString(), "good", `false calls on shuffled labels<br>(the analytic null gave ${meta.calibration ? meta.calibration.analytic_shuffled_pct : 6.05}%)`, `the calibration test: run the whole procedure on data whose group labels are shuffled, so nothing real exists. A working FDR calls ≈ nothing, the permutation null does; the normal-approximation null called ${meta.calibration ? meta.calibration.analytic_shuffled_pct : 6.05}% of ${meta.calibration ? meta.calibration.n_tests.toLocaleString() : ""} lineage tests`],
     ].map(([k, cls, l, t]) => `<div class="stat" title="${U.esc(t)}"><div class="k ${cls}">${k}</div><div class="l">${l}</div></div>`).join("");

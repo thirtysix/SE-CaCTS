@@ -34,8 +34,10 @@ sys.path.insert(0, os.path.join(ROOT, "cnrose"))
 from secacts_env import DATAROOT, cache_path                     # noqa: E402
 
 P1, P2 = os.path.join(ROOT, "phase1", "data"), os.path.join(ROOT, "phase2", "data")
-RES, SC = os.path.join(ROOT, "phase2", "results_v2"), os.path.join(ROOT, "phase2", "scores_v2")
-OUT = os.path.join(ROOT, "docs", "data", "lines")
+RES = os.environ.get("SECACTS_RES", os.path.join(ROOT, "phase2", "results_v2"))
+SC = os.environ.get("SECACTS_SC", os.path.join(ROOT, "phase2", "scores_v2"))
+DOCS = os.environ.get("SECACTS_DOCS", os.path.join(ROOT, "docs"))   # stage a copy, e.g. for screenshots
+OUT = os.path.join(DOCS, "data", "lines")
 PROTO = ["NIHOVCAR3", "MCF7", "K562", "A549", "KELLY", "JURKAT", "SKNBE2"]
 BW = "https://chip-atlas.dbcls.jp/data/hg38/eachData/bw/{}.bw"
 TOP = 50
@@ -129,14 +131,14 @@ def main():
     a = ap.parse_args()
     os.makedirs(OUT, exist_ok=True)
 
-    ps = pd.read_csv(os.path.join(P2, "pull_set.v2.tsv"), sep="\t")
+    ps = pd.read_csv(os.environ.get("SECACTS_PS", os.path.join(P2, "pull_set.v2.tsv")), sep="\t")
     cols = gzip.open(os.path.join(RES, "atlas.s3.se_signal.tsv.gz"), "rt").readline().rstrip("\n").split("\t")[1:]
     ps = ps[ps.srx.isin(cols)]
     model = pd.read_csv(os.path.join(DATAROOT, "DepMap", "2026q1", "Model.csv"),
                         usecols=["ModelID", "CellLineName", "StrippedCellLineName", "OncotreeLineage",
                                  "OncotreePrimaryDisease", "OncotreeSubtype"]).set_index("ModelID")
     lin = pd.read_csv(os.path.join(P1, "lineage_resolved.tsv"), sep="\t").drop_duplicates("cvcl").set_index("cvcl")
-    man = json.load(open(os.path.join(ROOT, "docs", "data", "manifest.json")))
+    man = json.load(open(os.path.join(DOCS, "data", "manifest.json")))
     line_groups = man["levels"]["line"]["groups"]
     study = pd.read_csv(os.path.join(P2, "srx_study.tsv"), sep="\t").set_index("srx").iloc[:, 0]
     layout = pd.read_csv(os.path.join(P2, "srx_layout.tsv"), sep="\t").set_index("srx").layout
