@@ -14,6 +14,9 @@ const Combo = (() => {
     function render(q) {
       const s = (q || "").trim().toLowerCase(), n = norm(q);
       view = s ? opts.filter(o => o._s.includes(s) || (n && o._n.includes(n))) : opts;
+      // an exact name first, then names that start with the query, so "Rh1" + Enter opens Rh1, not RH-18
+      const rank = o => o._a.includes(n) ? 0 : o._a.some(a => a.startsWith(n)) ? 1 : 2;
+      if (n) view = view.map((o, i) => [rank(o), i, o]).sort((a, b) => a[0] - b[0] || a[1] - b[1]).map(x => x[2]);
       const shown = view.slice(0, CAP);
       pop.innerHTML = (shown.length ? shown.map((o, i) =>
         `<div class="combo-opt${i === hi ? " hi" : ""}${o.key === curKey ? " on" : ""}" data-i="${i}" role="option" aria-selected="${o.key === curKey}">${U.esc(o.label)}</div>`).join("")
@@ -40,7 +43,8 @@ const Combo = (() => {
 
     return {
       setOptions(o) {
-        opts = (o || []).map(x => ({ ...x, _s: String(x.search || x.label).toLowerCase(), _n: norm(x.search || x.label) }));
+        opts = (o || []).map(x => ({ ...x, _s: String(x.search || x.label).toLowerCase(), _n: norm(x.search || x.label),
+                                     _a: [x.label, ...String(x.search || "").split("|")].map(norm).filter(Boolean) }));
       },
       setValue(key) { const o = opts.find(x => x.key === key); curKey = o ? o.key : null; curLabel = o ? o.label : ""; input.value = curLabel; },
       getKey() { return curKey; },

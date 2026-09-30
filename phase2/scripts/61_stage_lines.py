@@ -336,7 +336,7 @@ def main():
         }
         json.dump(clean(summary), open(fn("json"), "w"), separators=(",", ":"), allow_nan=False)
         return key, {"group": grp, "name": name, "lineage": lineage, "search": line_groups.get(grp, {}).get("search", name),
-                     "n": {c: comps[c]["n"] for c in CMP}}
+                     "n": {c: comps[c]["n"] for c in CMP}, "tested": bool(comps["all"]["testable"])}
 
     index = {}
     workers = int(os.environ.get("STAGE_WORKERS", 8))

@@ -6,6 +6,8 @@ const Atlas = (() => {
   let manifest, level = "lineage", group = null, rows = [], cache = {};
   // cell-line level: the per-line comparison files, and the comparison on show
   let lineIdx = null, keyOf = {}, lineData = null, passSel = null;
+  // the atlas names a line as scored ("C4-2B", "EA.hy926"); the line index keys it stripped ("C42B"), as DepMap does
+  const lineKey = g => keyOf[String(g).toUpperCase().replace(/[^A-Z0-9]/g, "")];
   const CMPS = [["all", "All", "all lines"], ["lineage", "Lineage", "lineage"],          // broad to narrow
                 ["disease", "Disease", "primary disease"], ["subtype", "Subtype", "subtype"]];
   let baseHead = null;                                   // the call-level table header, restored off the line level
@@ -173,8 +175,9 @@ const Atlas = (() => {
     const nm = g => m[g].label || g;
     const order = level === "line" ? gs.slice().sort((a, b) => nm(a).localeCompare(nm(b))) : gs;
     combo.setOptions(order.map(g => {
-      const info = m[g], li = level === "line" && lineIdx ? lineIdx[keyOf[g]] : null;
-      const tail = li ? ` · ${(li.n || {}).all ?? 0} specific vs all` : (info.n_calls != null ? ` · ${info.n_calls} calls` : "");
+      const info = m[g], li = level === "line" && lineIdx ? lineIdx[lineKey(g)] : null;
+      const tail = li ? (li.tested === false ? " · one study: ranking only" : ` · ${(li.n || {}).all ?? 0} specific vs all`)
+                      : (info.n_calls != null ? ` · ${info.n_calls} calls` : "");
       const lbl = li ? `${nm(g)}${tail}` : `${nm(g)} (n=${info.n_lines}${tail})`;           // a line is n=1 by definition
       return { key: g, label: lbl, search: `${nm(g)} | ${g} | ${info.search || ""}` };
     }));
@@ -284,7 +287,7 @@ const Atlas = (() => {
   }
 
   async function renderLine() {
-    const g = group, key = keyOf[g];
+    const g = group, key = lineKey(g);
     U.el("atlas-warn").style.display = "none";
     if (!["rank", "gene", "jsd", "cn_mean", "n_called", "len", "pass_ord"].includes(sortKey) && !sortKey.startsWith("fdr_")) { sortKey = "rank"; sortAsc = true; }
     if (!key) {
