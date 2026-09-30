@@ -196,7 +196,10 @@ DEL_CN = 0.3   # below this group-mean CN, dividing by CN (floored at 0.1) infla
 def _ablation_pair(lev):
     """(uncorrected, corrected) distinct (group, SE) calls at FDR <= 0.10. Cell line comes from the consensus-of-
     studies arm, which has a permutation null; the mean arm falls back to the analytic null at line level."""
-    stem = ("atlas.s3.conss", "line") if lev == "line" else ("atlas.s3.perm", lev)
+    # cell line: the per-line "vs all" comparison (untestable lines left out of BH, FINDINGS §37); older atlases: conss
+    lines_all = os.path.join(SC, "out_lines", "atlas.s3.lines.all.line.specific.tsv.gz")
+    stem = ((("out_lines/atlas.s3.lines.all" if os.path.exists(lines_all) else "atlas.s3.conss"), "line")
+            if lev == "line" else ("atlas.s3.perm", lev))
     u = os.path.join(SC, f"{stem[0]}.nocn.{stem[1]}.specific.tsv.gz")
     c = os.path.join(SC, f"{stem[0]}.{stem[1]}.specific.tsv.gz")
     if not (os.path.exists(u) and os.path.exists(c)):
