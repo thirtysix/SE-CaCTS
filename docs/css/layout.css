@@ -58,3 +58,7 @@
   .tabbar{display:flex}
   .main{padding:0 18px 50px}
 }
+/* release stats: numbers and names each in their own left-aligned column */
+.snap-grid{display:grid; grid-template-columns:max-content 1fr; column-gap:10px; row-gap:6px; align-items:baseline;
+  font-size:12px; color:var(--muted)}
+.snap-grid b{font-family:ui-monospace,Menlo,monospace; color:var(--text); font-size:13px; font-weight:650; justify-self:start; white-space:nowrap}

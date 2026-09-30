@@ -90,6 +90,17 @@ const U = (() => {
   const variantFile = (file, v) => (!v || v === "main") ? file : file.replace(/\.(tsv|json)$/, `.${v}.$1`);
 
   const closePassHead = () => { popFor = null; const p = document.getElementById("pass-pop"); if (p) p.style.display = "none"; };
-  return { el, esc, LEVELS, cnClass, fmtFdr, fmtJsd, ucsc, downloadTSV, passBadge, passOrd, passFilter, passHeadBtn, wirePassHead, closePassHead,
+  const LINKS = {
+    chipatlas: "https://chip-atlas.org/", geo: "https://www.ncbi.nlm.nih.gov/geo/", sra: "https://www.ncbi.nlm.nih.gov/sra",
+    depmap: "https://depmap.org/portal/", cmp: "https://cellmodelpassports.sanger.ac.uk/", ccle: "https://sites.broadinstitute.org/ccle/",
+    cellosaurus: "https://www.cellosaurus.org/", ncit: "https://ncit.nci.nih.gov/", oncotree: "https://oncotree.mskcc.org/",
+    ensembl: "https://apr2022.archive.ensembl.org/", igv: "https://github.com/igvteam/igv.js",
+    rose: "http://younglab.wi.mit.edu/super_enhancer_code.html", rose2: "https://github.com/linlabbcm/rose2",
+    s3norm: "https://github.com/guanjue/S3norm", cacts: "https://doi.org/10.1126/sciadv.abf6123",
+    cactscode: "https://github.com/lawrenson-lab/CaCTS", pycacts: "https://github.com/thirtysix/pyCaCTS",
+    cnrose: "https://github.com/thirtysix/SE-CaCTS/tree/main/cnrose", repo: "https://github.com/thirtysix/SE-CaCTS",
+  };
+  const link = (k, text) => `<a href="${LINKS[k]}" target="_blank" rel="noopener">${text}</a>`;
+  return { el, esc, LEVELS, LINKS, link, cnClass, fmtFdr, fmtJsd, ucsc, downloadTSV, passBadge, passOrd, passFilter, passHeadBtn, wirePassHead, closePassHead,
            getVariant, setVariant, variantFile };
 })();

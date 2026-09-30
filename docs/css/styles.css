@@ -363,3 +363,12 @@ select.sel:disabled{opacity:.55; cursor:not-allowed}
 /* the Analysis label + select + info icon must fit a phone: let the select shrink */
 #atlas-variant-wrap, #finder-variant-wrap{max-width:100%; min-width:0}
 #atlas-variant, #finder-variant{min-width:0; max-width:calc(100vw - 150px)}
+/* About & methods: related content in cards, two columns on wide screens */
+.about-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px; align-items:start}
+.about-grid .span2{grid-column:1 / -1}
+@media (max-width: 1000px){ .about-grid{grid-template-columns:1fr} }
+.about-card{min-width:0; margin:0}
+.about-card ul{margin:6px 0 0; padding-left:18px}
+.about-card li{margin:4px 0}
+.about-card .pipeline-card{margin:0 0 10px}
+#about-body{max-width:1240px}
