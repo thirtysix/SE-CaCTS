@@ -317,7 +317,7 @@ def fig_identity(width=215):
     for i in range(len(lab)):
         for j in range(len(cols)):
             if fdrs[i][j] < 1.0:
-                ax.text(j, i, f"{ranks[i][j]:,}", ha="center", va="center", fontsize=10.5,
+                ax.text(j, i, f"{ranks[i][j]:,}" + ("*" if fdrs[i][j] <= 0.10 else ""), ha="center", va="center", fontsize=10.5,
                         fontweight="bold" if fdrs[i][j] <= 0.10 else "normal",
                         color=SURF if M[i, j] > 1.4 else INK)
     ax.set_xticks(range(len(cols)), cols, rotation=40, ha="right", rotation_mode="anchor", fontsize=12.5)
