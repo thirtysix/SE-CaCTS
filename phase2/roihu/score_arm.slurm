@@ -21,7 +21,7 @@ DISC="ACH-000232,ACH-000338,ACH-000856,ACH-000957,ACH-000960,ACH-000997,ACH-0011
 RES="${RES:-$W/results_v2}"; PS="${PS:-$REPO/phase2/data/pull_set.v2.tsv}"
 V2=(--signal "$RES/atlas.s3.se_signal.tsv" --catalog "$RES/atlas.s3.union_catalog.bed"
     --pull-set "$PS" --norm none
-    --fdr-method permutation --n-perm 1000 --dump-specific 0.10
+    --fdr-method permutation --n-perm "${NPERM:-1000}" --keep-frac "${KEEPFRAC:-0.05}" --dump-specific 0.10
     --inferred-bins "$W/../cncal/bins" --blacklist "$W/../cncal/hg38-blacklist.v2.bed.gz")
 case "$BASE" in
   main)    args=("${V2[@]}" --out "$OUT/atlas.s3.perm" --cn-diagnostic --save-matrices) ;;
@@ -59,6 +59,9 @@ case "$BASE" in
                  --pull-set "$REPO/phase2/data/pull_set.tsv" --norm none --levels OncotreeLineage
                  --out "$OUT/regress_v1") ;;
 esac
+# LEVELS overrides the arm's levels (argparse keeps the last --levels): e.g. NPERM=10000 KEEPFRAC=0.005
+# LEVELS=OncotreeSubtype OUTDIR=... re-runs one level off the permutation floor (FINDINGS §37)
+[ -n "${LEVELS:-}" ] && args+=(--levels "$LEVELS")
 if [ -n "$NOCN" ]; then
   for k in "${!args[@]}"; do [ "${args[$k]}" = "--out" ] && args[$((k + 1))]="${args[$((k + 1))]}.nocn"; done
   args+=(--no-cn)

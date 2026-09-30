@@ -474,7 +474,7 @@ def main():
                       f"(rankings only)", file=sys.stderr, flush=True)
         elif a.fdr_method == "permutation" and level != "line":
             FDR = np.power(10.0, permutation_fdr(jsd, lines_cor, model, level, n_perm=a.n_perm,
-                                                 scope=a.fdr_scope))
+                                                 keep_frac=a.keep_frac, scope=a.fdr_scope))
         else:
             if a.fdr_method == "permutation":
                 print("  [perm] SKIPPING permutation at 'line' level (degenerate — permuting labels only "
