@@ -72,9 +72,11 @@ const LineView = (() => {
 
   async function show(key) {
     const my = ++token;
-    line = await DataLoader.loadJSON(`${DIR}${key}.json`);
+    const raw = await DataLoader.loadJSON(`${DIR}${key}.json`);
     if (my !== token) return;
-    line.rows = rowsOf(line); passSel = null; sort = { k: "rank", asc: true };
+    // a copy: DataLoader caches the parsed JSON and the SE Atlas reads the same compact rows, so converting them
+    // in place broke both views on reopening a line
+    line = { ...raw, rows: rowsOf(raw) }; passSel = null; sort = { k: "rank", asc: true };
     renderSummary(); renderTables(); renderExperiments();
     await renderBrowser(my);
   }
@@ -165,8 +167,9 @@ const LineView = (() => {
     const want = pending && pending.key === L.key ? pending.locus : null;
     pending = null;
     const first = L.rows[0];
-    browser = await igv.createBrowser(host, { genome: "hg38", locus: want || (first ? locus(first) : "MYC"), tracks: [] });
-    if (my !== token) return;
+    const b = await igv.createBrowser(host, { genome: "hg38", locus: want || (first ? locus(first) : "MYC"), tracks: [] });
+    if (my !== token) { try { igv.removeBrowser(b); } catch (_) {} return; }   // a newer show() owns the host
+    browser = b;
     const f = ext => `${DIR}${L.key}.${ext}`;
     for (const [k, tag, col] of CMP) {
       const c = L.comparisons[k];
