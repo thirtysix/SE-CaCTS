@@ -161,6 +161,12 @@ const About = (() => {
       calls; the normal-approximation null it replaced called ${cal.analytic_shuffled_pct}% of tests.</p>
       <p><b>Copy number</b> is divided out at scoring time. At the group level this mostly <b>rescues</b> real,
       copy-neutral specificity that amplicon variance was hiding in the null (see CN ablation).</p>
+      <p><b>What counts as a specific super-enhancer.</b> Every locus that any experiment calls a super-enhancer is
+      scored in every line, so a group can have the most H3K27ac at a locus that none of its own experiments calls a
+      super-enhancer. Since release v3.0.1 a call needs both: the group's signal is specific (permutation FDR ≤ 0.10)
+      <em>and</em> at least one experiment of the group (lineage, disease, subtype, or the line itself) calls a
+      super-enhancer overlapping the locus. The rule removed 18% of lineage calls and 74% of per-line calls; FDRs are
+      those computed over every locus.</p>
       <p><b>Levels.</b> Calls at <b>lineage</b> and <b>primary disease</b>. <b>Subtypes</b> are rankings only:
       ${m.n_subtypes_single} of ${m.n_subtypes} hold a single line and ${m.n_subtypes_le4} hold four or fewer.
       <b>Cell lines</b> are scored by what their independent studies agree on (the value at least 75% of them
