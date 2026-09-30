@@ -1,0 +1,57 @@
+srx	cell	key	in_v3	action	rule	note
+SRX4933922	NCI-H1703		False	admit	relabel_baseline	control-infected vs SMARCA2/SMARCA4 re-expression
+SRX17215534	SUP-M2		False	admit	relabel_baseline	SUP-M2 H3K27ac, no perturbation; MWZ7415 reads as a sample ID
+SRX3141136	HeLa	ACH-001086	True	drop	always_drop	sorted subpopulation
+SRX3141137	HeLa	ACH-001086	True	drop	always_drop	sorted subpopulation
+SRX7556113	NCI/ADR-RES		False	own_line	catalogued_derivative	catalogued derivative of OVCAR-8: its own line with its own copy number, never pooled with the parent
+SRX8848964	NCI/ADR-RES		False	own_line	catalogued_derivative	catalogued derivative of OVCAR-8: its own line with its own copy number, never pooled with the parent
+SRX1091511			False	drop	relabel_perturbed	H9-derived cranial neural crest cells cultured +BMP2+CHIR; no cancer line
+SRX1091512			False	drop	relabel_perturbed	H9-derived cranial neural crest cells cultured +BMP2+CHIR; no cancer line
+SRX15680818			False	drop	relabel_perturbed	dTAGV-1 3h on WT hESC-derived CNCC; treatment decides
+SRX15680819			False	drop	relabel_perturbed	dTAGV-1 24h on WT hESC-derived CNCC; treatment decides
+SRX15680824			False	drop	relabel_perturbed	dTAGV-1 3h on WT hESC-derived CNCC; treatment decides
+SRX15680825			False	drop	relabel_perturbed	dTAGV-1 24h on WT hESC-derived CNCC; treatment decides
+SRX20052904			False	drop	relabel_perturbed	dTAGV-1 3h on WT hESC-derived CNCC; treatment decides
+SRX20052905			False	drop	relabel_perturbed	dTAGV-1 24h on WT hESC-derived CNCC; treatment decides
+SRX20052907			False	drop	relabel_perturbed	dTAGV-1 3h on WT hESC-derived CNCC; treatment decides
+SRX20052978			False	drop	relabel_perturbed	dTAGV-1 24h on WT hESC-derived CNCC; treatment decides
+SRX4976918			False	drop	relabel_perturbed	H9 surface-ectoderm differentiation d7 with RA/BMP4 (WT arm of p63KO design)
+SRX4976919			False	drop	relabel_perturbed	H9 surface-ectoderm differentiation d7 with RA/BMP4 (WT arm of p63KO design)
+SRX16497624	HCT 116	ACH-000971	True	drop	relabel_perturbed	ENCODE treatment 5-Ph-IAA 6 h (AID2 degron inducer)
+SRX16497625	HCT 116	ACH-000971	True	drop	relabel_perturbed	ENCODE treatment 5-Ph-IAA 6 h (AID2 degron inducer)
+SRX16498421	HCT 116	ACH-000971	True	drop	relabel_perturbed	ENCODE treatment 5-Ph-IAA 6 h (AID2 degron inducer)
+SRX15783127	Jurkat	ACH-000995	True	drop	relabel_perturbed	PMA/ionomycin stimulation (sgCtrl arm)
+SRX15783128	Jurkat	ACH-000995	True	drop	relabel_perturbed	PMA/ionomycin stimulation (sgCtrl arm)
+SRX19471792	Jurkat	ACH-000995	True	drop	relabel_perturbed	PMA/ionomycin stimulation (Ctrl LV arm)
+SRX19471793	Jurkat	ACH-000995	True	drop	relabel_perturbed	PMA/ionomycin stimulation (Ctrl LV arm)
+SRX26084217	K-562	ACH-000551	True	drop	relabel_perturbed	0.5 uM triptolide
+SRX047075	LNCAP	ACH-000977	True	drop	relabel_perturbed	DHT treatment (siCTRL only controls the knockdown)
+SRX6878600	LNCAP	ACH-000977	True	drop	relabel_perturbed	CREB5 overexpression (Luciferase is control), DMSO
+SRX6878601	LNCAP	ACH-000977	True	drop	relabel_perturbed	enzalutamide 2.5 uM 4 days
+SRX6878602	LNCAP	ACH-000977	True	drop	relabel_perturbed	enzalutamide + CREB5 overexpression
+SRX176874	MCF-7	ACH-000019	True	drop	relabel_perturbed	E2 100 nM 3 h (siNT only controls the knockdown)
+SRX10528666	MDA-MB-231		False	drop	relabel_perturbed	Input in title; unclassified antibody
+SRX10528670	MDA-MB-231		False	drop	relabel_perturbed	Input in title; unclassified antibody
+SRX23743442	NCI-H128		False	drop	relabel_perturbed	undefined code DN5 vs '0' reference arm of the same study
+SRX11457846	RAMOS	ACH-001636	True	drop	relabel_perturbed	DIVAC-element line vs noDIVAC comparison arm
+SRX9271576	THP-1	ACH-000146	True	drop	relabel_perturbed	title R1 (resistant) conflicts with attr Sensitive; title wins
+SRX4645311	AsPC-1	ACH-000222	True	drop	tier2	dox-induced reporter control
+SRX11243163	CFPAC-1	ACH-000138	True	drop	tier2	empty-vector single-cell clone
+SRX11243164	CFPAC-1	ACH-000138	True	drop	tier2	empty-vector single-cell clone
+SRX16888109	G-401		False	drop	tier2	dox-induced reporter control
+SRX16888110	G-401		False	drop	tier2	dox-induced reporter control
+SRX4645313	HPAF-II	ACH-000094	True	drop	tier2	dox-induced reporter control
+SRX12578555	HT115	ACH-000986	True	drop	tier2	dox-induced reporter control
+SRX12578556	HT115	ACH-000986	True	drop	tier2	dox-induced reporter control
+SRX1048466	JEKO-1	ACH-000357	True	drop	tier2	dox-induced reporter control
+SRX18955857	MCF-7	ACH-000019	True	drop	tier2	defined-medium control
+SRX18955858	MCF-7	ACH-000019	True	drop	tier2	defined-medium control
+SRX3746148	OCI-AML3	ACH-000336	True	drop	tier2	cutting control at an expressed gene
+SRX4645315	PA-TU-8988S	ACH-000022	True	drop	tier2	dox-induced reporter control
+SRX12877691	REH	ACH-000960	True	drop	tier2	dox-induced reporter control
+SRX12877692	REH	ACH-000960	True	drop	tier2	dox-induced reporter control
+SRX9562904	Rh-4	ACH-001765	True	drop	tier2	inactive-compound control
+SRX4645309	SUIT-2	ACH-000652	True	drop	tier2	dox-induced reporter control
+SRX6853170	U2OS	ACH-000364	True	drop	tier2	dCas9-only control
+SRX3590862	LN-229	ACH-000595	True	keep	tier2_fallback	defined-medium control
+SRX3590863	LN-229	ACH-000595	True	keep	tier2_fallback	defined-medium control
