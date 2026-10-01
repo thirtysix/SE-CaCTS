@@ -293,9 +293,9 @@ def fig_cn_ablation(levs=("OncotreeLineage", "OncotreePrimaryDisease"), name="fi
 
 
 def fig_cn_ablation_all():
-    """fig4 at lineage, disease and cell line (consensus of studies). Subtype is left out: its counts swing with
-    how BH is pooled (FINDINGS §37), so the poster makes no subtype claim."""
-    fig_cn_ablation(("OncotreeLineage", "OncotreePrimaryDisease", "line"), "fig4b_cn_ablation_levels",
+    """fig4 at lineage, primary disease and subtype (the user's choice, 2026-10-01; subtype counts depend on how
+    BH is pooled, FINDINGS §37, which the presenter states verbally)."""
+    fig_cn_ablation(("OncotreeLineage", "OncotreePrimaryDisease", "OncotreeSubtype"), "fig4b_cn_ablation_levels",
                     base_mm=30, per_level_mm=34)                    # compact: the poster's panel 03 also holds Fig. 7
 
 
