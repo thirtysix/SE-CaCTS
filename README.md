@@ -69,8 +69,7 @@ of one.
 ## Analysis Steps
 
 **Status (2026-09-30): the v3 atlas is built, scored, validated, and browsable.** Phases 1 to 7 are done,
-including copy-number inference from ChIP input for lines no measured source covers. The v3.1 plan (label
-fixes, a stricter copy-number floor, subtype-level testing) is in `ROADMAP.md`.
+including copy-number inference from ChIP input for lines no measured source covers.
 
 | phase | what | state |
 |---|---|---|
@@ -225,7 +224,6 @@ current release; `docs/data/releases.json` keeps every release, and the About ta
 - **`README.md`**. This file (front door, status, pitch).
 - **`RESULTS.md`**. **The claims document: what the project can currently assert, at what resolution, and
   with what caveats.** Read this before quoting any number from the repo.
-- **`ROADMAP.md`**. Phased plan, milestones, the two cheap de-risking steps, open questions.
 - **`PRIOR_ART.md`**. The literature synthesis with citations, the landscape table, and the honest novelty verdict.
 - **`DESIGN.md`**. The technical design and every decision made so far (approach landscape, the general-vs-
   individualized fork, statistic choice + defense, CN correction, additional-data model, the normalization risk).
@@ -243,7 +241,7 @@ current release; `docs/data/releases.json` keeps every release, and the About ta
 
 ## To resume later
 
-Read **`RESULTS.md`** first (what is claimable), then `ROADMAP.md` (what is left). For background: `PRIOR_ART.md` (what exists), `STEP_A_NOVELTY_CHECK.md`
+Read **`RESULTS.md`** first (what is claimable). For background: `PRIOR_ART.md` (what exists), `STEP_A_NOVELTY_CHECK.md`
 (novelty confirmed), `DESIGN.md` (decisions), `cnrose/DESIGN.md` and `phase2/PULL_DESIGN.md` (the two
 build specs), `RUBBERDUCK.md` (a jargon-free explainer of the whole project).
 
