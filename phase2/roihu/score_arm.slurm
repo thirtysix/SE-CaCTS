@@ -91,7 +91,8 @@ case "$BASE" in
 esac
 # LEVELS overrides the arm's levels (argparse keeps the last --levels): e.g. NPERM=10000 KEEPFRAC=0.005
 # LEVELS=OncotreeSubtype OUTDIR=... re-runs one level off the permutation floor (FINDINGS §37)
-[ -n "${LEVELS:-}" ] && args+=(--levels "$LEVELS")
+# sbatch --export splits on commas, so a multi-level LEVELS is passed with '+' (a+b+c) and converted here
+[ -n "${LEVELS:-}" ] && args+=(--levels "${LEVELS//+/,}")
 if [ -n "$NOCN" ]; then
   for k in "${!args[@]}"; do [ "${args[$k]}" = "--out" ] && args[$((k + 1))]="${args[$((k + 1))]}.nocn"; done
   args+=(--no-cn)

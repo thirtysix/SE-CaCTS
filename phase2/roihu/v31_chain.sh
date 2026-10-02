@@ -11,7 +11,7 @@ echo "[v31] reduce $rid"
 
 base="ALL,PROJ=$PROJ,SB=$SB,W=$W,V31=1,RES=$W/results_v31,PS=$D/pull_set.v31.tsv,INFKEYS=$D/v31_inferred_keys.txt,RANDKEYS=$D/v31_randexcl_keys.txt,PERMIMPL=count,PERMWORKERS=4"
 all="ALL,PROJ=$PROJ,SB=$SB,W=$W,V31=1,RES=$W/results_v31all,PS=$D/pull_set.v31.all.tsv,INFKEYS=$D/v31_inferred_keys.txt,PERMIMPL=count,PERMWORKERS=4"
-G3=OncotreeLineage,OncotreePrimaryDisease,OncotreeSubtype
+G3=OncotreeLineage+OncotreePrimaryDisease+OncotreeSubtype   # "+": --export splits on commas
 
 sid=$(sbatch --parsable -A "$PROJ" --cpus-per-task=4 --time=01:00:00 --dependency=afterok:"$rid" \
       --export="$base",ARM=main,NPERM=20,LEVELS=OncotreeLineage,OUTDIR=$SB/out_v31_smoke score_arm.slurm)
