@@ -32,4 +32,8 @@ SECACTS_DOCS="$D" "$PY" "$S/scripts/60_stage_dashboard.py" --scores "$SC" --resu
 SECACTS_DOCS="$D" SECACTS_RES="$S/results_v3" SECACTS_SC="$SC" SECACTS_PS="$S/data/pull_set.v3.tsv" \
   STAGE_WORKERS="${STAGE_WORKERS:-8}" "$PY" "$S/scripts/61_stage_lines.py" --lines all
 du -sh "$D/data/lines"
+# genes within 100 kb of every SE, expression marks, and the finder index over all of them (overwrites 60's
+# nearest-gene-only gene_index*.json)
+"$PY" "$S/scripts/75_stage_se_genes.py" --docs "$D" --catalog "$S/results_v3/atlas.s3.union_catalog.bed.gz" \
+  --pairs "$SC/atlas.s3.perm.concordance2.pairs.tsv.gz"
 echo "[73] staged -> $D"

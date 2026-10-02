@@ -240,9 +240,8 @@ const Atlas = (() => {
 
   function currentRows() {
     const q = geneQuery.trim().toLowerCase();
-    return cache[ck(level)].filter(r => r.group === group
-      && (!q || String(r.gene || "").toLowerCase().includes(q))
-      && (fdrMax >= 1 || (r.fdr != null && r.fdr <= fdrMax)));
+    return cache[ck(level)].filter(r => r.group === group && (fdrMax >= 1 || (r.fdr != null && r.fdr <= fdrMax)))
+      .map(U.withGenes).filter(r => U.geneMatch(r, q));
   }
 
   // Mark each locus that overlaps a HIGHER-RANKED locus on the same chromosome, i.e. it tiles a
@@ -315,7 +314,7 @@ const Atlas = (() => {
       return `${cmpTitle(c, k)}${c.testable ? ` · ${c.n.toLocaleString()} called` : ` · not tested: ${c.reason || ""}`}${c.same_as ? ` · the same lines as the ${CMPS.find(x => x[0] === c.same_as)[2]} comparison` : ""}`; };
     setHead(`<tr>
       <th data-sort="rank" title="specificity rank (1 = most specific); one score, the same for all four comparisons. Click to sort.">Rank</th>
-      <th data-sort="gene" title="nearest protein-coding gene. Click to sort.">Nearest gene</th>
+      <th data-sort="gene" title="protein-coding genes within 100 kb, nearest first (+N: the others; ⇌ = specific to this line's lineage in DepMap expression). Proximity, not a scored link. Click to sort by the nearest.">Genes within 100 kb</th>
       <th data-sort="pass_ord" title="which comparisons call the SE: A all lines, L same lineage, D same disease, S same subtype. Click to sort (broadest first); ▾ to filter.">Called vs ${U.passHeadBtn("atlas", passSel)}</th>
       <th data-sort="jsd" title="CaCTS score = Jensen–Shannon divergence. Lower = more specific. Click to sort.">JSD</th>
       ${CMPS.map(([k, w]) => `<th data-sort="fdr_${k}" style="color:${COL[k]}" title="${U.esc(tip(k))}. Click to sort (not-called rows last).">vs. ${w} FDR</th>`).join("")}
@@ -329,10 +328,10 @@ const Atlas = (() => {
 
     const all = (L.rows || []).map(a => {
       const o = Object.fromEntries(L.cols.map((col, i) => [col, a[i]]));
-      return { ...o, cn_mean: o.cn, n_called: o.called, len: (o.end || 0) - (o.start || 0), group: g, pass_ord: U.passOrd(o.pass) };
+      return U.withGenes({ ...o, cn_mean: o.cn, n_called: o.called, len: (o.end || 0) - (o.start || 0), group: g, pass_ord: U.passOrd(o.pass) });
     });
     const q = geneQuery.trim().toLowerCase();
-    rows = sortRows(all.filter(r => (!q || String(r.gene || "").toLowerCase().includes(q)) && (!passSel || passSel.has(r.pass || ""))
+    rows = sortRows(all.filter(r => U.geneMatch(r, q) && (!passSel || passSel.has(r.pass || ""))
                                   && (fdrMax >= 1 || (r.fdr_all != null && r.fdr_all <= fdrMax))));
     const sets = CMPS.slice(1).map(([k, w, lvl]) => { const c = C[k];
       return c.testable ? `<span title="${U.esc(tip(k))}">${w.toLowerCase()} <b>${c.n.toLocaleString()}</b> <span class="muted-s">(vs ${Math.max(0, c.n_lines - 1)} in ${U.esc(c.stratum || "")})</span></span>`
@@ -351,7 +350,7 @@ const Atlas = (() => {
     U.el("atlas-body").innerHTML = rows.map(r => `
       <tr>
         <td class="mono">${r.rank}</td>
-        <td class="gene"><a class="gv-link" href="#line" data-locus="${r.chrom}:${Math.max(1, r.start - 25000)}-${r.end + 25000}" title="open ${U.esc(r.gene || r.se)} in the Genomic View (IGV) for ${U.esc(L.name)}">${U.esc(r.gene || "n/a")}</a><span class="th-sub">${r.dist_kb === 0 ? " overlaps" : " " + r.dist_kb + " kb"}</span>${r.flag ? ` <span class="flag-chip" title="possible artifact: ${U.esc(FLAG_TIP[r.flag] || r.flag)}">⚠ ${U.esc(r.flag)}</span>` : ""}</td>
+        <td class="gene">${U.geneCell(r, { q, lv: "lineage", grp: L.lineage, link: gn => `<a class="gv-link" href="#line" data-locus="${r.chrom}:${Math.max(1, r.start - 25000)}-${r.end + 25000}" title="open ${U.esc(gn)} in the Genomic View (IGV) for ${U.esc(L.name)}">${U.esc(gn)}</a>` })}${r.flag ? ` <span class="flag-chip" title="possible artifact: ${U.esc(FLAG_TIP[r.flag] || r.flag)}">⚠ ${U.esc(r.flag)}</span>` : ""}</td>
         <td>${U.passBadge(r.pass)}</td>
         <td class="mono num">${U.fmtJsd(r.jsd)}</td>
         ${CMPS.map(([k]) => fdrTd(r, k)).join("")}
@@ -403,13 +402,11 @@ const Atlas = (() => {
       const amp = +v > 1.3;
       return `<td class="mono ${U.cnClass(v)}"${amp ? ` title="amplified in this group's cell lines (mean copy-number ratio ${(+v).toFixed(2)}× vs neutral 1×), check the CN-ablation tab"` : ""}>${(+v).toFixed(2)}</td>`;
     };
-    const concBadge = r => (r.conc === 1)
-      ? ` <span class="conc-badge" title="Cross-layer support: ${U.esc(r.gene)} is itself a group-specific gene here (DepMap expression), and its expression tracks this SE's H3K27ac across cell lines (Spearman ρ = ${r.rho}). See the Concordance tab.">⇌ ${r.rho == null || r.rho === "" ? "" : (+r.rho).toFixed(2)}</span>`
-      : (r.conc === 0 ? ` <span class="conc-no" title="the nearest gene is not itself group-specific in the expression layer">·</span>` : "");
+    const gq = geneQuery.trim().toLowerCase();
     U.el("atlas-body").innerHTML = shown.map(r => `
       <tr>
         <td class="mono" title="specificity rank in this group (1 = most specific)">${r.rank}</td>
-        <td class="gene">${U.esc(r.gene || "n/a")}<span class="th-sub" title="distance from the SE to this gene's body">${r.dist_kb === 0 ? " overlaps" : " " + r.dist_kb + " kb"}</span>${concBadge(r)}</td>
+        <td class="gene">${U.geneCell(r, { q: gq, lv: isCalls ? level : null })}</td>
         <td class="mono num" title="Jensen–Shannon divergence specificity score (lower = more specific)">${U.fmtJsd(r.jsd)}</td>
         <td class="mono num${isCalls && r.fdr <= 0.10 ? " sig" : ""}" title="${!isCalls ? "FDR shown for reference, not a call at this resolution"
           : (r.fdr <= 0.10 ? "passes the permutation FDR ≤ 0.10 call" : "above the FDR ≤ 0.10 threshold")}">${fmtFdrVal(r.fdr)}</td>
@@ -434,6 +431,7 @@ const Atlas = (() => {
 
   async function init() {
     manifest = await DataLoader.loadJSON("data/manifest.json");
+    await U.loadGenes();
     hier = (manifest.hierarchy || []).map(([line, lineage, disease, subtype]) => ({ line, lineage, disease, subtype }));
     baseHead = document.querySelector("#atlas-table thead").innerHTML;
     bindSort();
@@ -442,16 +440,18 @@ const Atlas = (() => {
     filterInput.addEventListener("input", () => { geneQuery = filterInput.value; renderTable(); });
     U.el("atlas-dl").onclick = () => U.downloadTSV(`SE-CaCTS.${level}.${group}${level !== "line" && variantOf(level) !== "main" ? "." + variantOf(level) : ""}.tsv`, [
       { label: "rank", key: "rank" }, { label: "se", key: "se" }, { label: "nearest_gene", key: "gene" },
-      { label: "dist_kb", key: "dist_kb" }, { label: "jsd", key: "jsd" },
+      { label: "dist_kb", key: "dist_kb" }, { label: "genes_within_100kb", key: "genes_100kb" }, { label: "jsd", key: "jsd" },
       ...(level === "line" ? [{ label: "fdr_vs_all", key: "fdr_all" }, { label: "fdr_vs_lineage", key: "fdr_lineage" },
                               { label: "fdr_vs_disease", key: "fdr_disease" }, { label: "fdr_vs_subtype", key: "fdr_subtype" },
                               { label: "called_in", key: "pass" }]
                            : [{ label: "fdr_permutation", key: "fdr" }]),
-      { label: "cn_mean", key: "cn_mean" }, { label: "gene_concordant", key: "conc" },
-      { label: "gene_expr_rho", key: "rho" }, { label: "chrom", key: "chrom" },
+      { label: "cn_mean", key: "cn_mean" }, { label: "genes_group_specific_in_expression", key: "genes_expr" },
+      { label: "nearest_gene_expr_rho", key: "rho_nearest" }, { label: "chrom", key: "chrom" },
       { label: "start", key: "start" }, { label: "end", key: "end" },
       { label: "length_bp", key: "len" }, { label: "n_called_as_SE", key: "n_called" },
-    ], rows);
+    ], rows.map(r => ({ ...r,
+      genes_expr: (r.genes || []).filter(x => U.exprSpec(level === "line" ? "lineage" : level, level === "line" ? (lineData || {}).lineage : r.group, x[0])).map(x => x[0]).join(";"),
+      rho_nearest: r.gene0 === r.gene ? r.rho : "" })));
     ready = true;
     if (pendingOpen) { const p = pendingOpen; pendingOpen = null; open(p.lv, p.g, p.gene); }
     else await onLevel();

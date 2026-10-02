@@ -347,6 +347,14 @@ a.gv-link:hover{color:var(--accent-deep)}
 .pass-filter{display:flex; flex-wrap:wrap; align-items:center; gap:4px; margin:6px 0 10px}
 th.th-btn{cursor:pointer}
 .gene .th-sub{white-space:nowrap}
+.genes .g1{white-space:nowrap}
+.genes .sep{margin:0 5px; color:var(--faint)}
+.genes-more{font:600 10.5px ui-monospace,Menlo,monospace; color:var(--accent-deep); background:var(--accent-soft); border:0;
+  border-radius:8px; padding:1px 6px; margin-left:4px; cursor:pointer; vertical-align:1px}
+.genes-out{font-family:inherit; font-weight:400; font-size:11.5px; color:var(--faint)}
+.genes-rest{display:none}
+.genes.open .genes-rest{display:inline}
+.genes.open .genes-more{display:none}
 .pass-dd{border:none; background:none; cursor:pointer; font:inherit; font-size:11px; color:var(--muted); padding:0 4px; border-radius:4px}
 .pass-dd:hover{background:var(--bg-alt)}
 .pass-dd.on{color:#fff; background:var(--accent)}

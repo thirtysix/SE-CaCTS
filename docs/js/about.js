@@ -186,9 +186,13 @@ const About = (() => {
           reads A·L without D.</li>
         <li><b>Called</b> (x/N experiments) says whether the line's own experiments call an SE at the locus:
           "specific" means specific H3K27ac signal, which is not always an SE in that line.</li>
-        <li><b>Nearest gene is a label, not a scored link.</b> The strongest lymphoid SEs sit at the immunoglobulin
-          loci, whose nearest protein-coding genes (e.g. TMEM121) are bystanders. The Concordance tab is the
-          aggregate check.</li>
+        <li><b>Genes within 100 kb, not a target call.</b> Each SE lists every protein-coding gene whose body lies
+          within 100 kb of it, nearest first, with the distance (<b>+N</b> shows the rest; the filter and the SE finder
+          match any of them). Where none lies within 100 kb, the nearest gene is shown and marked. Proximity is not a
+          scored link: the target may be further away (long-range enhancers act over a megabase) or not the nearest,
+          and the strongest lymphoid SEs sit at the immunoglobulin loci, whose neighbouring protein-coding genes (e.g.
+          TMEM121) are bystanders. <span class="conc-badge" style="margin:0">⇌</span> marks a gene that is itself
+          specific to the group in DepMap expression; the Concordance tab is the aggregate check.</li>
         <li><b>Rows near one gene often tile one SE domain</b> (↳ tiles #N): count domains, not rows.</li>
         <li><span class="flag-chip" style="margin:0">⚠</span> marks known artifact classes: loci on chrY (presence
           follows the line's sex) and copy number below 0.3 (deep deletions), removed in the next release.</li>
@@ -198,7 +202,7 @@ const About = (() => {
         <li>Any count from the analytic (normal-approximation) null.</li>
         <li>Subtype-level calls: their number depends on how the multiple-testing correction is pooled.</li>
         <li>That a line-level specific locus is a super-enhancer in that line (see <b>Called</b>).</li>
-        <li>That an SE regulates its nearest gene, or that each row is an independent element.</li>
+        <li>That an SE regulates any listed gene (nearest or not), or that each row is an independent element.</li>
         <li>Loci flagged <span class="flag-chip" style="margin:0">⚠</span>.</li>
       </ul>`)}
 

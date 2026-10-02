@@ -1,4 +1,5 @@
-/* finder.js, type a gene symbol, see every lineage / disease where an SE near it is group-specific. */
+/* finder.js, type a gene symbol, see every lineage / disease where an SE within 100 kb of it is group-specific
+   (data/gene_index.json, 75_stage_se_genes.py: every gene within 100 kb of each call, not only the nearest). */
 const Finder = (() => {
   let index = null;
 
@@ -9,7 +10,7 @@ const Finder = (() => {
     // exact match first, else prefix matches
     let genes = index[q] ? [q] : Object.keys(index).filter(g => g.startsWith(q)).sort().slice(0, 12);
     if (!genes.length) {
-      box.innerHTML = `<div class="empty">No lineage- or disease-specific super-enhancer is near <b>${U.esc(q)}</b>.
+      box.innerHTML = `<div class="empty">No lineage- or disease-specific super-enhancer lies within 100 kb of <b>${U.esc(q)}</b>.
         <span class="muted-s">(The finder covers the two call levels; a gene absent here may still rank at subtype / cell-line level in the SE atlas.)</span></div>`;
       return;
     }
@@ -17,11 +18,13 @@ const Finder = (() => {
       const hits = index[g];
       // best (lowest) rank per group, keeping the level
       const byGroup = {};
-      hits.forEach(h => { const k = h.lv + "|" + h.g; if (!byGroup[k] || h.r < byGroup[k].r) byGroup[k] = h; });
+      hits.forEach(h => { const k = h.lv + "|" + h.g; if (!byGroup[k] || h.r < byGroup[k].r || (h.r === byGroup[k].r && h.d < byGroup[k].d)) byGroup[k] = h; });
       const chips = Object.values(byGroup).sort((a, b) => a.r - b.r).map(h => {
         const conc = h.c === 1 ? "; and the gene is itself group-specific in expression (cross-layer concordant)" : "";
-        return `<a class="chip chip-link" href="#atlas" data-lv="${h.lv}" data-g="${U.esc(h.g)}" data-gene="${U.esc(g)}" title="${U.esc(g)} is the nearest gene to a super-enhancer specific to ${U.esc(h.g)} (${h.lv} level) at rank ${h.r}, permutation FDR ${h.fdr}${conc}. Click to open it in the SE atlas.">
-          <b>${U.esc(h.g)}</b> <span class="r">#${h.r}</span>${h.c === 1 ? ` <span class="cc" title="cross-layer concordant: the gene is itself group-specific in DepMap expression">⇌</span>` : ""}</a>`;
+        const d = h.d == null ? "" : h.d === 0 ? "overlaps" : `${h.d} kb`;
+        const rel = h.o ? ", the nearest gene (none lies within 100 kb)" : h.n ? ", the nearest gene" : ", not the nearest gene";
+        return `<a class="chip chip-link" href="#atlas" data-lv="${h.lv}" data-g="${U.esc(h.g)}" data-gene="${U.esc(g)}" title="${U.esc(g)} ${h.d === 0 ? "overlaps" : `lies ${h.d} kb from`} a super-enhancer specific to ${U.esc(h.g)} (${h.lv} level) at rank ${h.r}, permutation FDR ${h.fdr}${rel}${conc}. Click to open it in the SE atlas.">
+          <b>${U.esc(h.g)}</b> <span class="r">#${h.r}</span>${d ? ` <span class="r" style="opacity:.75">· ${d}</span>` : ""}${h.c === 1 ? ` <span class="cc" title="cross-layer concordant: the gene is itself group-specific in DepMap expression">⇌</span>` : ""}</a>`;
       }).join("");
       return `<div class="fr card"><span class="sym">${U.esc(g)}</span><div class="chips">${chips}</div></div>`;
     }).join("");

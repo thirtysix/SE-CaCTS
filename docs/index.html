@@ -81,7 +81,7 @@
     <section class="panel" data-tab="atlas">
       <div class="phead wide"><div class="eyebrow">Explore</div><h1>Super-enhancer atlas</h1>
         <p class="lede">The most group-specific super-enhancers for any group, with the copy number at each
-        locus and the nearest gene. Lower JSD = more specific (rank 1 = most specific). The <b>copy-number</b>
+        locus and the protein-coding genes within 100 kb (nearest first). Lower JSD = more specific (rank 1 = most specific). The <b>copy-number</b>
         column flags amplicon context: a high value means the locus is amplified in this group's lines.</p>
       </div>
       <div class="controls">
@@ -93,8 +93,8 @@
             title="choose a group, or type to filter. Cell lines match any common name, ignoring punctuation (e.g. 'ovcar-3', 'MCF7', 'CVCL_0465'), or their subtype">
           <div class="combo-pop" id="atlas-pop" role="listbox"></div>
         </div>
-        <input type="search" id="atlas-filter" class="sel" placeholder="filter by nearest gene…" autocomplete="off" spellcheck="false"
-          title="filter the table to super-enhancers whose nearest gene contains this text (e.g. 'HNF', 'CDX', 'IGH')">
+        <input type="search" id="atlas-filter" class="sel" placeholder="filter by gene within 100 kb…" autocomplete="off" spellcheck="false"
+          title="filter the table to super-enhancers with a protein-coding gene within 100 kb whose name contains this text (e.g. 'HNF', 'CDX', 'IGH')">
         <span class="ctl-label" id="atlas-fdr-wrap" style="display:none" title="tighten the specificity cutoff on the permutation FDR: every call already passes ≤ 0.10, so lower values keep only the most confidently specific super-enhancers">FDR ≤
           <span class="seg" id="atlas-fdr" role="tablist" style="margin-left:8px"></span></span>
         <button id="atlas-dl" class="dl-btn" title="download the current (filtered + sorted) view as TSV">⬇ TSV</button>
@@ -112,7 +112,7 @@
         <table class="tbl sortable" id="atlas-table">
           <thead><tr>
             <th data-sort="rank" class="sorted-asc" title="specificity rank within this group (1 = most specific). Click to sort.">Rank</th>
-            <th data-sort="gene" title="nearest protein-coding gene, and its distance (proximity annotation, not a scored link). Click to sort.">Nearest gene</th>
+            <th data-sort="gene" title="protein-coding genes within 100 kb of the SE, nearest first, with the distance to each (+N: the others; ⇌ = itself group-specific in DepMap expression). Proximity, not a scored link. Click to sort by the nearest.">Genes within 100 kb</th>
             <th data-sort="jsd" title="CaCTS score = Jensen–Shannon divergence. Lower = more group-specific. Click to sort.">JSD</th>
             <th data-sort="fdr" title="false-discovery rate under the label-permutation null (B = 1,000). Bold = passes the FDR ≤ 0.10 call. Click to sort.">FDR <span class="th-sub">perm</span></th>
             <th data-sort="cn_mean" title="mean copy-number ratio at the SE across this group's lines (1 = neutral; >1.3 = amplified, shown in red). Click to sort.">Copy no.</th>
@@ -166,13 +166,13 @@
     <section class="panel" data-tab="finder">
       <div class="phead wide"><div class="eyebrow">Look up</div><h1>Where is a gene's super-enhancer specific?</h1>
         <p class="lede">Type a gene symbol to see every lineage and primary disease where a
-        <b>super-enhancer near it</b> is group-specific (permutation FDR ≤ 0.10), with its rank. A
+        <b>super-enhancer within 100 kb of it</b> is group-specific (permutation FDR ≤ 0.10), with its rank and distance (the gene need not be the nearest one). A
         <span class="mono">⇌</span> marks groups where the gene is <b>also</b> specific in the expression
         layer (cross-layer concordant). Click a result to open that group in the SE atlas, filtered to the gene.
         Covers the two call levels only.</p></div>
       <input type="search" id="finder-input" class="sel big" placeholder="e.g. CDX2, SPI1, IGLL5, MECOM, PAX8…"
         autocomplete="off" spellcheck="false"
-        title="enter a gene symbol; results list each lineage / disease where its nearest super-enhancer clears the permutation FDR">
+        title="enter a gene symbol; results list each lineage / disease where a super-enhancer within 100 kb of it clears the permutation FDR">
       <label class="ctl-label" title="which scoring run the calls come from" style="display:inline-flex;align-items:center;margin:10px 0">Analysis
         <select id="finder-variant" class="sel" style="margin-left:8px"></select><span class="info-i" id="finder-variant-info">ⓘ</span></label>
       <div class="finder-res" id="finder-res"></div>

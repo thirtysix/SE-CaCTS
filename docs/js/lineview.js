@@ -29,7 +29,7 @@ const LineView = (() => {
     const k = Math.max(0, c.n_lines - 1);
     return `Specific vs. ${k} other line${k === 1 ? "" : "s"} in the same ${lvl} (${c.stratum})`;
   }
-  const rowsOf = L => (L.rows || []).map(a => { const o = Object.fromEntries(L.cols.map((c, i) => [c, a[i]])); o.pass_ord = U.passOrd(o.pass); return o; });
+  const rowsOf = L => (L.rows || []).map(a => { const o = Object.fromEntries(L.cols.map((c, i) => [c, a[i]])); o.pass_ord = U.passOrd(o.pass); return U.withGenes(o); });
   function sorted(rows) {
     const v = (r, k) => { const x = r[k]; return x == null || x === "" ? Infinity : x; };
     const out = [...rows].sort((a, b) => v(a, sort.k) < v(b, sort.k) ? -1 : v(a, sort.k) > v(b, sort.k) ? 1 : 0);
@@ -73,6 +73,7 @@ const LineView = (() => {
   async function show(key) {
     const my = ++token;
     const raw = await DataLoader.loadJSON(`${DIR}${key}.json`);
+    await U.loadGenes();
     if (my !== token) return;
     // a copy: DataLoader caches the parsed JSON and the SE Atlas reads the same compact rows, so converting them
     // in place broke both views on reopening a line
@@ -111,8 +112,8 @@ const LineView = (() => {
       : (nAll > L.rows.length ? `top ${L.rows.length} of ${nAll.toLocaleString()} specific vs all lines` : `${nAll.toLocaleString()} specific vs all lines`)
         + (passSel ? ` · ${rows.length} shown` : "");
     const body = !rows.length ? `<p class="muted-s">${passSel ? "No rows with the selected combinations." : "None."}</p>` :
-      `<table class="tbl lv-tbl" id="lv-t"><thead><tr><th class="th-btn" data-k="rank" title="specificity rank (1 = most specific); the same score for every comparison. Click to sort.">#${arrow("rank")}</th><th>Nearest gene</th><th class="th-btn" data-k="pass_ord" title="which comparisons call the SE: A all lines, L same lineage, D same disease, S same subtype. Click to sort (broadest first); ▾ to filter.">Called vs${arrow("pass_ord")} ${U.passHeadBtn("lv", passSel)}</th><th>kb</th><th>Locus</th>${head}<th title="experiments of this line whose SE calls cover the locus">Called in</th><th title="rank of the locus by this line's own signal among the SEs it calls (1 = strongest); blank = not an SE here">SE rank</th><th title="copy number at the SE in this line (ratio to the line median); amplified when > 1.3">CN</th></tr></thead><tbody>${
-        rows.map((r, i) => `<tr data-i="${i}" title="show in the browser"><td>${r.rank}</td><td><b>${U.esc(r.gene)}</b>${flagChip(r.flag)}</td><td>${U.passBadge(r.pass)}</td><td>${r.dist_kb}</td>
+      `<table class="tbl lv-tbl" id="lv-t"><thead><tr><th class="th-btn" data-k="rank" title="specificity rank (1 = most specific); the same score for every comparison. Click to sort.">#${arrow("rank")}</th><th title="protein-coding genes within 100 kb, nearest first (+N: the others; ⇌ = specific to this line's lineage in DepMap expression). Proximity, not a scored link.">Genes within 100 kb</th><th class="th-btn" data-k="pass_ord" title="which comparisons call the SE: A all lines, L same lineage, D same disease, S same subtype. Click to sort (broadest first); ▾ to filter.">Called vs${arrow("pass_ord")} ${U.passHeadBtn("lv", passSel)}</th><th>Locus</th>${head}<th title="experiments of this line whose SE calls cover the locus">Called in</th><th title="rank of the locus by this line's own signal among the SEs it calls (1 = strongest); blank = not an SE here">SE rank</th><th title="copy number at the SE in this line (ratio to the line median); amplified when > 1.3">CN</th></tr></thead><tbody>${
+        rows.map((r, i) => `<tr data-i="${i}" title="show in the browser"><td>${r.rank}</td><td class="gene">${U.geneCell(r, { lv: "lineage", grp: L.lineage })}${flagChip(r.flag)}</td><td>${U.passBadge(r.pass)}</td>
           <td class="mono lv-locus" title="${((r.end - r.start) / 1000).toFixed(1)} kb">${r.chrom}:${(+r.start).toLocaleString()}–${(+r.end).toLocaleString()}</td>${CMP.map(([k]) => fdrCell(L, r, k)).join("")}
           <td class="${r.called ? "" : "muted-s"}">${r.called ? r.called + "/" + L.n_experiments : "not an SE here"}</td><td>${r.signal_rank ?? ""}</td>
           <td class="${U.cnClass(r.cn)}">${r.cn != null ? r.cn.toFixed(2) : ""}</td></tr>`).join("")}</tbody></table>`;
