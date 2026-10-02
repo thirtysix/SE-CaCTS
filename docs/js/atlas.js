@@ -440,7 +440,7 @@ const Atlas = (() => {
     filterInput.addEventListener("input", () => { geneQuery = filterInput.value; renderTable(); });
     U.el("atlas-dl").onclick = () => U.downloadTSV(`SE-CaCTS.${level}.${group}${level !== "line" && variantOf(level) !== "main" ? "." + variantOf(level) : ""}.tsv`, [
       { label: "rank", key: "rank" }, { label: "se", key: "se" }, { label: "nearest_gene", key: "gene" },
-      { label: "dist_kb", key: "dist_kb" }, { label: "genes_within_100kb", key: "genes_100kb" }, { label: "jsd", key: "jsd" },
+      { label: "dist_kb", key: "dist_kb" }, { label: "genes_within_100kb", key: "genes_100kb" }, { label: "lncrna_within_100kb", key: "lncrna_100kb" }, { label: "jsd", key: "jsd" },
       ...(level === "line" ? [{ label: "fdr_vs_all", key: "fdr_all" }, { label: "fdr_vs_lineage", key: "fdr_lineage" },
                               { label: "fdr_vs_disease", key: "fdr_disease" }, { label: "fdr_vs_subtype", key: "fdr_subtype" },
                               { label: "called_in", key: "pass" }]

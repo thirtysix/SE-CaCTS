@@ -107,19 +107,23 @@ const U = (() => {
   // ---- genes near an SE (data/se_genes.json, 75_stage_se_genes.py): every protein-coding gene within 100 kb of the
   // SE, nearest first, as [gene, kb] (kb 0 = overlaps); [gene, kb, 1] = the nearest gene when none lies within 100 kb.
   // data/expr_specific.json: per level and group, the genes that are group-specific in DepMap expression (⇌).
-  let genesP = null, SEG = {}, EXPR = {};
+  // data/se_lnc.json: HGNC-named lncRNA genes within 100 kb, [name, kb], listed after the protein-coding genes.
+  let genesP = null, SEG = {}, EXPR = {}, SEL = {};
   const loadGenes = () => genesP || (genesP = Promise.all([DataLoader.loadJSON("data/se_genes.json"),
-      DataLoader.loadJSON("data/expr_specific.json").catch(() => ({}))])
-    .then(([g, e]) => { SEG = g; for (const lv in e) { EXPR[lv] = {}; for (const k in e[lv]) EXPR[lv][k] = new Set(e[lv][k]); } })
+      DataLoader.loadJSON("data/expr_specific.json").catch(() => ({})), DataLoader.loadJSON("data/se_lnc.json").catch(() => ({}))])
+    .then(([g, e, l]) => { SEG = g; SEL = l; for (const lv in e) { EXPR[lv] = {}; for (const k in e[lv]) EXPR[lv][k] = new Set(e[lv][k]); } })
     .catch(() => { genesP = null; }));
   const kbTxt = x => x[1] === 0 ? "overlaps" : `${x[1]} kb`;
   // a COPY of the row with the gene list (gene / dist_kb = the nearest); cached rows are shared, never mutate them
   const withGenes = r => {
     const gl = SEG[r.se] || (r.gene ? [[r.gene, r.dist_kb, 1]] : []);
-    return { ...r, gene0: r.gene, genes: gl, gene: gl.length ? gl[0][0] : "", dist_kb: gl.length ? gl[0][1] : "",
-             genes_100kb: gl.filter(x => !x[2]).map(x => `${x[0]}:${x[1]}`).join(";") };
+    const ll = SEL[r.se] || [];
+    return { ...r, gene0: r.gene, genes: gl, lnc: ll, gene: gl.length ? gl[0][0] : "", dist_kb: gl.length ? gl[0][1] : "",
+             genes_100kb: gl.filter(x => !x[2]).map(x => `${x[0]}:${x[1]}`).join(";"),
+             lncrna_100kb: ll.map(x => `${x[0]}:${x[1]}`).join(";") };
   };
-  const geneMatch = (r, q) => !q || (r.genes || []).some(x => x[0].toLowerCase().includes(q));
+  const geneMatch = (r, q) => !q || (r.genes || []).some(x => x[0].toLowerCase().includes(q))
+                                 || (r.lnc || []).some(x => x[0].toLowerCase().includes(q));
   const exprSpec = (lv, grp, g) => !!(lv && EXPR[lv] && EXPR[lv][grp] && EXPR[lv][grp].has(g));
   // the gene cell: the nearest gene(s), then any gene matching the filter, then "+N" (hover lists all; click expands).
   // lv/grp name the group whose expression marks the genes (⇌); r.rho is the staged nearest-gene correlation.
@@ -130,13 +134,19 @@ const U = (() => {
     const mark = g => !exprSpec(lv, grp, g) ? "" : ` <span class="conc-badge" title="${esc(g)} is itself specific to ${esc(grp)} in DepMap expression (cross-layer concordant)${g === r.gene0 && r.rho != null && r.rho !== "" ? `; its expression tracks this SE's H3K27ac across lines (Spearman ρ = ${r.rho})` : ""}. See the Concordance tab.">⇌${g === r.gene0 && r.rho != null && r.rho !== "" ? " " + (+r.rho).toFixed(2) : ""}</span>`;
     const one = (x, first) => `<span class="g1">${first && link ? link(x[0]) : esc(x[0])}${mark(x[0])}<span class="th-sub"> ${kbTxt(x)}</span></span>`;
     // inline: the nearest gene and any tied with it (several genes often overlap one SE), then filter matches
+    const ll = r.lnc || [];
+    const lncOne = x => `<span class="g1 lnc" title="lncRNA">${esc(x[0])}<span class="th-sub"> ${kbTxt(x)}</span></span>`;
     const lead = gl.filter((x, i) => i === 0 || (!x[2] && x[1] === gl[0][1]) || (q && x[0].toLowerCase().includes(q)));
-    const rest = gl.filter(x => !lead.includes(x));
+    const leadL = q ? ll.filter(x => x[0].toLowerCase().includes(q)) : [];
+    const rest = gl.filter(x => !lead.includes(x)), restL = ll.filter(x => !leadL.includes(x));
     const all = gl.map(x => `${x[0]} ${kbTxt(x)}${exprSpec(lv, grp, x[0]) ? " ⇌" : ""}`).join(", ");
-    const tip = outside ? `no protein-coding gene within 100 kb; the nearest is ${all}` : `protein-coding genes within 100 kb of this super-enhancer, nearest first: ${all}. Proximity only, not a scored link.`;
+    const allL = ll.length ? ` lncRNAs within 100 kb: ${ll.map(x => `${x[0]} ${kbTxt(x)}`).join(", ")}.` : "";
+    const tip = (outside ? `no protein-coding gene within 100 kb; the nearest is ${all}.` : `protein-coding genes within 100 kb of this super-enhancer, nearest first: ${all}.`) + allL + " Proximity only, not a scored link.";
     const sep = `<span class="sep">·</span>`;
-    return `<span class="genes" title="${esc(tip)}">${lead.map((x, i) => one(x, i === 0)).join(sep)}${outside ? ` <span class="genes-out">(none within 100 kb)</span>` : ""}${rest.length
-      ? ` <button class="genes-more" type="button" title="show the other ${rest.length} gene${rest.length > 1 ? "s" : ""} within 100 kb">+${rest.length}</button><span class="genes-rest">${sep}${rest.map(x => one(x, false)).join(sep)}</span>` : ""}</span>`;
+    const nMore = rest.length + restL.length;
+    const more = [...rest.map(x => one(x, false)), ...restL.map(lncOne)];
+    return `<span class="genes" title="${esc(tip)}">${lead.map((x, i) => one(x, i === 0)).join(sep)}${outside ? ` <span class="genes-out">(no protein-coding gene within 100 kb)</span>` : ""}${leadL.length ? sep + leadL.map(lncOne).join(sep) : ""}${nMore
+      ? ` <button class="genes-more" type="button" title="show the other ${nMore} gene${nMore > 1 ? "s" : ""} within 100 kb${restL.length ? ` (${restL.length} lncRNA${restL.length > 1 ? "s" : ""})` : ""}">+${nMore}</button><span class="genes-rest">${sep}${more.join(sep)}</span>` : ""}</span>`;
   }
   // "+N" expands in place; capture phase so a click on it never also triggers the row (Genomic View rows jump IGV)
   document.addEventListener("click", e => {

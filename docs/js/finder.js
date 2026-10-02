@@ -22,11 +22,12 @@ const Finder = (() => {
       const chips = Object.values(byGroup).sort((a, b) => a.r - b.r).map(h => {
         const conc = h.c === 1 ? "; and the gene is itself group-specific in expression (cross-layer concordant)" : "";
         const d = h.d == null ? "" : h.d === 0 ? "overlaps" : `${h.d} kb`;
-        const rel = h.o ? ", the nearest gene (none lies within 100 kb)" : h.n ? ", the nearest gene" : ", not the nearest gene";
+        const rel = h.t === "lnc" ? " (a lncRNA; nearest is counted among protein-coding genes only)" : h.o ? ", the nearest gene (none lies within 100 kb)" : h.n ? ", the nearest gene" : ", not the nearest gene";
         return `<a class="chip chip-link" href="#atlas" data-lv="${h.lv}" data-g="${U.esc(h.g)}" data-gene="${U.esc(g)}" title="${U.esc(g)} ${h.d === 0 ? "overlaps" : `lies ${h.d} kb from`} a super-enhancer specific to ${U.esc(h.g)} (${h.lv} level) at rank ${h.r}, permutation FDR ${h.fdr}${rel}${conc}. Click to open it in the SE atlas.">
           <b>${U.esc(h.g)}</b> <span class="r">#${h.r}</span>${d ? ` <span class="r" style="opacity:.75">· ${d}</span>` : ""}${h.c === 1 ? ` <span class="cc" title="cross-layer concordant: the gene is itself group-specific in DepMap expression">⇌</span>` : ""}</a>`;
       }).join("");
-      return `<div class="fr card"><span class="sym">${U.esc(g)}</span><div class="chips">${chips}</div></div>`;
+      const isLnc = hits.length && hits.every(h => h.t === "lnc");
+      return `<div class="fr card"><span class="sym">${U.esc(g)}${isLnc ? ` <span class="lnc-tag" title="long non-coding RNA (HGNC-named, GENCODE v36)">lncRNA</span>` : ""}</span><div class="chips">${chips}</div></div>`;
     }).join("");
   }
 

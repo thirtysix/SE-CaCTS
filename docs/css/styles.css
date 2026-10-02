@@ -348,6 +348,8 @@ a.gv-link:hover{color:var(--accent-deep)}
 th.th-btn{cursor:pointer}
 .gene .th-sub{white-space:nowrap}
 .genes .g1{white-space:nowrap}
+.genes .g1.lnc{font-style:italic; opacity:.85}
+.lnc-tag{font:600 10px ui-monospace,Menlo,monospace; color:var(--faint); border:1px solid var(--border); border-radius:4px; padding:0 4px; margin-left:4px; vertical-align:middle}
 .genes .sep{margin:0 5px; color:var(--faint)}
 .genes-more{font:600 10.5px ui-monospace,Menlo,monospace; color:var(--accent-deep); background:var(--accent-soft); border:0;
   border-radius:8px; padding:1px 6px; margin-left:4px; cursor:pointer; vertical-align:1px}

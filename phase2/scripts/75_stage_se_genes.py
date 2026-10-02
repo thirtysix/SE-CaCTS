@@ -14,6 +14,10 @@ only one, so this writes the whole neighbourhood and lets every view list and se
   <docs>/data/expr_specific.json   {lineage|disease: {group: [genes]}}: genes group-specific in DepMap
                                    expression (CaCTS JSD, FDR <= 0.10, exactly as concordance_bridge2.py). Checked
                                    against the concordance pairs table: every flag must agree.
+  <docs>/data/se_lnc.json          {se_id: [[lncRNA, kb], ...]}: HGNC-named lncRNA genes (GENCODE v36, gene_type
+                                   lncRNA with an hgnc_id; CCAT1 is not annotated there) within --window-kb, nearest
+                                   first. Listed after the protein-coding genes; never "nearest"; no expression mark
+                                   (DepMap expression is protein-coding only). v3.1, ROADMAP item 15.
   <docs>/data/gene_index{,.v}.json rebuilt from the staged calls_*.tsv: every listed gene of every call, so the
                                    finder matches any gene near an SE, not only the nearest (d = kb, n = nearest or tied with it).
 
@@ -22,6 +26,7 @@ only one, so this writes the whole neighbourhood and lets every view list and se
 from __future__ import annotations
 
 import argparse
+import glob
 import gzip
 import json
 import os
@@ -72,6 +77,22 @@ def window_genes(catalog, genes, W):
     return out
 
 
+def lnc_genes(gtf):
+    """{name: (chrom, start, end)} for HGNC-named lncRNA genes in a GENCODE GTF (chrom already 'chr'-prefixed)."""
+    import re
+    out = {}
+    opener = gzip.open if gtf.endswith(".gz") else open
+    with opener(gtf, "rt") as fh:
+        for line in fh:
+            if line[0] == "#":
+                continue
+            f = line.split("\t", 9)
+            if f[2] != "gene" or 'gene_type "lncRNA"' not in f[8] or "hgnc_id" not in f[8]:
+                continue
+            out[re.search(r'gene_name "([^"]+)"', f[8]).group(1)] = (f[0], int(f[3]) - 1, int(f[4]))
+    return out
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--docs", default=os.path.join(SECACTS, "docs"))
@@ -80,6 +101,8 @@ def main():
     ap.add_argument("--pull-set", default=f"{SECACTS}/phase2/data/pull_set.v3.tsv")
     ap.add_argument("--pairs", default=f"{SECACTS}/phase2/scores_v3c/atlas.s3.perm.concordance2.pairs.tsv.gz")
     ap.add_argument("--window-kb", type=int, default=100)
+    ap.add_argument("--lnc-gtf", default=os.path.join(DATAROOT, "0.human_genome/gencode/v36/gencode.v36.annotation.gtf.gz"),
+                    help="GENCODE GTF for HGNC-named lncRNAs ('' = none)")
     ap.add_argument("--fdr", type=float, default=0.10)
     a = ap.parse_args()
     data = os.path.join(a.docs, "data")
@@ -104,6 +127,12 @@ def main():
     near = window_genes(catalog, gc, W)
     kb = lambda d: 0 if d == 0 else max(1, int(d / 1000 + 0.5))   # outside the window: rounded UP, so never "100 kb"
     se_genes = {se: [[g, kb(d)] if not o else [g, -(-d // 1000), 1] for g, d, o in v] for se, v in near.items() if v}
+    se_lnc = {}
+    if a.lnc_gtf:
+        ln = window_genes(catalog, lnc_genes(a.lnc_gtf), W)
+        se_lnc = {se: [[g, kb(d)] for g, d, o in v if not o] for se, v in ln.items()}
+        se_lnc = {se: v for se, v in se_lnc.items() if v}
+        print(f"[75] lncRNAs: {len(se_lnc):,} loci have >= 1 HGNC-named lncRNA within {a.window_kb} kb")
     n_in = [sum(1 for x in v if len(x) == 2) for v in se_genes.values()]
     print(f"[75] {len(se_genes):,} of {len(catalog):,} loci; genes within {a.window_kb} kb: median "
           f"{int(np.median(n_in))}, max {max(n_in)}; {sum(x == 0 for x in n_in):,} loci with none (nearest kept)")
@@ -132,10 +161,14 @@ def main():
         print(f"[75] wrote {p} ({os.path.getsize(p) / 1e6:.1f} MB)")
 
     dump("se_genes.json", se_genes)
+    if se_lnc:
+        dump("se_lnc.json", se_lnc)
     dump("expr_specific.json", expr)
 
     # ---- the finder index, per analysis variant, from the staged call tables
-    for suffix in ["", ".noinf", ".nocn"]:
+    suffixes = sorted({os.path.basename(f)[len("calls_lineage"):-len(".tsv")]
+                       for f in glob.glob(os.path.join(data, "calls_lineage*.tsv"))}) or [""]
+    for suffix in suffixes:
         idx, missing = {}, 0
         for lv in LEVELS:
             f = os.path.join(data, f"calls_{lv}{suffix}.tsv")
@@ -154,6 +187,9 @@ def main():
                     if len(x) > 2:
                         h["o"] = 1                                 # nearest gene, outside the window
                     idx.setdefault(x[0], []).append(h)
+                for x in se_lnc.get(r.se, ()):                     # lncRNAs: listed, never nearest, no ⇌
+                    idx.setdefault(x[0], []).append({"lv": lv, "g": r.group, "r": int(r.rank), "fdr": r.fdr,
+                                                     "cn": r.cn_mean, "c": 0, "d": x[1], "n": 0, "t": "lnc"})
         if not idx:
             continue
         for g in idx:
