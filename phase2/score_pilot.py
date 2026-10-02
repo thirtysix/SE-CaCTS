@@ -173,6 +173,26 @@ def main():
                          "before scoring. Nothing real then exists, so a calibrated FDR must call ~nothing.")
     ap.add_argument("--exclude-keys", default="",
                     help="comma-separated line keys (ModelID / CVCL) to drop before scoring — sensitivity runs")
+    # ---- v3.1 (ROADMAP v3.1 items 4, 5, 7, 8, 9, 12); every default reproduces v3
+    ap.add_argument("--presence", default=None, metavar="TSV",
+                    help="SE x SRX 0/1: the experiment calls an SE overlapping the locus (aggregate_v31.py "
+                         "<out>.se_presence.cn.tsv). Needed by --require-called")
+    ap.add_argument("--require-called", action="store_true",
+                    help="v3.1 item 9: a test exists only where >= 1 member of the group calls an SE at the locus; "
+                         "the permutation null applies the same rule to every permuted group (needs --perm-impl count)")
+    ap.add_argument("--cn-floor", type=float, default=0.1,
+                    help="scoring-time CN floor (v3: 0.1; v3.1 item 4: 0.5 -- deep deletions and absent chrY "
+                         "multiplied signal up to 10x, FINDINGS §40)")
+    ap.add_argument("--drop-chroms", default="", help="comma-separated chromosomes whose loci are not scored "
+                    "(v3.1 item 5: chrY, whose presence depends on the line's sex)")
+    ap.add_argument("--no-cn-keys", default="", help="comma-separated line keys scored WITHOUT CN correction "
+                    "(v3.1 item 7 control: the input-inferred lines kept but uncorrected)")
+    ap.add_argument("--study-weighted", action="store_true",
+                    help="v3.1 item 8: a line's profile averages its experiments within each study, then across "
+                         "studies, so one study's many experiments count once")
+    ap.add_argument("--strata-fallback", action="store_true",
+                    help="v3.1 item 12: a unit with no label at the --null-strata level is shuffled within its "
+                         "lineage instead of being left untestable")
     ap.add_argument("--exclude-srx", default=None, metavar="FILE",
                     help="file of SRX (one per line) to drop before scoring — e.g. leave-one-study-out runs")
     ap.add_argument("--cn-diagnostic", action="store_true",
@@ -252,6 +272,12 @@ def main():
     if zero.any():
         M = M.loc[~zero]
         print(f"[score] dropped {int(zero.sum())} SE loci with zero signal in every sample (not tests)",
+              file=sys.stderr, flush=True)
+    drop_chroms = {c for c in a.drop_chroms.split(",") if c}
+    if drop_chroms:
+        dm = np.array([coords[i][0] in drop_chroms for i in M.index])
+        M = M.loc[~dm]
+        print(f"[score] --drop-chroms {','.join(sorted(drop_chroms))}: dropped {int(dm.sum())} SE loci",
               file=sys.stderr, flush=True)
     se_ids = list(M.index)
     model = pd.read_csv(a.model, index_col="ModelID")
@@ -338,7 +364,17 @@ def main():
               file=sys.stderr, flush=True)
         corrected = raw
     else:
-        corrected = correct(raw, cn, model="log2offset", floor=0.1)
+        cn_apply = cn
+        no_cn_keys = {k for k in a.no_cn_keys.split(",") if k}
+        if no_cn_keys:
+            cn_apply = cn.copy()
+            m_ = np.array([srx_model.get(s_) in no_cn_keys for s_ in samples])
+            cn_apply[:, m_] = 1.0
+            print(f"[score] --no-cn-keys: {int(m_.sum())} samples of {len(no_cn_keys)} lines left uncorrected",
+                  file=sys.stderr, flush=True)
+        if a.cn_floor != 0.1:
+            print(f"[score] scoring-time CN floor {a.cn_floor} (v3: 0.1)", file=sys.stderr, flush=True)
+        corrected = correct(raw, cn_apply, model="log2offset", floor=a.cn_floor)
         # log2offset is (sig+eps)/cn - eps, which goes NEGATIVE when cn > sig+eps — i.e. a near-zero-signal SE
         # sitting in a high-CN region. Signal is non-negative by construction, and JSD is a divergence between
         # distributions, so a negative cell makes pycacts emit NaN (score.py propagates it by design). Clip here
@@ -352,7 +388,9 @@ def main():
 
     # normalise (batch) then collapse replicate SRX -> cell line (ModelID)
     col_model = pd.Series([srx_model.get(s) for s in samples], index=samples)
-    nm_samples, unit_line = None, None
+    nm_samples, unit_line, srx_unit = None, None, None
+    if a.require_called and not (a.presence and a.fdr_method == "permutation" and a.perm_impl == "count"):
+        sys.exit("[score] --require-called needs --presence and --fdr-method permutation --perm-impl count")
     if a.line_members in ("experiments", "studies"):
         # the per-experiment profiles, normalised exactly as to_lines does before it collapses them
         keep_ = col_model.dropna()
@@ -364,13 +402,30 @@ def main():
             unit = pd.Series([f"{col_model[c]}|{st.get(c, c)}" for c in nm_samples.columns], index=nm_samples.columns)
             nm_samples = nm_samples.T.groupby(unit).mean().T
             unit_line = pd.Series({u: u.split("|")[0] for u in nm_samples.columns})
+            srx_unit = unit
             print(f"[score] line members = studies: {nm_samples.shape[1]} (line, study) units over "
                   f"{len(set(u.split('|')[0] for u in nm_samples.columns))} lines", file=sys.stderr, flush=True)
+    st_all = pd.read_csv(a.srx_study, sep="\t").set_index("srx")["study"] if a.study_weighted else None
     def to_lines(mat):
         nm = pd.DataFrame(normalize(mat, a.norm, samples), index=se_ids, columns=samples)
         keep = col_model.dropna()
+        if a.study_weighted:                                       # v3.1 item 8: within study, then across
+            u = pd.Series([f"{keep[c]}|{st_all.get(c, c)}" for c in keep.index], index=keep.index)
+            per = nm[keep.index].T.groupby(u).mean()
+            return per.groupby(per.index.map(lambda x: x.split("|")[0])).mean().T
         return nm[keep.index].T.groupby(keep).mean().T             # SE x ModelID
     lines_cor = to_lines(corrected)          # the uncorrected collapse was computed but never read
+    P_srx = P_line = None
+    if a.require_called:
+        hdr = pd.read_csv(a.presence, sep="\t", nrows=0).columns
+        P = pd.read_csv(a.presence, sep="\t", index_col=0, dtype={c: np.uint8 for c in hdr[1:]})
+        miss = [x for x in samples if x not in P.columns]
+        if miss:
+            sys.exit(f"[score] --presence lacks {len(miss)} scored samples (e.g. {miss[:3]})")
+        P_srx = P.reindex(index=se_ids).fillna(0).astype(bool)[samples]
+        P_line = P_srx[col_model.dropna().index].T.groupby(col_model.dropna()).max().T    # SE x line
+        print(f"[score] --require-called: presence of {P_srx.shape[1]} samples over {P_srx.shape[0]} loci; "
+              f"median line calls {int(P_line.sum().median())} loci", file=sys.stderr, flush=True)
     # per-line mean CN at each SE, collapsed the same way — reported as cn_mean so an amplicon-driven call
     # is visible in the output rather than needing a separate investigation. NOT normalized (it is a ratio).
     keep0 = col_model.dropna()
@@ -472,6 +527,8 @@ def main():
                     strata = np.where(dis.notna() & (dis.map(n_d).fillna(0) >= a.strata_min), dis, lin)
                 else:
                     strata = lab_at[a.null_strata]
+                    if a.strata_fallback:                   # v3.1 item 12: no label at this level -> lineage
+                        strata = np.where(pd.isna(strata), lab_at["lineage"], strata)
                 strata = pd.Series(strata, dtype=object)
                 missing = strata.isna().values
                 strata = np.where(missing, "__unlabelled__" + pd.Series(unit_key.values).astype(str), strata)
@@ -489,11 +546,20 @@ def main():
                       file=sys.stderr, flush=True)
             if a.agg != "mean":                             # one-member groups are not tests either: out of BH
                 untestable |= {g for g in jsd.columns if int(gsize.get(g, 0)) < a.min_members}
+            elig_u = None
+            if a.require_called:
+                if exp_units and srx_unit is not None:          # (line, study) units
+                    elig_u = P_srx.T.groupby(srx_unit.reindex(P_srx.columns)).max().T[Xdf.columns]
+                elif exp_units:                                 # experiments
+                    elig_u = P_srx[Xdf.columns]
+                else:                                           # lines
+                    elig_u = P_line[Xdf.columns]
+                elig_u = elig_u.values
             if a.perm_impl == "count":
                 FDR = np.power(10.0, permutation_fdr_units_count(jsd, Xv, lab, a.agg, n_perm=a.n_perm,
                                                                  keep_frac=a.keep_frac, scope=a.fdr_scope,
                                                                  strata=strata, exclude=untestable,
-                                                                 n_workers=a.perm_workers))
+                                                                 n_workers=a.perm_workers, elig=elig_u))
             else:
                 FDR = np.power(10.0, permutation_fdr_units(jsd, Xv, lab, a.agg, n_perm=a.n_perm,
                                                            keep_frac=a.keep_frac, scope=a.fdr_scope,
@@ -507,7 +573,7 @@ def main():
             if a.perm_impl == "count":
                 FDR = np.power(10.0, permutation_fdr_count(jsd, lines_cor, model, level, n_perm=a.n_perm,
                                                            keep_frac=a.keep_frac, scope=a.fdr_scope,
-                                                           n_workers=a.perm_workers))
+                                                           n_workers=a.perm_workers, elig=P_line))
             else:
                 FDR = np.power(10.0, permutation_fdr(jsd, lines_cor, model, level, n_perm=a.n_perm,
                                                      keep_frac=a.keep_frac, scope=a.fdr_scope))

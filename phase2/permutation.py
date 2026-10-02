@@ -149,12 +149,37 @@ def permutation_fdr(jsd, lines, model, level, n_perm=50, seed=0, keep_frac=0.05,
 _W = {}                                                   # read-only state shared with forked workers
 
 
+# --------------------------------------------------------------------------------------------------------
+# "A specific SE must be an SE of its group" (v3.1 item 9, FINDINGS §28/§39). With `elig` (SE x unit, bool:
+# the unit -- a line, or a line's experiments / studies -- calls an SE overlapping the locus), a test exists only
+# where at least one member of the group calls one. The null applies the SAME rule to every permuted group: its
+# draws come only from loci its permuted members call. Without that the null would be drawn from all loci while
+# the observed tests sit at loci the group calls (which carry more of its signal), and calls would be inflated.
+# Ineligible tests are left out of BH (not tests) and returned as FDR 1. elig=None reproduces v1-v3 exactly.
+# --------------------------------------------------------------------------------------------------------
+def _elig_groups(U, codes, n_groups):
+    """bool SE x group: OR over each group's units. U: scipy.sparse csr (SE x unit), codes: group index per
+    unit (-1 = no group)."""
+    import scipy.sparse as sp
+    codes = np.asarray(codes)
+    r = np.flatnonzero(codes >= 0)
+    H = sp.csr_matrix((np.ones(r.size, dtype=np.float32), (r, codes[r])), shape=(U.shape[1], n_groups))
+    return np.asarray((U @ H).todense() > 0)
+
+
+def _as_csr(elig):
+    import scipy.sparse as sp
+    return sp.csr_matrix(np.asarray(elig, dtype=np.float32))
+
+
 def _count_worker(args):
     w, n_workers = args
     s = _W
     rng = np.random.default_rng(s["seed"])
     m2 = s["model"].copy()
     counts = {g: np.zeros(len(c) + 1, dtype=np.int64) for g, c in s["cand"].items()}
+    mtot = {g: 0 for g in s["cand"]}
+    U = s.get("U")
     done = 0
     for b in range(s["n_perm"]):
         perm = s["base"].copy()
@@ -165,10 +190,18 @@ def _count_worker(args):
         rep, _ = build_rep_matrix(s["lines"], m2, s["level"], min_group_n=s["min_group_n"])
         rep.columns = [str(c) for c in rep.columns]
         j = cacts_score_matrix(rep)
+        E = None
+        if U is not None:
+            gcol = {g: i for i, g in enumerate(j.columns)}
+            E = _elig_groups(U, [gcol.get(str(x), -1) for x in perm], len(gcol))
         for g, cg in s["cand"].items():
             if g not in j.columns:
                 continue
             v = j[g].values.astype(np.float32).astype(np.float64)   # the stored precision of the slow path
+            if E is not None:
+                e = E[:, gcol[g]]
+                v = v[e]
+                mtot[g] += int(e.sum())
             v = v[v <= cg[-1]]
             if v.size:
                 counts[g] += np.bincount(np.searchsorted(cg, v, side="left"), minlength=len(cg) + 1)
@@ -176,12 +209,13 @@ def _count_worker(args):
         if s["verbose"] and w == 0 and done % 250 == 0:
             print(f"[perm-count]   worker 0: {done}/{len(range(w, s['n_perm'], n_workers))} permutations",
                   file=sys.stderr, flush=True)
-    return counts
+    return (counts, mtot) if U is not None else counts
 
 
 def permutation_fdr_count(jsd, lines, model, level, n_perm=50, seed=0, keep_frac=0.05, scope="global",
-                          n_workers=1, warmup=32, margin=4.0, min_group_n=1, verbose=True):
-    """Same result as `permutation_fdr(..., seed=seed, keep_frac=keep_frac)`, computed by counting."""
+                          n_workers=1, warmup=32, margin=4.0, min_group_n=1, verbose=True, elig=None):
+    """Same result as `permutation_fdr(..., seed=seed, keep_frac=keep_frac)`, computed by counting.
+    elig: optional SE x line bool DataFrame (lines.columns order irrelevant) -- see _elig_groups."""
     if level == "line":
         raise ValueError("permutation is degenerate at 'line' level")
     import multiprocessing as mp
@@ -190,6 +224,11 @@ def permutation_fdr_count(jsd, lines, model, level, n_perm=50, seed=0, keep_frac
     n_se = lines.shape[0]
     K = max(int(math.ceil(keep_frac * n_perm * n_se)), 1000)
     m_total = n_perm * n_se
+    U = Eobs = None
+    if elig is not None:
+        U = _as_csr(elig.reindex(index=jsd.index, columns=present).fillna(False).values)
+        oc = {g: i for i, g in enumerate(jsd.columns)}
+        Eobs = _elig_groups(U, [oc.get(str(x), -1) for x in base], len(oc))
     # warm-up on an independent stream: where does each group's null reach margin x keep_frac?
     rng = np.random.default_rng(seed + 1_000_003)
     m2 = model.copy()
@@ -200,16 +239,26 @@ def permutation_fdr_count(jsd, lines, model, level, n_perm=50, seed=0, keep_frac
         rep, _ = build_rep_matrix(lines, m2, level, min_group_n=min_group_n)
         rep.columns = [str(c) for c in rep.columns]
         j = cacts_score_matrix(rep)
+        if U is not None:
+            gcol = {g: i for i, g in enumerate(j.columns)}
+            E = _elig_groups(U, [gcol.get(str(x), -1) for x in perm], len(gcol))
         for g in j.columns:
-            warm.setdefault(g, []).append(j[g].values.astype(np.float32))
+            v = j[g].values.astype(np.float32)
+            warm.setdefault(g, []).append(v[E[:, gcol[g]]] if U is not None else v)
     q = min(1.0, margin * keep_frac)
     cand = {}
-    for g in jsd.columns:
+    for gi_, g in enumerate(jsd.columns):
         if g not in warm:
             continue
-        lim = float(np.quantile(np.concatenate(warm[g]), q))
+        wv = np.concatenate(warm[g])
+        if wv.size == 0:
+            continue
+        lim = float(np.quantile(wv, q))
         x = jsd[g].values.astype(float)
-        c = np.sort(x[np.isfinite(x) & (x <= lim)])
+        ok = np.isfinite(x) & (x <= lim)
+        if Eobs is not None:
+            ok &= Eobs[:, gi_]
+        c = np.sort(x[ok])
         if c.size:
             cand[g] = c
     del warm
@@ -219,35 +268,51 @@ def permutation_fdr_count(jsd, lines, model, level, n_perm=50, seed=0, keep_frac
               file=sys.stderr, flush=True)
     _W.clear()
     _W.update(lines=lines, model=model, level=level, present=present, base=base, seed=seed, n_perm=n_perm,
-              cand=cand, min_group_n=min_group_n, verbose=verbose)
+              cand=cand, min_group_n=min_group_n, verbose=verbose, U=U)
     if n_workers > 1:
         with mp.get_context("fork").Pool(n_workers) as pool:
             parts = pool.map(_count_worker, [(w, n_workers) for w in range(n_workers)])
     else:
         parts = [_count_worker((0, 1))]
+    mtot = None
+    if U is not None:
+        mtot = {g: sum(pt[1][g] for pt in parts) for g in cand}
+        parts = [pt[0] for pt in parts]
     lnp, short = {}, []
-    for g in jsd.columns:
+    for gi_, g in enumerate(jsd.columns):
         x = jsd[g].values.astype(float)
         if g not in cand:
             lnp[g] = np.zeros_like(x)
-            continue
-        cg = cand[g]
-        cum = np.cumsum(sum(p[g] for p in parts))[:len(cg)]             # null draws <= each sorted candidate
-        if cum[-1] < K:
-            short.append(g)                                             # limit inside the uncensored region
-        pc = np.where(cum >= K, 1.0, (cum + 1.0) / (m_total + 1.0))     # the slow path censors past its K-th draw
-        p = np.ones_like(x)
-        idx = np.searchsorted(cg, x, side="left")
-        hit = (idx < len(cg)) & np.isfinite(x)
-        hit[hit] &= cg[idx[hit]] == x[hit]
-        p[hit] = pc[idx[hit]]
-        lnp[g] = np.log(np.clip(p, 1e-300, 1.0))
+        else:
+            cg = cand[g]
+            m_g = m_total if mtot is None else mtot[g]
+            K_g = K if mtot is None else max(int(math.ceil(keep_frac * m_g)), 1000)
+            cum = np.cumsum(sum(p[g] for p in parts))[:len(cg)]         # null draws <= each sorted candidate
+            if cum[-1] < K_g:
+                short.append(g)                                         # limit inside the uncensored region
+            pc = np.where(cum >= K_g, 1.0, (cum + 1.0) / (m_g + 1.0))   # the slow path censors past its K-th draw
+            p = np.ones_like(x)
+            idx = np.searchsorted(cg, x, side="left")
+            hit = (idx < len(cg)) & np.isfinite(x)
+            hit[hit] &= cg[idx[hit]] == x[hit]
+            if Eobs is not None:
+                hit &= Eobs[:, gi_]
+            p[hit] = pc[idx[hit]]
+            lnp[g] = np.log(np.clip(p, 1e-300, 1.0))
+        if Eobs is not None:
+            lnp[g] = np.where(Eobs[:, gi_], lnp[g], np.nan)              # not a test: out of BH
     groups = list(jsd.columns)
     if scope == "global":
         flat = _bh_log10(np.concatenate([lnp[g] for g in groups])).reshape(len(groups), -1)
         out = {g: flat[i] for i, g in enumerate(groups)}
     else:
         out = {g: _bh_log10(lnp[g]) for g in groups}
+    if Eobs is not None:
+        for gi_, g in enumerate(groups):
+            out[g] = np.where(Eobs[:, gi_], out[g], 0.0)                 # ineligible -> FDR 1, explicitly
+        if verbose:
+            print(f"[perm-count] SE-of-its-group rule: {int(Eobs.sum()):,} eligible tests of {jsd.size:,}",
+                  file=sys.stderr, flush=True)
     if verbose:
         n_tests = jsd.size
         print(f"[perm-count] {m_total:,} null draws/group; smallest attainable p = {1.0 / (m_total + 1):.2e}; "
@@ -356,6 +421,8 @@ def _units_count_worker(args):
     groups, cand = s["groups"], s["cand"]
     col = {g: i for i, g in enumerate(groups)}
     counts = {g: np.zeros(len(c) + 1, dtype=np.int64) for g, c in cand.items()}
+    mtot = {g: 0 for g in cand}
+    U = s.get("U")
     done, mine = 0, len(range(w, s["n_perm"], n_workers))
     for b in range(s["n_perm"]):
         perm = _units_shuffle(rng, s["base"], s["blocks"])        # every worker advances the stream identically
@@ -363,19 +430,25 @@ def _units_count_worker(args):
             continue
         rep = pd.DataFrame(rep_agg(s["X"], perm, len(groups), s["agg"]), index=s["index"], columns=groups)
         j = cacts_score_matrix(rep).values
+        E = _elig_groups(U, perm, len(groups)) if U is not None else None
         for g, cg in cand.items():
             v = j[:, col[g]].astype(np.float32).astype(np.float64)   # the stored precision of the slow path
+            if E is not None:
+                e = E[:, col[g]]
+                v = v[e]
+                mtot[g] += int(e.sum())
             v = v[v <= cg[-1]]
             if v.size:
                 counts[g] += np.bincount(np.searchsorted(cg, v, side="left"), minlength=len(cg) + 1)
         done += 1
         if s["verbose"] and w == 0 and done % 100 == 0:
             print(f"[perm-units-count]   worker 0: {done}/{mine} permutations", file=sys.stderr, flush=True)
-    return counts
+    return (counts, mtot) if U is not None else counts
 
 
 def permutation_fdr_units_count(jsd, X, labels, agg, n_perm=1000, seed=0, keep_frac=0.05, scope="global",
-                                verbose=True, strata=None, exclude=None, n_workers=1, warmup=16, margin=4.0):
+                                verbose=True, strata=None, exclude=None, n_workers=1, warmup=16, margin=4.0,
+                                elig=None):
     """Same result as `permutation_fdr_units(...)` with the same seed, keep_frac, strata and exclude, by counting
     null draws at candidate tests (see `permutation_fdr_count`). The warm-up estimates each group's null
     quantile at margin x keep_frac as the mean of per-permutation quantiles (bounded memory at 500+ groups);
@@ -389,20 +462,32 @@ def permutation_fdr_units_count(jsd, X, labels, agg, n_perm=1000, seed=0, keep_f
     K = max(int(math.ceil(keep_frac * n_perm * n_se)), 1000)
     m_total = n_perm * n_se
     exclude = set(exclude or ())
+    U = Eobs = None
+    if elig is not None:                                  # SE x unit, aligned to X's columns (see _elig_groups)
+        U = _as_csr(elig)
+        Eobs = _elig_groups(U, base, len(groups))
     q = min(1.0, margin * keep_frac)
     rng = np.random.default_rng(seed + 1_000_003)
     qsum = np.zeros(len(groups))
     for _ in range(warmup):
         perm = _units_shuffle(rng, base, blocks)
         j = cacts_score_matrix(pd.DataFrame(rep_agg(X, perm, len(groups), agg), index=jsd.index, columns=groups)).values
-        qsum += np.nanquantile(j.astype(np.float32), q, axis=0)
+        if U is None:
+            qsum += np.nanquantile(j.astype(np.float32), q, axis=0)
+        else:                                             # a group with no eligible locus in a draw adds 0
+            j = np.where(_elig_groups(U, perm, len(groups)), j.astype(np.float32), np.nan)
+            with np.errstate(all="ignore"):
+                qsum += np.nan_to_num(np.nanquantile(j, q, axis=0), nan=0.0)
     lim = qsum / warmup
     cand = {}
     for g in groups:
         if g in exclude:
             continue
         x = jsd[g].values.astype(float)
-        c = np.sort(x[np.isfinite(x) & (x <= lim[gi[g]])])
+        ok = np.isfinite(x) & (x <= lim[gi[g]])
+        if Eobs is not None:
+            ok &= Eobs[:, gi[g]]
+        c = np.sort(x[ok])
         if c.size:
             cand[g] = c
     if verbose:
@@ -411,28 +496,46 @@ def permutation_fdr_units_count(jsd, X, labels, agg, n_perm=1000, seed=0, keep_f
               file=sys.stderr, flush=True)
     _W.clear()
     _W.update(X=X, base=base, blocks=blocks, seed=seed, n_perm=n_perm, groups=groups, cand=cand, agg=agg,
-              index=jsd.index, verbose=verbose)
+              index=jsd.index, verbose=verbose, U=U)
     if n_workers > 1:
         with mp.get_context("fork").Pool(n_workers) as pool:
             parts = pool.map(_units_count_worker, [(w, n_workers) for w in range(n_workers)])
     else:
         parts = [_units_count_worker((0, 1))]
+    mtot = None
+    if U is not None:
+        mtot = {g: sum(pt[1][g] for pt in parts) for g in cand}
+        parts = [pt[0] for pt in parts]
     lnp, short = {}, []
     for g in groups:
         x = jsd[g].values.astype(float)
         p = np.ones_like(x)
         if g in cand:
             cg = cand[g]
+            m_g = m_total if mtot is None else mtot[g]
+            K_g = K if mtot is None else max(int(math.ceil(keep_frac * m_g)), 1000)
             cum = np.cumsum(sum(pt[g] for pt in parts))[:len(cg)]
-            if cum[-1] < K:
+            if cum[-1] < K_g:
                 short.append(g)
-            pc = np.where(cum >= K, 1.0, (cum + 1.0) / (m_total + 1.0))
+            pc = np.where(cum >= K_g, 1.0, (cum + 1.0) / (m_g + 1.0))
             idx = np.searchsorted(cg, x, side="left")
             hit = (idx < len(cg)) & np.isfinite(x)
             hit[hit] &= cg[idx[hit]] == x[hit]
+            if Eobs is not None:
+                hit &= Eobs[:, gi[g]]
             p[hit] = pc[idx[hit]]
         lnp[g] = np.log(np.clip(p, 1e-300, 1.0))
+        if Eobs is not None and g not in exclude:
+            lnp[g] = np.where(Eobs[:, gi[g]], lnp[g], np.nan)             # not a test: out of BH
     out = _bh_units(lnp, groups, exclude, scope)
+    if Eobs is not None:
+        for g in groups:
+            if g not in exclude:
+                out[g] = np.where(Eobs[:, gi[g]], out[g], 0.0)           # ineligible -> FDR 1, explicitly
+        if verbose:
+            n_el = sum(int(Eobs[:, gi[g]].sum()) for g in groups if g not in exclude)
+            print(f"[perm-units-count] SE-of-its-group rule: {n_el:,} eligible tests in testable groups",
+                  file=sys.stderr, flush=True)
     if verbose:
         print(f"[perm-units-count] {m_total:,} null draws/group; smallest attainable p = {1.0 / (m_total + 1):.2e}; "
               f"BH bar at k=1 is {0.10 / jsd.size:.2e} over {jsd.size:,} tests", file=sys.stderr, flush=True)

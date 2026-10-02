@@ -24,14 +24,31 @@ V2=(--signal "$RES/atlas.s3.se_signal.tsv" --catalog "$RES/atlas.s3.union_catalo
     --fdr-method permutation --n-perm "${NPERM:-1000}" --keep-frac "${KEEPFRAC:-0.05}" --dump-specific 0.10
     --perm-impl "${PERMIMPL:-tail}" --perm-workers "${PERMWORKERS:-1}" --fdr-scope "${FDRSCOPE:-global}"
     --inferred-bins "$W/../cncal/bins" --blacklist "$W/../cncal/hg38-blacklist.v2.bed.gz")
+# V31=1: the v3.1 definitions (ROADMAP "v3.1 scope, decided 2026-10-02"; FINDINGS §45-49). A specific SE must be
+# an SE of its group, in calls made with calling-time CN (agnostic calls for the no-CN arms), with the null
+# applying the same rule; CN floor 0.5; chrY not scored; a missing stratum label falls back to lineage.
+INFKEYS="${INFKEYS:-$REPO/phase2/data/v3_inferred_keys.txt}"
+if [ -n "${V31:-}" ]; then
+  PRES="$RES/atlas.s3.se_presence.cn.tsv"
+  { [ "$BASE" = nocn ] || [ -n "$NOCN" ]; } && PRES="$RES/atlas.s3.se_presence.tsv"
+  V2+=(--presence "$PRES" --require-called --cn-floor 0.5 --drop-chroms chrY --strata-fallback)
+fi
 case "$BASE" in
   main)    args=("${V2[@]}" --out "$OUT/atlas.s3.perm" --cn-diagnostic --save-matrices) ;;
   nocn)    args=("${V2[@]}" --out "$OUT/atlas.s3.perm.nocn" --no-cn) ;;
   shuffle) args=("${V2[@]}" --out "$OUT/atlas.s3.perm.shuffle" --shuffle-labels 1
                  --levels OncotreeLineage,OncotreePrimaryDisease,OncotreeSubtype) ;;
-  noinf)   args=("${V2[@]}" --out "$OUT/atlas.s3.perm.noinf" --exclude-keys "$(cat "$REPO/phase2/data/v3_inferred_keys.txt")"
+  noinf)   args=("${V2[@]}" --out "$OUT/atlas.s3.perm.noinf" --exclude-keys "$(cat "$INFKEYS")"
                  --levels OncotreeLineage,OncotreePrimaryDisease) ;;
-  noinfall) args=("${V2[@]}" --out "$OUT/atlas.s3.perm.noinfall" --exclude-keys "$(cat "$REPO/phase2/data/v3_inferred_keys.txt")") ;;
+  noinfall) args=("${V2[@]}" --out "$OUT/atlas.s3.perm.noinfall" --exclude-keys "$(cat "$INFKEYS")") ;;
+  # v3.1 item 7 controls for the input-inferred-CN lines: kept but uncorrected; or 80 random measured-CN lines
+  # matched by lineage removed instead (RANDKEYS from phase2/analysis/v31_controls.py)
+  infnocn)  args=("${V2[@]}" --out "$OUT/atlas.s3.perm.infnocn" --no-cn-keys "$(cat "$INFKEYS")"
+                 --levels OncotreeLineage,OncotreePrimaryDisease) ;;
+  randexcl) args=("${V2[@]}" --out "$OUT/atlas.s3.perm.randexcl" --exclude-keys "$(cat "${RANDKEYS:?}")"
+                 --levels OncotreeLineage,OncotreePrimaryDisease) ;;
+  # v3.1 item 8: study-weighted line profiles (within study, then across)
+  sw)       args=("${V2[@]}" --out "$OUT/atlas.s3.perm.sw" --study-weighted --levels OncotreeLineage,OncotreePrimaryDisease) ;;
   nodisc)  args=("${V2[@]}" --out "$OUT/atlas.s3.perm.nodisc" --exclude-keys "$DISC"
                  --levels OncotreeLineage,OncotreePrimaryDisease) ;;
   cmpfirst) args=("${V2[@]}" --pull-set "$REPO/phase2/data/pull_set.v2.cmpfirst.tsv" --out "$OUT/atlas.s3.perm.cmpfirst"
