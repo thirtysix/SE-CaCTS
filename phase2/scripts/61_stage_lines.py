@@ -4,7 +4,8 @@
 For each line (scoring key = DepMap ModelID, or CVCL for lines DepMap does not hold):
   docs/data/lines/<key>.json           summary: labels, experiments (SRX, study, layout, ChIP-Atlas bigWig URL), and four
                                        comparisons, each with its comparison set, whether it could be tested (and why
-                                       not), the number of specific SEs, and the top TOP of them (compact rows: `cols`)
+                                       not), the number of specific SEs, and the table rows: the top TOP calls of
+                                       every tested comparison, merged by rank (compact rows: `cols`)
   docs/data/lines/<key>.called.bed.gz  union SE loci called in any of the line's experiments
                                        (score = share of its experiments that called it, x1000)
   docs/data/lines/<key>.vs{all,sub,dis,lin}.bed.gz   specific SEs (FDR <= 0.1, up to TRACK_MAX by rank) vs all lines,
@@ -295,12 +296,15 @@ def main():
             infos[c].update(n=0 if d is None else int(len(d)),
                             n_called_here=0 if d is None else int(sum(ov.get(x, 0) > 0 for x in d.se)))
             comps[c] = infos[c]
-        # the table: the vs-all calls by rank (or, untested, the top of the vs-all ranking)
-        base = spec["all"].get(grp) if infos["all"]["testable"] else None
-        base = base if base is not None else top_any["all"].get(grp)
+        # the table: the top TOP calls of EVERY tested comparison, merged by rank (all four rank the line's loci by
+        # the same JSD, so a rank means the same in each list). Before v3.1 only the vs-all list was staged, so an SE
+        # called vs relatives but not vs all lines (the "L without A" filter) could never appear. Untested lines:
+        # the top of the vs-all ranking.
+        parts = [spec[c][grp].head(TOP) for c in CMP if infos[c]["testable"] and grp in spec[c]]
+        base = (pd.concat(parts).drop_duplicates("se").sort_values("rank") if parts else top_any["all"].get(grp))
         rows = []
         if base is not None:
-            for r in base.head(TOP).itertuples():
+            for r in (base if parts else base.head(TOP)).itertuples():
                 cc = cat.loc[r.se]; g, dist = genes[r.se]
                 cn = None if pd.isna(r.cn_mean) else round(float(r.cn_mean), 2)
                 fdrs = [(round(float(called_in[c][r.se]), 4) if r.se in called_in[c].index else None) for c in CMP]
