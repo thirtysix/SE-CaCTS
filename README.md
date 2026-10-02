@@ -4,7 +4,8 @@
 
 Browse the lineage-specific super-enhancers for any of 25 cancer lineages and 56 primary diseases, and each
 of 519 cell lines compared with all lines and with the lines of its subtype, disease and lineage, with copy
-number at each locus, the nearest gene, cross-layer concordance, a per-gene lookup and a genome browser. No
+number at each locus, every protein-coding gene within 100 kb (searchable), cross-layer concordance, a per-gene
+lookup and a genome browser. No
 install, no backend.
 
 [![SE-CaCTS dashboard](assets/screenshots/dashboard-overview.png)](https://thirtysix.github.io/SE-CaCTS/)
@@ -184,7 +185,7 @@ The staged `data/` is committed, so this works straight from a clone with no set
 | SE atlas | Copy-number ablation |
 |---|---|
 | [![SE atlas](assets/screenshots/dashboard-atlas.png)](https://thirtysix.github.io/SE-CaCTS/#atlas) | [![CN ablation](assets/screenshots/dashboard-cn-ablation.png)](https://thirtysix.github.io/SE-CaCTS/#cn) |
-| The most group-specific super-enhancers for a group, with permutation FDR, copy number, nearest gene, locus and how many experiments called each one. | What correction removes (named recurrent amplicons) versus what it rescues (real, copy-neutral specificity). |
+| The most group-specific super-enhancers for a group, with permutation FDR, copy number, the genes within 100 kb, locus and how many experiments called each one. | What correction removes (named recurrent amplicons) versus what it rescues (real, copy-neutral specificity). |
 
 | One cell line, four comparisons | Genomic View (IGV) |
 |---|---|
