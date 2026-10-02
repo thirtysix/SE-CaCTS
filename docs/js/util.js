@@ -121,7 +121,7 @@ const U = (() => {
   };
   const geneMatch = (r, q) => !q || (r.genes || []).some(x => x[0].toLowerCase().includes(q));
   const exprSpec = (lv, grp, g) => !!(lv && EXPR[lv] && EXPR[lv][grp] && EXPR[lv][grp].has(g));
-  // the gene cell: the nearest gene, then any gene matching the filter, then "+N" (hover lists all; click expands).
+  // the gene cell: the nearest gene(s), then any gene matching the filter, then "+N" (hover lists all; click expands).
   // lv/grp name the group whose expression marks the genes (⇌); r.rho is the staged nearest-gene correlation.
   function geneCell(r, { q = "", lv = null, grp = r.group, link = null } = {}) {
     const gl = r.genes || [];
@@ -129,7 +129,8 @@ const U = (() => {
     const outside = !!gl[0][2];
     const mark = g => !exprSpec(lv, grp, g) ? "" : ` <span class="conc-badge" title="${esc(g)} is itself specific to ${esc(grp)} in DepMap expression (cross-layer concordant)${g === r.gene0 && r.rho != null && r.rho !== "" ? `; its expression tracks this SE's H3K27ac across lines (Spearman ρ = ${r.rho})` : ""}. See the Concordance tab.">⇌${g === r.gene0 && r.rho != null && r.rho !== "" ? " " + (+r.rho).toFixed(2) : ""}</span>`;
     const one = (x, first) => `<span class="g1">${first && link ? link(x[0]) : esc(x[0])}${mark(x[0])}<span class="th-sub"> ${kbTxt(x)}</span></span>`;
-    const lead = gl.filter((x, i) => i === 0 || (q && x[0].toLowerCase().includes(q)));
+    // inline: the nearest gene and any tied with it (several genes often overlap one SE), then filter matches
+    const lead = gl.filter((x, i) => i === 0 || (!x[2] && x[1] === gl[0][1]) || (q && x[0].toLowerCase().includes(q)));
     const rest = gl.filter(x => !lead.includes(x));
     const all = gl.map(x => `${x[0]} ${kbTxt(x)}${exprSpec(lv, grp, x[0]) ? " ⇌" : ""}`).join(", ");
     const tip = outside ? `no protein-coding gene within 100 kb; the nearest is ${all}` : `protein-coding genes within 100 kb of this super-enhancer, nearest first: ${all}. Proximity only, not a scored link.`;

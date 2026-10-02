@@ -15,7 +15,7 @@ only one, so this writes the whole neighbourhood and lets every view list and se
                                    expression (CaCTS JSD, FDR <= 0.10, exactly as concordance_bridge2.py). Checked
                                    against the concordance pairs table: every flag must agree.
   <docs>/data/gene_index{,.v}.json rebuilt from the staged calls_*.tsv: every listed gene of every call, so the
-                                   finder matches any gene near an SE, not only the nearest (d = kb, n = nearest).
+                                   finder matches any gene near an SE, not only the nearest (d = kb, n = nearest or tied with it).
 
   ~/miniconda3/envs/atac_hdac/bin/python phase2/scripts/75_stage_se_genes.py --docs docs
 """
@@ -148,9 +148,9 @@ def main():
                     missing += 1
                     continue
                 spec = set(expr[lv].get(r.group, ()))
-                for i, x in enumerate(gl):
+                for x in gl:
                     h = {"lv": lv, "g": r.group, "r": int(r.rank), "fdr": r.fdr, "cn": r.cn_mean,
-                         "c": int(x[0] in spec), "d": x[1], "n": int(i == 0)}
+                         "c": int(x[0] in spec), "d": x[1], "n": int(x[1] == gl[0][1])}   # ties count as nearest
                     if len(x) > 2:
                         h["o"] = 1                                 # nearest gene, outside the window
                     idx.setdefault(x[0], []).append(h)
