@@ -38,6 +38,8 @@ case "$BASE" in
                  --cn-diagnostic --levels OncotreeLineage,OncotreePrimaryDisease) ;;
   layout)   args=("${V2[@]}" --signal "$W/results_v2/atlas.s3.layoutcorr.se_signal.tsv"
                  --out "$OUT/atlas.s3.perm.layoutcorr" --levels OncotreeLineage,OncotreePrimaryDisease) ;;
+  # leave-one-study-out (FINDINGS §42): EXCL = SRX list from phase2/analysis/loso_sets.py, lineage level only
+  loso)     args=("${V2[@]}" --out "$OUT/atlas.s3.perm" --exclude-srx "${EXCL:?}" --levels OncotreeLineage) ;;
   csub)     args=("${V2[@]}" --out "$OUT/atlas.s3.cons" --agg q25 --levels OncotreeSubtype) ;;
   csubshuf) args=("${V2[@]}" --out "$OUT/atlas.s3.cons.shuffle" --agg q25 --levels OncotreeSubtype --shuffle-labels 1) ;;
   cline)    args=("${V2[@]}" --out "$OUT/atlas.s3.consx" --agg q25 --levels line --line-members experiments --keep-frac 0.01) ;;

@@ -173,6 +173,8 @@ def main():
                          "before scoring. Nothing real then exists, so a calibrated FDR must call ~nothing.")
     ap.add_argument("--exclude-keys", default="",
                     help="comma-separated line keys (ModelID / CVCL) to drop before scoring — sensitivity runs")
+    ap.add_argument("--exclude-srx", default=None, metavar="FILE",
+                    help="file of SRX (one per line) to drop before scoring — e.g. leave-one-study-out runs")
     ap.add_argument("--cn-diagnostic", action="store_true",
                     help="write <out>.cn_by_line.tsv: per line, its CN source and the Spearman of SE signal vs "
                          "SE copy number before and after correction. Under-correction (a noisier CN source) "
@@ -233,6 +235,14 @@ def main():
         M = M.drop(columns=drop)
         print(f"[score] --exclude-keys: dropped {len(drop)} samples from "
               f"{len({srx_model[c] for c in drop})}/{len(excl)} requested lines", file=sys.stderr, flush=True)
+        samples = list(M.columns)
+    if a.exclude_srx:
+        with open(a.exclude_srx) as fh:
+            want = {s.strip() for s in fh if s.strip()}
+        drop = [c for c in M.columns if c in want]
+        M = M.drop(columns=drop)
+        print(f"[score] --exclude-srx: dropped {len(drop)}/{len(want)} listed samples from "
+              f"{len({srx_model.get(c) for c in drop})} lines", file=sys.stderr, flush=True)
         samples = list(M.columns)
     # An SE with zero signal in EVERY sample is not a test: it has no quantified territory (v2: union loci
     # that fall wholly outside the fixed grid). Left in, pycacts scores the all-zero row as a uniform
