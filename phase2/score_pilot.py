@@ -356,6 +356,13 @@ def main():
     n_cn = sum(v is not None for v in cn_by_model.values())
     print(f"[score] scoring-time CN: {n_cn}/{len(cn_by_model)} models with a CN track "
           f"({time.time() - t0:.0f}s)", file=sys.stderr, flush=True)
+    # a line whose source returns no track is scored UNCORRECTED, silently. Name them (2026-10-02: the HPC copy of
+    # the DepMap tables was filtered to an older pull set, so 35 re-sourced lines would have lost correction)
+    no_track = sorted(k for k, v in cn_by_model.items() if v is None)
+    if no_track:
+        print(f"[score] WARNING: {len(no_track)} line(s) have NO CN track and are scored uncorrected: "
+              + ", ".join(f"{name_of.get(k, k)} ({src_of.get(k, 'depmap_wgs')})" for k in no_track),
+              file=sys.stderr, flush=True)
     # CN is always EVALUATED (it is reported per call as cn_mean, so any hit can be checked against the
     # copy number at its locus); --no-cn only skips APPLYING it. The two arms differ in exactly one step,
     # which is what makes the ablation interpretable.
