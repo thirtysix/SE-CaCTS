@@ -19,7 +19,8 @@ BASE="${ARM%_nocn}"; NOCN=$([ "$BASE" != "$ARM" ] && echo 1 || true)
 DISC="ACH-000232,ACH-000338,ACH-000856,ACH-000957,ACH-000960,ACH-000997,ACH-001106,ACH-000768"
 # RES / PS pick the atlas (default v2). v3 adds input-inferred CN lines, so those two flags come along.
 RES="${RES:-$W/results_v2}"; PS="${PS:-$REPO/phase2/data/pull_set.v2.tsv}"
-V2=(--signal "$RES/atlas.s3.se_signal.tsv" --catalog "$RES/atlas.s3.union_catalog.bed"
+gzp () { [ -e "$1" ] || [ ! -e "$1.gz" ] && echo "$1" || echo "$1.gz"; }    # results may have been gzipped since
+V2=(--signal "$(gzp "$RES/atlas.s3.se_signal.tsv")" --catalog "$(gzp "$RES/atlas.s3.union_catalog.bed")"
     --pull-set "$PS" --norm none
     --fdr-method permutation --n-perm "${NPERM:-1000}" --keep-frac "${KEEPFRAC:-0.05}" --dump-specific 0.10
     --perm-impl "${PERMIMPL:-tail}" --perm-workers "${PERMWORKERS:-1}" --fdr-scope "${FDRSCOPE:-global}"
@@ -29,8 +30,8 @@ V2=(--signal "$RES/atlas.s3.se_signal.tsv" --catalog "$RES/atlas.s3.union_catalo
 # applying the same rule; CN floor 0.5; chrY not scored; a missing stratum label falls back to lineage.
 INFKEYS="${INFKEYS:-$REPO/phase2/data/v3_inferred_keys.txt}"
 if [ -n "${V31:-}" ]; then
-  PRES="$RES/atlas.s3.se_presence.cn.tsv"
-  { [ "$BASE" = nocn ] || [ -n "$NOCN" ]; } && PRES="$RES/atlas.s3.se_presence.tsv"
+  PRES="$(gzp "$RES/atlas.s3.se_presence.cn.tsv")"
+  { [ "$BASE" = nocn ] || [ -n "$NOCN" ]; } && PRES="$(gzp "$RES/atlas.s3.se_presence.tsv")"
   V2+=(--presence "$PRES" --require-called --cn-floor 0.5 --drop-chroms chrY --strata-fallback)
 fi
 case "$BASE" in
