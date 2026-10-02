@@ -99,6 +99,8 @@ const U = (() => {
     s3norm: "https://github.com/guanjue/S3norm", cacts: "https://doi.org/10.1126/sciadv.abf6123",
     cactscode: "https://github.com/lawrenson-lab/CaCTS", pycacts: "https://github.com/thirtysix/pyCaCTS",
     cnrose: "https://github.com/thirtysix/SE-CaCTS/tree/main/cnrose", repo: "https://github.com/thirtysix/SE-CaCTS",
+    depmap_ref: "https://doi.org/10.1016/j.cell.2017.06.010", cmp_ref: "https://doi.org/10.1093/nar/gky872",
+    ccle_ref: "https://doi.org/10.1038/s41586-019-1186-3", cbioportal: "https://www.cbioportal.org/study/summary?id=ccle_broad_2019",
   };
   const link = (k, text) => `<a href="${LINKS[k]}" target="_blank" rel="noopener">${text}</a>`;
   return { el, esc, LEVELS, LINKS, link, cnClass, fmtFdr, fmtJsd, ucsc, downloadTSV, passBadge, passOrd, passFilter, passHeadBtn, wirePassHead, closePassHead,

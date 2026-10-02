@@ -145,7 +145,9 @@ const About = (() => {
           (${U.link("oncotree", "OncoTree")} lineage, disease, subtype); lines outside DepMap via
           ${U.link("cellosaurus", "Cellosaurus")} and ${U.link("ncit", "NCIt")}.</li>
         <li><b>Copy number:</b> ${measured.map(([k, v]) => `${k} for ${v}`).join(", ")} lines (${fmt(nMeasured)} measured;
-          sources: ${U.link("depmap", "DepMap")}, ${U.link("cmp", "Cell Model Passports")}, ${U.link("ccle", "CCLE")});
+          sources: ${U.link("depmap", "DepMap")}, ${U.link("depmap_ref", "Tsherniak <i>et al.</i> 2017")};
+          ${U.link("cmp", "Cell Model Passports")}, ${U.link("cmp_ref", "van der Meer <i>et al.</i> 2019")};
+          ${U.link("ccle", "CCLE")}, ${U.link("ccle_ref", "Ghandi <i>et al.</i> 2019")});
           ${inferred ? `inferred from the experiments' own input controls for ${fmt(inferred)} lines no measured source
           covers, a weaker correction (the <b>Measured copy number only</b> analysis leaves them out).` : ""}</li>
         <li><b>Expression:</b> ${U.link("depmap", "DepMap")} protein-coding expression, for the concordance layer.</li>
@@ -210,7 +212,19 @@ const About = (() => {
       Data: ${U.link("chipatlas", "ChIP-Atlas")}, ${U.link("geo", "GEO")} / ${U.link("sra", "SRA")},
       ${U.link("depmap", "DepMap")}, ${U.link("cmp", "Cell Model Passports")}, ${U.link("ccle", "CCLE")},
       ${U.link("cellosaurus", "Cellosaurus")}, ${U.link("ncit", "NCIt")}, ${U.link("oncotree", "OncoTree")},
-      ${U.link("ensembl", "Ensembl")}. Source: ${U.link("repo", "github.com/thirtysix/SE-CaCTS")}.</p>`, "span2")}
+      ${U.link("ensembl", "Ensembl")}. Source: ${U.link("repo", "github.com/thirtysix/SE-CaCTS")}.</p>
+      <p style="margin:10px 0 0"><b>Cell-line data references</b></p>
+      <ul>
+        <li>${U.link("depmap", "DepMap")} (release 26Q1: cell-line labels, WGS and WES copy number, expression).
+          Tsherniak A <i>et al.</i> Defining a cancer dependency map. <i>Cell</i> 2017;170:564–576.
+          ${U.link("depmap_ref", "doi:10.1016/j.cell.2017.06.010")}</li>
+        <li>${U.link("cmp", "Cell Model Passports")} (WES copy number). van der Meer D <i>et al.</i> Cell Model
+          Passports: a hub for clinical, genetic and functional datasets of preclinical cancer models.
+          <i>Nucleic Acids Res</i> 2019;47:D923–D929. ${U.link("cmp_ref", "doi:10.1093/nar/gky872")}</li>
+        <li>${U.link("ccle", "CCLE")} (SNP6 copy-number segments, via ${U.link("cbioportal", "cBioPortal")}). Ghandi M
+          <i>et al.</i> Next-generation characterization of the Cancer Cell Line Encyclopedia. <i>Nature</i>
+          2019;569:503–508. ${U.link("ccle_ref", "doi:10.1038/s41586-019-1186-3")}</li>
+      </ul>`, "span2")}
     </div>`;
   }
   return { init };
