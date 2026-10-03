@@ -169,7 +169,8 @@ const U = (() => {
     const all = gl.map(x => `${x[0]} ${kbTxt(x)}${exprSpec(lv, grp, x[0]) ? " ⇌" : ""}`).join(", ");
     const allL = ll.length ? ` lncRNAs within 100 kb: ${ll.map(x => `${x[0]} ${kbTxt(x)}`).join(", ")}.` : "";
     const tip = (outside ? `no protein-coding gene within 100 kb; the nearest is ${all}.` : `protein-coding genes within 100 kb of this super-enhancer, nearest first: ${all}.`) + allL + " Proximity only, not a scored link.";
-    const sep = `<span class="sep">·</span>`;
+    // <wbr>: the items are nowrap and joined without whitespace, so a long tie (HOXA cluster) could not wrap
+    const sep = `<span class="sep">·</span><wbr>`;
     const nMore = rest.length + restL.length;
     const more = [...rest.map(x => one(x, false)), ...restL.map(lncOne)];
     return `<span class="genes" title="${esc(tip)}">${lead.map((x, i) => one(x, i === 0)).join(sep)}${outside ? ` <span class="genes-out">(no protein-coding gene within 100 kb)</span>` : ""}${leadL.length ? sep + leadL.map(lncOne).join(sep) : ""}${nMore
