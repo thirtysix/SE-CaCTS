@@ -25,6 +25,8 @@ V2=(--signal "$(gzp "$RES/atlas.s3.se_signal.tsv")" --catalog "$(gzp "$RES/atlas
     --fdr-method permutation --n-perm "${NPERM:-1000}" --keep-frac "${KEEPFRAC:-0.05}" --dump-specific 0.10
     --perm-impl "${PERMIMPL:-tail}" --perm-workers "${PERMWORKERS:-1}" --fdr-scope "${FDRSCOPE:-global}"
     --inferred-bins "$W/../cncal/bins" --blacklist "$W/../cncal/hg38-blacklist.v2.bed.gz")
+# v3.2 CN sources (FINDINGS §57): subsampled WGS reads (wgs_reads); ccma_wgs reads its default path in the repo copy
+[ -d "$W/../wgs_cn/ratio" ] && V2+=(--wgs-bins "$W/../wgs_cn/ratio")
 # V31=1: the v3.1 definitions (ROADMAP "v3.1 scope, decided 2026-10-02"; FINDINGS §45-49). A specific SE must be
 # an SE of its group, in calls made with calling-time CN (agnostic calls for the no-CN arms), with the null
 # applying the same rule; CN floor 0.5; chrY not scored; a missing stratum label falls back to lineage.

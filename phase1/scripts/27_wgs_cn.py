@@ -8,6 +8,8 @@ Bowtie2 to GRCh38, reads per 50 kb bin (phase2/roihu/wgs_cn.slurm + phase2/wgs_b
 mappability of each bin, which ChIP-input covered-mean bins do not, so every line is divided by a NORMAL reference
 run through the same pipeline (1000 Genomes high-coverage, 3 samples): bins the reference cannot map (< 30% of its
 median) become NaN and stay missing (BinnedInputCN zero_is_deletion=False); a true 0 is still a deletion.
+`noise` = median |first difference| of log2 ratio between neighbouring 50 kb bins: the truth-free quality measure
+a target is gated on, against its range on the calibration lines.
 Calibration lines (role calib) have DepMap WGS, the same data's CCLE reads, so `evaluate` measures the estimator
 itself: agreement at the atlas SE loci and on 5 Mb bins, against the input-inferred track where one exists.
 
@@ -92,6 +94,9 @@ def load_bins(fn):
 def cmd_ratio(a):
     man = pd.read_csv(a.manifest, sep="\t")
     os.makedirs(a.out, exist_ok=True)
+    for f in os.listdir(a.out):           # a line skipped now must not leave an older ratio file behind
+        if f.endswith(".npz"):
+            os.remove(os.path.join(a.out, f))
     refs = []
     for n in man.loc[man.role == "ref", "name"]:
         b, nr = load_bins(os.path.join(a.bins, f"{n}.npz"))
@@ -130,9 +135,11 @@ def cmd_evaluate(a):
     from cnrose.cn.inferred import BinnedInputCN, load_blacklist
     from cnrose.cn.depmap import load_gene_coords, DepMapGeneCN
     man = pd.read_csv(a.manifest, sep="\t")
-    man = man[man.role != "ref"]
+    done = set(pd.read_csv(os.path.join(a.ratio, "index.tsv"), sep="\t")["name"])
+    man = man[(man.role != "ref") & man.name.isin(done)]     # only what `ratio` wrote (sorted runs are skipped there)
     bl = load_blacklist(a.blacklist)
-    wgs = BinnedInputCN(a.ratio, dict(zip(man.key, man.name)), blacklist=bl, slope=1.0, zero_is_deletion=False)
+    wgs = BinnedInputCN(a.ratio, dict(zip(man.key, man.name)), blacklist=bl, slope=1.0, zero_is_deletion=False,
+                        segment=True)
     im = pd.read_csv(os.path.join(ROOT, "phase2/analysis/out/cn_admissions.tsv"), sep="\t").dropna(subset=["cn_input"])
     inf = BinnedInputCN(a.input_bins, dict(zip(im["key"], im["cn_input"])), blacklist=bl)
     cat = pd.read_csv(a.catalog, sep="\t", header=None, usecols=[0, 1, 2], names=["c", "s", "e"])
@@ -160,7 +167,10 @@ def cmd_evaluate(a):
         i = inf.track(r.key)
         regs = list(zip(cat.c, cat.s, cat.e))
         xw = at(w, regs)
-        row = {"name": r.name, "key": r.key, "role": r.role, "se_amp_wgs": int(np.sum(xw >= 2)),
+        z = np.load(os.path.join(a.ratio, f"{r.name}.npz"))
+        lg = [np.log2(np.clip(z[c][np.isfinite(z[c]) & (z[c] > 0)], 1e-3, None)) for c in AUTO]
+        noise = float(np.median(np.concatenate([np.abs(np.diff(v)) for v in lg if len(v) > 1])))
+        row = {"name": r.name, "key": r.key, "role": r.role, "noise": round(noise, 3), "se_amp_wgs": int(np.sum(xw >= 2)),
                "se_altered_wgs": round(float(np.mean(np.abs(np.log2(np.clip(xw, 0.05, None))) > 0.3)), 3)}
         if i is not None:
             row["r_se_wgs_vs_inferred"], _ = cmp(xw, at(i, regs))
@@ -178,6 +188,14 @@ def cmd_evaluate(a):
         print(f"[eval] {row}", file=sys.stderr)
     out = pd.DataFrame(rows)
     out.to_csv(a.out, sep="\t", index=False, float_format="%.3f")
+    # gate: a target is accepted when its bin noise is within the calibration lines' range (+10%)
+    cal = out.loc[out.role == "calib", "noise"]
+    lim = round(float(cal.max()) * 1.1, 3) if len(cal) else np.nan
+    g = out[out.role == "target"][["key", "name", "noise"]].assign(limit=lim)
+    g["accept"] = np.where(g.noise <= lim, "yes", "no")
+    g.to_csv(os.path.join(ROOT, "phase2/data/wgs_cn_gate.tsv"), sep="\t", index=False)
+    print(f"[gate] noise limit {lim}: accepted {', '.join(g.loc[g.accept == 'yes', 'name'])}; "
+          f"rejected {', '.join(g.loc[g.accept == 'no', 'name'])}", file=sys.stderr)
     with pd.option_context("display.width", 250):
         print(out.round(3).to_string(index=False))
 

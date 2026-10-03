@@ -325,10 +325,13 @@ class BinnedInputCN(CNProvider):
 
     Also reads measured CN from subsampled WGS (phase1/scripts/27_wgs_cn.py: reads per bin divided by a normal
     reference) with slope=1 and zero_is_deletion=False: there NaN marks a bin the reference cannot map, which must
-    stay missing, while a true 0 (reference reads, none in the line) is still a deletion.
+    stay missing, while a true 0 (reference reads, none in the line) is still a deletion. segment=True smooths the
+    50 kb ratios in log space first: on 9 calibration lines it raised agreement with DepMap WGS at SE loci from
+    r 0.74 to 0.83 (best ChIP input 0.69) and amplicon recovery from 72% to 83% (input 5%) (FINDINGS §57).
     """
 
-    def __init__(self, bins_dir, input_for, blacklist=None, slope=0.81, bin_size=50_000, zero_is_deletion=True):
+    def __init__(self, bins_dir, input_for, blacklist=None, slope=0.81, bin_size=50_000, zero_is_deletion=True,
+                 segment=False):
         self.bins_dir = bins_dir
         self.input_for = dict(input_for)
         self.slope = slope
@@ -336,7 +339,7 @@ class BinnedInputCN(CNProvider):
                     np.arange(1, int(L // bin_size) + 1, dtype=np.int64) * bin_size)
                 for c, L in HG38_AUTOSOMES.items()}
         self._inf = ChipInputInferredCN({}, blacklist=blacklist or {}, bin_size=bin_size,
-                                        zero_is_deletion=zero_is_deletion)
+                                        zero_is_deletion=zero_is_deletion, segment_cn=segment)
         self._inf._grid, self._inf._bmask, self._inf._gc = grid, blacklist_mask(grid, blacklist or {}), None
         self._cache = {}
 

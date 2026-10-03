@@ -92,7 +92,7 @@ def main():
             sys.exit("[recall] wgs_reads lines need --wgs-bins and --blacklist")
         wi = pd.read_csv(os.path.join(a.wgs_bins, "index.tsv"), sep="\t")
         wgs_prov = BinnedInputCN(a.wgs_bins, dict(zip(wi["key"], wi["name"])), blacklist=load_blacklist(a.blacklist),
-                                 slope=1.0, zero_is_deletion=False)
+                                 slope=1.0, zero_is_deletion=False, segment=True)
     if by_src["cmp_wes"]:
         cmp_prov = CellModelPassportsWesCN(a.cmp_wes, a.cmp_model_list, cache_dir=cache_path("cmp_wes"))
         cmp_prov.preload([cvcl_of[k] for k in by_src["cmp_wes"]])

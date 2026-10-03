@@ -326,7 +326,7 @@ def main():
         wi = pd.read_csv(os.path.join(a.wgs_bins, "index.tsv"), sep="\t")
         # measured, so no compression slope; NaN = a bin the normal reference cannot map, kept missing
         wgs_prov = BinnedInputCN(a.wgs_bins, dict(zip(wi["key"], wi["name"])), blacklist=load_blacklist(a.blacklist),
-                                 slope=1.0, zero_is_deletion=False)
+                                 slope=1.0, zero_is_deletion=False, segment=True)
     inf_prov = None
     if by_src["input_inferred"]:
         if not (a.inferred_bins and a.blacklist):

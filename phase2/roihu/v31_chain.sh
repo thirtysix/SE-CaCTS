@@ -4,16 +4,17 @@
 # Outputs: $SB/out_v31 (baseline), $SB/out_v31_pergroup (item 6), $SB/out_v31all (variants 4-5).
 # FUSED=1: the fused build (FINDINGS §54-55) -> results_v31f{,all}, out_v31f{,_pergroup,all}, plus uncorrected twins of
 # the per-line arms so every call the dashboard lists can be labelled CN-robust / amplicon-driven / CN-unmasked.
+# VER=v32 (with FUSED=1): the v3.2 build (FINDINGS §57) from pull_set.v32*, v32_{inferred,randexcl}_keys, reduce_v32f.
 set -euo pipefail
 : "${PROJ:?}"
 R=/scratch/$PROJ/se-cacts; W=$R/phase2; SB=$R/score_v3; REPO=$SB/dataroot/002.AI_projects/SE-CaCTS; D=$REPO/phase2/data
-T=v31${FUSED:+f}
+V=${VER:-v31}; T=$V${FUSED:+f}
 cd "$SB"
 rid=$(sbatch --parsable -A "$PROJ" --export=ALL,PROJ="$PROJ" "reduce_$T.slurm")
 echo "[$T] reduce $rid"
 
-base="ALL,PROJ=$PROJ,SB=$SB,W=$W,V31=1,RES=$W/results_$T,PS=$D/pull_set.v31.tsv,INFKEYS=$D/v31_inferred_keys.txt,RANDKEYS=$D/v31_randexcl_keys.txt,PERMIMPL=count,PERMWORKERS=4${FUSED:+,FUSED=1}"
-all="ALL,PROJ=$PROJ,SB=$SB,W=$W,V31=1,RES=$W/results_${T}all,PS=$D/pull_set.v31.all.tsv,INFKEYS=$D/v31_inferred_keys.txt,PERMIMPL=count,PERMWORKERS=4${FUSED:+,FUSED=1}"
+base="ALL,PROJ=$PROJ,SB=$SB,W=$W,V31=1,RES=$W/results_$T,PS=$D/pull_set.$V.tsv,INFKEYS=$D/${V}_inferred_keys.txt,RANDKEYS=$D/${V}_randexcl_keys.txt,PERMIMPL=count,PERMWORKERS=4${FUSED:+,FUSED=1}"
+all="ALL,PROJ=$PROJ,SB=$SB,W=$W,V31=1,RES=$W/results_${T}all,PS=$D/pull_set.$V.all.tsv,INFKEYS=$D/${V}_inferred_keys.txt,PERMIMPL=count,PERMWORKERS=4${FUSED:+,FUSED=1}"
 G3=OncotreeLineage+OncotreePrimaryDisease+OncotreeSubtype   # "+": --export splits on commas
 
 sid=$(sbatch --parsable -A "$PROJ" --cpus-per-task=4 --time=01:00:00 --dependency=afterok:"$rid" \
