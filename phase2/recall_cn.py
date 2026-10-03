@@ -12,8 +12,9 @@ REGION_CN) and `<SRX>.cn.se.bed` next to the originals and one summary row per s
 CN-corrected signal (amplicons cannot inflate it) and applied to the UNCORRECTED signal, so amplified SEs stay and
 SEs the inflated cutoff hid come back. Each call is labelled in column 7: `core` (an SE corrected and uncorrected),
 `amplified` (passes only because its region is amplified: corrected signal below the cutoff), `unmasked` (an SE only
-once the cutoff is not inflated: not an agnostic SE). Corrected SEs are a subset of the fused set (amplify-only
-correction never raises a signal); an agnostic SE can fall out only where the corrected cutoff is higher.
+once the cutoff is not inflated: not an agnostic SE), `agnostic` (an agnostic SE under the corrected cutoff, kept so
+the fused set contains every agnostic SE); column 8 is the region CN. Corrected SEs are a subset of the fused set
+(amplify-only correction never raises a signal).
 
 Each line reads the CN source it is scored on (manifest `cn_provider`, as score_pilot.py): DepMap WGS, CMP WES
 (by `cn_cvcl` or `cvcl`), DepMap MC_WES, CCLE SNP6, or input-inferred. A line with no track is skipped.
@@ -129,19 +130,24 @@ def main():
         cut, sup = call_super(csig)
         ag = E["isSuper"].to_numpy(int).astype(bool)
         if a.mode == "fused":
+            # fused = (uncorrected signal over the corrected cutoff) OR an agnostic SE: the 0.4% of agnostic SEs
+            # that the corrected cutoff would drop (it is higher in a few samples) stay, labelled `agnostic`.
+            # `amplified` calls carry their region CN (column 8) so the label can be graded (gain < 2, amp >= 2).
             sup = np.asarray(sup, bool)
-            fu = sig > cut                                          # corrected cutoff, uncorrected signal
-            lab = np.where(~sup, "amplified", np.where(ag, "core", "unmasked"))
+            fu = (sig > cut) | ag
+            lab = np.where(sup, np.where(ag, "core", "unmasked"), np.where(sig > cut, "amplified", "agnostic"))
             order = np.argsort(-sig, kind="stable")
             rank = np.empty(len(sig), int); rank[order] = np.arange(1, len(sig) + 1)
             with open(base + ".fu.se.bed", "w") as fh:
                 for i in np.flatnonzero(fu):
-                    fh.write(f"{E.CHROM.iat[i]}\t{E.START.iat[i]}\t{E.STOP.iat[i]}\tSE_{i}\t{sig[i]:.6g}\t{rank[i]}\t{lab[i]}\n")
+                    fh.write(f"{E.CHROM.iat[i]}\t{E.START.iat[i]}\t{E.STOP.iat[i]}\tSE_{i}\t{sig[i]:.6g}\t{rank[i]}\t"
+                             f"{lab[i]}\t{cn[i]:.3g}\n")
+            amp = fu & ~sup & (sig > cut)
             rows.append({**row, "status": "ok", "n_regions": len(E), "n_super": int(ag.sum()), "n_super_cn": int(sup.sum()),
-                         "n_fused": int(fu.sum()), "n_core": int((fu & sup & ag).sum()),
-                         "n_amplified": int((fu & ~sup).sum()), "n_unmasked": int((sup & ~ag).sum()),
-                         "n_agnostic_lost": int((ag & ~fu).sum()), "cn_cutoff": cut,
-                         "max_region_cn": float(cn.max()) if len(cn) else np.nan})
+                         "n_fused": int(fu.sum()), "n_core": int((sup & ag).sum()),
+                         "n_amplified": int(amp.sum()), "n_amp_cn2": int((amp & (cn >= 2)).sum()),
+                         "n_unmasked": int((sup & ~ag).sum()), "n_agnostic_only": int((ag & ~(sig > cut)).sum()),
+                         "cn_cutoff": cut, "max_region_cn": float(cn.max()) if len(cn) else np.nan})
             continue
         regions = [dict(chrom=c, start=s, end=e, num_loci=n, constituent_size=z) for c, s, e, n, z in
                    zip(E["CHROM"], E["START"], E["STOP"], E["NUM_LOCI"], E["CONSTITUENT_SIZE"])]

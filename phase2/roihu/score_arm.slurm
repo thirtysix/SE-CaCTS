@@ -32,6 +32,9 @@ INFKEYS="${INFKEYS:-$REPO/phase2/data/v3_inferred_keys.txt}"
 if [ -n "${V31:-}" ]; then
   PRES="$(gzp "$RES/atlas.s3.se_presence.cn.tsv")"
   { [ "$BASE" = nocn ] || [ -n "$NOCN" ]; } && PRES="$(gzp "$RES/atlas.s3.se_presence.tsv")"
+  # FUSED=1 (FINDINGS §54-55): eligibility from the fused calls in EVERY arm, corrected or not, so the corrected and
+  # uncorrected statistics test the same loci and each call is CN-robust, amplicon-driven or CN-unmasked
+  [ -n "${FUSED:-}" ] && PRES="$(gzp "$RES/atlas.s3.se_presence.fu.tsv")"
   V2+=(--presence "$PRES" --require-called --cn-floor 0.5 --drop-chroms chrY --strata-fallback)
 fi
 case "$BASE" in
