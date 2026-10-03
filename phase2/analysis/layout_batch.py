@@ -11,10 +11,12 @@ which is what would let a batch effect turn into an apparent lineage call. Four 
      t-test across lines, BH; calibrated by random sign flips per line
   4. do lineage calls lean on layout-sensitive SEs in PE-rich lineages?
 
-Run with atac_hdac:  python phase2/analysis/layout_batch.py
+Run with atac_hdac:  python phase2/analysis/layout_batch.py            (v2, the default)
+  v3.1: --results phase2/results_v31f --pull-set phase2/data/pull_set.v31.tsv --scores phase2/scores_v31f --tag v31f
 """
 from __future__ import annotations
 
+import argparse
 import itertools
 import os
 
@@ -47,9 +49,15 @@ def ols(d, y, cols, fe=()):
 
 
 def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--results", default=P("phase2/results_v2"))
+    ap.add_argument("--pull-set", default=P("phase2/data/pull_set.v2.tsv"))
+    ap.add_argument("--scores", default=P("phase2/scores_v2"))
+    ap.add_argument("--tag", default="", help="suffix for the output files (empty = the v2 names)")
+    a = ap.parse_args()
     lay = pd.read_csv(P("phase2/data/srx_layout.tsv"), sep="\t").set_index("srx")
-    ps = pd.read_csv(P("phase2/data/pull_set.v2.tsv"), sep="\t").set_index("srx")
-    S = pd.read_csv(P("phase2/results_v2/atlas.s3.se_signal.tsv.gz"), sep="\t", index_col=0)
+    ps = pd.read_csv(a.pull_set, sep="\t").set_index("srx")
+    S = pd.read_csv(os.path.join(a.results, "atlas.s3.se_signal.tsv.gz"), sep="\t", index_col=0)
     S = S.loc[(S.values > 0).any(axis=1)]
     cols = [c for c in S.columns if c in lay.index and c in ps.index]
     meta = pd.DataFrame({"line": ps.loc[cols, "key"], "lineage": ps.loc[cols, "lineage"],
@@ -76,7 +84,7 @@ def main():
           f"median cross-study rho {pr.rho.median():.3f}")
 
     # 2. S3norm exponent
-    p3 = pd.read_csv(P("phase2/results_v2/atlas.s3.s3norm_params.tsv.gz"), sep="\t").set_index("sample")
+    p3 = pd.read_csv(os.path.join(a.results, "atlas.s3.s3norm_params.tsv.gz"), sep="\t").set_index("sample")
     dd = p3.join(lay).join(ps[["key"]]).dropna(subset=["layout", "read_len"])
     dd["inst"] = dd.instrument.str.extract(INST, expand=False).fillna("other")
     dd["PE"] = (dd.layout == "PAIRED").astype(float)
@@ -127,7 +135,7 @@ def main():
     sens["t_shape"], sens["q_shape"], sens["pe_minus_se_shape"] = tc, qc, effc
 
     # 4. lineage calls vs layout-sensitive SEs
-    calls = pd.read_csv(P("phase2/scores_v2/atlas.s3.perm.OncotreeLineage.specific.tsv.gz"), sep="\t")
+    calls = pd.read_csv(os.path.join(a.scores, "atlas.s3.perm.OncotreeLineage.specific.tsv.gz"), sep="\t")
     calls = calls[calls.fdr <= 0.1]
     pe_frac = meta.groupby("lineage").layout.apply(lambda s: (s == "PAIRED").mean())
     rows = []
@@ -146,8 +154,9 @@ def main():
           f"Spearman(PE fraction, mean shape effect) {r2.correlation:+.2f} (p={r2.pvalue:.2g}); {len(L)} lineages")
     print(L.sort_values("pe_frac").round(3).to_string())
     out = P("phase2/analysis/out"); os.makedirs(out, exist_ok=True)
-    sens.to_csv(os.path.join(out, "layout_sensitive_ses.tsv.gz"), sep="\t", float_format="%.4g")
-    L.to_csv(os.path.join(out, "layout_by_lineage_calls.tsv"), sep="\t", float_format="%.4g")
+    tag = f".{a.tag}" if a.tag else ""
+    sens.to_csv(os.path.join(out, f"layout_sensitive_ses{tag}.tsv.gz"), sep="\t", float_format="%.4g")
+    L.to_csv(os.path.join(out, f"layout_by_lineage_calls{tag}.tsv"), sep="\t", float_format="%.4g")
 
 
 if __name__ == "__main__":

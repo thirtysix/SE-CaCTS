@@ -57,7 +57,8 @@ case "$BASE" in
                  --levels OncotreeLineage,OncotreePrimaryDisease) ;;
   cmpfirst) args=("${V2[@]}" --pull-set "$REPO/phase2/data/pull_set.v2.cmpfirst.tsv" --out "$OUT/atlas.s3.perm.cmpfirst"
                  --cn-diagnostic --levels OncotreeLineage,OncotreePrimaryDisease) ;;
-  layout)   args=("${V2[@]}" --signal "$W/results_v2/atlas.s3.layoutcorr.se_signal.tsv"
+  # layout: the PE columns with the within-line layout effect removed (phase2/analysis/layout_correct.py), from RES
+  layout)   args=("${V2[@]}" --signal "$(gzp "$RES/atlas.s3.layoutcorr.se_signal.tsv")"
                  --out "$OUT/atlas.s3.perm.layoutcorr" --levels OncotreeLineage,OncotreePrimaryDisease) ;;
   # leave-one-study-out (FINDINGS §42): EXCL = SRX list from phase2/analysis/loso_sets.py, lineage level only
   loso)     args=("${V2[@]}" --out "$OUT/atlas.s3.perm" --exclude-srx "${EXCL:?}" --levels OncotreeLineage) ;;
