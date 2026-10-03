@@ -1,0 +1,22 @@
+{
+  "title": "SE-CaCTS: a copy-number-aware atlas of lineage- and disease-specific super-enhancers in cancer cell lines",
+  "upload_type": "software",
+  "description": "<p>A per-super-enhancer, per-group specificity score (CaCTS for super-enhancers) computed from public H3K27ac ChIP-seq of cancer cell lines, corrected for measured copy number, with a label-permutation false discovery rate.</p><p>Release v3.0.1: 2,422 untreated or control experiments on 519 cell lines across 25 Oncotree lineages and 56 primary diseases; 15,324 lineage-specific and 13,950 disease-specific super-enhancers at FDR &le; 0.10, each a super-enhancer in its own group. Includes the pipeline code and a static dashboard of the results (https://thirtysix.github.io/SE-CaCTS/).</p><p>Code is MIT-licensed. Derived data files keep the terms of their sources (see DATA_SOURCES.md); phase2/data/cn_ccle_snp6.hg38.tsv.gz is under ODbL 1.0.</p>",
+  "creators": [
+    {
+      "name": "Barker, Harlan",
+      "affiliation": "University of Oulu",
+      "orcid": "0000-0003-4125-2522"
+    }
+  ],
+  "license": "MIT",
+  "access_right": "open",
+  "keywords": ["super-enhancer", "H3K27ac", "ChIP-seq", "copy number", "cancer cell lines", "epigenomics"],
+  "related_identifiers": [
+    {
+      "identifier": "https://thirtysix.github.io/SE-CaCTS/",
+      "relation": "isDocumentedBy",
+      "resource_type": "other"
+    }
+  ]
+}

@@ -220,6 +220,13 @@ Regenerate the dashboard's `data/` after a rescoring run with `phase2/scripts/60
 labelling it with `--release vN --release-date YYYY-MM-DD --release-title "..."`. The sidebar shows the
 current release; `docs/data/releases.json` keeps every release, and the About tab lists them.
 
+## Citation and licence
+
+Cite the archived release on Zenodo; GitHub's "Cite this repository" button reads `CITATION.cff`. The code is
+MIT-licensed (`LICENSE`). Derived data files keep the terms of their sources (ChIP-Atlas, DepMap, Cell Model
+Passports, CCLE; see `DATA_SOURCES.md`); `phase2/data/cn_ccle_snp6.hg38.tsv.gz` is under ODbL 1.0 (its
+`.LICENSE.txt` beside it).
+
 ## Documents in this directory
 
 - **`README.md`**. This file (front door, status, pitch).
