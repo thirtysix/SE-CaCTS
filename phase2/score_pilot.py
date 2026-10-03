@@ -308,7 +308,7 @@ def main():
     used = {srx_model.get(s) for s in samples if isinstance(srx_model.get(s), str)}
     by_src = {p: [k for k in used if src_of.get(k, "depmap_wgs") == p]
               for p in ("depmap_wgs", "cmp_wes", "depmap_mc_wes", "ccle_snp6", "input_inferred", "ccma_wgs",
-                        "wgs_reads")}
+                        "wgs_reads", "array_cgh")}
     prov.preload(by_src["depmap_wgs"])
     cmp_prov = mcw_prov = None
     if by_src["cmp_wes"]:
@@ -320,7 +320,7 @@ def main():
     ccle_prov = SegmentFileCN(a.ccle_segments, "ccle_snp6") if by_src["ccle_snp6"] else None
     ccma_prov = SegmentFileCN(a.ccma_segments, "ccma_wgs") if by_src["ccma_wgs"] else None
     wgs_prov = None
-    if by_src["wgs_reads"]:
+    if by_src["wgs_reads"] or by_src["array_cgh"]:     # one reader: WGS and array ratios share the dir
         if not (a.wgs_bins and a.blacklist):
             sys.exit("[score] wgs_reads lines need --wgs-bins and --blacklist")
         wi = pd.read_csv(os.path.join(a.wgs_bins, "index.tsv"), sep="\t")
@@ -343,7 +343,7 @@ def main():
             return inf_prov.track(key)
         if src == "ccma_wgs":
             return ccma_prov.track(key)
-        if src == "wgs_reads":
+        if src in ("wgs_reads", "array_cgh"):
             return wgs_prov.track(key)
         if src == "cmp_wes":
             return cmp_prov.track(cvcl_of[key])

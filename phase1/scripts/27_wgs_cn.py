@@ -16,6 +16,8 @@ itself: agreement at the atlas SE loci and on 5 Mb bins, against the input-infer
   python3 phase1/scripts/27_wgs_cn.py manifest --out phase2/data/wgs_cn_manifest.tsv
   # Roihu: sbatch --array=0-<n-1> --export=ALL,PROJ=<project>,MANIFEST=<tsv> wgs_cn.slurm; fetch wgs_cn/bins/
   python3 phase1/scripts/27_wgs_cn.py ratio --manifest phase2/data/wgs_cn_manifest.tsv --bins <bins> --out <ratio dir>
+  # sorted-alignment runs (FINDINGS §59): Roihu csra_cov.slurm, then
+  python3 phase1/scripts/27_wgs_cn.py csra --dumps <dir of .ref.tsv.gz> --out <ratio dir>
   python3 phase1/scripts/27_wgs_cn.py evaluate --manifest phase2/data/wgs_cn_manifest.tsv --ratio <ratio dir>
 """
 import argparse
@@ -125,18 +127,103 @@ def cmd_ratio(a):
             v[ok] = (b[c][ok] / tot) / ref[c][ok]
             out[c] = v.astype(np.float32)
         np.savez_compressed(os.path.join(a.out, f"{r.name}.npz"), **out, _reads=np.array([nr]))
-        rows.append((r.name, r.key, r.role, nr))
+        rows.append((r.name, r.key, r.role, nr, "wgs_fastq"))
         print(f"[ratio] {r.name} ({r.role}): {nr:,} reads", file=sys.stderr)
-    pd.DataFrame(rows, columns=["name", "key", "role", "reads"]).to_csv(os.path.join(a.out, "index.tsv"),
-                                                                         sep="\t", index=False)
+    pd.DataFrame(rows, columns=["name", "key", "role", "reads", "source"]).to_csv(os.path.join(a.out, "index.tsv"),
+                                                                                   sep="\t", index=False)
+
+
+ASSEMBLY_CHR1 = {247_249_719: "hg18", 249_250_621: "hg19", 248_956_422: "hg38"}
+CHAINS = {"hg18": os.path.join(DATAROOT, "0.human_genome/hg18ToHg38.over.chain"),
+          "hg19": os.path.expanduser("~/.pyliftover/hg19ToHg38.over.chain.gz")}
+HG38_LEN = {"chr1": 248956422, "chr2": 242193529, "chr3": 198295559, "chr4": 190214555, "chr5": 181538259,
+            "chr6": 170805979, "chr7": 159345973, "chr8": 145138636, "chr9": 138394717, "chr10": 133797422,
+            "chr11": 135086622, "chr12": 133275309, "chr13": 114364328, "chr14": 107043718, "chr15": 101991189,
+            "chr16": 90338345, "chr17": 83257441, "chr18": 80373285, "chr19": 58617616, "chr20": 64444167,
+            "chr21": 46709983, "chr22": 50818468, "chrX": 156040895}
+
+
+def csra_bins(fn, bin_size=50_000):
+    """5 kb chunk first-alignment ids of a sorted cSRA run (csra_cov.slurm) -> reads per hg38 50 kb bin."""
+    d = pd.read_csv(fn, sep="\t", header=None, names=["name", "start", "len", "first"], dtype={"name": str})
+    d["first"] = pd.to_numeric(d["first"], errors="coerce")
+    f = d["first"].to_numpy()
+    nonempty = np.where(np.isfinite(f))[0]
+    cnt = np.zeros(len(d))
+    cnt[nonempty[:-1]] = np.diff(f[nonempty])                  # ids are contiguous in sorted order
+    cnt[nonempty[-1]] = np.nan                                  # the last chunk's count is unknown
+    d["count"] = cnt
+    d["chrom"] = "chr" + d["name"].str.replace("chr", "", regex=False)
+    c1 = d[d.chrom == "chr1"]
+    L1 = int((c1.start + c1.len - 1).max())
+    near = min(ASSEMBLY_CHR1, key=lambda x: abs(x - L1))          # a dump can end a few chunks short (OCI-LY1 hg18)
+    asm = ASSEMBLY_CHR1[near] if abs(near - L1) < 200_000 else None
+    if asm is None:
+        raise SystemExit(f"[csra] {fn}: chr1 length {L1} matches no known assembly")
+    d = d[d.chrom.isin(HG38_LEN) & d["count"].notna()]
+    out = {c: np.zeros(L // bin_size) for c, L in HG38_LEN.items()}
+    lo = None
+    if asm != "hg38":
+        from pyliftover import LiftOver
+        lo = LiftOver(CHAINS[asm])
+    lost = 0
+    for ch, s, ln, n in zip(d.chrom, d.start, d["len"], d["count"]):
+        mid = int(s) - 1 + int(ln) // 2
+        if lo is not None:
+            r = lo.convert_coordinate(ch, mid)
+            if not r or r[0][0] != ch:
+                lost += n
+                continue
+            mid = int(r[0][1])
+        i = mid // bin_size
+        if i < len(out[ch]):
+            out[ch][i] += n
+    return out, asm, float(lost / max(d["count"].sum(), 1))
+
+
+def cmd_csra(a):
+    """Sorted-alignment runs: bins from the cSRA REFERENCE table, divided by a pooled median of the CCLE runs
+    (leave-one-out for the calibration lines); written next to the WGS ratios and appended to index.tsv."""
+    man = pd.read_csv(a.manifest, sep="\t")
+    bins, info = {}, []
+    for r in man.itertuples():
+        fn = os.path.join(a.dumps, f"{r.name}.ref.tsv.gz")
+        if not os.path.exists(fn):
+            print(f"[csra] missing {r.name}", file=sys.stderr)
+            continue
+        b, asm, lost = csra_bins(fn)
+        tot = sum(b[c].sum() for c in AUTO)
+        bins[r.name] = {c: v / tot for c, v in b.items()}
+        info.append((r.name, r.key, r.role, int(tot), asm, round(lost, 4)))
+        print(f"[csra] {r.name}: {int(tot):,} reads, {asm}, {lost:.2%} lost in liftover", file=sys.stderr)
+    pool = [n for n, _, role, *_ in info if role in ("calib", "pool")]
+    idx_f = os.path.join(a.out, "index.tsv")
+    idx = pd.read_csv(idx_f, sep="\t") if os.path.exists(idx_f) else pd.DataFrame(columns=["name", "key", "role", "reads"])
+    idx = idx[~idx.name.isin([i[0] for i in info])]
+    rows = []
+    for name, key, role, tot, asm, lost in info:
+        use = [p for p in pool if p != name]
+        ref = {c: np.median([bins[p][c] for p in use], axis=0) for c in HG38_LEN}
+        med = np.median(np.concatenate([ref[c][ref[c] > 0] for c in AUTO]))
+        out = {}
+        for c in HG38_LEN:
+            ok = ref[c] >= a.min_ref * med
+            v = np.full(len(ref[c]), np.nan)
+            v[ok] = bins[name][c][ok] / ref[c][ok]
+            out[c] = v.astype(np.float32)
+        np.savez_compressed(os.path.join(a.out, f"{name}.npz"), **out, _reads=np.array([tot]))
+        rows.append({"name": name, "key": key, "role": "calib" if role == "pool" else role, "reads": tot,
+                     "source": "wgs_csra"})
+    pd.concat([idx, pd.DataFrame(rows)], ignore_index=True).to_csv(idx_f, sep="\t", index=False)
+    pd.DataFrame(info, columns=["name", "key", "role", "reads", "assembly", "lost_in_liftover"]).to_csv(
+        os.path.join(a.out, "csra_info.tsv"), sep="\t", index=False)
 
 
 def cmd_evaluate(a):
     from cnrose.cn.inferred import BinnedInputCN, load_blacklist
     from cnrose.cn.depmap import load_gene_coords, DepMapGeneCN
-    man = pd.read_csv(a.manifest, sep="\t")
-    done = set(pd.read_csv(os.path.join(a.ratio, "index.tsv"), sep="\t")["name"])
-    man = man[(man.role != "ref") & man.name.isin(done)]     # only what `ratio` wrote (sorted runs are skipped there)
+    man = pd.read_csv(os.path.join(a.ratio, "index.tsv"), sep="\t")   # what `ratio` and `csra` wrote
+    man = man[man.role != "ref"]
     bl = load_blacklist(a.blacklist)
     wgs = BinnedInputCN(a.ratio, dict(zip(man.key, man.name)), blacklist=bl, slope=1.0, zero_is_deletion=False,
                         segment=True)
@@ -188,13 +275,22 @@ def cmd_evaluate(a):
         print(f"[eval] {row}", file=sys.stderr)
     out = pd.DataFrame(rows)
     out.to_csv(a.out, sep="\t", index=False, float_format="%.3f")
-    # gate: a target is accepted when its bin noise is within the calibration lines' range (+10%)
-    cal = out.loc[out.role == "calib", "noise"]
-    lim = round(float(cal.max()) * 1.1, 3) if len(cal) else np.nan
-    g = out[out.role == "target"][["key", "name", "noise"]].assign(limit=lim)
-    g["accept"] = np.where(g.noise <= lim, "yes", "no")
+    # gate, per source (FASTQ WGS, sorted-run WGS, each array platform): the source passes when its calibration lines
+    # (DepMap WGS truth) reach median r >= MIN_R at SE loci (input inference: 0.69) and median false amplification
+    # <= MAX_FA; a target passes when its source does and its bin noise is within that source's calibration (+10%)
+    src = man.set_index("name")["source"] if "source" in man else pd.Series(dtype=str)
+    out["source"] = out.name.map(src).fillna("wgs_fastq")
+    cal = out[out.role == "calib"].groupby("source").agg(r=("r_se_wgs_vs_truth", "median"),
+                                                         fa=("false_amp", "median"), noise=("noise", "max"))
+    cal["ok"] = (cal.r >= a.min_r) & (cal.fa <= a.max_fa)
+    print(cal.round(3).to_string(), file=sys.stderr)
+    g = out[out.role == "target"][["key", "name", "noise", "source"]].copy()
+    g["limit"] = g.source.map((cal.noise * 1.1).round(3))
+    g["source_ok"] = g.source.map(cal.ok).fillna(False)
+    g["accept"] = np.where(g.source_ok & (g.noise <= g.limit), "yes", "no")
+    g["provider"] = np.where(g.source.str.startswith("array"), "array_cgh", "wgs_reads")
     g.to_csv(os.path.join(ROOT, "phase2/data/wgs_cn_gate.tsv"), sep="\t", index=False)
-    print(f"[gate] noise limit {lim}: accepted {', '.join(g.loc[g.accept == 'yes', 'name'])}; "
+    print(f"[gate] accepted {', '.join(g.loc[g.accept == 'yes', 'name'])}; "
           f"rejected {', '.join(g.loc[g.accept == 'no', 'name'])}", file=sys.stderr)
     with pd.option_context("display.width", 250):
         print(out.round(3).to_string(index=False))
@@ -213,6 +309,11 @@ def main():
     r.add_argument("--bins", required=True)
     r.add_argument("--out", required=True)
     r.add_argument("--min-ref", type=float, default=0.3, help="reference bins below this share of its median -> NaN")
+    c = sub.add_parser("csra")
+    c.add_argument("--manifest", default=os.path.join(ROOT, "phase2/data/csra_cn_manifest.tsv"))
+    c.add_argument("--dumps", required=True, help="dir of <name>.ref.tsv.gz from csra_cov.slurm")
+    c.add_argument("--out", required=True, help="the ratio dir of `ratio` (run that first: it clears the dir)")
+    c.add_argument("--min-ref", type=float, default=0.3)
     e = sub.add_parser("evaluate")
     e.add_argument("--manifest", required=True)
     e.add_argument("--ratio", required=True)
@@ -222,8 +323,10 @@ def main():
     e.add_argument("--depmap-wgs", default=os.path.join(DATAROOT, "DepMap/2026q1/OmicsCNGeneWGS.csv"))
     e.add_argument("--gene-cache", default=cache_path("gene_coords.GRCh38.106.tsv"))
     e.add_argument("--out", default=os.path.join(ROOT, "phase2/analysis/out/wgs_cn_eval.tsv"))
+    e.add_argument("--min-r", type=float, default=0.69, help="calibration median r a source needs (input: 0.69)")
+    e.add_argument("--max-fa", type=float, default=0.01, help="calibration median false-amplification rate")
     a = ap.parse_args()
-    {"manifest": cmd_manifest, "ratio": cmd_ratio, "evaluate": cmd_evaluate}[a.cmd](a)
+    {"manifest": cmd_manifest, "ratio": cmd_ratio, "csra": cmd_csra, "evaluate": cmd_evaluate}[a.cmd](a)
 
 
 if __name__ == "__main__":

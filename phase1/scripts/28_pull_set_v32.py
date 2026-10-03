@@ -4,8 +4,9 @@
 experiments the 2026-09 ChIP-Atlas metadata adds.
 
 From `pull_set.v31.tsv` / `pull_set.v31.all.tsv`:
-  1. CN source: lines in the CCMA segment file (phase1/scripts/26) -> `ccma_wgs`; lines accepted by the WGS evaluation
-     (`phase2/data/wgs_cn_gate.tsv`: key, accept; phase1/scripts/27) -> `wgs_reads`. Only lines now on
+  1. CN source: lines in the CCMA segment file (phase1/scripts/26) -> `ccma_wgs`; lines accepted by the evaluation
+     (`phase2/data/wgs_cn_gate.tsv`: key, accept, source; phase1/scripts/27, 29) -> `wgs_reads` (WGS reads, also
+     sorted-alignment runs) or `array_cgh` (GEO array CGH; WGS wins when a line has both). Only lines now on
      `input_inferred` move: a measured source never gives way to these. Their samples are listed in
      `recall_redo.v32.tsv` for the fused re-call.
   2. New experiments (`phase1/data/v32_new_h3k27ac.tsv`, QC-pass, in scope) enter only with a baseline label
@@ -34,16 +35,20 @@ def main():
     # 1. CN source
     ccma = set(pd.read_csv(os.path.join(P2, "cn_ccma_wgs.hg38.tsv.gz"), sep="\t", usecols=["key"])["key"])
     gate_f = os.path.join(P2, "wgs_cn_gate.tsv")
-    wgs = set()
+    wgs, arr = set(), set()
     if os.path.exists(gate_f):
         g = pd.read_csv(gate_f, sep="\t")
-        wgs = set(g.loc[g["accept"].astype(str).str.lower().isin(["yes", "true", "1"]), "key"])
+        g = g[g["accept"].astype(str).str.lower().isin(["yes", "true", "1"])]
+        if "provider" not in g:
+            g["provider"] = "wgs_reads"
+        wgs = set(g.loc[g.provider == "wgs_reads", "key"])
+        arr = set(g.loc[g.provider == "array_cgh", "key"]) - wgs      # WGS first when a line has both
     else:
         log.append(("no wgs_cn_gate.tsv: no wgs_reads lines", 0))
     moved = {}
     for df in (ps, al):
         inf = df.cn_provider.eq("input_inferred")
-        for keys, prov in ((ccma, "ccma_wgs"), (wgs - ccma, "wgs_reads")):
+        for keys, prov in ((ccma, "ccma_wgs"), (wgs - ccma, "wgs_reads"), (arr - ccma - wgs, "array_cgh")):
             m = inf & df.key.isin(keys)
             df.loc[m, "cn_provider"] = prov
             df.loc[m, "cn_cvcl"] = pd.NA

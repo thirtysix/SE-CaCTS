@@ -74,7 +74,7 @@ def main():
     lines = man.drop_duplicates("key").set_index("key")
     by_src = {p: [k for k in lines.index if lines.at[k, "cn_provider"] == p]
               for p in ("depmap_wgs", "cmp_wes", "depmap_mc_wes", "ccle_snp6", "input_inferred", "ccma_wgs",
-                        "wgs_reads")}
+                        "wgs_reads", "array_cgh")}
     print(f"[recall] task {a.task}/{a.ntasks}: {len(man)} samples on {len(lines)} lines; "
           + ", ".join(f"{p}={len(v)}" for p, v in by_src.items()), file=sys.stderr, flush=True)
 
@@ -87,7 +87,7 @@ def main():
     cmp_prov = mcw_prov = ccle_prov = inf_prov = ccma_prov = wgs_prov = None
     if by_src["ccma_wgs"]:
         ccma_prov = SegmentFileCN(a.ccma_segments, "ccma_wgs")
-    if by_src["wgs_reads"]:
+    if by_src["wgs_reads"] or by_src["array_cgh"]:     # one reader: WGS and array ratios share the dir
         if not (a.wgs_bins and a.blacklist):
             sys.exit("[recall] wgs_reads lines need --wgs-bins and --blacklist")
         wi = pd.read_csv(os.path.join(a.wgs_bins, "index.tsv"), sep="\t")
@@ -116,7 +116,7 @@ def main():
             return inf_prov.track(key)
         if src == "ccma_wgs":
             return ccma_prov.track(key)
-        if src == "wgs_reads":
+        if src in ("wgs_reads", "array_cgh"):
             return wgs_prov.track(key)
         if src == "cmp_wes":
             return cmp_prov.track(cvcl_of[key])

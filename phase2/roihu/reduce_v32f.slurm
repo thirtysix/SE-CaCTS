@@ -22,12 +22,18 @@ PY=/projappl/$PROJ/secacts_venv/bin/python
 D=$REPO/phase2/data
 mkdir -p "$SB/recall"
 redo="$D/recall_redo.v32.tsv"
-if [ ! -s "$W/backup_v31f_calls.tgz" ]; then
-  tail -n +2 "$redo" | cut -f1 | sort -u | while read -r s; do
-    for x in fu.se.bed cn.se.bed cn.enhancers.tsv; do f="out/${s: -2}/$s.$x"; [ -e "$W/$f" ] && echo "$f"; done
-  done > "$SB/recall/v32_backup.list"
-  tar -C "$W" -czf "$W/backup_v31f_calls.tgz" -T "$SB/recall/v32_backup.list"
-  echo "[v32f] archived $(wc -l < "$SB/recall/v32_backup.list") v3.1f call files"
+# archive the v3.1f calls of every sample about to be re-called for the first time (later rounds add lines: each
+# round's new files go to their own tarball, listed in backup_v31f_calls.list so nothing is archived twice)
+touch "$W/backup_v31f_calls.list"
+[ -s "$W/backup_v31f_calls.tgz" ] && [ ! -s "$W/backup_v31f_calls.list" ] && tar -tzf "$W/backup_v31f_calls.tgz" > "$W/backup_v31f_calls.list"
+tail -n +2 "$redo" | cut -f1 | sort -u | while read -r s; do
+  for x in fu.se.bed cn.se.bed cn.enhancers.tsv; do f="out/${s: -2}/$s.$x"; [ -e "$W/$f" ] && echo "$f"; done
+done | grep -v -x -F -f "$W/backup_v31f_calls.list" > "$SB/recall/v32_backup.new" || true
+if [ -s "$SB/recall/v32_backup.new" ]; then
+  n=$(ls "$W"/backup_v31f_calls*.tgz 2>/dev/null | wc -l)
+  tar -C "$W" -czf "$W/backup_v31f_calls.$n.tgz" -T "$SB/recall/v32_backup.new"
+  cat "$SB/recall/v32_backup.new" >> "$W/backup_v31f_calls.list"
+  echo "[v32f] archived $(wc -l < "$SB/recall/v32_backup.new") v3.1f call files -> backup_v31f_calls.$n.tgz"
 fi
 cn_args=(--inferred-bins "$W/../cncal/bins" --blacklist "$W/../cncal/hg38-blacklist.v2.bed.gz"
          --wgs-bins "$W/../wgs_cn/ratio" --ccma-segments "$D/cn_ccma_wgs.hg38.tsv.gz")
