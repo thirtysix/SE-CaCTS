@@ -1,202 +1,191 @@
 # SE-CaCTS — defensible results
 
-> **This document describes the v2 atlas.** For the current release (v3.1) see the README.
+**As of 2026-10-03 (v3.1, https://doi.org/10.5281/zenodo.23124053).** This is the claims document: what the
+project can currently assert, at what resolution, and with what caveats. It is deliberately narrower than the raw
+outputs. The claims document for the v2 atlas is in the git history (`git show c18acf5:RESULTS.md`).
 
-**As of 2026-09-28 (v2 atlas).** This is the claims document: what the project can currently assert, at
-what resolution, and with what caveats. It is deliberately narrower than the raw outputs.
-
-> **The canonical scoring run is the PERMUTATION one on the v2 atlas** — `phase2/scores_v2/atlas.s3.perm.*`
-> (`score_pilot.py --fdr-method permutation --n-perm 1000`). The 282-line v1 atlas (`phase2/scores/`) is
-> kept for comparison; §6 shows 97% of its calls reappear in v2. Analytic-null outputs are retained only
-> as calibration evidence: **their counts are not usable** (§2).
+> **The canonical run is the fused build:** `phase2/scores_v31f/atlas.s3.perm.*` on `phase2/results_v31f/`
+> (`score_pilot.py --fdr-method permutation --n-perm 1000`, global BH, FDR ≤ 0.10, the "super-enhancer of its
+> group" rule inside the permutation null). Counts below are at FDR ≤ 0.10 unless stated.
 
 ---
 
 ## 1. The atlas
 
-| | v2 (canonical) | v1 |
+| | v3.1 | v3.0.1 |
 |---|---|---|
-| Source | ChIP-Atlas hg38 H3K27ac, QC-pass human cancer lines **with measured copy number** | same, DepMap WGS lines only |
-| Pull | 3,468 experiments (v1 2,916 + 552 new), ~53 BU in total on CSC Roihu | 2,916 |
-| Agnostic atlas | 3,468 samples × 48,180 SE loci | 2,916 × 43,931 |
-| S3norm atlas (scored) | **2,563 samples × 47,101 SE loci → 386 cell lines** | 2,136 × 42,943 → 282 |
-| Copy number | DepMap WGS 282 · CMP WES pureCN 91 · DepMap WES 13 | DepMap WGS 282 |
-| Hierarchy | 24 lineages / 46 primary diseases / 84 subtypes | 24 / 44 / 75 |
-| Reconstruction | grid→SE `max|err| = 0` | same |
+| Source | ChIP-Atlas hg38 H3K27ac, untreated or control experiments on human cancer lines, plus SRA data it lacks run through its v1 pipeline | same |
+| Experiments | 2,188 (each study's context read; 73 v3 experiments no longer count as baseline) | 2,422 |
+| Scored (QC pass) | **1,756 experiments → 510 cell lines** | 1,945 → 519 |
+| Catalogue | **33,561 loci** (agnostic + fused calls, merged on any overlap); 33,255 scored | 46,443 |
+| Copy number | DepMap WGS 312 · CMP WES 103 · DepMap WES 20 · CCLE SNP6 3 · inferred from ChIP input 72 | 282 · 133 · 21 · 3 · 80 |
+| Hierarchy | 25 lineages / 56 primary diseases / 103 subtypes | 25 / 56 / 104 |
 
-v2 adds the 122 lines that became copy-number-correctable through whole-exome sources
-(`phase1/scripts/15_expansion_set.py`); 104 pass the `--min-peaks 2000` QC gate. It reuses v1's caller
-code, quantification grid and S3norm reference, so v1's samples normalize bit-identically and v1 and v2
-differ only by the added samples. The fixed grid holds 96.4% of the new samples' peak territory; 124
-union loci fall outside it entirely and are not scored (46,977 scored loci).
+What changed in v3.1: DepMap WGS copy number is used wherever it exists, 7 misidentified lines are dropped, chrY is
+not scored, and calling is copy-number-aware (§5). Each experiment's ROSE cutoff is set on copy-number-corrected
+signal and applied to the uncorrected signal, so an amplicon no longer raises the bar for every other locus, and an
+SE that passes only through its extra copies is kept and labelled instead of dropped. Of 1,029,900 experiment × locus
+calls, 68.6% are SEs with or without correction (core), 12.1% only with it (unmasked), and 18.9% need extra copies:
+gain (CN < 2) 15.6%, amplified (2–3) 2.1%, high-level (≥ 3) 1.2%.
 
-## 2. Calibration: which FDR can be trusted
+## 2. Calibration
 
-Run the whole procedure on **shuffled labels**, where nothing real exists to find:
+Run the whole procedure on **shuffled labels**, where nothing real exists to find: **0 calls at every level** (lineage,
+disease, subtype, subtype consensus, within-lineage subtype, each of the four per-line comparisons, and the
+all-experiments variant). The normal-approximation null called 6.05% of tests on shuffled labels, so every count
+here comes from the permutation null.
 
-| null | real labels (lineage) | shuffled labels (lineage) | shuffled, all three levels |
-|---|---:|---:|---:|
-| normal approximation | 82,887 (7.35%) | **58,241 (5.17%)** | — |
-| **label permutation, B = 1,000** | 12,994 (1.15%) | **0** | **0 of 7.25 M tests** |
-
-The normal-approximation null calls almost as much on noise as on data (v1: 6.05% vs 7.4%), so every
-count here is from the permutation null. The failure reproduces across panels, so it is a property of
-that null, not of one dataset (gotchas 70–71).
+Two parts of the procedure exist because a simpler version failed this test. **Multiple testing is corrected over
+all groups together:** correcting each group separately called 672 SEs on shuffled subtypes. **The rule "a specific
+SE must be an SE of its group" is applied inside the null** (each shuffled group is tested only where its own
+experiments call an SE): applying it afterwards, without conditioning the null, gave 155 false calls on shuffled
+labels in a simulation.
 
 ## 3. What resolution the panel supports
 
-**This is the most important limitation and it should lead any write-up.**
+| level | groups | groups with calls | calls |
+|---|---:|---:|---:|
+| OncotreeLineage | 25 | 23 | **13,754** |
+| OncotreePrimaryDisease | 56 | 35 | **15,699** |
+| OncotreeSubtype | 103 | 58 | **10,971** |
+| cell line vs all lines | 510 | 215 | 78,745 |
+| cell line vs its lineage / disease / subtype | 510 | 207 / 190 / 163 | 30,627 / 15,628 / 8,282 |
 
-| level | groups | groups with ≥1 call | calls (v2) | v1 |
-|---|---:|---:|---:|---:|
-| OncotreeLineage | 24 | **23/24** | **12,994** | 6,790 (23/24) |
-| OncotreePrimaryDisease | 46 | **43/46** | **11,652** | 4,343 (41/44) |
-| OncotreeSubtype | 84 | 5/84 | 10 | 1 (1/75) |
-| line | 386 | — | — | permutation is degenerate |
+**A group of one cell line lists no calls.** Its "group" specificity is that line's own, which the cell-line level
+tests against a stricter standard (two independent studies). Counting them would add 285 disease and 171 subtype
+calls (raw: 15,984 in 47 diseases, 11,142 in 83 subtypes). 41 of 103 subtypes hold one line and 73 hold four or
+fewer. **Cell lines are tested only when they have two independent studies**, which is why 215 of 510 have calls.
 
-**Report lineage and primary disease. Treat subtype and cell-line level as RANKINGS ONLY.** 27 of 84
-subtypes hold a single cell line and 62 hold four or fewer; because the permutation keeps group sizes, a
-random handful of lines scores as extreme as the real grouping. Enlarging the panel by 37% nearly tripled
-disease-level calls but moved subtype from 1 call to 10. Subtype resolution needs **more lines per
-subtype**, and measured copy-number sources are close to exhausted (`phase1/CN_COVERAGE.md §5b`).
+**Subtypes have calls now, and they are stable.** In v3.0.1 subtype counts swung with how BH pooled the tests, so
+subtype was shown as rankings only. With the rule inside the null, BH no longer pools the many loci a subtype never
+calls (on the v3.1 build before fusion the rule cut lineage-level tests to about 15%). On that build, removing the 72
+inferred-copy-number lines or 72 lineage-matched random lines left 7,358 and 7,105 subtype calls.
 
 ## 4. Known biology recovered without supervision
 
-**Pre-specified panel.** 22 master regulators chosen from the literature before looking (12 lineages).
-For each, the lineage-best SE within 100 kb of the gene:
+**Pre-specified panel.** 22 master regulators chosen from the literature before looking (12 lineages). For each, the
+best-ranked lineage call within 100 kb of the gene:
 
 | | own lineage | other lineages |
 |---|---:|---:|
-| passes FDR ≤ 0.10 | **18/22 (82%)** | 23/506 (4.5%) |
+| passes FDR ≤ 0.10 | **21/22** | 1.1% |
 
-Odds ratio 94.5, Fisher p = 1e-18. Passing, with rank in the lineage: MECOM #1, SOX17 #5 (Ovary);
-HNF4A #6, CDX2 #28 (Bowel); ESR1 #34, FOXA1 #112 (Breast); SPI1 #7, CEBPA #32 (Myeloid); IKZF1 #38,
-PAX5 #151 at FDR 6e-4 (Lymphoid); SOX10, MITF (Skin); PHOX2B #3, HAND2 #27 (PNS); NKX2-1, ASCL1 (Lung);
-HNF1A (Liver); AR (Prostate). **Not passing:** PAX8 (#123, FDR 0.16), GATA3 (#1,115), PAX2, TP63.
-GATA3 instead passes in the peripheral nervous system, where it belongs to the neuroblastoma core
-regulatory circuit. Figure: `phase2/figures/poster_figures.py identity`.
+Ranks in the lineage: MECOM #1, SOX17 #12 (Ovary); CDX2 #52, HNF4A #336 (Bowel); ESR1 #32, FOXA1 #50, GATA3 #343
+(Breast); SPI1 #26, CEBPA #602 (Myeloid); IKZF1 #1, PAX5 #1 (Lymphoid); SOX10 #176, MITF #124 (Skin); PHOX2B #1,
+HAND2 #2 (PNS); NKX2-1 #18, ASCL1 #38 (Lung); HNF1A #79 (Liver); AR #82 (Prostate); PAX2 #177 (Kidney); TP63 #21
+(Head and Neck). **Not passing:** PAX8 (#162, FDR 0.13). v3.0.1 found 19/22 (PAX8, HNF4A and GATA3 missing); the
+uncorrected statistic of v3.1 finds 20/22 (PAX8, HNF4A).
 
-**Stable from v1 to v2** (primary disease): Ovarian Epithelial Tumor MECOM #1 → #1, SOX17 #5 → #5;
-Colorectal HNF4A #6 → #7; AML SPI1 #19 → #20, CEBPA #25 → #10, IRF8 #18 → #12; Breast ESR1 #40 → #41.
-FDR at the head of a disease group sits on a BH plateau (0.053 for the top 10 of most groups), so rank
-order within a plateau is not meaningful (gotcha 28).
+**AR shows why calling had to change.** Its SE is a CN-robust prostate call, but every prostate experiment that calls
+an SE there is in an AR-amplified line (11 of 11). Strict calling-time correction removed all of those calls, so on
+the v3.1 build before fusion the locus was not a test for Prostate at all.
 
-**Rankings that are informative but NOT callable** (line level, v1): MCF7 → ESR1 #1, THP-1 → CEBPA #3,
-MOLM-13 → IRF8 #2, SKOV3 → MECOM #1, SW48 → CDX2 #5, P12-ICHIKAWA → LEF1 #6.
+**Caveat.** The top SE in a group is often not a recognizable identity gene, gene assignment is proximity only, and
+nearby rows can tile one SE domain.
 
-**Negative controls** (v1, rank-based): six triple-negative breast lines bury ESR1 at ranks
-11,000–21,000; lobular carcinoma (near-always ER+) gives ESR1 #22 and FOXA1 #37. The method was never
-told which lines were ER+.
+## 5. Copy number
 
-**Caveat.** The top SE in a group is often not a recognizable identity gene, gene assignment is
-proximity only (gotcha 22), and nearby rows can tile one SE domain.
+Every call is scored twice over the same tests, with and without copy-number correction. The two statistics are never
+merged into one FDR:
 
-## 5. Copy-number correction
+| level | corrected calls | CN-robust (both) | CN-unmasked (corrected only) | uncorrected only: amplicon-driven (CN ≥ 2) / gain-dependent |
+|---|---:|---:|---:|---:|
+| lineage | 13,754 | 11,546 | 2,208 | 127 / 677 |
+| disease | 15,699 | 12,477 | 3,222 | 168 / 556 |
+| subtype | 10,971 | 7,787 | 3,184 | 156 / 261 |
 
-Call-based ablation under the permutation null (`--no-cn`, then `cn_ablation_calls.py`):
+1. **CN-unmasked calls are copy-neutral** (median CN 1.00 at every level). Amplicons in individual lines inflate the
+   permutation null; correcting them lets real specificity through.
+2. **Calls that pass only without correction are listed beside the atlas, not counted.** The amplicon-driven ones are
+   the recurrent lineage amplicons, found with no gene list: **MYCN** with **DDX1** and **NBAS** (2p24, CN 9–58) in
+   neuroblastoma and the PNS, **MYC** and **POU5F1B** (8q24) in embryonal and CNS tumours, **OTX2** in embryonal
+   tumours. Most are low-level gain instead (lineage: median CN 1.25, 16% at CN ≥ 2), hence the two labels.
+3. **The 72 inferred-copy-number lines matter as panel size, not as copy number.** Without them: 11,213 lineage
+   calls; without 72 lineage-matched random measured-CN lines instead: 11,248; keeping them but uncorrected: 13,444.
 
-| level | uncorrected | corrected | removed (of which CN > 1.3) | rescued | stable |
-|---|---:|---:|---:|---:|---:|
-| OncotreeLineage | 10,142 | **12,994** | 699 (456) | 3,551 | 9,443 |
-| OncotreePrimaryDisease | 5,934 | **11,652** | 316 (275) | 6,034 | 5,618 |
-
-1. **Removed calls sit on amplicons.** 1,015 in total, median CN 1.66, 72% at CN > 1.3, led by recurrent
-   lineage amplicons found with no gene list: **MYCN** at 71× in neuroblastoma with co-amplified
-   **DDX1** and **CYRIA** (2p24), **MYC** and **POU5F1B** (8q24) in embryonal tumours, CNS and pleura,
-   **OTX2** in embryonal tumours.
-2. **Rescued calls are copy-neutral.** 9,585, median CN 1.00, 2% at CN > 1.3. Amplicon spikes in
-   individual lines inflate the permutation null's left tail; removing them tightens the null and lets
-   genuine specificity through.
-
-**The size of the rescue depends on the panel and the threshold.** v1 reported lineage calls rising
-67 → 6,790. That reproduces exactly with today's code, but it is a BH threshold effect: v1's uncorrected
-p-values sat just above the bar, and at FDR ≤ 0.25 the same two arms give 14,278 vs 17,149 (+20%). On v2
-correction adds 28% at lineage level and doubles disease-level calls. The direction holds at every
-threshold on both panels; the 100-fold figure does not and should not be quoted.
-
-**Per-line rank flips** (line level, v1, rankings only): SK-N-BE(2), KELLY and NB1643 lose MYCN SEs at
-177–215× from ranks #1–#14; COLO320 loses POU5F1B (8q24, 120×) from #1. Correction is bidirectional: MCF7
-ESR1 #5 → #1 and P12-ICHIKAWA LEF1 #598 → #6 improve, Bowel CDX2 #1 → #14 is demoted. **OVCAR3**:
-uncorrected, 13 of 15 top calls are the 19q13 amplicon (CN 5.6–9.4×); corrected, 3 of 15.
-
-**MECOM is real, not an amplicon.** Rank #1 in both arms and both panels; in SKOV3 the locus is
-CN-neutral (1.055) while MECOM SEs still take ranks #1–#6.
+**The copy-number source is a known sensitivity.** On the v2 panel, correcting 228 lines with CMP WES instead of
+DepMap WGS moved 11–15% of calls (exome copy number is compressed, SD of log2 CN 0.41 vs 0.68). v3.1 uses DepMap
+WGS for every line that has it.
 
 ## 6. Robustness
 
-| check | lineage calls kept | disease calls kept |
+| check | lineage | disease |
 |---|---:|---:|
-| v1 calls reappearing in v2 (overlapping locus, same group) | 97.4% | 97.8% |
-| drop the 7 cross-source-discordant lines + MDA-MB-231 | 98.3% (Jaccard 0.97) | 95.8% (0.95) |
-| correct 228 lines with CMP WES instead of DepMap WGS | 88.7% (0.87) | 84.8% (0.83) |
+| v3.0.1 calls still called in v3.1 (same group, overlapping locus) | 78.4% | 80.2% |
+| library-layout effect removed: calls kept | 94.1% | 94.1% |
+| study-weighted line profiles: calls | 14,163 | 16,575 |
+| 8 cross-source-discordant lines dropped: calls | 13,585 | 15,473 |
+| all experiments, treated included (3,058): calls | 14,764 | 16,950 |
 
-**The copy-number source is the main remaining sensitivity.** On the 228 lines with both sources, scored
-against each (`cn_source_paired.py`), CMP WES copy number captures less of the signal's copy-number
-dependence (per-line Spearman of SE signal vs CN: +0.089 vs +0.146 raw, −0.104 vs −0.060 corrected;
-paired p ≈ 1e-31). At SE resolution the two sources agree only moderately (median r = 0.61 of log2 CN),
-and CMP's copy number is compressed (SD of log2 CN 0.41 vs 0.68). The shift is largest in Bowel, Myeloid
-and Lymphoid. So ~11–15% of calls depend on which measured source a line was corrected with, and lines
-corrected with exome copy number carry a slightly different correction than WGS lines.
+Disease counts and retention in this table include groups of one line (the main arm on that basis: 15,984).
 
-## 7. Cross-layer validation (Phase 6)
+**Library layout.** 75% of SEs read about 1.2× higher in single-end than in paired-end experiments of the same line
+(142 lines with both; sign-flip null 0). Removing that within-line effect keeps 94.1% of lineage calls, but the
+losses sit in lineages made mostly of single-end experiments (Spearman +0.78 between retention and paired-end share):
+those under 25% paired-end keep 85%, the rest 95%. Lowest: Esophagus/Stomach 0.76, Head and Neck 0.79, Breast 0.79,
+Pancreas 0.80. Layout is confounded with read length and sequencing era, so it names the batch, not the cause.
 
-Genes near group-specific SEs are themselves specific to that group, scored by CaCTS on DepMap
-expression over the same lines (359 with expression) and groups:
+**Leave one study out.** For each lineage, its largest study (most lines) was removed and the lineage rescored,
+against two removals of random studies of the same lineage covering as many lines. Other lineages barely move
+(median retention 0.996). **Kidney and Bladder rest on one study:** Kidney keeps 11% of its calls without the NCI-60
+renal panel (PRJNA601191; 6 of its 14 lines exist only there) against 63–66% for the random removals; Bladder keeps
+14% against 94–98%. Weaker dependence: Bowel 0.48 (random 0.93–0.98), Esophagus/Stomach 0.53 (0.77–0.85), Skin 0.74
+(0.81–0.93), Liver 0.74 (0.99–1.00). Lymphoid, Myeloid, PNS, Prostate and Soft Tissue keep 86–97% of their calls
+and 95–100% of their top 100; Breast and Ovary keep more than their random controls (0.84 vs 0.10–0.23, 0.83 vs
+0.60–0.70); Bone and Lung lose more of their tail (0.65, 0.58) but keep 99% of their top 100. Cervix, Testis, Eye,
+Pleura and Uterus are too small to read.
 
-| set | per-pair | background | enrichment | per-SE-any | nearest-gene | shuffled |
+## 7. Cross-layer validation
+
+Genes within 100 kb of a group-specific SE are themselves specific to that group, scored by CaCTS on DepMap
+expression over the same lines and groups:
+
+| level | per pair | background | enrichment | SEs with ≥ 1 concordant gene | nearest gene | shuffled groups |
 |---|---:|---:|---:|---:|---:|---:|
-| **v2, lineage** | **16.0%** | 4.27% | **3.7×** | 29.9% | 22.9% | 4.4% |
-| **v2, disease** | **15.8%** | 3.04% | **5.2×** | 29.3% | 23.4% | 3.0% |
-| v1, lineage | 18.0% | 4.36% | 4.1× | 34.2% | 27.3% | — |
-| v1, disease | 18.1% | 3.07% | 5.9× | 33.2% | 27.4% | — |
-| v1 analytic, lineage | 8.7% | 4.36% | 2.0× | 18.3% | 12.6% | — |
+| lineage | **16.4%** | 4.11% | **4.0×** | 29.5% | 22.1% | 4.4% |
+| disease | **14.3%** | 2.81% | **5.1×** | 26.2% | 19.7% | 3.1% |
+| subtype | **16.6%** | 2.54% | **6.5×** | 29.1% | 22.9% | 2.9% |
 
-Controls behave as a local regulatory link must: the **group shuffle** sits at background; concordance
-**decays with distance**, 25.8% at < 10 kb → 8.4% at 100–250 kb, with median rho tracking it
-(+0.305 → +0.143); and SE signal vs neighbour expression is higher for concordant than discordant pairs
-(+0.314 vs +0.171). On v1 the concordance roughly **doubled** on the permutation-filtered set versus the
-analytic one, independent evidence that the permutation FDR removes noise rather than signal.
+The controls behave as a local regulatory link must: the **group shuffle** sits at background, and concordance
+**decays with distance** (all levels pooled: 24.5% under 10 kb, 7.3% beyond 100 kb, while the shuffle stays at
+3–4%). v3.0.1: 3.7× lineage, 5.1× disease.
 
-## 8. EMX2 — an honest partial result (v1)
-
-`USE_6049` (v1 id; chr10:117,543,636–117,545,605) sits on the **EMX2 promoter**. Rank #4 for OVCAR3 in
-both CN arms; against independent DepMap RNA, rho = **+0.461** (p = 3e-16) for EMX2 vs +0.046 PAX8 and
-+0.016 WT1 as controls. **It does not pass the specificity bar** (HGSOC subtype rank #4, FDR 0.173, and
-subtype level is unsupported), and it was called as an SE in only 1 of 2,136 experiments. "A specific
-H3K27ac element at the EMX2 promoter" is the accurate description.
-
-## 9. What is NOT claimed
+## 8. What is NOT claimed
 
 - Any specific-SE **count** from the analytic null (§2).
-- **Subtype- or cell-line-level** specificity calls (§3).
-- That the call set is **independent of the copy-number source**: ~11–15% of calls move with it (§6).
-- The **"67 → 6,790" magnitude** of the v1 rescue (§5); only its direction.
+- Group-level calls for **groups of one cell line**; those are the cell-line level's (§3).
+- That **amplicon-driven or gain-dependent** calls are lineage-specific; they pass only without correction (§5).
+- That every lineage's calls are **independent of study**: Kidney and Bladder rest on one study (§6).
+- That the calls are **free of the layout batch**: about 6% of lineage calls depend on it, concentrated in
+  single-end lineages (§6).
+- That the call set is **independent of the copy-number source** (§5); the inferred correction of 72 lines is weaker.
 - **SE → target-gene assignment.** Proximity only; §7 measures concordance in aggregate.
-- Anything from the CN-corrected **calling-time** atlases; they were never built (gotcha 59).
+- The **"67 → 6,790" magnitude** of the v1 copy-number rescue: it is a BH threshold effect (at FDR ≤ 0.25 the same
+  two arms give 14,278 vs 17,149). Only its direction holds.
 
-## 10. Reproducing (v2)
+## 9. Reproducing (v3.1)
 
 ```bash
 conda activate atac_hdac
-python phase1/scripts/15_expansion_set.py                  # the 122-line / 552-experiment expansion
-# pull + reduce on Roihu: array.slurm with MANIFEST=pull_srx.expand.txt, then
-#   reduce.slurm with MANIFEST=pull_srx.v2.txt CATALOGS="atlas atlas.s3" S3_REF=SRX16495452
-ARMS="main nocn shuffle nodisc" bash phase2/scripts/70_score_v2.sh   # ~35 min per arm (run on HPC)
-python phase2/analysis/cn_ablation_calls.py --corrected phase2/scores_v2/atlas.s3.perm \
-    --uncorrected phase2/scores_v2/atlas.s3.perm.nocn \
-    --catalog phase2/results_v2/atlas.s3.union_catalog.bed.gz \
-    --out phase2/scores_v2/atlas.s3.perm.cn_ablation_calls.tsv
-python phase2/analysis/concordance_bridge2.py --scores phase2/scores_v2/atlas.s3.perm \
-    --signal phase2/results_v2/atlas.s3.se_signal.tsv.gz \
-    --catalog phase2/results_v2/atlas.s3.union_catalog.bed.gz \
-    --pull-set phase2/data/pull_set.v2.tsv --levels OncotreeLineage,OncotreePrimaryDisease \
-    --out phase2/scores_v2/atlas.s3.perm.concordance2
-python phase2/analysis/cn_source_paired.py
-python phase2/analysis/v2_compare.py --a phase2/scores/atlas.s3.perm \
-    --a-catalog phase2/results/atlas.s3.union_catalog.bed.gz --b phase2/scores_v2/atlas.s3.perm \
-    --b-catalog phase2/results_v2/atlas.s3.union_catalog.bed.gz --out phase2/scores_v2/compare_v1_v2
-python phase2/scripts/60_stage_dashboard.py --scores phase2/scores_v2 --results phase2/results_v2 \
-    --pull-set phase2/data/pull_set.v2.tsv --pull-bu 53 \
-    --release v2 --release-date 2026-09-28 --release-title "Copy-number-expanded panel: 386 cell lines"
-python phase2/figures/poster_figures.py
+python3 phase1/scripts/25_pull_set_v31.py                 # pull sets (relabelled, WGS first, identity drops)
+# on Roihu, from score_v3/ (see each script's header):
+#   fused re-call:  sbatch -A <project> --array=0-15 --export=ALL,PROJ=<project>,NT=16,MODE=fused,\
+#                     MANIFEST=<repo>/phase2/data/pull_set.v31.all.tsv recall_cn.slurm
+#   reduce + arms:  FUSED=1 PROJ=<project> bash v31_chain.sh      -> results_v31f/, out_v31f/
+python3 phase2/analysis/fused_labels.py --scores phase2/scores_v31f --results phase2/results_v31f \
+    --pull-set phase2/data/pull_set.v31.tsv                 # CN-robust / unmasked / amplicon-driven labels
+bash phase2/scripts/76_stage_v31_release.sh <staging-dir>   # dashboard data (copy <staging-dir>/data over docs/data)
+# robustness: layout (§6)
+python3 phase2/analysis/srx_layout_fill.py --signal phase2/results_v31f/atlas.s3.se_signal.tsv.gz
+python3 phase2/analysis/layout_batch.py --results phase2/results_v31f --pull-set phase2/data/pull_set.v31.tsv \
+    --scores phase2/scores_v31f --tag v31f
+python3 phase2/analysis/layout_correct.py --signal phase2/results_v31f/atlas.s3.se_signal.tsv.gz \
+    --effects phase2/analysis/out/layout_sensitive_ses.v31f.tsv.gz --layout phase2/data/srx_layout.tsv \
+    --out phase2/results_v31f/atlas.s3.layoutcorr.se_signal.tsv.gz      # then score_arm.slurm ARM=layout V31=1 FUSED=1
+# robustness: leave one study out (§6)
+python3 phase2/analysis/loso_sets.py --signal phase2/results_v31f/atlas.s3.se_signal.tsv.gz \
+    --pull-set phase2/data/pull_set.v31.tsv --out phase2/analysis/out/loso_v31f   # then V31F=1 bash loso_submit.sh
+python3 phase2/analysis/loso_eval.py --rule-in-scores --runs phase2/analysis/out/loso_v31f/runs \
+    --sets phase2/analysis/out/loso_v31f --base phase2/scores_v31f/atlas.s3.perm.OncotreeLineage.specific.tsv.gz \
+    --out phase2/analysis/out/loso_v31f/loso_retention.tsv
 ```
