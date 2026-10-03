@@ -8,6 +8,13 @@ region CN (length-weighted mean), log2-offset, beta 1, floor 1.0 (amplify-only: 
 become an SE; cnrose DESIGN §6.3), then the ROSE tangent cutoff. Writes `<SRX>.cn.enhancers.tsv` (with
 REGION_CN) and `<SRX>.cn.se.bed` next to the originals and one summary row per sample.
 
+`--mode fused` (user proposal 2026-10-03, FINDINGS §54) writes `<SRX>.fu.se.bed` instead: the cutoff is computed on the
+CN-corrected signal (amplicons cannot inflate it) and applied to the UNCORRECTED signal, so amplified SEs stay and
+SEs the inflated cutoff hid come back. Each call is labelled in column 7: `core` (an SE corrected and uncorrected),
+`amplified` (passes only because its region is amplified: corrected signal below the cutoff), `unmasked` (an SE only
+once the cutoff is not inflated: not an agnostic SE). Corrected SEs are a subset of the fused set (amplify-only
+correction never raises a signal); an agnostic SE can fall out only where the corrected cutoff is higher.
+
 Each line reads the CN source it is scored on (manifest `cn_provider`, as score_pilot.py): DepMap WGS, CMP WES
 (by `cn_cvcl` or `cvcl`), DepMap MC_WES, CCLE SNP6, or input-inferred. A line with no track is skipped.
 
@@ -52,7 +59,9 @@ def main():
     ap.add_argument("--blacklist")
     ap.add_argument("--gtf", default=os.path.join(DATAROOT, "0.human_genome/Homo_sapiens.GRCh38.106.chr.gtf.gz"))
     ap.add_argument("--gene-cache", default=cache_path("gene_coords.GRCh38.106.tsv"))
-    ap.add_argument("--force", action="store_true", help="rewrite existing .cn outputs")
+    ap.add_argument("--force", action="store_true", help="rewrite existing outputs")
+    ap.add_argument("--mode", choices=["cn", "fused"], default="cn",
+                    help="cn: <SRX>.cn.{enhancers.tsv,se.bed}; fused: <SRX>.fu.se.bed (labelled)")
     a = ap.parse_args()
 
     man = pd.read_csv(a.manifest, sep="\t").drop_duplicates("srx")
@@ -109,7 +118,8 @@ def main():
             rows.append({**row, "status": "no_enhancers"}); continue
         if track is None:
             rows.append({**row, "status": "no_cn_track"}); continue
-        if os.path.exists(base + ".cn.se.bed") and not a.force:
+        done_file = base + (".fu.se.bed" if a.mode == "fused" else ".cn.se.bed")
+        if os.path.exists(done_file) and not a.force:
             rows.append({**row, "status": "exists"}); continue
         E = pd.read_csv(base + ".enhancers.tsv", sep="\t")
         sig = E["SIGNAL"].to_numpy(float)
@@ -117,10 +127,25 @@ def main():
                        zip(E["CHROM"], E["START"], E["STOP"])])
         csig = correct(sig, cn, model="log2offset", beta=1.0, floor=a.cn_floor)
         cut, sup = call_super(csig)
+        ag = E["isSuper"].to_numpy(int).astype(bool)
+        if a.mode == "fused":
+            sup = np.asarray(sup, bool)
+            fu = sig > cut                                          # corrected cutoff, uncorrected signal
+            lab = np.where(~sup, "amplified", np.where(ag, "core", "unmasked"))
+            order = np.argsort(-sig, kind="stable")
+            rank = np.empty(len(sig), int); rank[order] = np.arange(1, len(sig) + 1)
+            with open(base + ".fu.se.bed", "w") as fh:
+                for i in np.flatnonzero(fu):
+                    fh.write(f"{E.CHROM.iat[i]}\t{E.START.iat[i]}\t{E.STOP.iat[i]}\tSE_{i}\t{sig[i]:.6g}\t{rank[i]}\t{lab[i]}\n")
+            rows.append({**row, "status": "ok", "n_regions": len(E), "n_super": int(ag.sum()), "n_super_cn": int(sup.sum()),
+                         "n_fused": int(fu.sum()), "n_core": int((fu & sup & ag).sum()),
+                         "n_amplified": int((fu & ~sup).sum()), "n_unmasked": int((sup & ~ag).sum()),
+                         "n_agnostic_lost": int((ag & ~fu).sum()), "cn_cutoff": cut,
+                         "max_region_cn": float(cn.max()) if len(cn) else np.nan})
+            continue
         regions = [dict(chrom=c, start=s, end=e, num_loci=n, constituent_size=z) for c, s, e, n, z in
                    zip(E["CHROM"], E["START"], E["STOP"], E["NUM_LOCI"], E["CONSTITUENT_SIZE"])]
         n_cn = _write_catalog(base, ".cn", regions, csig, sup, extra_cols=[("REGION_CN", cn)])
-        ag = E["isSuper"].to_numpy(int).astype(bool)
         _, sup0 = call_super(sig)                                   # the agnostic call must reproduce exactly
         rows.append({**row, "status": "ok", "agnostic_reproduced": bool((np.asarray(sup0, bool) == ag).all()), "n_regions": len(E), "n_super": int(ag.sum()), "n_super_cn": n_cn,
                      "cn_cutoff": cut, "only_agnostic": int((ag & ~sup).sum()), "only_corrected": int((~ag & sup).sum()),

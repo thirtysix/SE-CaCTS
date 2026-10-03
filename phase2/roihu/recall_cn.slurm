@@ -17,5 +17,5 @@ export SECACTS_DATAROOT="$SB/dataroot" OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2
 PY=/projappl/$PROJ/secacts_venv/bin/python
 mkdir -p "$SB/recall"
 "$PY" "$REPO/phase2/recall_cn.py" --manifest "${MANIFEST:-$REPO/phase2/data/recall_manifest.v31.tsv}" \
-  --out-dir "$W/out" --task "$T" --ntasks "$NT" --summary "$SB/recall/summary.$T.tsv" \
+  --out-dir "$W/out" --task "$T" --ntasks "$NT" --summary "$SB/recall/summary${MODE:+.$MODE}.$T.tsv" --mode "${MODE:-cn}" \
   --inferred-bins "$W/../cncal/bins" --blacklist "$W/../cncal/hg38-blacklist.v2.bed.gz" ${EXTRA:-}
