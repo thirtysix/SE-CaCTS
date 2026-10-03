@@ -152,6 +152,13 @@ def main():
     PERM = os.path.join(SCORES, "atlas.s3.perm")
     os.makedirs(OUT, exist_ok=True)
     coords = load_coords()
+    if a.labels:
+        # v3.1: "Called" counts the experiments whose FUSED calls cover the locus (the presence the "SE of its group"
+        # rule uses), not the agnostic calls alone, so an SE called only through gain reads 1, not 0
+        fp = os.path.join(RESULTS, "atlas.s3.se_presence.fu.tsv.gz")
+        nfu = pd.read_csv(fp, sep="\t", index_col=0).sum(axis=1).astype(int).to_dict()
+        coords = {k: (c, s_, e, int(nfu.get(k, n))) for k, (c, s_, e, n) in coords.items()}
+        print(f"[stage] Called = fused presence ({os.path.basename(fp)})")
     nearest = nearest_gene_fn()
     H = pd.read_csv(f"{PERM}.hierarchy_summary.tsv", sep="\t")
     LINEP = os.path.join(SCORES, a.line_prefix) if a.line_prefix else PERM
