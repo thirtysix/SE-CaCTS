@@ -36,14 +36,23 @@ from secacts_env import DATAROOT, cache_path                              # noqa
 # 10x linked reads (read 2), ONT (cut to 100 bp). RERF-LC-OK is out of scope (identity drop, v3.1).
 TARGETS = [("MIC", "SRR11235318", None), ("POE", "SRR11235333", None), ("GSC11", "SRR4009298", None),
            ("GSC23", "SRR4009300", None), ("SNU-484", "DRR878403", None), ("HepaRG", "ERR2004597", None),
-           ("II-18", "DRR016885", None), ("BCBL1", "SRR18286498", None), ("OCI-LY1", "SRR1236466", None),
-           ("TL-Om1", "DRR248583", None), ("MUTZ-3", "SRR30002267", None), ("LA-N-5", "ERR10075187", None),
-           ("NBL-S", "SRR34067880", None), ("SMS-KCNR", "ERR10075184", None), ("ASPS1", "SRR33168805", None),
+           ("II-18", "DRR016885", None), ("BCBL1", "SRR18286498", None),
+           ("TL-Om1", "DRR248583", None), ("LA-N-5", "ERR10075187", None),
+           ("SMS-KCNR", "ERR10075184", None),
            ("C4-2B", "SRR15368035", "10x"), ("LAPC-4", "SRR15368039", "10x"), ("C666-1", "SRR37324005", "ont")]
-# CCLE 2019 WGS (PRJNA523380, open) of lines with DepMap WGS: aneuploid (786-O), focal amplicons (HCC1954 ERBB2,
-# MCF7 17q/20q, NCI-H2171)
-CALIB = [("MCF7", "ACH-000019", "SRR8652105"), ("HCC1954", "ACH-000859", "SRR8639161"),
-         ("NCIH2171", "ACH-000525", "SRR8652087"), ("786O", "ACH-000649", "SRR8639133")]
+# Runs submitted as COORDINATE-SORTED alignments: their first spots all come from the start of chr1 (FINDINGS §57),
+# so "the first N spots" is not a sample. The two low-pass ones are fetched whole (SPOTS_ALL); the others need a
+# different sampler and stay on input inference for now: OCI-LY1 SRR1236466, MUTZ-3 SRR30002267, NBL-S SRR34067880,
+# ASPS1 SRR33168805. CCLE 2019 WGS (PRJNA523380) is sorted too, so it cannot calibrate this estimator.
+SPOTS_ALL = {"GSC11": 40_000_000, "GSC23": 40_000_000}
+# Calibration: WGS in sequencing order of lines with DepMap WGS, from other labs (so DepMap is independent truth):
+# Princess Maxima neuroblastoma panel (PRJEB54725; MYCN-amplified IMR-32, CHP-134, NGP, NB-1643; non-amplified
+# SK-N-AS, SH-SY5Y) and the Institut Curie Ewing panel (PRJNA610192; A673, SK-N-MC, TC-71, RD-ES)
+CALIB = [("IMR32", "ACH-000310", "ERR10075183"), ("CHP134", "ACH-001338", "ERR10075181"),
+         ("NGP", "ACH-001366", "ERR10075191"), ("NB1643", "ACH-001303", "ERR10075189"),
+         ("SKNAS", "ACH-000260", "ERR10075198"), ("SHSY5Y", "ACH-001188", "ERR10075193"),
+         ("A673", "ACH-000052", "SRR11235335"), ("SKNMC", "ACH-000039", "SRR11235329"),
+         ("TC71", "ACH-000424", "SRR11235327"), ("RDES", "ACH-000041", "SRR25068618")]
 REF = [("ref_HG03814", "ERR3534515"), ("ref_HG00097", "ERR3535646"), ("ref_HG00106", "ERR3535780")]
 AUTO = [f"chr{i}" for i in range(1, 23)]
 
@@ -64,7 +73,8 @@ def cmd_manifest(a):
     for cell, run, mode in TARGETS:
         # not in ENA (DRR878403): fastq-dump reads NCBI SRA; the gap table lists it as a paired WGS library
         m = mode or ("pe" if lay["library_layout"].get(run, "PAIRED") == "PAIRED" else "se")
-        rows.append((cell, key_of[cell], "target", run, m, a.ont_spots if m == "ont" else a.spots))
+        rows.append((cell, key_of[cell], "target", run, m,
+                     SPOTS_ALL.get(cell, a.ont_spots if m == "ont" else a.spots)))
     for cell, key, run in CALIB:
         rows.append((cell, key, "calib", run, "pe", a.spots))
     for name, run in REF:
@@ -98,6 +108,11 @@ def cmd_ratio(a):
             continue
         b, nr = load_bins(fn)
         tot = sum(b[c].sum() for c in AUTO)
+        empty = np.mean(np.concatenate([b[c][ref[c] >= a.min_ref * med] == 0 for c in AUTO]))
+        if empty > 0.05:                  # a coordinate-sorted run: the reads cover only the start of the genome
+            print(f"[ratio] {r.name}: {empty:.0%} of mappable bins empty, not a genome-wide sample; skipped",
+                  file=sys.stderr)
+            continue
         out = {}
         for c in ref:
             ok = ref[c] >= a.min_ref * med
