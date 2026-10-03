@@ -57,7 +57,13 @@ PALE = {"vsall": "246,214,170", "vssub": "178,221,190", "vsdis": "240,190,184", 
 # one table per line, rows = the "vs all" basis (every relatives call is also a vs-all call, checked 2026-09-30),
 # with one FDR column per comparison: a number when called (<= 0.10), null when tested but not called
 COLS = ["rank", "se", "chrom", "start", "end", "gene", "dist_kb", "jsd", "fdr_all", "fdr_lineage", "fdr_disease",
-        "fdr_subtype", "cn", "called", "signal_rank", "flag", "pass"]
+        "fdr_subtype", "cn", "called", "signal_rank", "flag", "pass", "cns", "sel", "n_amp"]
+# v3.1 fused build (FINDINGS §55): SECACTS_PRES = the presence the "SE of its group" rule used (se_presence.fu), and
+# SECACTS_LABELS = the scores dir holding fused_labels.lines.*.tsv.gz; the label matrix sits beside the presence
+PRES = os.environ.get("SECACTS_PRES", "atlas.s3.se_presence.tsv.gz")
+LABELS = os.environ.get("SECACTS_LABELS")
+SEL = {1: "c", 2: "u", 3: "a", 4: "g", 5: "A", 6: "H"}          # aggregate_v31.LABELS codes -> letters
+CNDEP_TOP = 100
 LETTER = {"all": "A", "lineage": "L", "disease": "D", "subtype": "S"}     # which comparisons call the SE, e.g. "ALD"
 
 
@@ -72,9 +78,14 @@ def clean(o):
     return o
 
 
+FLAGS = os.environ.get("SECACTS_FLAGS", "1") == "1"      # v3.1 sets 0: chrY is not scored and CN is floored at 0.5
+
+
 def flag_of(chrom, cn):
     """Known artifact classes, removed in v3.1 (ROADMAP): chrY presence depends on the line's sex, and dividing by
     a copy number near 0 inflates noise in deep deletions."""
+    if not FLAGS:
+        return ""
     return "chrY" if chrom == "chrY" else ("CN<0.3" if cn is not None and cn < 0.3 else "")
 
 
@@ -191,6 +202,13 @@ def main():
         r = lin.loc[cv]
         name = str(r.cell_line)
         return "".join(ch for ch in name.upper() if ch.isalnum()), name, r.lineage, r.primary_disease, r.subtype
+    def score_name(key):
+        """the line's group name in the scoring outputs: DepMap's stripped name, or for a line outside DepMap the
+        crosswalk name as score_pilot.py writes it (C4-2B, not C42B). Looked up stripped, nothing was found: through
+        v3.0.1 the 50 such lines had empty per-line tables, and the 11 with two or more studies lost their calls."""
+        if key in model.index:
+            return model.at[key, "StrippedCellLineName"]
+        return str(lin.loc[ps[ps.key == key].cvcl.iloc[0]].cell_line)
     keys = sorted(ps.key.unique())
     group_of = {k: labels(k)[0] for k in keys}
     want = keys if a.lines == "all" else [k for k in keys if group_of[k] in set(a.lines.split(","))]
@@ -198,8 +216,15 @@ def main():
 
     cat = pd.read_csv(os.path.join(RES, "atlas.s3.union_catalog.bed.gz"), sep="\t", header=None,
                       usecols=[0, 1, 2, 3], names=["chrom", "start", "end", "se"]).set_index("se")
-    pres = pd.read_csv(os.path.join(RES, "atlas.s3.se_presence.tsv.gz"), sep="\t", index_col=0,
+    pres = pd.read_csv(os.path.join(RES, PRES), sep="\t", index_col=0,
                        usecols=lambda c: c == "se_id" or c in set(ps[ps.key.isin(want)].srx))
+    labm, flab = None, {}
+    if LABELS:
+        labm = pd.read_csv(os.path.join(RES, "atlas.s3.se_label.fu.tsv.gz"), sep="\t", index_col=0,
+                           usecols=lambda c: c == "se_id" or c in set(ps[ps.key.isin(want)].srx))
+        for c in CMP:
+            f = pd.read_csv(os.path.join(LABELS, f"fused_labels.lines.{c[:3]}.tsv.gz"), sep="\t")
+            flab[c] = {g: x.set_index("se") for g, x in f.groupby("group")}
     want_srx = set(ps[ps.key.isin(want)].srx)
     sig = pd.read_csv(os.path.join(RES, "atlas.s3.se_signal.tsv.gz"), sep="\t", index_col=0,
                       usecols=lambda c: c == "se_id" or c in want_srx)
@@ -257,7 +282,8 @@ def main():
         return out
 
     def stage_one(key):
-        grp, name, lineage, disease, subtype = labels(key)
+        out_grp, name, lineage, disease, subtype = labels(key)
+        grp = score_name(key)                                   # every lookup into the scoring outputs uses this
         exps = ps[ps.key == key].srx.tolist()
         called = pres[[s for s in exps if s in pres.columns]]
         share_all = called.mean(axis=1)
@@ -281,6 +307,16 @@ def main():
         ov = overlap_share(cat.loc[sorted(spec_se)], cat, list(share.index), share) if spec_se else {}
         comps = {}
         infos = {c: comparison(c, grp) for c in CMP}
+        lab_exp = labm[[s for s in exps if s in labm.columns]] if labm is not None else None
+
+        def sel_of(se):
+            """how this line's experiments call the SE: the most CN-robust label, and how many only via gain+"""
+            if lab_exp is None or se not in lab_exp.index:
+                return "", 0
+            v = lab_exp.loc[se].to_numpy()
+            v = v[v > 0]
+            return (SEL.get(int(v.min()), "") if len(v) else ""), int((v >= 4).sum())
+        fl_all = flab.get("all", {}).get(grp)
         called_in = {c: (spec[c][grp].set_index("se").fdr if infos[c]["testable"] and grp in spec[c] else pd.Series(dtype=float))
                      for c in CMP}
         pass_of = lambda se: "".join(LETTER[c] for c in CMP if se in called_in[c].index)    # noqa: E731
@@ -295,6 +331,10 @@ def main():
                                  f"\t.\t{cc.start}\t{cc.end}\t{rgb}\n")
             infos[c].update(n=0 if d is None else int(len(d)),
                             n_called_here=0 if d is None else int(sum(ov.get(x, 0) > 0 for x in d.se)))
+            fl = flab.get(c, {}).get(grp)
+            if fl is not None and infos[c]["testable"]:
+                infos[c].update(n_unmasked=int((fl.cn_status == "unmasked").sum()),
+                                n_cndep=int((fl.cn_status == "amplicon").sum()))
             comps[c] = infos[c]
         # the table: the top TOP calls of EVERY tested comparison, merged by rank (all four rank the line's loci by
         # the same JSD, so a rank means the same in each list). Before v3.1 only the vs-all list was staged, so an SE
@@ -308,9 +348,23 @@ def main():
                 cc = cat.loc[r.se]; g, dist = genes[r.se]
                 cn = None if pd.isna(r.cn_mean) else round(float(r.cn_mean), 2)
                 fdrs = [(round(float(called_in[c][r.se]), 4) if r.se in called_in[c].index else None) for c in CMP]
+                st = fl_all.cn_status.get(r.se, "") if fl_all is not None else ""
+                sl, na = sel_of(r.se)
                 rows.append([int(r.rank), r.se, cc.chrom, int(cc.start), int(cc.end), g, dist, round(float(r.jsd), 4),
                              *fdrs, cn, int(round(ov.get(r.se, 0.0) * n_exp)),
-                             int(srank[r.se]) if r.se in srank.index else None, flag_of(cc.chrom, cn), pass_of(r.se)])
+                             int(srank[r.se]) if r.se in srank.index else None, flag_of(cc.chrom, cn), pass_of(r.se),
+                             {"robust": "r", "unmasked": "u"}.get(st, ""), sl, na])
+        # calls vs all lines that pass only WITHOUT copy-number correction (their own rank and FDR, never merged):
+        # amplicon-driven where the line's CN at the locus is >= 2, gain-dependent below (FINDINGS §55)
+        cndep = []
+        if fl_all is not None and infos["all"]["testable"]:
+            dep = fl_all[fl_all.cn_status == "amplicon"].sort_values("rank_u").head(CNDEP_TOP)
+            for se, r in dep.iterrows():
+                cc = cat.loc[se]; g, dist = genes[se]
+                cn = None if pd.isna(r.cn_mean) else round(float(r.cn_mean), 2)
+                sl, na = sel_of(se)
+                cndep.append([int(r.rank_u), se, cc.chrom, int(cc.start), int(cc.end), g, dist,
+                              round(float(r.fdr_u), 4), cn, "a" if cn is not None and cn >= 2 else "g", sl, na])
         # the same comparison set at two levels (a subtype that IS its disease): say so rather than repeat silently
         for lo, hi in (("subtype", "disease"), ("disease", "lineage")):
             a_, b_ = comps[lo], comps[hi]
@@ -331,15 +385,18 @@ def main():
             if os.path.exists(fn(old)):
                 os.remove(fn(old))
         summary = {
-            "key": key, "group": grp, "name": name, "lineage": lineage, "disease": disease, "subtype": subtype,
+            "key": key, "group": out_grp, "name": name, "lineage": lineage, "disease": disease, "subtype": subtype,
             "cn_source": prov, "has_cn": tr is not None, "cn_max": cn_max,
             "n_called": int(len(share)), "n_experiments": int(n_exp), "n_studies": int(n_units.get(grp, 0)),
             "experiments": [{"srx": s_, "study": study.get(s_, ""), "layout": layout.get(s_, ""), "bw": BW.format(s_)}
                             for s_ in exps],
             "cols": COLS, "rows": rows, "comparisons": comps,
+            "cndep_cols": ["rank", "se", "chrom", "start", "end", "gene", "dist_kb", "fdr", "cn", "cns", "sel", "n_amp"],
+            "cndep": cndep,
         }
         json.dump(clean(summary), open(fn("json"), "w"), separators=(",", ":"), allow_nan=False)
-        return key, {"group": grp, "name": name, "lineage": lineage, "search": line_groups.get(grp, {}).get("search", name),
+        return key, {"group": out_grp, "name": name, "lineage": lineage,
+                     "search": (line_groups.get(grp) or line_groups.get(out_grp) or {}).get("search", name),
                      "n": {c: comps[c]["n"] for c in CMP}, "tested": bool(comps["all"]["testable"])}
 
     index = {}

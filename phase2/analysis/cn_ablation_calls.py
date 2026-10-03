@@ -74,6 +74,7 @@ def main():
     ap.add_argument("--uncorrected", default=f"{SECACTS}/phase2/scores/atlas.s3.perm.nocn")
     ap.add_argument("--catalog", default=f"{SECACTS}/phase2/results/atlas.s3.union_catalog.bed.gz")
     ap.add_argument("--cn-amp", type=float, default=1.3)
+    ap.add_argument("--levels", default=",".join(LEVELS), help="v3.1 adds OncotreeSubtype (calls there are stable, §53)")
     ap.add_argument("--out", default=f"{SECACTS}/phase2/scores/atlas.s3.perm.cn_ablation_calls.tsv")
     a = ap.parse_args()
 
@@ -88,7 +89,7 @@ def main():
     rows = []
     print(f"{'level':<24} {'uncorr':>7} {'corr':>7} {'ampl-driven':>12} {'(cn>' + str(a.cn_amp) + ')':>9} "
           f"{'rescued':>8} {'stable':>7}")
-    for lev in LEVELS:
+    for lev in a.levels.split(","):
         fu = f"{a.uncorrected}.{lev}.specific.tsv.gz"
         fc = f"{a.corrected}.{lev}.specific.tsv.gz"
         if not (os.path.exists(fu) and os.path.exists(fc)):

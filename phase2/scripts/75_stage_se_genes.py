@@ -47,6 +47,7 @@ from pycacts.score import cacts_score_matrix                               # noq
 from specificity import fdr_matrix                                         # noqa: E402
 
 LEVELS = {"lineage": "OncotreeLineage", "disease": "OncotreePrimaryDisease"}
+SUBTYPE = ("subtype", "OncotreeSubtype")        # a call level from v3.1: added when the concordance pairs carry it
 
 
 def window_genes(catalog, genes, W):
@@ -145,6 +146,8 @@ def main():
     # ---- genes group-specific in expression (concordance_bridge2's gspec), and a parity check on its pairs
     expr = {}
     pairs = pd.read_csv(a.pairs, sep="\t")
+    if (pairs["level"] == SUBTYPE[1]).any():
+        LEVELS[SUBTYPE[0]] = SUBTYPE[1]
     for lv, col in LEVELS.items():
         rep, _ = build_rep_matrix(E, md, col, min_group_n=1)
         rep.columns = [str(c) for c in rep.columns]
@@ -172,7 +175,7 @@ def main():
 
     # ---- the finder index, per analysis variant, from the staged call tables
     suffixes = sorted({os.path.basename(f)[len("calls_lineage"):-len(".tsv")]
-                       for f in glob.glob(os.path.join(data, "calls_lineage*.tsv"))}) or [""]
+                       for f in glob.glob(os.path.join(data, "calls_lineage*.tsv"))} - {".cndep"}) or [""]
     for suffix in suffixes:
         idx, missing = {}, 0
         for lv in LEVELS:

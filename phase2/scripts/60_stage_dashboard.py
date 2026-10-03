@@ -40,11 +40,15 @@ RESULTS = os.path.join(PHASE2, "results")
 OUT = os.path.join(os.environ.get("SECACTS_DOCS", os.path.join(SECACTS, "docs")), "data")   # SECACTS_DOCS: stage a copy, e.g. for screenshots
 PERM = os.path.join(SCORES, "atlas.s3.perm")
 
-# levels the panel supports as CALLS vs rankings-only (gotcha 72)
+# levels the panel supports as CALLS vs rankings-only (gotcha 72); v3.1 (--subtype-calls) calls subtypes too: with the
+# "SE of its group" rule in the null the subtype counts are stable (FINDINGS §53)
 CALL_LEVELS = [("lineage", "OncotreeLineage", "Lineage"),
                ("disease", "OncotreePrimaryDisease", "Primary disease")]
 RANK_LEVELS = [("subtype", "OncotreeSubtype", "Subtype"),
                ("line", "line", "Cell line")]
+LEVEL_NAME = {"OncotreeLineage": "Lineage", "OncotreePrimaryDisease": "Primary disease", "OncotreeSubtype": "Subtype"}
+# fused-build labels (phase2/analysis/fused_labels.py, FINDINGS §55): how the group's experiments call the SE
+SEL = {"core": "c", "unmasked": "u", "agnostic": "a", "gain": "g", "amplified": "A", "high": "H"}
 
 
 def load_coords():
@@ -113,7 +117,7 @@ def n_columns(path):
 
 
 def main():
-    global SCORES, RESULTS, PERM
+    global SCORES, RESULTS, PERM, CALL_LEVELS, RANK_LEVELS
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--scores", default=SCORES)
     ap.add_argument("--results", default=RESULTS)
@@ -130,13 +134,28 @@ def main():
                     help="another scoring run for the Analysis selector: 'key|prefix|label|description' "
                          "(prefix relative to --scores, e.g. atlas.s3.perm.nocn)")
     ap.add_argument("--pull-desc", default="", help="pipeline-chart step 1, lines separated by ' | ' (default: ChIP-Atlas only)")
+    ap.add_argument("--subtype-calls", action="store_true", help="v3.1: subtype is a call level, not rankings only")
+    ap.add_argument("--labels", help="fused_labels.groups.tsv.gz: CN labels per call, and the calls that pass only "
+                                     "without CN correction (staged as calls_<level>.cndep.tsv)")
+    ap.add_argument("--line-prefix", help="scoring run for the line level (v3.1: atlas.s3.lines.all, the vs-all arm; "
+                                          "the main run is not scored per line there). Default: the main run")
+    ap.add_argument("--min-group-lines", type=int, default=1,
+                    help="v3.1: 2. A group of one cell line lists no calls: its specificity is that line's, which the "
+                         "cell-line level tests with two independent studies (user decision 2026-10-03)")
+    ap.add_argument("--n-pull", type=int, help="experiments pulled (default: columns of results/atlas.se_signal.tsv.gz)")
     a = ap.parse_args()
+    if a.subtype_calls:
+        CALL_LEVELS = CALL_LEVELS + [RANK_LEVELS[0]]
+        RANK_LEVELS = RANK_LEVELS[1:]
+    LAB = pd.read_csv(a.labels, sep="\t") if a.labels else None
     SCORES, RESULTS = a.scores, a.results
     PERM = os.path.join(SCORES, "atlas.s3.perm")
     os.makedirs(OUT, exist_ok=True)
     coords = load_coords()
     nearest = nearest_gene_fn()
     H = pd.read_csv(f"{PERM}.hierarchy_summary.tsv", sep="\t")
+    LINEP = os.path.join(SCORES, a.line_prefix) if a.line_prefix else PERM
+    HL = pd.read_csv(f"{LINEP}.hierarchy_summary.tsv", sep="\t") if a.line_prefix else H
 
     # concordance is the authority on the nearest gene AND whether it is group-specific — use its own
     # is_nearest pair so the gene shown and the concordance shown always name the SAME gene (the two
@@ -147,35 +166,68 @@ def main():
 
     manifest = {"levels": {}}
 
+    def annotate(S, col):
+        """gene (bridge nearest, else coordinate nearest), concordance and coordinates for each call row"""
+        chrom, st, en, ncall, gene, dkb, conc, rho = [], [], [], [], [], [], [], []
+        for r in S.itertuples():
+            c, s_, e, nc = coords.get(r.se, ("", 0, 0, 0))
+            hit = conc_by.get((col, r.group, r.se))
+            if hit:
+                g, is_c, rr = hit; d = 0
+            else:
+                g, is_c, rr = (nearest(c, (s_ + e) // 2) if c else ("", 0)), None, None
+                g, d = g if isinstance(g, tuple) else (g, 0)
+            chrom.append(c); st.append(s_); en.append(e); ncall.append(nc)
+            gene.append(g); dkb.append(d); conc.append("" if is_c is None else int(is_c))
+            rho.append("" if rr is None else round(rr, 3))
+        return S.assign(chrom=chrom, start=st, end=en, n_called=ncall, gene=gene, dist_kb=dkb, conc=conc, rho=rho)
+
+    LCOLS = ["cns", "sel", "n_exp", "n_amp", "cn_src"]
+
+    def with_labels(S, col):
+        """cns: r = called by both statistics (CN-robust), u = only with correction (CN-unmasked); sel: how the
+        group's experiments call the SE (c core, u unmasked, a agnostic, g gain, A amplified, H high-level)"""
+        L = LAB[LAB.level == col].set_index(["group", "se"])
+        k = list(zip(S.group, S.se))
+        st = L["cn_status"].reindex(k).values
+        return S.assign(cns=[{"robust": "r", "unmasked": "u"}.get(x, "") for x in st],
+                        sel=[SEL.get(x, "") for x in L["se_label"].reindex(k).values],
+                        n_exp=L["n_exp"].reindex(k).fillna(0).astype(int).values,
+                        n_amp=L["n_exp_amp"].reindex(k).fillna(0).astype(int).values,
+                        cn_src=L["cn_sources"].reindex(k).fillna("").values)
+
     def stage_calls(prefix, suffix):
         """calls_<level><suffix>.tsv and gene_index<suffix>.json from one scoring run; returns {level: groups}.
         Concordance (nearest gene; is it group-specific in expression) is a property of the gene and group,
-        so every variant reads the main run's bridge pairs."""
+        so every variant reads the main run's bridge pairs. A level the run did not score is left out."""
         gene_index, out = {}, {}
         Hx = pd.read_csv(f"{prefix}.hierarchy_summary.tsv", sep="\t")
+        labelled = LAB is not None and suffix == ""
         for short, col, label in CALL_LEVELS:
+            if not os.path.exists(f"{prefix}.{col}.specific.tsv.gz"):
+                print(f"[stage] {short}{suffix}: not scored in this run, left out")
+                continue
             S = pd.read_csv(f"{prefix}.{col}.specific.tsv.gz", sep="\t").sort_values(["group", "rank"])
-            chrom, st, en, ncall, gene, dkb, conc, rho = [], [], [], [], [], [], [], []
-            for r in S.itertuples():
-                se = r.se
-                c, s_, e, nc = coords.get(se, ("", 0, 0, 0))
-                hit = conc_by.get((col, r.group, se))
-                if hit:                                                    # bridge nearest gene + concordance
-                    g, is_c, rr = hit
-                    d = 0  # bridge distance not carried; coord distance recomputed below for display
-                else:                                                     # no bridge pair -> coord-based nearest, no concordance
-                    g, is_c, rr = (nearest(c, (s_ + e) // 2) if c else ("", 0)), None, None
-                    if isinstance(g, tuple):
-                        g, d = g
-                    else:
-                        d = 0
-                chrom.append(c); st.append(s_); en.append(e); ncall.append(nc)
-                gene.append(g); dkb.append(d); conc.append("" if is_c is None else int(is_c))
-                rho.append("" if rr is None else round(rr, 3))
-            S = S.assign(chrom=chrom, start=st, end=en, n_called=ncall, gene=gene, dist_kb=dkb,
-                         conc=conc, rho=rho)
-            S = S[["group", "se", "rank", "jsd", "fdr", "cn_mean", "gene", "dist_kb", "conc", "rho",
-                   "chrom", "start", "end", "n_called"]]
+            small = set(Hx[(Hx.level == col) & (Hx.n_lines < a.min_group_lines)].group)
+            S = S[~S.group.isin(small)]
+            S = annotate(S, col)
+            keep = ["group", "se", "rank", "jsd", "fdr", "cn_mean", "gene", "dist_kb", "conc", "rho",
+                    "chrom", "start", "end", "n_called"]
+            if labelled:
+                S = with_labels(S, col)
+                # calls that pass only WITHOUT correction, alongside (their own FDR; never merged): amplicon-driven
+                # where the group's copy number at the locus is >= 2, gain-dependent below (FINDINGS §55)
+                U_ = pd.read_csv(f"{prefix}.nocn.{col}.specific.tsv.gz", sep="\t")
+                dep = LAB[(LAB.level == col) & (LAB.cn_status == "amplicon")][["group", "se"]]
+                D = annotate(U_.merge(dep, on=["group", "se"]).query("group not in @small").sort_values(["group", "rank"]), col)
+                D = with_labels(D, col)
+                D["cns"] = np.where(D["cn_mean"] >= 2, "a", "g")
+                D[keep + LCOLS].round({"jsd": 4, "fdr": 4, "cn_mean": 3}).to_csv(
+                    os.path.join(OUT, f"calls_{short}.cndep.tsv"), sep="\t", index=False)
+                ndep = D.groupby("group").size().to_dict()
+                print(f"[stage] {short}: {len(D):,} calls only without CN correction "
+                      f"({int((D.cns == 'a').sum()):,} amplicon-driven, {int((D.cns == 'g').sum()):,} gain-dependent)")
+            S = S[keep + (LCOLS if labelled else [])]
             S.round({"jsd": 4, "fdr": 4, "cn_mean": 3}).to_csv(os.path.join(OUT, f"calls_{short}{suffix}.tsv"),
                                                                sep="\t", index=False)
             for r in S.itertuples():                                   # gene index for the finder (call levels only)
@@ -184,7 +236,15 @@ def main():
                         {"lv": short, "g": r.group, "r": int(r.rank), "fdr": round(float(r.fdr), 4),
                          "cn": round(float(r.cn_mean), 2), "c": r.conc if r.conc != "" else None})
             hsub = Hx[Hx.level == col]
-            out[short] = {r.group: {"n_lines": int(r.n_lines), "n_calls": int(r.n_spec_fdr10)} for r in hsub.itertuples()}
+            out[short] = {r.group: ({"n_lines": int(r.n_lines), "n_calls": 0, "below_min": True} if r.group in small else
+                                    {"n_lines": int(r.n_lines), "n_calls": int(r.n_spec_fdr10)}) for r in hsub.itertuples()}
+            if small:
+                print(f"[stage] {short}{suffix}: {len(small)} groups below {a.min_group_lines} lines list no calls "
+                      f"({int(hsub[hsub.group.isin(small)].n_spec_fdr10.sum()):,} calls left out)")
+            if labelled:
+                for g, v in out[short].items():
+                    v["n_cndep"] = int(ndep.get(g, 0))
+                    v["n_unmasked"] = int(((S.group == g) & (S.cns == "u")).sum())
             print(f"[stage] {short}{suffix}: {len(S):,} calls across {len(out[short])} groups")
         for g in gene_index:
             gene_index[g].sort(key=lambda x: x["r"])
@@ -198,17 +258,17 @@ def main():
         manifest["levels"][short] = {"col": col, "label": label, "kind": "calls",
                                      "n_groups": len(main_groups[short]), "groups": main_groups[short]}
     # ---- analysis variants (the dashboard's Analysis selector): same levels, other scoring runs
-    manifest["variants"] = [{"key": "main", "label": a.main_label, "desc": a.main_desc,
+    manifest["variants"] = [{"key": "main", "label": a.main_label, "desc": a.main_desc, "levels": list(main_groups),
                              "n_calls": {k: sum(v["n_calls"] for v in g.values()) for k, g in main_groups.items()}}]
     for spec in a.variant:
         key, prefix, label, desc = (spec.split("|") + ["", ""])[:4]
         vg = stage_calls(os.path.join(SCORES, prefix), f".{key}")
-        manifest["variants"].append({"key": key, "label": label, "desc": desc, "groups": vg,
+        manifest["variants"].append({"key": key, "label": label, "desc": desc, "groups": vg, "levels": list(vg),
                                      "n_calls": {k: sum(x["n_calls"] for x in g.values()) for k, g in vg.items()}})
 
     # ---- RANK-ONLY levels: stage the top-N rankings (already gene/coord annotated); NO counts
     for short, col, label in RANK_LEVELS:
-        T = pd.read_csv(f"{PERM}.{col}.top_specific.tsv", sep="\t").sort_values(["group", "rank"])
+        T = pd.read_csv(f"{LINEP if short == 'line' else PERM}.{col}.top_specific.tsv", sep="\t").sort_values(["group", "rank"])
         keep = ["group", "se", "rank", "jsd", "fdr", "cn_mean", "nearest_gene", "dist_kb"]
         T = T[keep].rename(columns={"nearest_gene": "gene"})
         # add coords for out-links
@@ -216,7 +276,8 @@ def main():
         T = T.assign(chrom=[x[0] for x in cc], start=[x[1] for x in cc], end=[x[2] for x in cc])
         T.round({"jsd": 4, "fdr": 4, "cn_mean": 3}).to_csv(os.path.join(OUT, f"rank_{short}.tsv"),
                                                           sep="\t", index=False)
-        hsub = H[H.level == col]
+        hsub = (HL if short == "line" else H)
+        hsub = hsub[hsub.level == col]
         groups = {r.group: {"n_lines": int(r.n_lines)} for r in hsub.itertuples()}
         if short == "line":
             # line groups are keyed by DepMap's StrippedCellLineName (e.g. NIHOVCAR3), which is hard to find
@@ -236,12 +297,17 @@ def main():
     # ---- CN ablation (call-based, honest null)
     A = pd.read_csv(f"{PERM}.cn_ablation_calls.tsv", sep="\t")
     abl = {"summary": [], "amplicon": [], "note": ""}
+    staged = {col: {g for g, v in main_groups.get(short, {}).items() if not v.get("below_min")}
+              for short, col, _ in CALL_LEVELS}
+    A = A[[g in staged.get(l, ()) for l, g in zip(A.level, A.group)]]
     for short, col, label in CALL_LEVELS:
         sub = A[A.level == col]
         amp = sub[sub.kind == "amplicon_driven"]
         resc = sub[sub.kind == "rescued"]
-        # counts from the specific dumps (corrected) + the ablation sets
-        n_corr = int(H[(H.level == col)]["n_spec_fdr10"].sum())
+        # counts from the staged calls (corrected) + the ablation sets
+        n_corr = int(sum(v["n_calls"] for v in main_groups.get(short, {}).values()))
+        if not len(sub):
+            continue
         abl["summary"].append({"level": label, "corrected": n_corr,
                                "amplicon_driven": int(len(amp)), "rescued": int(len(resc)),
                                "removed_amplified": int((amp.cn_mean > 1.3).sum()),
@@ -257,7 +323,7 @@ def main():
         if key in seen:
             continue
         seen.add(key)
-        abl["amplicon"].append({"level": "Lineage" if r.level == "OncotreeLineage" else "Disease",
+        abl["amplicon"].append({"level": {"OncotreeLineage": "Lineage", "OncotreePrimaryDisease": "Disease"}.get(r.level, "Subtype"),
                                 "group": r.group, "gene": r.nearest_gene, "cn": round(float(r.cn_mean), 1)})
     write_json("cn_ablation.json", abl)
     print(f"[stage] cn ablation: {len(abl['amplicon'])} distinct amplicon-driven (group,gene)")
@@ -271,7 +337,7 @@ def main():
     P["bin"] = pd.cut(P["dist_kb"], bins=bins, labels=labs, right=False)
     dd = P.groupby("bin", observed=True).agg(n=("concordant", "size"), conc=("concordant", "mean"),
                                              shuf=("shuffled", "mean"), rho=("rho", "median"))
-    conc = {"summary": [{"level": "Lineage" if r.level == "OncotreeLineage" else "Primary disease",
+    conc = {"summary": [{"level": LEVEL_NAME.get(r.level, r.level),
                          "per_pair": round(r.per_pair * 100, 1), "background": round(r.background * 100, 2),
                          "enrichment": round(r.enrichment, 1), "per_se_any": round(r.per_se_any * 100, 1),
                          "nearest": round(r.nearest * 100, 1), "shuffled": round(r.shuffled * 100, 1)}
@@ -283,16 +349,19 @@ def main():
     print("[stage] concordance staged")
 
     # ---- meta / hero numbers
-    n_lineage_calls = int(H[H.level == "OncotreeLineage"]["n_spec_fdr10"].sum())
-    n_disease_calls = int(H[H.level == "OncotreePrimaryDisease"]["n_spec_fdr10"].sum())
+    ncalls = lambda k: int(sum(v["n_calls"] for v in main_groups.get(k, {}).values()))   # noqa: E731  as staged
+    n_lineage_calls, n_disease_calls = ncalls("lineage"), ncalls("disease")
+    n_subtype_calls = ncalls("subtype") if a.subtype_calls else None
     meta = {
         "n_samples": n_columns(os.path.join(RESULTS, "atlas.s3.se_signal.tsv.gz")),
-        "n_lines": int((H.level == "line").sum()), "n_ses": len(coords),
+        "n_lines": int((HL.level == "line").sum()), "n_ses": len(coords),
         "n_lineages": int((H.level == "OncotreeLineage").sum()),
         "n_diseases": int((H.level == "OncotreePrimaryDisease").sum()),
         "n_subtypes": int((H.level == "OncotreeSubtype").sum()),
-        "n_lineage_calls": n_lineage_calls, "n_disease_calls": n_disease_calls,
-        "pull_bu": a.pull_bu, "n_pull": n_columns(os.path.join(RESULTS, "atlas.se_signal.tsv.gz")),
+        "n_lineage_calls": n_lineage_calls, "n_disease_calls": n_disease_calls, "n_subtype_calls": n_subtype_calls,
+        "subtype_calls": bool(a.subtype_calls),
+        "pull_bu": a.pull_bu,
+        "n_pull": a.n_pull if a.n_pull is not None else n_columns(os.path.join(RESULTS, "atlas.se_signal.tsv.gz")),
         "fdr": "label-permutation, B=1000, FDR ≤ 0.10",
     }
     # subtype group sizes (why subtype is rankings-only) and lines per copy-number source
@@ -330,7 +399,7 @@ def main():
     rels = json.load(open(rel_path)) if os.path.exists(rel_path) else []
     entry = {"version": a.release, "date": a.release_date, "title": a.release_title, "notes": a.release_notes,
              **{k: meta[k] for k in ("n_lines", "n_samples", "n_ses", "n_lineages", "n_diseases", "n_subtypes",
-                                     "n_lineage_calls", "n_disease_calls", "n_pull", "cn_sources")}}
+                                     "n_lineage_calls", "n_disease_calls", "n_subtype_calls", "n_pull", "cn_sources")}}
     rels = [r for r in rels if r.get("version") != a.release] + [entry]
     rels.sort(key=lambda r: r["date"])
     write_json("releases.json", rels)
