@@ -7,6 +7,12 @@ lineage. Retention = share of the lineage's v3.0.1 calls (same locus) still call
 Other lineages are reported too: their calls should barely move, since only the target lineage lost experiments.
 
     python3 phase2/analysis/loso_eval.py --runs phase2/analysis/out/loso/runs --sets phase2/analysis/out/loso
+
+v3.1 (loso_submit.sh V31F=1) applies the rule inside the permutation null, with the remaining experiments, so the runs
+are read as written:
+    python3 phase2/analysis/loso_eval.py --rule-in-scores --runs phase2/analysis/out/loso_v31f/runs \
+        --sets phase2/analysis/out/loso_v31f --base phase2/scores_v31f/atlas.s3.perm.OncotreeLineage.specific.tsv.gz \
+        --out phase2/analysis/out/loso_v31f/loso_retention.tsv
 """
 import argparse, importlib.util, os, sys
 import numpy as np
@@ -28,7 +34,11 @@ def main():
     ap.add_argument("--results", default=os.path.join(SECACTS, "phase2/results_v3"))
     ap.add_argument("--pull-set", default=os.path.join(SECACTS, "phase2/data/pull_set.v3.tsv"))
     ap.add_argument("--out", default=os.path.join(SECACTS, "phase2/analysis/out/loso/loso_retention.tsv"))
+    ap.add_argument("--rule-in-scores", action="store_true",
+                    help="the runs already apply the SE-of-its-group rule (v3.1): no post-hoc filter")
     a = ap.parse_args()
+    if a.rule_in_scores:
+        return evaluate(a, lambda r, f: pd.read_csv(f, sep="\t"))
 
     ps = pd.read_csv(a.pull_set, sep="\t")
     lab = cf.labels(ps, os.path.join(DATAROOT, "DepMap/2026q1/Model.csv"),
@@ -43,6 +53,16 @@ def main():
     srx_key = dict(zip(ps["srx"], ps["key"])); srx_key.update(cf.EXTRA_MODEL)
     srx_lin = [lab.at[srx_key[s], LIN] if srx_key.get(s) in lab.index else None for s in pres.columns]
 
+    def filtered(r, f):
+        drop = set(open(os.path.join(a.sets, f"{r.slug}.{r.arm}.srx")).read().split())
+        g = [None if s in drop else x for s, x in zip(pres.columns, srx_lin)]
+        groups = sorted({x for x in g if isinstance(x, str)})
+        cov = cf.coverage(P, A, g, groups)
+        return cf.filter_calls(pd.read_csv(f, sep="\t"), cov, se_idx, {x: j for j, x in enumerate(groups)})[0]
+    evaluate(a, filtered)
+
+
+def evaluate(a, read_run):
     base = pd.read_csv(a.base, sep="\t")
     sets = pd.read_csv(os.path.join(a.sets, "loso_sets.tsv"), sep="\t")
     rows = []
@@ -51,11 +71,7 @@ def main():
         if not os.path.exists(f):
             print(f"[eval] missing {r.slug}.{r.arm}", file=sys.stderr)
             continue
-        drop = set(open(os.path.join(a.sets, f"{r.slug}.{r.arm}.srx")).read().split())
-        g = [None if s in drop else x for s, x in zip(pres.columns, srx_lin)]
-        groups = sorted({x for x in g if isinstance(x, str)})
-        cov = cf.coverage(P, A, g, groups)
-        run, _ = cf.filter_calls(pd.read_csv(f, sep="\t"), cov, se_idx, {x: j for j, x in enumerate(groups)})
+        run = read_run(r, f)
         for lin, b in base.groupby("group"):
             l = run[run.group == lin]
             bs, ls = set(b.se), set(l.se)
