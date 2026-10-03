@@ -2,6 +2,8 @@
 
 ### ▶ [**Explore the atlas: thirtysix.github.io/SE-CaCTS**](https://thirtysix.github.io/SE-CaCTS/)
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23118970.svg)](https://doi.org/10.5281/zenodo.23118970)
+
 Browse the lineage-specific super-enhancers for any of 25 cancer lineages and 56 primary diseases, and each
 of 519 cell lines compared with all lines and with the lines of its subtype, disease and lineage, with copy
 number at each locus, every protein-coding gene within 100 kb (searchable), cross-layer concordance, a per-gene
@@ -222,7 +224,10 @@ current release; `docs/data/releases.json` keeps every release, and the About ta
 
 ## Citation and licence
 
-Cite the archived release on Zenodo; GitHub's "Cite this repository" button reads `CITATION.cff`. The code is
+Cite the archived release on Zenodo: Barker H. *SE-CaCTS: a copy-number-aware atlas of lineage- and
+disease-specific super-enhancers in cancer cell lines.* Zenodo. https://doi.org/10.5281/zenodo.23118970 (all
+versions; v3.0.1 is https://doi.org/10.5281/zenodo.23118971). GitHub's "Cite this repository" button reads
+`CITATION.cff`. The code is
 MIT-licensed (`LICENSE`). Derived data files keep the terms of their sources (ChIP-Atlas, DepMap, Cell Model
 Passports, CCLE; see `DATA_SOURCES.md`); `phase2/data/cn_ccle_snp6.hg38.tsv.gz` is under ODbL 1.0 (its
 `.LICENSE.txt` beside it).

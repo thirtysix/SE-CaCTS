@@ -4,6 +4,14 @@ title: "SE-CaCTS: a copy-number-aware atlas of lineage- and disease-specific sup
 version: v3.0.1
 date-released: 2026-10-03
 license: MIT
+doi: 10.5281/zenodo.23118970
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.23118970
+    description: "Concept DOI: every version"
+  - type: doi
+    value: 10.5281/zenodo.23118971
+    description: "Release v3.0.1"
 repository-code: "https://github.com/thirtysix/SE-CaCTS"
 url: "https://thirtysix.github.io/SE-CaCTS/"
 authors:
