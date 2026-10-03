@@ -239,7 +239,8 @@ current release; `docs/data/releases.json` keeps every release, and the About ta
 
 Cite the archived release on Zenodo: Barker H. *SE-CaCTS: a copy-number-aware atlas of lineage- and
 disease-specific super-enhancers in cancer cell lines.* Zenodo. https://doi.org/10.5281/zenodo.23118970 (all
-versions; v3.0.1 is https://doi.org/10.5281/zenodo.23118971). GitHub's "Cite this repository" button reads
+versions; v3.1 is https://doi.org/10.5281/zenodo.23124053, v3.0.1 is
+https://doi.org/10.5281/zenodo.23118971). GitHub's "Cite this repository" button reads
 `CITATION.cff`. The code is
 MIT-licensed (`LICENSE`). Derived data files keep the terms of their sources (ChIP-Atlas, DepMap, Cell Model
 Passports, CCLE; see `DATA_SOURCES.md`); `phase2/data/cn_ccle_snp6.hg38.tsv.gz` is under ODbL 1.0 (its
