@@ -129,7 +129,12 @@ def main():
     se_genes = {se: [[g, kb(d)] if not o else [g, -(-d // 1000), 1] for g, d, o in v] for se, v in near.items() if v}
     se_lnc = {}
     if a.lnc_gtf:
-        ln = window_genes(catalog, lnc_genes(a.lnc_gtf), W)
+        # a name that is a protein-coding gene here (DepMap expression) and an lncRNA in GENCODE v36 (TMEM78, CCDC39,
+        # SLFN12L) is listed once, as the protein-coding gene
+        lg = lnc_genes(a.lnc_gtf)
+        dup = sorted(set(lg) & set(E.index))
+        ln = window_genes(catalog, {g: v for g, v in lg.items() if g not in E.index}, W)
+        print(f"[75] lncRNAs: {len(dup)} names also protein-coding here, left out as lncRNA: {dup[:8]}")
         se_lnc = {se: [[g, kb(d)] for g, d, o in v if not o] for se, v in ln.items()}
         se_lnc = {se: v for se, v in se_lnc.items() if v}
         print(f"[75] lncRNAs: {len(se_lnc):,} loci have >= 1 HGNC-named lncRNA within {a.window_kb} kb")
