@@ -134,6 +134,10 @@ def main():
                     help="TSV with key and cn_input (the admitted input SRX per line)")
     ap.add_argument("--inferred-slope", type=float, default=0.81)
     ap.add_argument("--blacklist", help="ENCODE hg38 blacklist v2 BED(.gz), for input_inferred")
+    ap.add_argument("--ccma-segments", default=os.path.join(SECACTS, "phase2/data/cn_ccma_wgs.hg38.tsv.gz"),
+                    help="CCMA WGS CNV lifted to hg38 (phase1 script 26) — CN for rows with cn_provider=ccma_wgs")
+    ap.add_argument("--wgs-bins", help="dir of <name>.npz WGS read ratios to a normal reference + index.tsv (key, name) "
+                    "(phase1 script 27) — CN for rows with cn_provider=wgs_reads (FINDINGS §57)")
     ap.add_argument("--lines-meta", default=os.path.join(SECACTS, "phase1/data/lineage_resolved.tsv"),
                     help="Oncotree labels (by CVCL) for lines with no DepMap ModelID; their pull-set key is the CVCL")
     ap.add_argument("--gtf", default=os.path.join(DATAROOT, "0.human_genome/Homo_sapiens.GRCh38.106.chr.gtf.gz"))
@@ -303,7 +307,8 @@ def main():
     cvcl_of = (lines_ps["cn_cvcl"].fillna(lines_ps["cvcl"]) if "cn_cvcl" in lines_ps else lines_ps["cvcl"]).to_dict()
     used = {srx_model.get(s) for s in samples if isinstance(srx_model.get(s), str)}
     by_src = {p: [k for k in used if src_of.get(k, "depmap_wgs") == p]
-              for p in ("depmap_wgs", "cmp_wes", "depmap_mc_wes", "ccle_snp6", "input_inferred")}
+              for p in ("depmap_wgs", "cmp_wes", "depmap_mc_wes", "ccle_snp6", "input_inferred", "ccma_wgs",
+                        "wgs_reads")}
     prov.preload(by_src["depmap_wgs"])
     cmp_prov = mcw_prov = None
     if by_src["cmp_wes"]:
@@ -313,6 +318,15 @@ def main():
         mcw_prov = DepMapMcWesCN(a.mc_wes, a.model_condition, gene_coords)
         mcw_prov.preload(by_src["depmap_mc_wes"])
     ccle_prov = SegmentFileCN(a.ccle_segments, "ccle_snp6") if by_src["ccle_snp6"] else None
+    ccma_prov = SegmentFileCN(a.ccma_segments, "ccma_wgs") if by_src["ccma_wgs"] else None
+    wgs_prov = None
+    if by_src["wgs_reads"]:
+        if not (a.wgs_bins and a.blacklist):
+            sys.exit("[score] wgs_reads lines need --wgs-bins and --blacklist")
+        wi = pd.read_csv(os.path.join(a.wgs_bins, "index.tsv"), sep="\t")
+        # measured, so no compression slope; NaN = a bin the normal reference cannot map, kept missing
+        wgs_prov = BinnedInputCN(a.wgs_bins, dict(zip(wi["key"], wi["name"])), blacklist=load_blacklist(a.blacklist),
+                                 slope=1.0, zero_is_deletion=False)
     inf_prov = None
     if by_src["input_inferred"]:
         if not (a.inferred_bins and a.blacklist):
@@ -327,6 +341,10 @@ def main():
             return ccle_prov.track(key)
         if src == "input_inferred":
             return inf_prov.track(key)
+        if src == "ccma_wgs":
+            return ccma_prov.track(key)
+        if src == "wgs_reads":
+            return wgs_prov.track(key)
         if src == "cmp_wes":
             return cmp_prov.track(cvcl_of[key])
         if src == "depmap_mc_wes":

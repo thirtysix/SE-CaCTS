@@ -322,16 +322,21 @@ class BinnedInputCN(CNProvider):
     DepMap WGS: ratio -> ratio ** slope (log2 truth ~ 0.81 x log2 inferred, FINDINGS §24).
 
     `input_for` maps a scoring key -> the admitted input SRX (the line's most coherent input).
+
+    Also reads measured CN from subsampled WGS (phase1/scripts/27_wgs_cn.py: reads per bin divided by a normal
+    reference) with slope=1 and zero_is_deletion=False: there NaN marks a bin the reference cannot map, which must
+    stay missing, while a true 0 (reference reads, none in the line) is still a deletion.
     """
 
-    def __init__(self, bins_dir, input_for, blacklist=None, slope=0.81, bin_size=50_000):
+    def __init__(self, bins_dir, input_for, blacklist=None, slope=0.81, bin_size=50_000, zero_is_deletion=True):
         self.bins_dir = bins_dir
         self.input_for = dict(input_for)
         self.slope = slope
         grid = {c: (np.arange(int(L // bin_size), dtype=np.int64) * bin_size,
                     np.arange(1, int(L // bin_size) + 1, dtype=np.int64) * bin_size)
                 for c, L in HG38_AUTOSOMES.items()}
-        self._inf = ChipInputInferredCN({}, blacklist=blacklist or {}, bin_size=bin_size)
+        self._inf = ChipInputInferredCN({}, blacklist=blacklist or {}, bin_size=bin_size,
+                                        zero_is_deletion=zero_is_deletion)
         self._inf._grid, self._inf._bmask, self._inf._gc = grid, blacklist_mask(grid, blacklist or {}), None
         self._cache = {}
 

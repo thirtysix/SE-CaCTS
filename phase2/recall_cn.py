@@ -58,6 +58,8 @@ def main():
     ap.add_argument("--inferred-map", default=os.path.join(SECACTS, "phase2/analysis/out/cn_admissions.tsv"))
     ap.add_argument("--inferred-slope", type=float, default=0.81)
     ap.add_argument("--blacklist")
+    ap.add_argument("--ccma-segments", default=os.path.join(SECACTS, "phase2/data/cn_ccma_wgs.hg38.tsv.gz"))
+    ap.add_argument("--wgs-bins", help="WGS read ratios + index.tsv (phase1 script 27), for cn_provider=wgs_reads")
     ap.add_argument("--gtf", default=os.path.join(DATAROOT, "0.human_genome/Homo_sapiens.GRCh38.106.chr.gtf.gz"))
     ap.add_argument("--gene-cache", default=cache_path("gene_coords.GRCh38.106.tsv"))
     ap.add_argument("--force", action="store_true", help="rewrite existing outputs")
@@ -71,7 +73,8 @@ def main():
     man = man[man["key"].isin(mine)].sort_values(["key", "srx"])
     lines = man.drop_duplicates("key").set_index("key")
     by_src = {p: [k for k in lines.index if lines.at[k, "cn_provider"] == p]
-              for p in ("depmap_wgs", "cmp_wes", "depmap_mc_wes", "ccle_snp6", "input_inferred")}
+              for p in ("depmap_wgs", "cmp_wes", "depmap_mc_wes", "ccle_snp6", "input_inferred", "ccma_wgs",
+                        "wgs_reads")}
     print(f"[recall] task {a.task}/{a.ntasks}: {len(man)} samples on {len(lines)} lines; "
           + ", ".join(f"{p}={len(v)}" for p, v in by_src.items()), file=sys.stderr, flush=True)
 
@@ -81,7 +84,15 @@ def main():
         prov.preload(by_src["depmap_wgs"])
     cvcl_of = {k: (lines.at[k, "cn_cvcl"] if isinstance(lines.at[k, "cn_cvcl"], str) else lines.at[k, "cvcl"])
                for k in lines.index}
-    cmp_prov = mcw_prov = ccle_prov = inf_prov = None
+    cmp_prov = mcw_prov = ccle_prov = inf_prov = ccma_prov = wgs_prov = None
+    if by_src["ccma_wgs"]:
+        ccma_prov = SegmentFileCN(a.ccma_segments, "ccma_wgs")
+    if by_src["wgs_reads"]:
+        if not (a.wgs_bins and a.blacklist):
+            sys.exit("[recall] wgs_reads lines need --wgs-bins and --blacklist")
+        wi = pd.read_csv(os.path.join(a.wgs_bins, "index.tsv"), sep="\t")
+        wgs_prov = BinnedInputCN(a.wgs_bins, dict(zip(wi["key"], wi["name"])), blacklist=load_blacklist(a.blacklist),
+                                 slope=1.0, zero_is_deletion=False)
     if by_src["cmp_wes"]:
         cmp_prov = CellModelPassportsWesCN(a.cmp_wes, a.cmp_model_list, cache_dir=cache_path("cmp_wes"))
         cmp_prov.preload([cvcl_of[k] for k in by_src["cmp_wes"]])
@@ -103,6 +114,10 @@ def main():
             return ccle_prov.track(key)
         if src == "input_inferred":
             return inf_prov.track(key)
+        if src == "ccma_wgs":
+            return ccma_prov.track(key)
+        if src == "wgs_reads":
+            return wgs_prov.track(key)
         if src == "cmp_wes":
             return cmp_prov.track(cvcl_of[key])
         if src == "depmap_mc_wes":
