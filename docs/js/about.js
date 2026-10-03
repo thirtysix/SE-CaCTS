@@ -19,7 +19,9 @@ const About = (() => {
                                           : ["measured copy number for every line:", cn]],
       ["Specificity score", ["CaCTS Jensen-Shannon divergence at each Oncotree level:", "lineage, primary disease, subtype, cell line"]],
       ["Significance", ["label-permutation FDR (1,000 shuffles, group sizes kept);", `${fmt((m.calibration || {}).perm_shuffled_calls)} calls on shuffled labels`]],
-      ["Specific super-enhancers", [`${fmt(m.n_lineage_calls)} lineage and ${fmt(m.n_disease_calls)} disease calls (FDR ≤ 0.10),`, "checked by CN ablation and expression concordance"]],
+      ["Specific super-enhancers", [m.n_subtype_calls != null
+        ? `${fmt(m.n_lineage_calls)} lineage, ${fmt(m.n_disease_calls)} disease and ${fmt(m.n_subtype_calls)} subtype calls (FDR ≤ 0.10),`
+        : `${fmt(m.n_lineage_calls)} lineage and ${fmt(m.n_disease_calls)} disease calls (FDR ≤ 0.10),`, "checked by CN ablation and expression concordance"]],
     ];
     const inputs = [                                   // [target step index, title, subtitle]
       m.pull_desc ? [0, "ChIP-Atlas, SRA, GEO", "coverage, reads, sample metadata"] : [0, "ChIP-Atlas", "bigWig coverage + peaks"],
@@ -92,13 +94,13 @@ const About = (() => {
       super-enhancers at permutation FDR ≤ 0.10.</p>
       <div class="scroll" style="margin:0 0 12px"><table class="tbl">
         <thead><tr><th>release</th><th>date</th><th class="num">cell lines</th><th class="num">samples</th>
-          <th class="num">SE loci</th><th class="num">lineage calls</th><th class="num">disease calls</th>
+          <th class="num">SE loci</th><th class="num">lineage calls</th><th class="num">disease calls</th><th class="num">subtype calls</th>
           <th>copy number</th></tr></thead>
         <tbody>${rels.slice().reverse().map(r => `<tr>
           <td><b>${U.esc(r.version)}</b></td><td class="mono" style="white-space:nowrap">${U.esc(r.date)}</td>
           <td class="num mono">${fmt(r.n_lines)}</td><td class="num mono">${fmt(r.n_samples)}</td>
           <td class="num mono">${fmt(r.n_ses)}</td><td class="num mono">${fmt(r.n_lineage_calls)}</td>
-          <td class="num mono">${fmt(r.n_disease_calls)}</td>
+          <td class="num mono">${fmt(r.n_disease_calls)}</td><td class="num mono">${r.n_subtype_calls != null ? fmt(r.n_subtype_calls) : "–"}</td>
           <td>${Object.entries(r.cn_sources || {}).filter(([, v]) => v > 0).map(([k, v]) => `${v} ${U.esc(k)}`).join(", ")}</td>
         </tr>`).join("")}</tbody></table></div>
       <ul>${rels.slice().reverse().map(r => `<li><b>${U.esc(r.version)}</b> (${U.esc(r.date)})${r.title ? `: ${U.esc(r.title)}` : ""}.
@@ -111,8 +113,9 @@ const About = (() => {
       genes defining a cell's identity. SE-CaCTS asks, for every SE, <em>how specific is it to one cancer lineage,
       disease or cell line?</em>, and reads out the SEs that most distinguish each group.</p>
       <ul>
-        <li><b>SE atlas:</b> specific SEs per lineage and primary disease (calls), per subtype (rankings), and per
-          cell line, compared with all lines and with the other lines of its lineage, disease and subtype.</li>
+        <li><b>SE atlas:</b> specific SEs per lineage, primary disease and subtype (calls, each labelled by how copy
+          number shapes it), and per cell line, compared with all lines and with the other lines of its lineage,
+          disease and subtype.</li>
         <li><b>Genomic View (IGV):</b> any line in a genome browser (${U.link("igv", "igv.js")}), with those
           comparisons as tracks, its copy number and its H3K27ac coverage.</li>
         <li><b>SE finder</b>, <b>CN ablation</b> and <b>Concordance</b>: a per-gene lookup, what copy-number
@@ -126,8 +129,11 @@ const About = (() => {
           experiments on 98% of keep-or-drop decisions). Drug-treated, knocked-down and otherwise perturbed
           experiments, input controls and other marks are removed.</li>
         <li><b>SE calling with ${U.link("cnrose", "<code>cnrose</code>")}</b>, a bigWig-native, copy-number-aware
-          reimplementation of ${U.link("rose", "ROSE")}, validated bit-for-bit against ${U.link("rose2", "ROSE2")}.</li>
-        <li><b>Union atlas.</b> Per-sample SE calls are merged into one catalogue (≥ 25% reciprocal overlap) of
+          reimplementation of ${U.link("rose", "ROSE")}, validated bit-for-bit against ${U.link("rose2", "ROSE2")}.
+          The super-enhancer cutoff is set on copy-number-corrected signal and applied to the uncorrected signal, so an
+          amplicon cannot raise the bar for every other locus in its sample; SEs that pass only through their extra
+          copies are kept and labelled (gain, amplified, high-level) rather than dropped.</li>
+        <li><b>Union atlas.</b> Per-sample SE calls are merged into one catalogue (any overlap) of
           <b>${fmt(m.n_ses)} SE loci</b>; signal is quantified for every locus in every sample, normalized across
           studies (${U.link("s3norm", "S3norm")}) behind a QC gate, and collapsed from ${fmt(m.n_samples)} experiments to
           <b>${fmt(m.n_lines)} cell lines</b>.</li>
@@ -161,23 +167,29 @@ const About = (() => {
       group label (group sizes kept), recompute the score, repeat 1,000 times, and take a Benjamini-Hochberg FDR
       against that null. On shuffled labels, where nothing real exists, it makes ${fmt(cal.perm_shuffled_calls)}
       calls; the normal-approximation null it replaced called ${cal.analytic_shuffled_pct}% of tests.</p>
-      <p><b>Copy number</b> is divided out at scoring time. At the group level this mostly <b>rescues</b> real,
-      copy-neutral specificity that amplicon variance was hiding in the null (see CN ablation).</p>
-      <p><b>What counts as a specific super-enhancer.</b> Every locus that any experiment calls a super-enhancer is
-      scored in every line, so a group can have the most H3K27ac at a locus that none of its own experiments calls a
-      super-enhancer. Since release v3.0.1 a call needs both: the group's signal is specific (permutation FDR ≤ 0.10)
-      <em>and</em> at least one experiment of the group (lineage, disease, subtype, or the line itself) calls a
-      super-enhancer overlapping the locus. The rule removed 18% of lineage calls and 74% of per-line calls; FDRs are
-      those computed over every locus.</p>
-      <p><b>Levels.</b> Calls at <b>lineage</b> and <b>primary disease</b>. <b>Subtypes</b> are rankings only:
-      ${m.n_subtypes_single} of ${m.n_subtypes} hold a single line and ${m.n_subtypes_le4} hold four or fewer.
+      <p><b>Copy number</b> is used at calling (above) and divided out at scoring. Every comparison is scored twice,
+      with and without correction, over the same loci, and the two are never merged into one FDR: a call is
+      <b>CN-robust</b> when both pass and <span class="cns-chip cns-u" style="margin:0">CN-unmasked</span> when only the
+      corrected score passes (amplification elsewhere was hiding it). Calls that pass only <em>without</em> correction
+      are not counted; they are listed beside the calls (CN label ▸ Only without correction) as
+      <span class="cns-chip cns-a" style="margin:0">amplicon-driven</span> where the group carries the locus at copy
+      number 2 or more, <span class="cns-chip cns-g" style="margin:0">gain-dependent</span> below that.</p>
+      <p><b>What counts as a specific super-enhancer.</b> A call needs both: the group's signal is specific
+      (permutation FDR ≤ 0.10) <em>and</em> at least one experiment of the group (lineage, disease, subtype, or the
+      line itself) calls a super-enhancer overlapping the locus. From v3.1 the permutation null applies the same rule
+      (each shuffled group is tested only where its own members call an SE): restricting the tests after the fact,
+      without conditioning the null, gave 155 false calls on shuffled labels in a simulation.</p>
+      <p><b>Levels.</b> Calls at <b>lineage</b>, <b>primary disease</b> and <b>subtype</b>, for groups of at least two
+      cell lines: a group of one line lists no calls, because its specificity is that line's own, which the cell-line
+      level tests with two independent studies (${m.n_subtypes_single} of ${m.n_subtypes} subtypes hold a single line).
       <b>Cell lines</b> are scored by what their independent studies agree on (the value at least 75% of them
       reach) and compared four ways: with all lines, and with the other lines of the same lineage, disease and
       subtype (shuffling labels only among those relatives, so an SE shared across the group is not called). A
       comparison is tested only with at least two independent studies and at least four lines in the group;
       shuffled labels give no calls in any of the four.</p>
-      <p><b>Analysis selector.</b> The lineage and disease calls can be switched to the atlas scored without the
-      lines whose copy number is inferred, or without copy-number correction at all.</p>`)}
+      <p><b>Analysis selector.</b> The group calls can be switched to the atlas scored without the lines whose copy
+      number is inferred (lineage and disease), without copy-number correction at all, or with the treated
+      experiments added back on the same loci.</p>`)}
 
     ${card("Reading the results", `<ul>
         <li><b>One table per cell line.</b> Rows are the SEs specific vs all lines, ranked by one score; each
@@ -194,16 +206,19 @@ const About = (() => {
           TMEM121) are bystanders. <span class="conc-badge" style="margin:0">⇌</span> marks a gene that is itself
           specific to the group in DepMap expression; the Concordance tab is the aggregate check.</li>
         <li><b>Rows near one gene often tile one SE domain</b> (↳ tiles #N): count domains, not rows.</li>
-        <li><span class="flag-chip" style="margin:0">⚠</span> marks known artifact classes: loci on chrY (presence
-          follows the line's sex) and copy number below 0.3 (deep deletions), removed in the next release.</li>
+        <li><b>Copy-number labels</b> sit beside the copy number. <span class="cns-chip cns-sel" style="margin:0">SE via
+          gain 3/5</span> says that the group's experiments call the super-enhancer only through extra copies (3 of the 5
+          that call it); on corrected signal it falls below the cutoff. The specificity call itself can still be
+          CN-robust: AR in prostate lines is one. Hover a label for its copy number and the source.</li>
       </ul>`)}
 
     ${card("What is NOT claimed", `<ul>
         <li>Any count from the analytic (normal-approximation) null.</li>
-        <li>Subtype-level calls: their number depends on how the multiple-testing correction is pooled.</li>
+        <li>Specificity for a group of one cell line (no calls are listed for it).</li>
+        <li>That an amplicon-driven or gain-dependent locus is lineage identity: it passes only without copy-number
+          correction.</li>
         <li>That a line-level specific locus is a super-enhancer in that line (see <b>Called</b>).</li>
         <li>That an SE regulates any listed gene (nearest or not), or that each row is an independent element.</li>
-        <li>Loci flagged <span class="flag-chip" style="margin:0">⚠</span>.</li>
       </ul>`)}
 
     ${relBody ? card("Releases", relBody, "span2", "releases") : ""}

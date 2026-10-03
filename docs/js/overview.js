@@ -4,28 +4,31 @@ const Overview = (() => {
     const meta = await DataLoader.loadJSON("data/meta.json");
 
     U.el("ov-stats").innerHTML = [
-      [meta.n_ses.toLocaleString(), "", "super-enhancer loci in the atlas", "the union catalogue of super-enhancers across all samples (≥25% reciprocal-overlap merge)"],
+      [meta.n_ses.toLocaleString(), "", "super-enhancer loci in the atlas", meta.subtype_calls
+        ? "the union catalogue of super-enhancers across all samples, called with and without copy-number correction and merged on any overlap"
+        : "the union catalogue of super-enhancers across all samples (≥25% reciprocal-overlap merge)"],
       [meta.n_lines, "", "cancer cell lines, copy-number corrected", `distinct cancer cell lines with QC-passed H3K27ac and copy number (${Object.entries(meta.cn_sources || {}).map(([k, v]) => `${v} ${k}`).join(", ")}); replicate experiments are collapsed to the line`],
       [meta.n_samples.toLocaleString(), "", "QC-passed H3K27ac experiments", `ChIP-Atlas H3K27ac experiments passing the ≥2,000-peak QC gate (of ${meta.n_pull.toLocaleString()} pulled)`],
       [(meta.calibration ? meta.calibration.perm_shuffled_calls : 0).toLocaleString(), "good", `false calls on shuffled labels<br>(the analytic null gave ${meta.calibration ? meta.calibration.analytic_shuffled_pct : 6.05}%)`, `the calibration test: run the whole procedure on data whose group labels are shuffled, so nothing real exists. A working FDR calls ≈ nothing, the permutation null does; the normal-approximation null called ${meta.calibration ? meta.calibration.analytic_shuffled_pct : 6.05}% of ${meta.calibration ? meta.calibration.n_tests.toLocaleString() : ""} lineage tests`],
     ].map(([k, cls, l, t]) => `<div class="stat" title="${U.esc(t)}"><div class="k ${cls}">${k}</div><div class="l">${l}</div></div>`).join("");
 
-    // panel-at-a-glance: which resolutions carry CALLS vs rankings only
+    // panel-at-a-glance: which resolutions carry CALLS vs rankings only (subtype carries calls from v3.1)
+    const item = ([n, l, t]) => `<div class="ps-item" title="${U.esc(t)}"><span class="ps-n">${n}</span><span class="ps-l">${l}</span></div>`;
+    const sub = [meta.n_subtypes, "subtypes", `OncotreeSubtype groups, ${meta.n_subtypes_single} of ${meta.n_subtypes} contain a single cell line`
+      + (meta.subtype_calls ? "; a call needs a super-enhancer in the subtype's own experiments, and the null applies the same rule" : "")];
     U.el("ov-panel").innerHTML =
       `<span class="ps-cap" title="resolutions where a significance call is supported by the permutation null">Calls</span>` +
       [[meta.n_lineages, "lineages", "OncotreeLineage groups (e.g. Breast, Lung, Ovary/Fallopian Tube)"],
-       [meta.n_diseases, "primary diseases", "OncotreePrimaryDisease groups (e.g. Invasive Breast Carcinoma)"]].map(([n, l, t]) =>
-        `<div class="ps-item" title="${U.esc(t)}"><span class="ps-n">${n}</span><span class="ps-l">${l}</span></div>`).join("") +
-      `<span class="ps-cap" style="margin-left:8px" title="rankings are shown but significance is NOT called, because most subtypes have too few cell lines">Rankings only</span>` +
-      [[meta.n_subtypes, "subtypes", `OncotreeSubtype groups, ${meta.n_subtypes_single} of ${meta.n_subtypes} contain a single cell line`]].map(([n, l, t]) =>
-        `<div class="ps-item" title="${U.esc(t)}"><span class="ps-n">${n}</span><span class="ps-l">${l}</span></div>`).join("") +
+       [meta.n_diseases, "primary diseases", "OncotreePrimaryDisease groups (e.g. Invasive Breast Carcinoma)"]].map(item).join("") +
+      (meta.subtype_calls ? item(sub)
+        : `<span class="ps-cap" style="margin-left:8px" title="rankings are shown but significance is NOT called, because most subtypes have too few cell lines">Rankings only</span>` + item(sub)) +
       `<span class="ps-cap" style="margin-left:8px" title="each line compared with all lines and with its subtype, primary disease and lineage; called where it has two independent studies and at least four lines to compare with">Per line</span>` +
       [[meta.n_lines, "cell lines", "four comparisons per line (SE Atlas, cell-line level, and the Genomic View)"]].map(([n, l, t]) =>
         `<div class="ps-item" title="${U.esc(t)}"><span class="ps-n">${n}</span><span class="ps-l">${l}</span></div>`).join("");
 
     U.el("ov-guide").innerHTML = [
       ["▦", "atlas", "SE atlas",
-        "The core view. For any lineage or primary disease, the super-enhancers most specific to it, ranked by JSD, with the permutation FDR, the mean copy number at the locus, the protein-coding genes within 100 kb, the SE length and coordinates (each linked to the UCSC browser), and a ⇌ badge where the gene is <em>also</em> specific in expression. Filter by gene, tighten the FDR cutoff, or drop to subtype rankings or a single cell line, where each super-enhancer carries an FDR against all lines and against the lines of its lineage, disease and subtype. Narrow the list to one lineage, disease or subtype to browse a group's cell lines without knowing their names."],
+        "The core view. For any lineage, primary disease or subtype, the super-enhancers most specific to it, ranked by JSD, with the permutation FDR, the mean copy number at the locus and its copy-number label, the genes within 100 kb, the SE length and coordinates (each linked to the UCSC browser), and a ⇌ badge where the gene is <em>also</em> specific in expression. Filter by gene, copy-number label or FDR, or drop to a single cell line, where each super-enhancer carries an FDR against all lines and against the lines of its lineage, disease and subtype. Narrow the list to one lineage, disease or subtype to browse a group's cell lines without knowing their names."],
       ["≣", "line", "Genomic View (IGV)",
         "Any of the cell lines in a genome browser: the super-enhancers it calls, those specific to it in each of the four comparisons, its copy number and its H3K27ac coverage. Click a row, or a gene in the SE atlas, to jump to that super-enhancer."],
       ["⊘", "cn", "CN ablation",
@@ -33,7 +36,7 @@ const Overview = (() => {
       ["⇌", "concordance", "Concordance",
         "The cross-layer validation. Genes next to a group-specific super-enhancer are themselves group-specific in DepMap expression far above chance, and the concordance decays with SE→gene distance while a shuffled control stays flat, the signature of a local regulatory link."],
       ["⌕", "finder", "SE finder",
-        "Look up a gene by symbol: every lineage and disease where a super-enhancer near it is group-specific, with its rank and cross-layer concordance mark."],
+        "Look up a gene by symbol: every lineage, disease and subtype where a super-enhancer near it is group-specific, with its rank and cross-layer concordance mark."],
       ["ⓘ", "about", "About & methods",
         "How the atlas is built, the label-permutation FDR, the data sources, and an explicit list of what is deliberately <em>not</em> claimed."],
     ].map(([i, tab, t, s]) => `<a href="#${tab}" title="go to ${t}"><span class="gi">${i}</span><span class="gt"><b>${t}</b><small>${s}</small></span></a>`).join("");

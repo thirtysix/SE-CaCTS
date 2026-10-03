@@ -1,5 +1,7 @@
 # SE-CaCTS — defensible results
 
+> **This document describes the v2 atlas.** For the current release (v3.1) see the README.
+
 **As of 2026-09-28 (v2 atlas).** This is the claims document: what the project can currently assert, at
 what resolution, and with what caveats. It is deliberately narrower than the raw outputs.
 

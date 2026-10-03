@@ -54,11 +54,13 @@
         Jensen–Shannon divergence. Significance uses a <b>label-permutation null</b>; the analytic
         approximation it replaces failed calibration outright (5–6% false calls on shuffled labels).</p>
         <div class="lede-grid">
-          <div class="lede-point"><span class="lp-lab">Calls:</span> at the <b>lineage</b> and
-          <b>primary-disease</b> levels, and per <b>cell line</b> against all lines and its relatives, where it
-          has two independent studies (permutation FDR ≤ 0.10), and only where the group itself calls a super-enhancer.</div>
-          <div class="lede-point"><span class="lp-lab">Rankings only:</span> at <b>subtype</b> level: most
-          subtypes hold too few lines for a significance call.</div>
+          <div class="lede-point"><span class="lp-lab">Calls:</span> at the <b>lineage</b>, <b>primary-disease</b>
+          and <b>subtype</b> levels for groups of two or more lines, and per <b>cell line</b> against all lines and its
+          relatives, where it has two independent studies (permutation FDR ≤ 0.10), and only where the group itself
+          calls a super-enhancer.</div>
+          <div class="lede-point"><span class="lp-lab">Copy number:</span> every call is scored with and without
+          correction and labelled: <b>CN-robust</b>, <b>CN-unmasked</b> (only with it), and, listed separately, calls
+          that pass only <b>without</b> it (amplicon-driven, gain-dependent).</div>
         </div>
       </div>
       <div class="stat-grid" id="ov-stats"></div>
@@ -82,10 +84,11 @@
       <div class="phead wide"><div class="eyebrow">Explore</div><h1>Super-enhancer atlas</h1>
         <p class="lede">The most group-specific super-enhancers for any group, with the copy number at each
         locus and the protein-coding genes within 100 kb (nearest first). Lower JSD = more specific (rank 1 = most specific). The <b>copy-number</b>
-        column flags amplicon context: a high value means the locus is amplified in this group's lines.</p>
+        column flags amplicon context: a high value means the locus is amplified in this group's lines, and its labels say
+        whether the call needs copy-number correction (CN-unmasked) or the SE needs its extra copies (SE via gain / amplification).</p>
       </div>
       <div class="controls">
-        <span class="ctl-label" title="resolution: calls at lineage, primary disease and cell line; subtype is rankings only">Level</span>
+        <span class="ctl-label" title="resolution: calls at lineage, primary disease, subtype and cell line">Level</span>
         <div class="seg" id="atlas-level" role="tablist"></div>
         <div class="combo" id="atlas-combo">
           <input id="atlas-group" class="sel combo-input" type="text" role="combobox" aria-autocomplete="list"
@@ -97,8 +100,10 @@
           title="filter the table to super-enhancers with a protein-coding gene within 100 kb whose name contains this text (e.g. 'HNF', 'CDX', 'IGH')">
         <span class="ctl-label" id="atlas-fdr-wrap" style="display:none" title="tighten the specificity cutoff on the permutation FDR: every call already passes ≤ 0.10, so lower values keep only the most confidently specific super-enhancers">FDR ≤
           <span class="seg" id="atlas-fdr" role="tablist" style="margin-left:8px"></span></span>
+        <label class="ctl-label" id="atlas-cn-wrap" style="display:none">CN label
+          <select id="atlas-cn" class="sel" style="margin-left:8px"></select></label>
         <button id="atlas-dl" class="dl-btn" title="download the current (filtered + sorted) view as TSV">⬇ TSV</button>
-        <label class="ctl-label" id="atlas-variant-wrap" title="which scoring run the lineage and disease calls come from">Analysis
+        <label class="ctl-label" id="atlas-variant-wrap" title="which scoring run the group calls come from">Analysis
           <select id="atlas-variant" class="sel" style="margin-left:8px"></select><span class="info-i" id="atlas-variant-info">ⓘ</span></label>
       </div>
       <div class="controls scope-row" id="atlas-scope" style="display:none"></div>
@@ -118,7 +123,7 @@
             <th data-sort="cn_mean" title="mean copy-number ratio at the SE across this group's lines (1 = neutral; >1.3 = amplified, shown in red). Click to sort.">Copy no.</th>
             <th title="genomic locus start–end (GRCh38); links to the UCSC browser">Locus</th>
             <th data-sort="len" title="super-enhancer length (end − start). Distinct entries near one gene often tile a single SE domain. Click to sort.">Length</th>
-            <th data-sort="n_called" title="number of experiments in which this locus was itself called a super-enhancer. A low value (e.g. 1 beside a 74) marks a single-sample sub-peak of a broader domain. Click to sort.">Called</th>
+            <th data-sort="n_called" title="number of experiments whose super-enhancer calls (copy-number-aware, including those that need gain or amplification) cover this locus. A low value (e.g. 1 beside a 74) marks a single-sample sub-peak of a broader domain. Click to sort.">Called</th>
           </tr></thead>
           <tbody id="atlas-body"></tbody>
         </table></div></div>

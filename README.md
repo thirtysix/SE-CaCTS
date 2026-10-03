@@ -4,11 +4,10 @@
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23118970.svg)](https://doi.org/10.5281/zenodo.23118970)
 
-Browse the lineage-specific super-enhancers for any of 25 cancer lineages and 56 primary diseases, and each
-of 519 cell lines compared with all lines and with the lines of its subtype, disease and lineage, with copy
-number at each locus, every protein-coding gene within 100 kb (searchable), cross-layer concordance, a per-gene
-lookup and a genome browser. No
-install, no backend.
+Browse the specific super-enhancers of 25 cancer lineages, 56 primary diseases and 103 subtypes, and of each of
+510 cell lines compared with all lines and with the lines of its subtype, disease and lineage, with copy number
+and a copy-number label at each locus, every gene within 100 kb (searchable), cross-layer concordance, a per-gene
+lookup and a genome browser. No install, no backend.
 
 [![SE-CaCTS dashboard](assets/screenshots/dashboard-overview.png)](https://thirtysix.github.io/SE-CaCTS/)
 
@@ -18,25 +17,37 @@ epigenomic analog of what CaCTS does for master transcription factors.*
 
 | | | |
 |---|---|---|
-| **2,422** | untreated or control H3K27ac experiments | from ChIP-Atlas, plus SRA data it lacks run through its own v1 pipeline |
-| **46,443** | union super-enhancer loci | in the scored, QC-gated catalogue |
-| **519** | cancer cell lines | after QC, each with copy number, across **25** Oncotree lineages and **56** primary diseases |
-| **15,324** | lineage-specific super-enhancers | in **24 of 25** lineages, at a calibrated permutation FDR ≤ 0.10, each a super-enhancer in its own lineage |
-| **13,950** | disease-specific super-enhancers | in **49 of 56** primary diseases, same rule |
+| **2,188** | untreated or control H3K27ac experiments | from ChIP-Atlas, plus SRA data it lacks run through its own v1 pipeline |
+| **33,561** | union super-enhancer loci | called with and without copy-number correction, merged on any overlap |
+| **510** | cancer cell lines | after QC (1,756 experiments), each with copy number, across **25** Oncotree lineages and **56** primary diseases |
+| **13,754** | lineage-specific super-enhancers | in **23 of 25** lineages, at a calibrated permutation FDR ≤ 0.10, each a super-enhancer in its own lineage |
+| **15,699** | disease-specific super-enhancers | in **35 of 56** primary diseases, same rule, groups of two or more lines |
+| **10,971** | subtype-specific super-enhancers | in **58 of 103** subtypes, same rule |
 
-The scored atlas is the QC-gated arm: **1,945** of those experiments, over **46,443** loci, collapsed to
-the 519 cell lines above. Copy number comes from DepMap WGS for 282 lines, Cell Model Passports WES for 133,
-DepMap WES for 21 and CCLE SNP6 for 3, and is inferred from ChIP input for 80 (a weaker correction; the
-dashboard's Analysis selector shows the atlas without those lines). This is the **v3.0.1** atlas (2026-09-30):
-**baseline only**, meaning drug-treated, knocked-down and otherwise perturbed experiments, input controls and
-other marks were removed after every experiment's GEO record was read. The v2 atlas (386 lines, treated
-experiments included) is kept in `phase2/results_v2/` and `phase2/scores_v2/`; 87.8% of its lineage calls
-reappear in v3, and no quality measure degraded (calibration, expression concordance, master-regulator
-recovery). **v3.0.1** adds a rule: a specific locus must also be a super-enhancer in its group, i.e. at least one
-experiment of the lineage, disease or line calls a super-enhancer overlapping it
-(`phase2/scripts/74_called_filter.py`). Scoring measures signal at every locus any experiment calls, so before
-this 18% of lineage calls and 74% of per-line calls were loci where the group had the most H3K27ac but called no
-super-enhancer. Master regulators found in their own lineage: 19 of 22 (HNF4A drops out).
+This is the **v3.1** atlas (2026-10-03). Copy number comes from DepMap WGS for 312 lines, Cell Model Passports WES
+for 103, DepMap WES for 20 and CCLE SNP6 for 3, and is inferred from ChIP input for 72 (a weaker correction; the
+dashboard's Analysis selector shows the atlas without those lines). What changed from v3.0.1:
+
+- **Copy-number-aware calling.** Each sample's super-enhancer cutoff is set on copy-number-corrected signal and
+  applied to the uncorrected signal, so an amplicon cannot raise the bar for every other locus; SEs that pass only
+  through their extra copies are kept and labelled (gain, amplified, high-level) instead of dropped.
+- **Two statistics, never merged.** Every call is scored with and without copy-number correction over the same
+  loci. Of the 13,754 lineage calls, 11,546 pass both (**CN-robust**) and 2,208 only with correction
+  (**CN-unmasked**). The 804 that pass only without correction are listed beside them, not counted: 127
+  **amplicon-driven** (copy number ≥ 2, e.g. MYCN in neuroblastoma, MYC at 8q24) and 677 **gain-dependent**.
+- **The "SE of its group" rule is in the permutation null**: each shuffled group is tested only where its own
+  experiments call a super-enhancer (restricting the tests afterwards, without conditioning the null, gave 155 false
+  calls on shuffled labels in a simulation). Shuffled labels give no calls at any level.
+- **Subtypes have calls.** With the rule in the null, subtype counts no longer swing with how the multiple-testing
+  correction is pooled. A group of one cell line lists no calls: its specificity is that line's, which the
+  cell-line level tests with two independent studies.
+- **Data:** experiments relabelled with their study's context (73 no longer count as baseline), DepMap WGS used
+  wherever it exists, 7 misidentified lines dropped, chrY not scored.
+- Master regulators found in their own lineage: **21 of 22** (PAX8 is the one missed). AR returns in prostate: a
+  CN-robust call whose super-enhancer the prostate lines call only through AR amplification.
+
+The previous release, v3.0.1 (519 lines, 15,324 lineage calls, as presented at the FCI Symposium 2026), is the
+GitHub release `v3.0.1`, archived as https://doi.org/10.5281/zenodo.23118971.
 
 ---
 
@@ -112,6 +123,8 @@ can be picked up cold.
 ---
 
 ## Results at a glance (`RESULTS.md` is the authority)
+
+*These bullets describe the v2 atlas (386 lines); the current release's numbers are in the table at the top.*
 
 - **Specificity calls are supported at lineage and primary-disease level only:** 12,994 calls across 23/24
   lineages and 11,652 across 43/46 diseases, at permutation FDR ≤ 0.10. **Subtype and cell-line level are

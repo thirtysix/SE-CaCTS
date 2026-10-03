@@ -1,4 +1,4 @@
-/* finder.js, type a gene symbol, see every lineage / disease where an SE within 100 kb of it is group-specific
+/* finder.js, type a gene symbol, see every lineage / disease / subtype where an SE within 100 kb of it is group-specific
    (data/gene_index.json, 75_stage_se_genes.py: every gene within 100 kb of each call, not only the nearest). */
 const Finder = (() => {
   let index = null;
@@ -10,8 +10,8 @@ const Finder = (() => {
     // exact match first, else prefix matches
     let genes = index[q] ? [q] : Object.keys(index).filter(g => g.startsWith(q)).sort().slice(0, 12);
     if (!genes.length) {
-      box.innerHTML = `<div class="empty">No lineage- or disease-specific super-enhancer lies within 100 kb of <b>${U.esc(q)}</b>.
-        <span class="muted-s">(The finder covers the two call levels; a gene absent here may still rank at subtype / cell-line level in the SE atlas.)</span></div>`;
+      box.innerHTML = `<div class="empty">No group-specific super-enhancer lies within 100 kb of <b>${U.esc(q)}</b>.
+        <span class="muted-s">(The finder covers the group call levels; a gene absent here may still rank at cell-line level in the SE atlas.)</span></div>`;
       return;
     }
     box.innerHTML = genes.map(g => {

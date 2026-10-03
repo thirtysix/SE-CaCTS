@@ -1,5 +1,7 @@
 /* atlas.js, browse specific super-enhancers per group, at each resolution.
-   Enforces the resolution rule: CALLS at lineage/disease, RANKINGS ONLY at subtype. At cell-line level a line
+   CALLS at lineage, disease and (from v3.1) subtype; a level marked "rankings" in util.js shows rankings only. Each
+   call carries its copy-number labels (U.cnChips), and the calls that pass only without CN correction are a separate
+   list (CN label: "Only without correction"), never merged into the counts. At cell-line level a line
    is compared four ways (vs all lines, and vs the lines of its subtype, primary disease and lineage), with calls
    where the line has two independent studies and enough relatives (data/lines/<key>.json). */
 const Atlas = (() => {
@@ -11,7 +13,7 @@ const Atlas = (() => {
   const CMPS = [["all", "All", "all lines"], ["lineage", "Lineage", "lineage"],          // broad to narrow
                 ["disease", "Disease", "primary disease"], ["subtype", "Subtype", "subtype"]];
   let baseHead = null;                                   // the call-level table header, restored off the line level
-  let sortKey = "rank", sortAsc = true, geneQuery = "", fdrMax = 1;
+  let sortKey = "rank", sortAsc = true, geneQuery = "", fdrMax = 1, cnSel = "all";
   // Hierarchy scoping. Every scored line has one lineage, primary disease and subtype (manifest.hierarchy),
   // so a level can be restricted to the groups inside a choice made at the levels above it.
   const ORDER = ["lineage", "disease", "subtype", "line"];
@@ -29,7 +31,14 @@ const Atlas = (() => {
 
   const levelDef = k => U.LEVELS.find(l => l.key === k);
   // analysis variant: applies to the CALL levels only; subtype rankings and cell-line comparisons use the main run
-  const variantOf = k => levelDef(k).kind === "calls" ? U.getVariant() : "main";
+  const variantOf = k => {
+    if (levelDef(k).kind !== "calls") return "main";
+    const v = (manifest.variants || []).find(x => x.key === U.getVariant());
+    return v && (!v.levels || v.levels.includes(k)) ? v.key : "main";      // a run that did not score this level
+  };
+  // copy-number labels exist for the default analysis (they compare it with the uncorrected run)
+  const hasLabels = k => k === "line" ? !!(lineData && lineData.cols && lineData.cols.includes("cns"))
+    : variantOf(k) === "main" && (cache[ck(k)] || []).some(r => r.cns != null && r.cns !== "");
   const vinfo = () => (manifest.variants || []).find(v => v.key === U.getVariant()) || null;
   const ck = k => `${k}|${variantOf(k)}`;                                // cache key
   const ginfo = (k, g) => {
@@ -59,6 +68,12 @@ const Atlas = (() => {
       const r = (await DataLoader.loadTSV(U.variantFile(levelDef(k).file, variantOf(k)))).rows;
       r.forEach(x => { x.len = (x.end || 0) - (x.start || 0); });   // SE span, for the Length column + sort
       cache[key] = r;
+    }
+    if (cnSel === "dep" && !cache[key + "|dep"]) {                     // the calls that pass only without correction
+      let d = [];
+      try { d = (await DataLoader.loadTSV(levelDef(k).file.replace(/\.tsv$/, ".cndep.tsv"))).rows; } catch (_) { /* none staged */ }
+      d.forEach(x => { x.len = (x.end || 0) - (x.start || 0); x.dep = true; });
+      cache[key + "|dep"] = d;
     }
     return cache[key];
   }
@@ -176,6 +191,18 @@ const Atlas = (() => {
       b.onclick = () => { fdrMax = +b.dataset.fdr; renderFdrControl(); renderTable(); });
   }
 
+  function renderCnControl() {
+    const wrap = U.el("atlas-cn-wrap"), sel = U.el("atlas-cn"), ok = hasLabels(level);
+    wrap.style.display = levelDef(level).kind === "rankings" ? "none" : "inline-flex";
+    if (!ok) cnSel = "all";
+    sel.disabled = !ok;
+    wrap.title = ok ? "copy-number labels: CN-robust calls pass with and without correction, CN-unmasked only with it; "
+      + "'SE via gain / amplification' = the group's experiments call the SE only through extra copies; "
+      + "'Only without correction' lists the calls that pass only on uncorrected signal (their own rank and FDR, not counted)"
+      : "copy-number labels exist for the default analysis";
+    sel.innerHTML = U.CN_FILTERS.map(([v, l]) => `<option value="${v}"${v === cnSel ? " selected" : ""}>${l}</option>`).join("");
+  }
+
   let combo = null;
   function renderGroupPicker() {
     const gs = groupsFor(level), m = Object.fromEntries(Object.keys(manifest.levels[level].groups).map(g => [g, ginfo(level, g)]));
@@ -204,7 +231,7 @@ const Atlas = (() => {
     // off the call levels the view exists for the default analysis only: show it, disabled; the choice is kept
     const shown = isCalls ? U.getVariant() : "main";
     sel.disabled = !isCalls;
-    wrap.title = isCalls ? "which scoring run the lineage and disease calls come from"
+    wrap.title = isCalls ? "which scoring run the group calls come from"
       : `the ${levelDef(level).label.toLowerCase()} view is computed for the default analysis only`;
     sel.innerHTML = vs.map(v => `<option value="${v.key}"${v.key === shown ? " selected" : ""}>${U.esc(v.label)}</option>`).join("");
     // the description sits in a tooltip (and a chip in the summary bar), so switching never moves the page
@@ -223,6 +250,7 @@ const Atlas = (() => {
     renderScope();
     renderFdrControl();
     await loadLevel(level);
+    renderCnControl();
     renderGroupPicker();
     renderTable();
   }
@@ -240,7 +268,8 @@ const Atlas = (() => {
 
   function currentRows() {
     const q = geneQuery.trim().toLowerCase();
-    return cache[ck(level)].filter(r => r.group === group && (fdrMax >= 1 || (r.fdr != null && r.fdr <= fdrMax)))
+    const src = cnSel === "dep" ? (cache[ck(level) + "|dep"] || []) : cache[ck(level)];
+    return src.filter(r => r.group === group && (fdrMax >= 1 || (r.fdr != null && r.fdr <= fdrMax)) && U.cnPass(r, cnSel))
       .map(U.withGenes).filter(r => U.geneMatch(r, q));
   }
 
@@ -308,6 +337,7 @@ const Atlas = (() => {
       if (group !== g || level !== "line") return;                   // the user moved on while it loaded
       lineData = d; passSel = null;                                  // a new line shows every combination
     }
+    renderCnControl();                                               // labels depend on the line's file
     const L = lineData, C = L.comparisons, c0 = C.all, N = L.n_experiments;
     const COL = { all: "#e08214", lineage: "#7b3294", disease: "#c0392b", subtype: "#1b7837" };
     const tip = k => { const c = C[k];
@@ -326,27 +356,38 @@ const Atlas = (() => {
       th.classList.toggle("sorted-desc", th.dataset.sort === sortKey && !sortAsc);
     });
 
+    const src_ = L.cn_source ? L.cn_source : "";
     const all = (L.rows || []).map(a => {
       const o = Object.fromEntries(L.cols.map((col, i) => [col, a[i]]));
-      return U.withGenes({ ...o, cn_mean: o.cn, n_called: o.called, len: (o.end || 0) - (o.start || 0), group: g, pass_ord: U.passOrd(o.pass) });
+      return U.withGenes({ ...o, cn_mean: o.cn, n_called: o.called, n_exp: o.called, cn_src: src_, len: (o.end || 0) - (o.start || 0), group: g, pass_ord: U.passOrd(o.pass) });
+    });
+    // "Only without correction": the line's vs-all calls that pass only on uncorrected signal (own rank and FDR)
+    const dep = (L.cndep || []).map(a => {
+      const o = Object.fromEntries(L.cndep_cols.map((col, i) => [col, a[i]]));
+      return U.withGenes({ ...o, fdr_all: o.fdr, cn_mean: o.cn, n_called: null, cn_src: src_, dep: true,
+                           len: (o.end || 0) - (o.start || 0), group: g, pass: "", pass_ord: U.passOrd("") });
     });
     const q = geneQuery.trim().toLowerCase();
-    rows = sortRows(all.filter(r => U.geneMatch(r, q) && (!passSel || passSel.has(r.pass || ""))
-                                  && (fdrMax >= 1 || (r.fdr_all != null && r.fdr_all <= fdrMax))));
+    rows = sortRows((cnSel === "dep" ? dep : all).filter(r => U.geneMatch(r, q) && (cnSel === "dep" || !passSel || passSel.has(r.pass || ""))
+                                  && U.cnPass(r, cnSel) && (fdrMax >= 1 || (r.fdr_all != null && r.fdr_all <= fdrMax))));
     const sets = CMPS.slice(1).map(([k, w, lvl]) => { const c = C[k];
       return c.testable ? `<span title="${U.esc(tip(k))}">${w.toLowerCase()} <b>${c.n.toLocaleString()}</b> <span class="muted-s">(vs ${Math.max(0, c.n_lines - 1)} in ${U.esc(c.stratum || "")})</span></span>`
                         : `<span title="${U.esc(tip(k))}">${w.toLowerCase()} <span class="muted-s">not tested</span></span>`; }).join(`<span class="sep">·</span>`);
+    const depN = c0.n_cndep != null ? `<span class="sep">·</span><span title="calls vs all lines that pass only WITHOUT copy-number correction; not counted (CN label ▸ Only without correction)">${c0.n_cndep.toLocaleString()} only without CN correction</span>` : "";
     const status = c0.testable
-      ? `<span class="mono">${c0.n.toLocaleString()}</span>&nbsp;specific vs all ${Math.max(0, c0.n_lines - 1)} other lines<span class="sep">·</span>of those, called within its ${sets}`
+      ? `<span class="mono">${c0.n.toLocaleString()}</span>&nbsp;specific vs all ${Math.max(0, c0.n_lines - 1)} other lines<span class="sep">·</span>of those, called within its ${sets}${depN}`
       : `<span class="rank-only-badge">not tested</span> <span class="cmp-status">${U.esc(c0.reason || "")}; the rows are the top of the ranking</span>`;
     U.el("atlas-desc").innerHTML = crumbsHtml("line", g) + `<b>${U.esc(L.name)}</b><span class="sep">·</span><span class="cmp-status">${status}</span>`;
     U.el("atlas-desc").querySelectorAll(".crumb").forEach(el => el.onclick = e => { e.preventDefault(); goTo(el.dataset.lv, el.dataset.g); });
     const fdrTd = (r, k) => { const c = C[k], v = r["fdr_" + k];
+      if (r.dep) return k === "all" ? `<td class="mono num" title="FDR vs all lines on UNCORRECTED signal; with correction this SE is not called">${fmtFdrVal(v)}</td>`
+                                    : `<td class="mono num muted-s" title="the uncorrected list is vs all lines only">–</td>`;
       if (!c.testable) return `<td class="mono num muted-s" title="not tested: ${U.esc(c.reason || "")}">–</td>`;
       return v == null ? `<td class="mono num muted-s" title="tested vs ${U.esc(c.level)}, not called">&gt; 0.10</td>`
                        : `<td class="mono num sig" title="called vs ${U.esc(c.level)} at FDR ≤ 0.10">${fmtFdrVal(v)}</td>`; };
     const tiles = tilesOf(all);
-    const cnCell = v => v == null ? `<td class="mono">n/a</td>` : `<td class="mono ${U.cnClass(v)}">${(+v).toFixed(2)}</td>`;
+    const cnCell = (v, r) => v == null ? `<td class="mono">n/a${U.cnChips(r, `Experiments of ${L.name}`)}</td>`
+      : `<td class="mono ${U.cnClass(v)}">${(+v).toFixed(2)}${U.cnChips(r, `Experiments of ${L.name}`)}</td>`;
     U.el("atlas-body").innerHTML = rows.map(r => `
       <tr>
         <td class="mono">${r.rank}</td>
@@ -354,10 +395,10 @@ const Atlas = (() => {
         <td>${U.passBadge(r.pass)}</td>
         <td class="mono num">${U.fmtJsd(r.jsd)}</td>
         ${CMPS.map(([k]) => fdrTd(r, k)).join("")}
-        ${cnCell(r.cn_mean)}
+        ${cnCell(r.cn_mean, r)}
         <td class="coord"><a href="${U.ucsc(r.chrom, r.start, r.end)}" target="_blank" rel="noopener" title="${r.se}: open in the UCSC genome browser (GRCh38)">${r.chrom}:${(+r.start).toLocaleString()}–${(+r.end).toLocaleString()}</a>${tiles[r.se] != null
           ? `<span class="tiles-chip" title="same super-enhancer domain as row #${tiles[r.se]} above">↳ tiles #${tiles[r.se]}</span>` : ""}</td>
-        <td class="mono num" title="experiments of ${U.esc(L.name)} whose SE calls cover this locus (of ${N}); 0 = specific signal, but not an SE in this line">${r.n_called}/${N}</td>
+        <td class="mono num" title="experiments of ${U.esc(L.name)} whose SE calls cover this locus (of ${N}); 0 = specific signal, but not an SE in this line">${r.n_called == null ? "" : `${r.n_called}/${N}`}</td>
       </tr>`).join("") || `<tr><td colspan="11" class="empty">${!c0.testable && fdrMax < 1 ? "this line was not tested, so there is no FDR to filter on" : c0.testable ? (passSel || fdrMax < 1 ? "no rows pass the current filters" : "no specific super-enhancers") : "no rankings available"}</td></tr>`;
     U.el("atlas-body").querySelectorAll("a.gv-link").forEach(a => a.onclick = e => { e.preventDefault(); LineView.goto(key, a.dataset.locus); });
     U.wirePassHead("atlas", all, passSel, s => { passSel = s; renderLine(); });
@@ -390,6 +431,8 @@ const Atlas = (() => {
     U.el("atlas-desc").innerHTML = crumbs +
       `<b>${U.esc(info.label || group)}</b><span class="sep">·</span><span class="mono">${info.n_lines} cell line${info.n_lines > 1 ? "s" : ""}</span>` +
       (isCalls ? `<span class="sep">·</span><span class="mono" title="catalogue entries; nested / tiling loci mean fewer independent SE domains, see the ↳ markers and About & methods">${info.n_calls.toLocaleString()} specific SEs</span><span>&nbsp;at permutation FDR ≤ 0.10</span>`
+        + (info.below_min ? `<span class="sep">·</span><span class="rank-only-badge" title="a group of one cell line lists no calls: its specificity is that line's own, which the cell-line level tests (with two independent studies)">one cell line: see the cell-line level</span>` : "")
+        + (info.n_unmasked != null && variantOf(level) === "main" ? `<span class="sep">·</span><span title="of these, called only WITH copy-number correction">${info.n_unmasked.toLocaleString()} CN-unmasked</span><span class="sep">·</span><span title="not counted: calls that pass only WITHOUT copy-number correction (CN label ▸ Only without correction)">${(info.n_cndep || 0).toLocaleString()} only without CN correction</span>` : "")
                : `<span class="rank-only-badge">rankings only</span>`) + variantChip();
     U.el("atlas-desc").querySelectorAll(".crumb").forEach(c =>
       c.onclick = e => { e.preventDefault(); goTo(c.dataset.lv, c.dataset.g); });
@@ -397,10 +440,11 @@ const Atlas = (() => {
 
     const topN = 100;
     const shown = rows.slice(0, topN);
-    const cnCell = v => {
-      if (v == null) return `<td class="mono">n/a</td>`;
+    const who = `Experiments of ${info.label || group}`;
+    const cnCell = (v, r) => {
+      if (v == null) return `<td class="mono">n/a${U.cnChips(r, who)}</td>`;
       const amp = +v > 1.3;
-      return `<td class="mono ${U.cnClass(v)}"${amp ? ` title="amplified in this group's cell lines (mean copy-number ratio ${(+v).toFixed(2)}× vs neutral 1×), check the CN-ablation tab"` : ""}>${(+v).toFixed(2)}</td>`;
+      return `<td class="mono ${U.cnClass(v)}"${amp ? ` title="amplified in this group's cell lines (mean copy-number ratio ${(+v).toFixed(2)}× vs neutral 1×), check the CN-ablation tab"` : ""}>${(+v).toFixed(2)}${U.cnChips(r, who)}</td>`;
     };
     const gq = geneQuery.trim().toLowerCase();
     U.el("atlas-body").innerHTML = shown.map(r => `
@@ -410,17 +454,19 @@ const Atlas = (() => {
         <td class="mono num" title="Jensen–Shannon divergence specificity score (lower = more specific)">${U.fmtJsd(r.jsd)}</td>
         <td class="mono num${isCalls && r.fdr <= 0.10 ? " sig" : ""}" title="${!isCalls ? "FDR shown for reference, not a call at this resolution"
           : (r.fdr <= 0.10 ? "passes the permutation FDR ≤ 0.10 call" : "above the FDR ≤ 0.10 threshold")}">${fmtFdrVal(r.fdr)}</td>
-        ${cnCell(r.cn_mean)}
+        ${cnCell(r.cn_mean, r)}
         <td class="coord">${r.chrom ? `<a href="${U.ucsc(r.chrom, r.start, r.end)}" target="_blank" rel="noopener" title="${r.se}: open ${r.chrom}:${(+r.start).toLocaleString()}–${(+r.end).toLocaleString()} in the UCSC genome browser (GRCh38)">${r.chrom}:${(+r.start).toLocaleString()}–${(+r.end).toLocaleString()}</a>` : ", "}${tiles[r.se] != null
           ? `<span class="tiles-chip" title="Same super-enhancer domain as row #${tiles[r.se]} above, this locus overlaps it, but was kept a separate catalogue entry because their reciprocal overlap is under 25% (the cSEAdb-style union). Count SE domains, not rows.">↳ tiles #${tiles[r.se]}</span>` : ""}</td>
         <td class="mono num" title="length of the super-enhancer locus (end − start). Nested / overlapping entries near one gene tile a single SE domain.">${fmtLen(r.len)}</td>
-        <td class="mono num" title="number of experiments in which this exact locus was itself called a super-enhancer, a low value (e.g. 1 beside a 74) marks a single-sample sub-peak of the broader domain above">${r.n_called == null ? "" : r.n_called}</td>
+        <td class="mono num" title="experiments whose super-enhancer calls cover this locus (copy-number-aware calls); a low value (e.g. 1 beside a 74) marks a single-sample sub-peak of the broader domain above">${r.n_called == null ? "" : r.n_called}</td>
       </tr>`).join("") ||
-      `<tr><td colspan="8" class="empty">no super-enhancers match the current filter</td></tr>`;
+      `<tr><td colspan="8" class="empty">${info.below_min ? "a group of one cell line lists no calls; open the line at the cell-line level" : "no super-enhancers match the current filter"}</td></tr>`;
 
-    const filtered = geneQuery.trim() || fdrMax < 1;
+    const filtered = geneQuery.trim() || fdrMax < 1 || cnSel !== "all";
     const nestNote = ` Distinct rows near one gene often tile a single SE domain (<span class="tiles-chip" style="margin:0">↳</span>), compare the Locus and Length; a low <b>Called</b> count marks a single-sample sub-peak.`;
-    U.el("atlas-foot").innerHTML = isCalls
+    U.el("atlas-foot").innerHTML = cnSel === "dep"
+      ? `Showing ${Math.min(topN, rows.length).toLocaleString()} of ${rows.length.toLocaleString()} super-enhancers that pass the permutation FDR ≤ 0.10 <b>only without copy-number correction</b>: rank and FDR come from the uncorrected run, and they are not among this group's specific SEs. <span class="cns-chip cns-a" style="margin:0">amplicon-driven</span> = the group's lines carry the locus at copy number 2 or more; <span class="cns-chip cns-g" style="margin:0">gain-dependent</span> = below 2.`
+      : isCalls
       ? `Showing ${Math.min(topN, rows.length).toLocaleString()} of ${rows.length.toLocaleString()}${filtered ? ` matched (of <b>${total.toLocaleString()}</b> specific SEs in this group)` : ` <b>specific SEs</b> (permutation FDR ≤ 0.10)`}, ranked by JSD. Bold FDR passes the call threshold; the <span class="conc-badge" style="margin:0">⇌</span> marks a gene that is itself group-specific in expression.${nestNote} Download the current view below.`
       : `Top ${shown.length} SEs by specificity ranking${filtered ? ` (of ${rows.length.toLocaleString()} matched)` : ""}. <b>These are rankings, not calls</b>: at this resolution most groups have too few cell lines for the permutation null to support a significance threshold (see the note above).${nestNote}`;
     document.querySelectorAll("#atlas-table th[data-sort]").forEach(th => {
@@ -436,6 +482,7 @@ const Atlas = (() => {
     baseHead = document.querySelector("#atlas-table thead").innerHTML;
     bindSort();
     U.el("atlas-variant").onchange = e => { U.setVariant(e.target.value); onLevel(); };
+    U.el("atlas-cn").onchange = async e => { cnSel = e.target.value; await loadLevel(level); renderTable(); };
     const filterInput = U.el("atlas-filter");
     filterInput.addEventListener("input", () => { geneQuery = filterInput.value; renderTable(); });
     U.el("atlas-dl").onclick = () => U.downloadTSV(`SE-CaCTS.${level}.${group}${level !== "line" && variantOf(level) !== "main" ? "." + variantOf(level) : ""}.tsv`, [
@@ -445,7 +492,11 @@ const Atlas = (() => {
                               { label: "fdr_vs_disease", key: "fdr_disease" }, { label: "fdr_vs_subtype", key: "fdr_subtype" },
                               { label: "called_in", key: "pass" }]
                            : [{ label: "fdr_permutation", key: "fdr" }]),
-      { label: "cn_mean", key: "cn_mean" }, { label: "genes_group_specific_in_expression", key: "genes_expr" },
+      { label: "cn_mean", key: "cn_mean" },
+      { label: "cn_label", get: r => ({ r: "CN-robust", u: "CN-unmasked", a: "amplicon-driven (uncorrected only)", g: "gain-dependent (uncorrected only)" })[r.cns] || "" },
+      { label: "se_called_via", get: r => ({ c: "core", u: "unmasked", a: "agnostic", g: "gain", A: "amplified", H: "high-level" })[r.sel] || "" },
+      { label: "n_exp_called_only_via_cn", key: "n_amp" }, { label: "cn_source", get: r => U.srcText(r.cn_src) },
+      { label: "genes_group_specific_in_expression", key: "genes_expr" },
       { label: "nearest_gene_expr_rho", key: "rho_nearest" }, { label: "chrom", key: "chrom" },
       { label: "start", key: "start" }, { label: "end", key: "end" },
       { label: "length_bp", key: "len" }, { label: "n_called_as_SE", key: "n_called" },

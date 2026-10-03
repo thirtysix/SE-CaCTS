@@ -5,7 +5,7 @@ const Sidebar = (() => {
     const m = await DataLoader.loadJSON("data/meta.json");
     const r = m.release || {};
     const fmt = n => (n == null ? "n/a" : Number(n).toLocaleString());
-    const delta = r.delta_lines ? ` <span class="rel-delta" title="change from the previous release">+${fmt(r.delta_lines)}</span>` : "";
+    const delta = r.delta_lines ? ` <span class="rel-delta" title="change from the previous release">${r.delta_lines > 0 ? "+" : "−"}${fmt(Math.abs(r.delta_lines))}</span>` : "";
     const inferred = (m.cn_sources || {})["inferred from ChIP input"] || 0;
     const rows = [
       [fmt(m.n_lines) + delta, "cell lines", `cancer cell lines with QC-passed H3K27ac and copy number (measured${inferred ? `, or inferred from ChIP input for ${fmt(inferred)}` : ""}); replicate experiments are collapsed to the line`],
@@ -15,6 +15,7 @@ const Sidebar = (() => {
       [fmt(m.n_diseases), "primary diseases", "Oncotree primary diseases: specificity calls are supported at this level"],
       [fmt(m.n_lineage_calls), "lineage calls", "super-enhancer × lineage tests passing the permutation FDR ≤ 0.10"],
       [fmt(m.n_disease_calls), "disease calls", "super-enhancer × primary-disease tests passing the permutation FDR ≤ 0.10"],
+      ...(m.n_subtype_calls != null ? [[fmt(m.n_subtype_calls), "subtype calls", "super-enhancer × subtype tests passing the permutation FDR ≤ 0.10, in subtypes of two or more lines"]] : []),
     ];
     const cn = Object.entries(m.cn_sources || {}).filter(([, v]) => v > 0)
       .map(([k, v]) => `${v} ${U.esc(k)}`).join(" · ");

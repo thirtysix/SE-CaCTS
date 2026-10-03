@@ -8,9 +8,36 @@ const U = (() => {
   const LEVELS = [
     { key: "lineage", label: "Lineage", kind: "calls", file: "data/calls_lineage.tsv" },
     { key: "disease", label: "Primary disease", kind: "calls", file: "data/calls_disease.tsv" },
-    { key: "subtype", label: "Subtype", kind: "rankings", file: "data/rank_subtype.tsv" },
+    { key: "subtype", label: "Subtype", kind: "calls", file: "data/calls_subtype.tsv" },   // calls from v3.1
     { key: "line", label: "Cell line", kind: "lines", file: null },   // per-line comparisons, data/lines/<key>.json
   ];
+
+  // v3.1 copy-number labels (fused calling, FINDINGS §55). cns: how the two statistics agree (r CN-robust: called with
+  // and without correction; u CN-unmasked: only with it; a / g: only WITHOUT it, amplicon-driven at CN >= 2 or
+  // gain-dependent below). sel: how the group's own experiments call the SE (g / A / H: only through gain, amplification
+  // or high-level amplification). Never a merged FDR: the "only without correction" calls keep their own list.
+  const SRC = { depmap_wgs: "DepMap WGS", cmp_wes: "Cell Model Passports WES", depmap_mc_wes: "DepMap WES",
+                ccle_snp6: "CCLE SNP6", input_inferred: "inferred from ChIP input" };
+  const srcText = s => String(s || "").split(",").filter(Boolean).map(x => SRC[x] || x).join(", ");
+  const CNS = {
+    u: ["CN-unmasked", "cns-u", "specific only WITH copy-number correction: without it, amplification in other lines hides this specificity"],
+    a: ["amplicon-driven", "cns-a", "passes the FDR only WITHOUT copy-number correction, at a locus these lines carry at copy number 2 or more: the specificity comes from extra copies"],
+    g: ["gain-dependent", "cns-g", "passes the FDR only WITHOUT copy-number correction, at a low-level gain (copy number below 2) in these lines"],
+  };
+  const SELT = { g: ["gain", "low-level gain (copy number below 2)"], A: ["amplified", "amplification (copy number 2-3)"],
+                 H: ["high-level", "high-level amplification (copy number 3 or more)"] };
+  const cnChips = (r, who) => {
+    const src = r.cn_src ? `. Copy number from ${srcText(r.cn_src)}` : "", cn = r.cn_mean != null && r.cn_mean !== "" ? ` (copy number ${(+r.cn_mean).toFixed(2)})` : "";
+    let h = "";
+    const c = CNS[r.cns];
+    if (c) h += `<span class="cns-chip ${c[1]}" title="${esc(c[2] + cn + src)}">${c[0]}</span>`;
+    const s = SELT[r.sel], k = r.n_exp ? ` ${r.n_amp}/${r.n_exp}` : "";
+    if (s) h += `<span class="cns-chip cns-sel" title="${esc(`${who} call this a super-enhancer only through ${s[1]}: on copy-number-corrected signal it falls below the cutoff${r.n_exp ? ` (${r.n_amp} of the ${r.n_exp} experiments that call it)` : ""}${src}`)}">SE via ${s[0]}${k}</span>`;
+    return h;
+  };
+  const CN_FILTERS = [["all", "All calls"], ["r", "CN-robust"], ["u", "CN-unmasked"], ["sel", "SE via gain / amplification"],
+                      ["dep", "Only without correction"]];
+  const cnPass = (r, f) => f === "all" || f === "dep" || (f === "sel" ? ["g", "A", "H"].includes(r.sel) : r.cns === f);
 
   // CN class from a group-mean copy-number ratio
   const cnClass = v => v == null || v === "" ? "" : (+v > 1.3 ? "cn-amp" : "cn-neu");
@@ -154,6 +181,6 @@ const U = (() => {
     if (b) { e.preventDefault(); e.stopPropagation(); b.closest(".genes").classList.add("open"); }
   }, true);
 
-  return { el, esc, LEVELS, LINKS, link, cnClass, fmtFdr, fmtJsd, ucsc, downloadTSV, passBadge, passOrd, passFilter, passHeadBtn, wirePassHead, closePassHead,
+  return { el, esc, LEVELS, LINKS, link, cnClass, cnChips, CN_FILTERS, cnPass, srcText, fmtFdr, fmtJsd, ucsc, downloadTSV, passBadge, passOrd, passFilter, passHeadBtn, wirePassHead, closePassHead,
            getVariant, setVariant, variantFile, loadGenes, withGenes, geneMatch, geneCell, exprSpec };
 })();
