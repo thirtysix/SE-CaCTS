@@ -13,6 +13,8 @@ DepMap WGS (independent data).
 Platforms:
   nimblegen_hg18  NimbleGen HG18 whole-genome tiling (e.g. GPL15436, GSE43272): probe ids CHR01FS000032108 encode
                   chromosome and hg18 position
+  smd_cdna        Stanford cDNA arrays (GSE13914, GPL7784 / GPL7779): VALUE = log2(line / normal female DNA) per spot;
+                  spots placed at their gene (GPL Gene Symbol -> hg38 gene coordinates); sparse, so 1 spot per bin
   agilent_<build> Agilent CGH Feature Extraction file (GEO supplementary; the GSM table is empty, e.g. GSE22694):
                   SystematicName chr:start-end, LogRatio = log10(red / green); `flip` when the line is green (Cy3)
 
@@ -55,7 +57,18 @@ SAMPLES = [("TMD8", "CVCL_A442", "target", "GSM1059801", "nimblegen_hg18"),
            ("AGS", "ACH-000880", "calib", "GSM562392", "agilent_flip"),
            ("KATOIII", "ACH-000793", "calib", "GSM562404", "agilent_flip"),
            ("NCIN87", "ACH-000427", "calib", "GSM562405", "agilent_flip"),
-           ("SNU16", "ACH-000581", "calib", "GSM562407", "agilent_flip")]
+           ("SNU16", "ACH-000581", "calib", "GSM562407", "agilent_flip"),
+           # GSE13914: breast lines vs normal female DNA on Stanford cDNA arrays
+           ("HCC2185", "ACH-002322", "target", "GSM350519", "smd_cdna"),
+           ("HCC3153", "ACH-002324", "target", "GSM350507", "smd_cdna"),
+           ("HCC1428", "ACH-000352", "calib", "GSM350510", "smd_cdna"), ("HCC2157", "ACH-000691", "calib", "GSM350525", "smd_cdna"),
+           ("HCC1599", "ACH-000196", "calib", "GSM350526", "smd_cdna"), ("HCC1806", "ACH-000624", "calib", "GSM350528", "smd_cdna"),
+           ("HCC1500", "ACH-000349", "calib", "GSM350538", "smd_cdna"), ("HCC1395", "ACH-000699", "calib", "GSM350539", "smd_cdna"),
+           ("HCC1937", "ACH-000223", "calib", "GSM350544", "smd_cdna"), ("HCC1419", "ACH-000277", "calib", "GSM350553", "smd_cdna"),
+           ("HCC70", "ACH-000668", "calib", "GSM350500", "smd_cdna"), ("MDAMB468", "ACH-000849", "calib", "GSM350502", "smd_cdna"),
+           ("MDAMB134", "ACH-000044", "calib", "GSM350523", "smd_cdna")]
+SMD_GPL = {"GSM350519": "GPL7784", "GSM350507": "GPL7779", "GSM350500": "GPL7779", "GSM350502": "GPL7779",
+           "GSM350523": "GPL7779"}                                   # every other smd_cdna sample is GPL7784
 GEO = "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc={}&targ=self&form=text&view=data"
 
 
@@ -89,7 +102,27 @@ def fetch_fe(gsm, cache):
     return pd.DataFrame(rows, columns=["loc", "lr10"])
 
 
-def probes(d, platform, build=None):
+def smd_genes(gpl, cache):
+    """spot ID -> gene symbol. The GEO text table of these platforms is shifted against its header (the column
+    labelled "Gene Symbol" holds Entrez ids), so the symbol column is the one whose values best match known symbols."""
+    fn = os.path.join(cache, f"{gpl}.genes.tsv.gz")
+    if not os.path.exists(fn):
+        g = fetch(gpl, cache)
+        known = set(pd.read_csv(os.path.join(ROOT, ".cache/gene_coords.GRCh38.106.tsv"), sep="\t", header=None)[0])
+        col = max(g.columns[1:], key=lambda c: g[c].astype(str).isin(known).mean())
+        g[["ID", col]].rename(columns={col: "Gene Symbol"}).dropna().to_csv(fn, sep="\t", index=False)
+    return pd.read_csv(fn, sep="\t").set_index("ID")["Gene Symbol"]
+
+
+def probes(d, platform, build=None, gsm=None, cache=None):
+    if platform == "smd_cdna":
+        sym = smd_genes(SMD_GPL.get(gsm, "GPL7784"), cache)
+        gc = pd.read_csv(os.path.join(ROOT, ".cache/gene_coords.GRCh38.106.tsv"), sep="\t", header=None,
+                         names=["sym", "chrom", "s", "e"]).drop_duplicates("sym").set_index("sym")
+        x = pd.DataFrame({"sym": d["ID_REF"].map(sym), "lr": pd.to_numeric(d["VALUE"], errors="coerce")}).dropna()
+        x = x[x.sym.isin(gc.index)]
+        return pd.DataFrame({"chrom": gc.loc[x.sym, "chrom"].values,
+                             "pos": ((gc.loc[x.sym, "s"] + gc.loc[x.sym, "e"]) // 2).values, "lr": x.lr.values}), "hg38"
     if platform.startswith("agilent"):
         m = d["loc"].str.extract(r"^(chr[0-9XY]+):0*(\d+)-0*(\d+)$")
         lr = pd.to_numeric(d["lr10"], errors="coerce") * np.log2(10)
@@ -122,7 +155,7 @@ def main():
         if a.only and name not in a.only.split(","):
             continue
         d = fetch_fe(gsm, a.cache) if platform.startswith("agilent") else fetch(gsm, a.cache)
-        p, asm = probes(d, platform, a.agilent_build)
+        p, asm = probes(d, platform, a.agilent_build, gsm=gsm, cache=a.cache)
         name = name + a.suffix
         if asm != "hg38":
             lo = lifts.setdefault(asm, LiftOver(CHAINS[asm]))
@@ -137,12 +170,12 @@ def main():
             s = np.bincount(i, weights=q.lr.values, minlength=n)
             k = np.bincount(i, minlength=n)
             v = np.full(n, np.nan)
-            m = k >= a.min_probes
+            m = k >= (1 if platform == "smd_cdna" else a.min_probes)
             v[m] = 2.0 ** (s[m] / k[m])
             out[c] = v.astype(np.float32)
         np.savez_compressed(os.path.join(a.out, f"{name}.npz"), **out, _reads=np.array([len(p)]))
         rows.append({"name": name, "key": key, "role": role, "reads": len(p),
-                     "source": "array_" + platform.split("_")[0]})          # array_nimblegen, array_agilent
+                     "source": "array_" + platform.split("_")[0]})          # array_nimblegen, array_agilent, array_smd
         print(f"[array] {name} {gsm}: {len(p):,} probes on hg38, bins with data "
               f"{sum(np.isfinite(v).sum() for v in out.values()):,}", file=sys.stderr)
     idx_f = os.path.join(a.out, "index.tsv")
