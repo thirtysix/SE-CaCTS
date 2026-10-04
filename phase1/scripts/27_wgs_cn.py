@@ -290,6 +290,10 @@ def cmd_evaluate(a):
     g["accept"] = np.where(g.source_ok & (g.noise <= g.limit), "yes", "no")
     g["provider"] = np.where(g.source.str.startswith("array"), "array_cgh", "wgs_reads")
     g.to_csv(os.path.join(ROOT, "phase2/data/wgs_cn_gate.tsv"), sep="\t", index=False)
+    # the track each accepted line is scored on, one per key (WGS before arrays; then the first written): the readers
+    # use this, not index.tsv, where a line with two tracks (OCI-LY1 WGS + array) would resolve to the LAST row
+    use = g[g.accept == "yes"].assign(o=lambda d: (d.provider != "wgs_reads").astype(int)).sort_values("o", kind="stable")
+    use.drop_duplicates("key")[["key", "name", "provider"]].to_csv(os.path.join(a.ratio, "use.tsv"), sep="\t", index=False)
     print(f"[gate] accepted {', '.join(g.loc[g.accept == 'yes', 'name'])}; "
           f"rejected {', '.join(g.loc[g.accept == 'no', 'name'])}", file=sys.stderr)
     with pd.option_context("display.width", 250):

@@ -90,7 +90,8 @@ def main():
     if by_src["wgs_reads"] or by_src["array_cgh"]:     # one reader: WGS and array ratios share the dir
         if not (a.wgs_bins and a.blacklist):
             sys.exit("[recall] wgs_reads lines need --wgs-bins and --blacklist")
-        wi = pd.read_csv(os.path.join(a.wgs_bins, "index.tsv"), sep="\t")
+        uf = os.path.join(a.wgs_bins, "use.tsv")           # the gate's choice per line (27_wgs_cn.py evaluate)
+        wi = pd.read_csv(uf if os.path.exists(uf) else os.path.join(a.wgs_bins, "index.tsv"), sep="\t")
         wgs_prov = BinnedInputCN(a.wgs_bins, dict(zip(wi["key"], wi["name"])), blacklist=load_blacklist(a.blacklist),
                                  slope=1.0, zero_is_deletion=False, segment=True)
     if by_src["cmp_wes"]:
