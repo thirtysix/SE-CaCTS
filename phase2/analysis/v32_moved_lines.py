@@ -8,11 +8,14 @@ v3.1f calls sit where the MEASURED CN is >= 2 (amplicon calls the inferred track
     python3 phase2/analysis/v32_moved_lines.py
 """
 import os
+import sys
 
 import numpy as np
 import pandas as pd
 
 S = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
+sys.path.insert(0, S)
+from secacts_env import DATAROOT                                   # noqa: E402
 ARMS = {"all": "atlas.s3.lines.all", "lin": "atlas.s3.lines.lin", "dis": "atlas.s3.lines.dis", "sub": "atlas.s3.lines.sub"}
 
 
@@ -45,9 +48,13 @@ def main():
     p31 = pd.read_csv(os.path.join(S, "phase2/data/pull_set.v31.tsv"), sep="\t")
     src31 = p31.drop_duplicates("key").set_index("key").cn_provider
     moved = p32.drop_duplicates("key").set_index("key")
-    moved = moved[moved.cn_provider.isin(["ccma_wgs", "wgs_reads"]) & (moved.index.map(src31) == "input_inferred")]
-    moved = moved.reset_index().set_index("cell")       # per-line tables name lines as scored (cell name here: all
-    moved.index.name = "cell"                           # moved lines are outside DepMap, keyed by CVCL)
+    moved = moved[(moved.cn_provider != "input_inferred") & (moved.index.map(src31) == "input_inferred")]
+    # per-line tables name a line as score_pilot does: DepMap's StrippedCellLineName for a DepMap key (MUTZ-3 ->
+    # MUTZ3), the cell name for a line outside DepMap (keyed by CVCL)
+    stripped = pd.read_csv(os.path.join(DATAROOT, "DepMap/2026q1/Model.csv"), index_col="ModelID").StrippedCellLineName
+    moved["cell"] = [stripped.get(k, c) for k, c in zip(moved.index, moved.cell)]
+    moved = moved.reset_index().set_index("cell")
+    moved.index.name = "cell"
     keys = list(moved.index)
     c31, c32 = cat("phase2/results_v31f"), cat("phase2/results_v32f")
     rows = []
