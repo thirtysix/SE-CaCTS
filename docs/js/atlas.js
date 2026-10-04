@@ -485,9 +485,26 @@ const Atlas = (() => {
     U.el("atlas-cn").onchange = async e => { cnSel = e.target.value; await loadLevel(level); renderTable(); };
     const filterInput = U.el("atlas-filter");
     filterInput.addEventListener("input", () => { geneQuery = filterInput.value; renderTable(); });
+    // one row per gene within 100 kb (protein-coding nearest first, then lncRNAs), so a gene list is one column;
+    // the SE's statistics repeat on each of its rows. An SE with no gene within 100 kb keeps one row, gene empty,
+    // and names its nearest protein-coding gene in `note` (never in `gene`, so gene lists stay within 100 kb).
+    const geneRows = r => {
+      const lvE = level === "line" ? "lineage" : level, grpE = level === "line" ? (lineData || {}).lineage : r.group;
+      const gl = r.genes || [], ll = r.lnc || [];
+      const within = gl.filter(x => !x[2]);
+      const near = within.length ? within[0][1] : null;
+      const out = [
+        ...within.map(x => ({ gene: x[0], gene_type: "protein_coding", gdist: x[1], nearest: x[1] === near ? "yes" : "",
+                              expr: U.exprSpec(lvE, grpE, x[0]) ? "yes" : "", grho: x[0] === r.gene0 && r.rho != null ? r.rho : "" })),
+        ...ll.map(x => ({ gene: x[0], gene_type: "lncRNA", gdist: x[1], nearest: "", expr: "", grho: "" }))];
+      const note = within.length ? "" : (gl.length ? `no protein-coding gene within 100 kb; nearest ${gl[0][0]} ${gl[0][1]} kb` : "no gene annotated");
+      return (out.length ? out : [{ gene: "", gene_type: "", gdist: "", nearest: "", expr: "", grho: "" }])
+        .map(g => ({ ...r, ...g, note }));
+    };
     U.el("atlas-dl").onclick = () => U.downloadTSV(`SE-CaCTS.${level}.${group}${level !== "line" && variantOf(level) !== "main" ? "." + variantOf(level) : ""}.tsv`, [
-      { label: "rank", key: "rank" }, { label: "se", key: "se" }, { label: "nearest_gene", key: "gene" },
-      { label: "dist_kb", key: "dist_kb" }, { label: "genes_within_100kb", key: "genes_100kb" }, { label: "lncrna_within_100kb", key: "lncrna_100kb" }, { label: "jsd", key: "jsd" },
+      { label: "rank", key: "rank" }, { label: "se", key: "se" }, { label: "gene", key: "gene" },
+      { label: "gene_type", key: "gene_type" }, { label: "dist_kb", key: "gdist" }, { label: "nearest", key: "nearest" },
+      { label: "group_specific_in_expression", key: "expr" }, { label: "expr_rho", key: "grho" }, { label: "jsd", key: "jsd" },
       ...(level === "line" ? [{ label: "fdr_vs_all", key: "fdr_all" }, { label: "fdr_vs_lineage", key: "fdr_lineage" },
                               { label: "fdr_vs_disease", key: "fdr_disease" }, { label: "fdr_vs_subtype", key: "fdr_subtype" },
                               { label: "called_in", key: "pass" }]
@@ -496,13 +513,9 @@ const Atlas = (() => {
       { label: "cn_label", get: r => ({ r: "CN-robust", u: "CN-unmasked", a: "amplicon-driven (uncorrected only)", g: "gain-dependent (uncorrected only)" })[r.cns] || "" },
       { label: "se_called_via", get: r => ({ c: "core", u: "unmasked", a: "agnostic", g: "gain", A: "amplified", H: "high-level" })[r.sel] || "" },
       { label: "n_exp_called_only_via_cn", key: "n_amp" }, { label: "cn_source", get: r => U.srcText(r.cn_src) },
-      { label: "genes_group_specific_in_expression", key: "genes_expr" },
-      { label: "nearest_gene_expr_rho", key: "rho_nearest" }, { label: "chrom", key: "chrom" },
-      { label: "start", key: "start" }, { label: "end", key: "end" },
-      { label: "length_bp", key: "len" }, { label: "n_called_as_SE", key: "n_called" },
-    ], rows.map(r => ({ ...r,
-      genes_expr: (r.genes || []).filter(x => U.exprSpec(level === "line" ? "lineage" : level, level === "line" ? (lineData || {}).lineage : r.group, x[0])).map(x => x[0]).join(";"),
-      rho_nearest: r.gene0 === r.gene ? r.rho : "" })));
+      { label: "chrom", key: "chrom" }, { label: "start", key: "start" }, { label: "end", key: "end" },
+      { label: "length_bp", key: "len" }, { label: "n_called_as_SE", key: "n_called" }, { label: "note", key: "note" },
+    ], rows.flatMap(geneRows));
     ready = true;
     if (pendingOpen) { const p = pendingOpen; pendingOpen = null; open(p.lv, p.g, p.gene); }
     else await onLevel();
