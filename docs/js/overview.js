@@ -26,6 +26,8 @@ const Overview = (() => {
       [[meta.n_lines, "cell lines", "four comparisons per line (SE Atlas, cell-line level, and the Genomic View)"]].map(([n, l, t]) =>
         `<div class="ps-item" title="${U.esc(t)}"><span class="ps-n">${n}</span><span class="ps-l">${l}</span></div>`).join("");
 
+    masterTFs().catch(e => { console.error("master regulators", e); U.el("mtf-card").style.display = "none"; });
+
     U.el("ov-guide").innerHTML = [
       ["▦", "atlas", "SE atlas",
         "The core view. For any lineage, primary disease or subtype, the super-enhancers most specific to it, ranked by JSD, with the permutation FDR, the mean copy number at the locus and its copy-number label, the genes within 100 kb, the SE length and coordinates (each linked to the UCSC browser), and a ⇌ badge where the gene is <em>also</em> specific in expression. Filter by gene, copy-number label or FDR, or drop to a single cell line, where each super-enhancer carries an FDR against all lines and against the lines of its lineage, disease and subtype. Narrow the list to one lineage, disease or subtype to browse a group's cell lines without knowing their names."],
@@ -68,6 +70,51 @@ const Overview = (() => {
       <a href="${GH}/blob/main/README.md" target="_blank" rel="noopener"><b>README.md</b></a> for how the
       atlas was built. The two H3K27ac signal matrices exceed GitHub's file-size limit and are the one
       artifact not in the repository.</p>`;
+  }
+  // known lineage master regulators against the atlas (data/master_tfs.json, 77_stage_master_tfs.py; the poster's
+  // Fig. 5 redrawn per release): rank + FDR of each gene's best own-lineage SE in every lineage, called cells link to the atlas
+  async function masterTFs() {
+    const M = await DataLoader.loadJSON("data/master_tfs.json");
+    const n = M.n_ses.toLocaleString(), fmt = f => f < 0.001 ? "< 0.001" : String(+f.toFixed(3));
+    const missed = M.rows.filter(r => r.cells[M.lineages.indexOf(r.lineage)][1] > 0.10).map(r => `<i>${U.esc(r.gene)}</i>`);
+    U.el("mtf-sub").textContent = `${M.release || ""} · default analysis`;
+    U.el("mtf-lede").innerHTML = `<b>${M.own[0]} of ${M.own[1]}</b> lineage master transcription factors, chosen from the
+      literature before scoring, have a super-enhancer called in their own lineage${missed.length ? ` (${missed.join(", ")} is the one missed)` : ""};
+      the same super-enhancers are called in <b>${(100 * M.other[0] / M.other[1]).toFixed(1)}%</b> of the other lineages
+      (${M.other[0]} of ${M.other[1]}). Nothing supplied these genes to the scorer.`;
+    U.el("mtf").innerHTML =
+      `<thead><tr><th></th>${M.lineages.map(l => `<th class="v" scope="col"><span>${U.esc(l)}</span></th>`).join("")}</tr></thead><tbody>` +
+      M.rows.map(r => `<tr><th class="g" scope="row" title="${U.esc(`${r.gene}: ${r.se} at ${r.locus}, the super-enhancer within 100 kb that is best in ${r.lineage}`)}">${U.esc(r.gene)}</th>` +
+        r.cells.map(([rk, f, cn], j) => {
+          const lin = M.lineages[j], own = lin === r.lineage, call = f <= 0.10;
+          const p = f < 1 ? Math.round(Math.min(-Math.log10(Math.max(f, 1e-12)), 3) / 3 * 100) : 0;
+          const cls = [own && "own", call && "call", p >= 75 && "hiL", p >= 55 && "hiD"].filter(Boolean).join(" ");
+          const tip = `${r.gene} · ${lin}: ${r.se} ranks ${rk.toLocaleString()} of ${n} in ${lin} by JSD, permutation FDR ${fmt(f)}` +
+            (call ? `, called${cn === "u" ? "; CN-unmasked, called only with copy-number correction" : cn === "r" ? "; CN-robust, called with and without copy-number correction" : ""}. Click to open it in the SE atlas.`
+                  : ", not called (FDR > 0.10).") + (own ? ` ${lin} is ${r.gene}'s own lineage.` : "");
+          const txt = f < 1 ? `${rk.toLocaleString()}${call ? "*" : ""}${cn === "u" ? "†" : ""}` : "";
+          const body = call ? `<a href="#atlas" data-g="${U.esc(lin)}" data-gene="${U.esc(r.gene)}">${txt}</a>` : txt;
+          return `<td class="${cls}" style="--p:${p}%"${f < 1 || own ? ` title="${U.esc(tip)}"` : ""}>${body}</td>`;
+        }).join("") + `</tr>`).join("") + `</tbody>`;
+    U.el("mtf-key").innerHTML = `
+      <div class="mtfh-scale"><span class="lab">permutation FDR in that lineage</span><i></i>
+        <span class="ends"><span>1</span><span>0.1</span><span>0.01</span><span>≤ 0.001</span></span></div>
+      <ul>
+        <li><b>number</b>: the super-enhancer's rank in that lineage by JSD, of ${n}</li>
+        <li><b>*</b> called (FDR ≤ 0.10); click to open it in the SE atlas</li>
+        <li><span class="own-sw"></span> the gene's own lineage</li>
+        <li><b>†</b> CN-unmasked: called only with copy-number correction</li>
+      </ul>
+      <p>Each gene is represented by the one super-enhancer within 100 kb that is best in its own lineage, and that same
+      super-enhancer is shown in every column. Blank cells have FDR 1.</p>`;
+    U.el("mtf").addEventListener("click", e => {
+      const a = e.target.closest("a[data-g]");
+      if (!a) return;
+      e.preventDefault();
+      U.setVariant("main");                                     // the table is the default analysis
+      Atlas.open("lineage", a.dataset.g, a.dataset.gene);
+      location.hash = "atlas";
+    });
   }
   return { init };
 })();

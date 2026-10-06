@@ -401,3 +401,27 @@ select.sel:disabled{opacity:.55; cursor:not-allowed}
 #about-body{max-width:1240px}
 .lv-locus{white-space:nowrap}
 a.chip-link{cursor:pointer; text-decoration:none; color:inherit} a.chip-link:hover, a.chip-link:focus-visible{border-color:var(--accent); background:var(--card)}
+
+/* Overview: known master regulators (overview.js masterTFs); cell colour = FDR mixed into the surface, so both themes work */
+.mtfh-flex{display:flex; flex-wrap:wrap; gap:18px 26px; align-items:flex-end}
+.mtfh-wrap{overflow-x:auto; max-width:100%}
+.mtfh{border-collapse:separate; border-spacing:2px; font-size:12.5px; font-variant-numeric:tabular-nums}
+.mtfh th.v{vertical-align:bottom; padding:0 0 6px; font-size:12px; font-weight:500; color:var(--muted)}
+.mtfh th.v span{display:inline-block; writing-mode:vertical-rl; transform:rotate(180deg); white-space:nowrap}
+.mtfh th.g{position:sticky; left:0; z-index:1; background:var(--surface); text-align:right; padding:0 10px 0 0; font-style:italic; font-weight:600; white-space:nowrap}
+.mtfh td{min-width:50px; height:25px; padding:0 3px; text-align:center; border-radius:4px; color:var(--text);
+  background:color-mix(in srgb, var(--accent-deep) var(--p, 0%), var(--surface))}
+.mtfh td.call{font-weight:700}
+.mtfh td.own{box-shadow:inset 0 0 0 2px var(--text)}
+.mtfh td a{display:block; color:inherit; text-decoration:none}
+.mtfh td a:hover{text-decoration:underline}
+:root[data-theme="light"] .mtfh td.hiL, :root[data-theme="dark"] .mtfh td.hiD{color:var(--surface)}
+.mtfh-key{flex:1 1 230px; max-width:340px; font-size:13px; color:var(--muted)}
+.mtfh-key ul{list-style:none; margin:12px 0; padding:0}
+.mtfh-key li{margin:4px 0} .mtfh-key li b{color:var(--text)}
+.mtfh-key p{margin:0; font-size:12.5px}
+.mtfh-scale .lab{display:block; margin-bottom:4px}
+.mtfh-scale i{display:block; height:10px; border-radius:3px; border:1px solid var(--border);
+  background:linear-gradient(to right, var(--surface), var(--accent-deep))}
+.mtfh-scale .ends{display:flex; justify-content:space-between; font-size:11.5px; margin-top:2px}
+.mtfh-key .own-sw{display:inline-block; width:14px; height:11px; vertical-align:-1px; border-radius:2px; box-shadow:inset 0 0 0 2px var(--text)}

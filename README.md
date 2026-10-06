@@ -46,6 +46,15 @@ dashboard's Analysis selector shows the atlas without those lines). What changed
 - Master regulators found in their own lineage: **21 of 22** (PAX8 is the one missed). AR returns in prostate: a
   CN-robust call whose super-enhancer the prostate lines call only through AR amplification.
 
+[![Known lineage master regulators against the v3.1 atlas](assets/figures/master-regulators.png)](https://thirtysix.github.io/SE-CaCTS/)
+
+*Lineage master transcription factors chosen from the literature before scoring, against the v3.1 atlas. Each row
+is the super-enhancer within 100 kb of the gene that is best in its own lineage (outlined), shown in every lineage:
+colour is its permutation FDR there, the number its rank by JSD (of 33,255), \* a call (FDR ≤ 0.10), † a call made
+only with copy-number correction. 21 of 22 are called in their own lineage; the same super-enhancers are called in
+2.1% of the other lineages.
+The same table, linked to the atlas, is on the dashboard's Overview.*
+
 The previous release, v3.0.1 (519 lines, 15,324 lineage calls, as presented at the FCI Symposium 2026), is the
 GitHub release `v3.0.1`, archived as https://doi.org/10.5281/zenodo.23118971.
 

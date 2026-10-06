@@ -10,11 +10,11 @@ SECACTS="$(cd "$(dirname "$0")/../.." && pwd)"
 D="${1:?staging dir}"
 PY="${PY:-$HOME/miniconda3/envs/atac_hdac/bin/python}"
 export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1
-# STEPS="60 75" restages into an existing copy (e.g. after a release-notes edit); the default rebuilds the copy
+# STEPS="60 75 77" restages into an existing copy (e.g. after a release-notes edit); the default rebuilds the copy
 STEPS="${STEPS:-}"
 if [ -z "$STEPS" ]; then
   rm -rf "$D"; cp -r "$SECACTS/docs" "$D"; rm -rf "$D/data/lines" "$D"/data/calls_*.tsv "$D"/data/rank_*.tsv "$D"/data/gene_index*.json
-  STEPS="60 61 75"
+  STEPS="60 61 75 77"
 fi
 step () { [[ " $STEPS " == *" $1 "* ]]; }
 S="$SECACTS/phase2"; SC="$S/scores_v31f"; RES="$S/results_v31f"; PS="$S/data/pull_set.v31.tsv"
@@ -36,4 +36,6 @@ step 61 && SECACTS_DOCS="$D" SECACTS_RES="$RES" SECACTS_SC="$SC" SECACTS_SC_LINE
 du -sh "$D/data/lines"
 step 75 && "$PY" "$S/scripts/75_stage_se_genes.py" --docs "$D" --catalog "$RES/atlas.s3.union_catalog.bed.gz" \
   --signal "$RES/atlas.s3.se_signal.tsv.gz" --pull-set "$PS" --pairs "$SC/atlas.s3.perm.concordance2.pairs.tsv.gz"
+# the Overview's master-regulator table; the README figure is drawn with --fig-out assets/figures at release
+step 77 && "$PY" "$S/scripts/77_stage_master_tfs.py" --docs "$D" --scores "$SC" --results "$RES"
 echo "[76] staged -> $D"
