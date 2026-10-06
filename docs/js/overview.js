@@ -84,7 +84,9 @@ const Overview = (() => {
       (${M.other[0]} of ${M.other[1]}). Nothing supplied these genes to the scorer.`;
     U.el("mtf").innerHTML =
       `<thead><tr><th></th>${M.lineages.map(l => `<th class="v" scope="col"><span>${U.esc(l)}</span></th>`).join("")}</tr></thead><tbody>` +
-      M.rows.map(r => `<tr><th class="g" scope="row" title="${U.esc(`${r.gene}: ${r.se} at ${r.locus}, the super-enhancer within 100 kb that is best in ${r.lineage}`)}">${U.esc(r.gene)}</th>` +
+      M.rows.map(r => {
+        const h = r.hic, hicTip = h ? `${r.se} is ${Math.round(h.kb)} kb from ${r.gene}, outside the 100 kb window, and linked to it by Hi-C: of the ${h.n} genes with a TSS within 1 Mb, ${r.gene} has the highest contact with it (${h.c}${h.next ? ` vs ${h.next} ${h.nc}` : ""}; mean over ${M.hic.maps} ENCODE cancer-line Hi-C maps, shared 3D contact rather than a ${r.lineage}-specific loop).` : "";
+        return `<tr><th class="g" scope="row" title="${U.esc(h ? hicTip : `${r.gene}: ${r.se} at ${r.locus}, the super-enhancer within 100 kb that is best in ${r.lineage}`)}">${U.esc(r.gene)}${h ? ` <span class="mtfh-hic">Hi-C ${Math.round(h.kb)} kb</span>` : ""}</th>` +
         r.cells.map(([rk, f, cn], j) => {
           const lin = M.lineages[j], own = lin === r.lineage, call = f <= 0.10;
           const p = f < 1 ? Math.round(Math.min(-Math.log10(Math.max(f, 1e-12)), 3) / 3 * 100) : 0;
@@ -93,9 +95,10 @@ const Overview = (() => {
             (call ? `, called${cn === "u" ? "; CN-unmasked, called only with copy-number correction" : cn === "r" ? "; CN-robust, called with and without copy-number correction" : ""}. Click to open it in the SE atlas.`
                   : ", not called (FDR > 0.10).") + (own ? ` ${lin} is ${r.gene}'s own lineage.` : "");
           const txt = f < 1 ? `${rk.toLocaleString()}${call ? "*" : ""}${cn === "u" ? "†" : ""}` : "";
-          const body = call ? `<a href="#atlas" data-g="${U.esc(lin)}" data-gene="${U.esc(r.gene)}">${txt}</a>` : txt;
+          const body = call ? `<a href="#atlas" data-g="${U.esc(lin)}" data-se="${U.esc(r.se)}">${txt}</a>` : txt;
           return `<td class="${cls}" style="--p:${p}%"${f < 1 || own ? ` title="${U.esc(tip)}"` : ""}>${body}</td>`;
-        }).join("") + `</tr>`).join("") + `</tbody>`;
+        }).join("") + `</tr>`;
+      }).join("") + `</tbody>`;
     U.el("mtf-key").innerHTML = `
       <div class="mtfh-scale"><span class="lab">permutation FDR in that lineage</span><i></i>
         <span class="ends"><span>1</span><span>0.1</span><span>0.01</span><span>≤ 0.001</span></span></div>
@@ -105,14 +108,16 @@ const Overview = (() => {
         <li><span class="own-sw"></span> the gene's own lineage</li>
         <li><b>†</b> CN-unmasked: called only with copy-number correction</li>
       </ul>
-      <p>Each gene is represented by the one super-enhancer within 100 kb that is best in its own lineage, and that same
+      <p>Each gene is represented by the one super-enhancer that is best in its own lineage, among those within 100 kb${M.hic
+        ? ` and those linked to it by Hi-C contact (<span class="mtfh-hic" style="margin-left:0">Hi-C</span>: the gene is the super-enhancer's top
+        contact among the genes within 1 Mb, averaged over ${M.hic.maps} ENCODE cancer-line maps)` : ""}; that same
       super-enhancer is shown in every column. Blank cells have FDR 1.</p>`;
     U.el("mtf").addEventListener("click", e => {
       const a = e.target.closest("a[data-g]");
       if (!a) return;
       e.preventDefault();
       U.setVariant("main");                                     // the table is the default analysis
-      Atlas.open("lineage", a.dataset.g, a.dataset.gene);
+      Atlas.open("lineage", a.dataset.g, a.dataset.se);           // the atlas filter matches an SE id exactly
       location.hash = "atlas";
     });
   }

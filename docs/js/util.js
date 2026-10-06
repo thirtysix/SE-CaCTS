@@ -128,6 +128,7 @@ const U = (() => {
     cnrose: "https://github.com/thirtysix/SE-CaCTS/tree/main/cnrose", repo: "https://github.com/thirtysix/SE-CaCTS",
     depmap_ref: "https://doi.org/10.1016/j.cell.2017.06.010", cmp_ref: "https://doi.org/10.1093/nar/gky872",
     ccle_ref: "https://doi.org/10.1038/s41586-019-1186-3", cbioportal: "https://www.cbioportal.org/study/summary?id=ccle_broad_2019",
+    encode: "https://www.encodeproject.org/", encode_ref: "https://pubmed.ncbi.nlm.nih.gov/32728249/",
   };
   const link = (k, text) => `<a href="${LINKS[k]}" target="_blank" rel="noopener">${text}</a>`;
 
@@ -149,7 +150,7 @@ const U = (() => {
              genes_100kb: gl.filter(x => !x[2]).map(x => `${x[0]}:${x[1]}`).join(";"),
              lncrna_100kb: ll.map(x => `${x[0]}:${x[1]}`).join(";") };
   };
-  const geneMatch = (r, q) => !q || (r.genes || []).some(x => x[0].toLowerCase().includes(q))
+  const geneMatch = (r, q) => !q || (r.se || "").toLowerCase() === q || (r.genes || []).some(x => x[0].toLowerCase().includes(q))
                                  || (r.lnc || []).some(x => x[0].toLowerCase().includes(q));
   const exprSpec = (lv, grp, g) => !!(lv && EXPR[lv] && EXPR[lv][grp] && EXPR[lv][grp].has(g));
   // the gene cell: the nearest gene(s), then any gene matching the filter, then "+N" (hover lists all; click expands).

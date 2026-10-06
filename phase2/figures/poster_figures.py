@@ -307,13 +307,15 @@ IDENTITY = [("Ovary/Fallopian Tube", ["PAX8", "SOX17", "MECOM"]), ("Bowel", ["CD
             ("Liver", ["HNF1A"]), ("Prostate", ["AR"]), ("Kidney", ["PAX2"]), ("Head and Neck", ["TP63"])]
 
 
-def identity_table(sc=None, res=None, select="jsd", labels=None):
+def identity_table(sc=None, res=None, select="jsd", labels=None, links=None):
     """Known lineage master TFs: one SE per gene (within 100 kb, the best in the gene's own lineage) and its JSD rank,
     FDR and (with `labels`, a fused_labels.groups table) CN status in every lineage.
 
     select="jsd" takes the lowest JSD, as the poster did. From v3.1 a lineage is tested only where its own experiments
     call an SE (FDR 1 elsewhere), so the lowest JSD can be an SE the lineage never calls (HNF4A in Bowel: rank 2,
-    FDR 1); select="fdr" takes the lowest FDR, ties by JSD, which is the SE a reader finds in the atlas."""
+    FDR 1); select="fdr" takes the lowest FDR, ties by JSD, which is the SE a reader finds in the atlas.
+    links = {gene: {se: info}}: SEs linked to the gene another way (Hi-C contact, 77_stage_master_tfs.py), candidates
+    beside the 100 kb ones; a record whose SE is outside 100 kb carries that info as `link`."""
     sys.path.insert(0, os.path.join(SECACTS, "cnrose"))
     sys.path.insert(0, SECACTS)
     from secacts_env import cache_path
@@ -340,19 +342,23 @@ def identity_table(sc=None, res=None, select="jsd", labels=None):
             c, s, e = gc[g]
             near = cat[(cat.chrom == c) & (cat.end >= s - 100_000) & (cat.start <= e + 100_000)].index   # score_pilot identity_near
             near = [x for x in near if x in J.index and np.isfinite(J.loc[x, grp])]
+            win, extra = set(near), (links or {}).get(g, {})
+            near += [x for x in extra if x not in win and x in J.index and np.isfinite(J.loc[x, grp])]
             if not near:
                 continue
             best = min(near, key=key(grp))
             recs.append(dict(gene=g, lineage=grp, se=best, chrom=cat.loc[best, "chrom"], start=int(cat.loc[best, "start"]),
                              end=int(cat.loc[best, "end"]), rank=[int((J[c] < J.loc[best, c]).sum()) + 1 for c in cols],
-                             fdr=F.loc[best, cols].astype(float).values, cn=[cn.get((c, best)) for c in cols]))
+                             fdr=F.loc[best, cols].astype(float).values, cn=[cn.get((c, best)) for c in cols],
+                             link=None if best in win else extra[best]))
     return cols, recs
 
 
 def fig_identity(width=215, table=None, name="fig5_identity", cn_mark=False, contrast_text=False):
     """Draw identity_table(): -log10 FDR per lineage, the rank where FDR < 1 (* = FDR <= 0.10), the gene's own lineage
     outlined. cn_mark appends † to CN-unmasked calls (pass only with copy-number correction); contrast_text picks each
-    label's colour by WCAG contrast (always on for palette variants; the poster default is a fixed threshold)."""
+    label's colour by WCAG contrast (always on for palette variants; the poster default is a fixed threshold). A row
+    whose SE is linked by Hi-C rather than within 100 kb is labelled with its distance."""
     cols, recs = table or identity_table()
     rows = [-np.log10(pd.Series(r["fdr"]).clip(lower=1e-12)).values for r in recs]
     ranks, fdrs = [r["rank"] for r in recs], [r["fdr"] for r in recs]
@@ -375,7 +381,8 @@ def fig_identity(width=215, table=None, name="fig5_identity", cn_mark=False, con
                         fontweight="bold" if fdrs[i][j] <= 0.10 else "normal",
                         color=_cell_text(cmap(min(M[i, j], vmax) / vmax)) if PALETTE or contrast_text else SURF if M[i, j] > 1.4 else INK)
     ax.set_xticks(range(len(cols)), cols, rotation=40, ha="right", rotation_mode="anchor", fontsize=12.5)
-    ax.set_yticks(range(len(lab)), [g for g, *_ in lab], fontsize=13.5)
+    ax.set_yticks(range(len(lab)), [g + (f" (Hi-C, {r['link']['kb']:.0f} kb)" if r.get("link") else "")
+                                     for (g, *_), r in zip(lab, recs)], fontsize=13.5)
     for t, (g, *_ ) in zip(ax.get_yticklabels(), lab):
         t.set_fontstyle("italic")
     ax.tick_params(length=0)

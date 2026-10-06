@@ -157,6 +157,8 @@ const About = (() => {
           ${inferred ? `inferred from the experiments' own input controls for ${fmt(inferred)} lines no measured source
           covers, a weaker correction (the <b>Measured copy number only</b> analysis leaves them out).` : ""}</li>
         <li><b>Expression:</b> ${U.link("depmap", "DepMap")} protein-coding expression, for the concordance layer.</li>
+        <li><b>Hi-C</b> (Overview, master regulators only): ${U.link("encode", "ENCODE")} in situ and intact Hi-C of 14
+          cancer cell lines, averaged, to link a super-enhancer to a gene beyond 100 kb.</li>
         <li><b>Gene coordinates:</b> ${U.link("ensembl", "Ensembl GRCh38.106")}. <b>Engines:</b>
           ${U.link("cnrose", "<code>cnrose</code>")} (SE calling), ${U.link("pycacts", "<code>pyCaCTS</code>")} (JSD
           specificity and the permutation null). <b>Genome browser:</b> ${U.link("igv", "igv.js")}.</li>
@@ -231,7 +233,7 @@ const About = (() => {
       Data: ${U.link("chipatlas", "ChIP-Atlas")}, ${U.link("geo", "GEO")} / ${U.link("sra", "SRA")},
       ${U.link("depmap", "DepMap")}, ${U.link("cmp", "Cell Model Passports")}, ${U.link("ccle", "CCLE")},
       ${U.link("cellosaurus", "Cellosaurus")}, ${U.link("ncit", "NCIt")}, ${U.link("oncotree", "OncoTree")},
-      ${U.link("ensembl", "Ensembl")}. Source: ${U.link("repo", "github.com/thirtysix/SE-CaCTS")}.</p>
+      ${U.link("ensembl", "Ensembl")}, ${U.link("encode", "ENCODE")}. Source: ${U.link("repo", "github.com/thirtysix/SE-CaCTS")}.</p>
       <p style="margin:10px 0 0"><b>Cell-line data references</b></p>
       <ul>
         <li>${U.link("depmap", "DepMap")} (release 26Q1: cell-line labels, WGS and WES copy number, expression).
@@ -243,6 +245,9 @@ const About = (() => {
         <li>${U.link("ccle", "CCLE")} (SNP6 copy-number segments, via ${U.link("cbioportal", "cBioPortal")}). Ghandi M
           <i>et al.</i> Next-generation characterization of the Cancer Cell Line Encyclopedia. <i>Nature</i>
           2019;569:503–508. ${U.link("ccle_ref", "doi:10.1038/s41586-019-1186-3")}</li>
+        <li>${U.link("encode", "ENCODE")} (Hi-C of 14 cancer cell lines). ENCODE Project Consortium. Expanded
+          encyclopaedias of DNA elements in the human and mouse genomes. <i>Nature</i> 2020.
+          ${U.link("encode_ref", "PMID 32728249")}</li>
       </ul>`, "span2")}
     </div>`;
   }
