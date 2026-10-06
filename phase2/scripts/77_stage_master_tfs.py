@@ -7,14 +7,18 @@ The 22 transcription factors chosen from the literature before scoring (poster_f
 super-enhancer best in the gene's own lineage (lowest FDR, ties by JSD; poster_figures.identity_table says why not the
 lowest JSD) among those within 100 kb of the gene and those linked to it by Hi-C (78_hic_se_links.py: the gene is the
 SE's top contact among >= --hic-min-genes genes with a TSS within 1 Mb; with one candidate the "link" is forced, e.g.
-GATA3's gene desert), with its JSD rank, permutation FDR and CN status in every lineage.
+GATA3's gene desert), with its JSD rank, permutation FDR and CN status in every lineage. The same at primary-disease
+and subtype level: columns are the groups of >= 2 lines in the figure's 12 lineages (a group of one line has no calls),
+and each gene's SE is the best over its lineage's groups. Each level answers its own question: a subtype is scored
+against every other subtype, so a program its sibling subtypes share (PAX8, SOX17 in ovary) is not subtype-specific.
 
-  <docs>/data/master_tfs.json        {release, n_ses, lineages, own: [called, of], other: [called, of],
-                                      hic: {maps, min_genes} or null,
-                                      rows: [{gene, lineage, se, locus, cells: [[rank, fdr, cn], ...], hic?}]}
+  <docs>/data/master_tfs.json        {release, n_ses, hic: {maps, min_genes} or null, levels: [{key, label,
+                                      cols: [[group, lineage, n_lines]], own: [genes called in >= 1 own group, of],
+                                      other: [other-lineage cells called, of],
+                                      rows: [{gene, lineage, se, locus, own: [col], cells: [[rank, fdr, cn], ...], hic?}]}]}
                                       cn = "r" CN-robust / "u" CN-unmasked, on called cells (FDR <= 0.10) only;
                                       hic = {kb, n, c, next, nc} when the SE is linked by Hi-C, not within 100 kb
-  <fig-out>/master-regulators.{png,svg,pdf}  the static figure; without --fig-out the JSON only
+  <fig-out>/master-regulators{,-disease,-subtype}.{png,svg,pdf}  the static figures; without --fig-out the JSON only
 
   ~/miniconda3/envs/atac_hdac/bin/python phase2/scripts/77_stage_master_tfs.py --docs docs \
       --scores phase2/scores_v31f --results phase2/results_v31f --fig-out assets/figures
@@ -28,6 +32,10 @@ import os
 
 SECACTS = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 FDR = 0.10
+# level key (the dashboard's), Oncotree column, label, figure name, figure geometry
+LEVELS = [("lineage", "OncotreeLineage", "Lineage", "master-regulators", {}),
+          ("disease", "OncotreePrimaryDisease", "Primary disease", "master-regulators-disease", dict(width=300)),
+          ("subtype", "OncotreeSubtype", "Subtype", "master-regulators-subtype", dict(width=470, cell_fs=9, rot=55))]
 
 
 def main():
@@ -57,34 +65,49 @@ def main():
                                                           nc=r.next_contact)
         nmaps = len(pd.read_csv(a.hic_links.replace(".tsv.gz", ".lines.tsv"), sep="\t"))
         hic = dict(maps=nmaps, min_genes=a.hic_min_genes)
-    cols, recs = pf.identity_table(a.scores, a.results, select="fdr", labels=labels, links=links)
-
     n_ses = len(pd.read_csv(os.path.join(a.scores, "atlas.s3.perm.OncotreeLineage.fdr.tsv.gz"), sep="\t", usecols=[0]))
-    code = {"robust": "r", "unmasked": "u"}
-    own, other, rows = [0, 0], [0, 0], []
-    for r in recs:
-        cells = []
-        for j, c in enumerate(cols):
-            f = float(r["fdr"][j])
-            cells.append([r["rank"][j], round(f, 4), code.get(r["cn"][j]) if f <= FDR else None])
-            k = own if c == r["lineage"] else other
-            k[0] += f <= FDR; k[1] += 1
-        rows.append(dict(gene=r["gene"], lineage=r["lineage"], se=r["se"],
-                         locus=f"{r['chrom']}:{r['start'] + 1}-{r['end']}", cells=cells))
-        if r["link"]:
-            rows[-1]["hic"] = {k: (round(float(v), 4) if isinstance(v, float) else v) for k, v in r["link"].items()}
     meta = json.load(open(os.path.join(a.docs, "data", "meta.json")))
-    out = dict(release=meta.get("release", {}).get("version"), n_ses=n_ses, lineages=cols, own=own, other=other, hic=hic,
-               rows=rows)
-    with open(os.path.join(a.docs, "data", "master_tfs.json"), "w") as fh:
-        json.dump(out, fh, separators=(",", ":"))
-    print(f"[77] {own[0]}/{own[1]} called in their own lineage; elsewhere {other[0]}/{other[1]} "
-          f"({100 * other[0] / max(other[1], 1):.1f}%); missed {[r['gene'] for r in rows if r['cells'][cols.index(r['lineage'])][1] > FDR]}; "
-          f"linked by Hi-C {[(r['gene'], r['se'], r['hic']['kb']) for r in rows if 'hic' in r]}")
-
+    man = json.load(open(os.path.join(a.docs, "data", "manifest.json")))
+    H = pd.DataFrame(man["hierarchy"], columns=["line", "lineage", "disease", "subtype"])
+    code = {"robust": "r", "unmasked": "u"}
     if a.fig_out:
         pf.OUT = a.fig_out
-        pf.fig_identity(table=(cols, recs), name="master-regulators", cn_mark=labels is not None, contrast_text=True)
+    levels = []
+    for short, lev, label, fname, fig in LEVELS:
+        groups = None
+        if short != "lineage":                  # groups that can carry calls (>= 2 lines), in the figure's lineages
+            G = man["levels"][short]["groups"]
+            lin_of = H.groupby(short)["lineage"].agg(lambda x: x.mode()[0])
+            groups = [(g, ln) for ln, _ in pf.IDENTITY for g in
+                      sorted((g for g in G if lin_of.get(g) == ln and G[g]["n_lines"] >= 2), key=lambda g: (-G[g]["n_lines"], g))]
+        cols, recs = pf.identity_table(a.scores, a.results, select="fdr", labels=labels, links=links, level=lev, groups=groups)
+        lin = dict(groups) if groups else {c: c for c in cols}
+        own, other, rows = [0, 0], [0, 0], []
+        for r in recs:
+            cells = [[r["rank"][j], round(float(r["fdr"][j]), 4), code.get(r["cn"][j]) if r["fdr"][j] <= FDR else None]
+                     for j in range(len(cols))]
+            oj = [cols.index(o) for o in r["own"]]
+            own[0] += any(cells[j][1] <= FDR for j in oj); own[1] += 1
+            for j, c in enumerate(cols):
+                if j not in oj:
+                    other[0] += cells[j][1] <= FDR; other[1] += 1
+            rows.append(dict(gene=r["gene"], lineage=r["lineage"], se=r["se"], own=oj,
+                             locus=f"{r['chrom']}:{r['start'] + 1}-{r['end']}", cells=cells))
+            if r["link"]:
+                rows[-1]["hic"] = {k: (round(float(v), 4) if isinstance(v, float) else v) for k, v in r["link"].items()}
+        n_lines = H.groupby(short).size() if short != "lineage" else H.groupby("lineage").size()
+        levels.append(dict(key=short, label=label, cols=[[c, lin[c], int(n_lines.get(c, 0))] for c in cols], own=own,
+                           other=other, rows=rows))
+        print(f"[77] {short}: {len(cols)} groups; {own[0]}/{own[1]} genes called in their own lineage's groups; other-lineage "
+              f"cells {other[0]}/{other[1]} ({100 * other[0] / max(other[1], 1):.1f}%); missed "
+              f"{[r['gene'] for r in rows if not any(r['cells'][j][1] <= FDR for j in r['own'])]}; Hi-C rows "
+              f"{[(r['gene'], r['se']) for r in rows if 'hic' in r]}")
+        if a.fig_out:
+            pf.fig_identity(table=(cols, recs), name=fname, cn_mark=labels is not None, contrast_text=True, groups=groups,
+                            fdr_label=f"FDR ({label.lower()})", **fig)
+    out = dict(release=meta.get("release", {}).get("version"), n_ses=n_ses, hic=hic, levels=levels)
+    with open(os.path.join(a.docs, "data", "master_tfs.json"), "w") as fh:
+        json.dump(out, fh, separators=(",", ":"))
 
 
 if __name__ == "__main__":

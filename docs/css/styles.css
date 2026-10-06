@@ -412,7 +412,16 @@ a.chip-link{cursor:pointer; text-decoration:none; color:inherit} a.chip-link:hov
 .mtfh td{min-width:50px; height:25px; padding:0 3px; text-align:center; border-radius:4px; color:var(--text);
   background:color-mix(in srgb, var(--accent-deep) var(--p, 0%), var(--surface))}
 .mtfh td.call{font-weight:700}
-.mtfh td.own{box-shadow:inset 0 0 0 2px var(--text)}
+.mtfh td.own{box-shadow:inset 0 2px 0 var(--text), inset 0 -2px 0 var(--text)}
+.mtfh td.own.ownL{box-shadow:inset 0 2px 0 var(--text), inset 0 -2px 0 var(--text), inset 2px 0 0 var(--text)}
+.mtfh td.own.ownR{box-shadow:inset 0 2px 0 var(--text), inset 0 -2px 0 var(--text), inset -2px 0 0 var(--text)}
+.mtfh td.own.ownL.ownR{box-shadow:inset 0 0 0 2px var(--text)}
+.mtfh td.own:not(.ownL){border-top-left-radius:0; border-bottom-left-radius:0}
+.mtfh td.own:not(.ownR){border-top-right-radius:0; border-bottom-right-radius:0}
+.mtfh .blk{border-left:1px solid var(--border)}
+.mtfh tr.lin th{font-weight:650; color:var(--text)}
+.mtfh.deep td{min-width:44px; font-size:11.5px}
+.mtfh-h{flex-wrap:wrap}
 .mtfh td a{display:block; color:inherit; text-decoration:none}
 .mtfh td a:hover{text-decoration:underline}
 :root[data-theme="light"] .mtfh td.hiL, :root[data-theme="dark"] .mtfh td.hiD{color:var(--surface)}

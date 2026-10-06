@@ -60,6 +60,22 @@ highest-contact gene among those within 1 Mb, averaged over ENCODE Hi-C of 14 ca
 (`phase2/data/hic_se_links.tsv.gz`); this contact is shared across cell types, not specific to a lineage. The same
 table, linked to the atlas, is on the dashboard's Overview.*
 
+<details><summary><b>The same at primary-disease and subtype level</b></summary>
+
+[![Known lineage master regulators by primary disease](assets/figures/master-regulators-disease.png)](https://thirtysix.github.io/SE-CaCTS/)
+
+[![Known lineage master regulators by subtype](assets/figures/master-regulators-subtype.png)](https://thirtysix.github.io/SE-CaCTS/)
+
+*Columns are the primary diseases (top) and subtypes (bottom) of two or more cell lines in the same 12 lineages,
+grouped by lineage; each gene's super-enhancer is the best over its own lineage's groups (outlined). By disease, 22
+of 22 are called in at least one disease of their lineage (PAX8 included) and 1.6% of the other lineages' cells are
+calls; within a lineage the call lands where expected (ASCL1 in lung neuroendocrine tumours, not NSCLC; SPI1 and CEBPA
+in AML, not the myeloproliferative neoplasms; PAX5 in mature B-cell neoplasms). By subtype, 16 of 22 and 0.2%: a
+subtype is compared with every other subtype, siblings included, so a programme shared by sibling subtypes (PAX8 and
+SOX17 across ovarian cancers) is not specific to any one of them.*
+
+</details>
+
 The previous release, v3.0.1 (519 lines, 15,324 lineage calls, as presented at the FCI Symposium 2026), is the
 GitHub release `v3.0.1`, archived as https://doi.org/10.5281/zenodo.23118971.
 

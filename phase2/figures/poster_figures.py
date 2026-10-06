@@ -307,7 +307,7 @@ IDENTITY = [("Ovary/Fallopian Tube", ["PAX8", "SOX17", "MECOM"]), ("Bowel", ["CD
             ("Liver", ["HNF1A"]), ("Prostate", ["AR"]), ("Kidney", ["PAX2"]), ("Head and Neck", ["TP63"])]
 
 
-def identity_table(sc=None, res=None, select="jsd", labels=None, links=None):
+def identity_table(sc=None, res=None, select="jsd", labels=None, links=None, level="OncotreeLineage", groups=None):
     """Known lineage master TFs: one SE per gene (within 100 kb, the best in the gene's own lineage) and its JSD rank,
     FDR and (with `labels`, a fused_labels.groups table) CN status in every lineage.
 
@@ -315,13 +315,15 @@ def identity_table(sc=None, res=None, select="jsd", labels=None, links=None):
     call an SE (FDR 1 elsewhere), so the lowest JSD can be an SE the lineage never calls (HNF4A in Bowel: rank 2,
     FDR 1); select="fdr" takes the lowest FDR, ties by JSD, which is the SE a reader finds in the atlas.
     links = {gene: {se: info}}: SEs linked to the gene another way (Hi-C contact, 77_stage_master_tfs.py), candidates
-    beside the 100 kb ones; a record whose SE is outside 100 kb carries that info as `link`."""
+    beside the 100 kb ones; a record whose SE is outside 100 kb carries that info as `link`.
+    level/groups: the same at a deeper Oncotree level. groups = [(group, its lineage), ...] are the columns (default:
+    the IDENTITY lineages themselves); a gene's own groups (`own`) are its lineage's, and its SE is the best over them."""
     sys.path.insert(0, os.path.join(SECACTS, "cnrose"))
     sys.path.insert(0, SECACTS)
     from secacts_env import cache_path
     from cnrose.cn.depmap import load_gene_coords
     gc = load_gene_coords(None, cache_path=cache_path("gene_coords.GRCh38.106.tsv"))
-    sc, res, lev = sc or SC, res or RES, "OncotreeLineage"
+    sc, res, lev = sc or SC, res or RES, level
     J = pd.read_csv(os.path.join(sc, f"atlas.s3.perm.{lev}.jsd.tsv.gz"), sep="\t", index_col=0)
     F = pd.read_csv(os.path.join(sc, f"atlas.s3.perm.{lev}.fdr.tsv.gz"), sep="\t", index_col=0)
     cat = pd.read_csv(os.path.join(res, "atlas.s3.union_catalog.bed.gz"), sep="\t", header=None,
@@ -330,57 +332,65 @@ def identity_table(sc=None, res=None, select="jsd", labels=None, links=None):
     if labels:
         L = pd.read_csv(labels, sep="\t", usecols=["level", "group", "se", "cn_status"]).query("level == @lev")
         cn = dict(zip(zip(L.group, L.se), L.cn_status))
-    cols = [g for g, _ in IDENTITY if g in J.columns]
-    key = {"jsd": lambda grp: lambda x: J.loc[x, grp], "fdr": lambda grp: lambda x: (F.loc[x, grp], J.loc[x, grp])}[select]
+    groups = [(g, ln) for g, ln in (groups or [(g, g) for g, _ in IDENTITY]) if g in J.columns]
+    cols = [g for g, _ in groups]
+    key = {"jsd": lambda own: lambda x: J.loc[x, own].min(),
+           "fdr": lambda own: lambda x: (F.loc[x, own].min(), J.loc[x, own].min())}[select]
     recs = []
     for grp, genes in IDENTITY:
-        if grp not in J.columns:
+        own = [c for c, ln in groups if ln == grp]
+        if not own:
             continue
+        ok = lambda x: x in J.index and np.isfinite(J.loc[x, own].astype(float)).any()       # noqa: E731
         for g in genes:
             if g not in gc:
                 continue
             c, s, e = gc[g]
             near = cat[(cat.chrom == c) & (cat.end >= s - 100_000) & (cat.start <= e + 100_000)].index   # score_pilot identity_near
-            near = [x for x in near if x in J.index and np.isfinite(J.loc[x, grp])]
+            near = [x for x in near if ok(x)]
             win, extra = set(near), (links or {}).get(g, {})
-            near += [x for x in extra if x not in win and x in J.index and np.isfinite(J.loc[x, grp])]
+            near += [x for x in extra if x not in win and ok(x)]
             if not near:
                 continue
-            best = min(near, key=key(grp))
-            recs.append(dict(gene=g, lineage=grp, se=best, chrom=cat.loc[best, "chrom"], start=int(cat.loc[best, "start"]),
-                             end=int(cat.loc[best, "end"]), rank=[int((J[c] < J.loc[best, c]).sum()) + 1 for c in cols],
+            best = min(near, key=key(own))
+            recs.append(dict(gene=g, lineage=grp, own=own, se=best, chrom=cat.loc[best, "chrom"],
+                             start=int(cat.loc[best, "start"]), end=int(cat.loc[best, "end"]),
+                             rank=[int((J[c] < J.loc[best, c]).sum()) + 1 for c in cols],
                              fdr=F.loc[best, cols].astype(float).values, cn=[cn.get((c, best)) for c in cols],
                              link=None if best in win else extra[best]))
     return cols, recs
 
 
-def fig_identity(width=215, table=None, name="fig5_identity", cn_mark=False, contrast_text=False):
+def fig_identity(width=215, table=None, name="fig5_identity", cn_mark=False, contrast_text=False, groups=None,
+                 fdr_label="FDR (lineage)", cell_fs=10.5, rot=40):
     """Draw identity_table(): -log10 FDR per lineage, the rank where FDR < 1 (* = FDR <= 0.10), the gene's own lineage
     outlined. cn_mark appends † to CN-unmasked calls (pass only with copy-number correction); contrast_text picks each
     label's colour by WCAG contrast (always on for palette variants; the poster default is a fixed threshold). A row
-    whose SE is linked by Hi-C rather than within 100 kb is labelled with its distance."""
+    whose SE is linked by Hi-C rather than within 100 kb is labelled with its distance. groups (deeper levels, as in
+    identity_table): columns are bracketed by lineage and the outline spans the gene's own lineage's groups."""
     cols, recs = table or identity_table()
     rows = [-np.log10(pd.Series(r["fdr"]).clip(lower=1e-12)).values for r in recs]
     ranks, fdrs = [r["rank"] for r in recs], [r["fdr"] for r in recs]
-    lab = [(r["gene"], r["lineage"], r["rank"][cols.index(r["lineage"])], float(r["fdr"][cols.index(r["lineage"])]))
-           for r in recs]
+    own_j = [[cols.index(o) for o in r.get("own", [r["lineage"]])] for r in recs]
+    best_j = [min(oj, key=lambda j: r["fdr"][j]) for oj, r in zip(own_j, recs)]
+    lab = [(r["gene"], r["lineage"], r["rank"][j], float(r["fdr"][j])) for r, j in zip(recs, best_j)]
     M = np.array(rows)
     fig, ax = plt.subplots(figsize=(width * MM, 30 * MM + 8.0 * MM * len(rows)))
     from matplotlib.colors import LinearSegmentedColormap
     cmap = LinearSegmentedColormap.from_list("teal", RAMP)
     vmax = 3.0
     im = ax.imshow(np.minimum(M, vmax), cmap=cmap, vmin=0, vmax=vmax, aspect="auto", interpolation="nearest")
-    for i, (g, grp, rank, fdr) in enumerate(lab):
-        j = cols.index(grp)
-        ax.add_patch(plt.Rectangle((j - 0.46, i - 0.44), 0.92, 0.88, fill=False, edgecolor=INK, lw=1.8, zorder=5))
+    for i, oj in enumerate(own_j):
+        j0, j1 = min(oj), max(oj)
+        ax.add_patch(plt.Rectangle((j0 - 0.46, i - 0.44), j1 - j0 + 0.92, 0.88, fill=False, edgecolor=INK, lw=1.8, zorder=5))
     for i in range(len(lab)):
         for j in range(len(cols)):
             if fdrs[i][j] < 1.0:
                 dag = "†" if cn_mark and fdrs[i][j] <= 0.10 and recs[i]["cn"][j] == "unmasked" else ""
-                ax.text(j, i, f"{ranks[i][j]:,}" + ("*" if fdrs[i][j] <= 0.10 else "") + dag, ha="center", va="center", fontsize=10.5,
+                ax.text(j, i, f"{ranks[i][j]:,}" + ("*" if fdrs[i][j] <= 0.10 else "") + dag, ha="center", va="center", fontsize=cell_fs,
                         fontweight="bold" if fdrs[i][j] <= 0.10 else "normal",
                         color=_cell_text(cmap(min(M[i, j], vmax) / vmax)) if PALETTE or contrast_text else SURF if M[i, j] > 1.4 else INK)
-    ax.set_xticks(range(len(cols)), cols, rotation=40, ha="right", rotation_mode="anchor", fontsize=12.5)
+    ax.set_xticks(range(len(cols)), cols, rotation=rot, ha="right", rotation_mode="anchor", fontsize=12.5)
     ax.set_yticks(range(len(lab)), [g + (f" (Hi-C, {r['link']['kb']:.0f} kb)" if r.get("link") else "")
                                      for (g, *_), r in zip(lab, recs)], fontsize=13.5)
     for t, (g, *_ ) in zip(ax.get_yticklabels(), lab):
@@ -390,9 +400,23 @@ def fig_identity(width=215, table=None, name="fig5_identity", cn_mark=False, con
         sp.set_visible(False)
     ax.set_xticks(np.arange(-0.5, len(cols)), minor=True); ax.set_yticks(np.arange(-0.5, len(lab)), minor=True)
     ax.grid(which="minor", color=SURF, linewidth=1.5); ax.tick_params(which="minor", length=0)
-    cb = fig.colorbar(im, ax=ax, fraction=0.035, pad=0.02, ticks=[0, 1, 2, 3])
+    if groups:                                                      # lineage brackets above the columns
+        lin = dict(groups)
+        blocks = []
+        for j, c in enumerate(cols):
+            if blocks and blocks[-1][0] == lin[c]:
+                blocks[-1][2] = j
+            else:
+                blocks.append([lin[c], j, j])
+        for ln, j0, j1 in blocks:
+            ax.plot([j0 - 0.42, j1 + 0.42], [-0.75, -0.75], color=MUTED, lw=1.2, clip_on=False)
+            ax.text((j0 + j1) / 2, -0.95, ln, rotation=90, ha="left", va="center", rotation_mode="anchor",
+                    fontsize=12.5, color=INK, clip_on=False)
+            if j0 > 0:
+                ax.axvline(j0 - 0.5, color=FAINT, lw=1.0, zorder=4)
+    cb = fig.colorbar(im, ax=ax, fraction=0.035 * 215 / width, pad=0.02 * 215 / width, ticks=[0, 1, 2, 3])
     cb.ax.set_yticklabels(["1", "0.1", "0.01", "≤0.001"], fontsize=12)
-    cb.set_label("FDR (lineage)", fontsize=14); cb.outline.set_visible(False)
+    cb.set_label(fdr_label, fontsize=14); cb.outline.set_visible(False)
     save(fig, name)
     return pd.DataFrame(lab, columns=["gene", "lineage", "rank", "fdr"])
 
