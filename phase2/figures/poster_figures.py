@@ -307,7 +307,8 @@ IDENTITY = [("Ovary/Fallopian Tube", ["PAX8", "SOX17", "MECOM"]), ("Bowel", ["CD
             ("Liver", ["HNF1A"]), ("Prostate", ["AR"]), ("Kidney", ["PAX2"]), ("Head and Neck", ["TP63"])]
 
 
-def identity_table(sc=None, res=None, select="jsd", labels=None, links=None, level="OncotreeLineage", groups=None):
+def identity_table(sc=None, res=None, select="jsd", labels=None, links=None, level="OncotreeLineage", groups=None,
+                   identity=None):
     """Known lineage master TFs: one SE per gene (within 100 kb, the best in the gene's own lineage) and its JSD rank,
     FDR and (with `labels`, a fused_labels.groups table) CN status in every lineage.
 
@@ -317,7 +318,8 @@ def identity_table(sc=None, res=None, select="jsd", labels=None, links=None, lev
     links = {gene: {se: info}}: SEs linked to the gene another way (Hi-C contact, 77_stage_master_tfs.py), candidates
     beside the 100 kb ones; a record whose SE is outside 100 kb carries that info as `link`.
     level/groups: the same at a deeper Oncotree level. groups = [(group, its lineage), ...] are the columns (default:
-    the IDENTITY lineages themselves); a gene's own groups (`own`) are its lineage's, and its SE is the best over them."""
+    the IDENTITY lineages themselves); a gene's own groups (`own`) are its lineage's, and its SE is the best over them.
+    identity: [(own key, [genes])] in place of IDENTITY, e.g. disease master TFs with groups [(disease, disease)]."""
     sys.path.insert(0, os.path.join(SECACTS, "cnrose"))
     sys.path.insert(0, SECACTS)
     from secacts_env import cache_path
@@ -332,12 +334,13 @@ def identity_table(sc=None, res=None, select="jsd", labels=None, links=None, lev
     if labels:
         L = pd.read_csv(labels, sep="\t", usecols=["level", "group", "se", "cn_status"]).query("level == @lev")
         cn = dict(zip(zip(L.group, L.se), L.cn_status))
-    groups = [(g, ln) for g, ln in (groups or [(g, g) for g, _ in IDENTITY]) if g in J.columns]
+    identity = identity or IDENTITY
+    groups = [(g, ln) for g, ln in (groups or [(g, g) for g, _ in identity]) if g in J.columns]
     cols = [g for g, _ in groups]
     key = {"jsd": lambda own: lambda x: J.loc[x, own].min(),
            "fdr": lambda own: lambda x: (F.loc[x, own].min(), J.loc[x, own].min())}[select]
     recs = []
-    for grp, genes in IDENTITY:
+    for grp, genes in identity:
         own = [c for c, ln in groups if ln == grp]
         if not own:
             continue
@@ -352,7 +355,8 @@ def identity_table(sc=None, res=None, select="jsd", labels=None, links=None, lev
             near += [x for x in extra if x not in win and ok(x)]
             if not near:
                 continue
-            best = min(near, key=key(own))
+            k = key(own)                     # an untested own group (FDR 1 everywhere) keeps a 100 kb SE, not a distant Hi-C one
+            best = min(near, key=lambda x: (k(x), x not in win) if select == "jsd" else (k(x)[0], x not in win and k(x)[0] >= 1, k(x)[1]))
             recs.append(dict(gene=g, lineage=grp, own=own, se=best, chrom=cat.loc[best, "chrom"],
                              start=int(cat.loc[best, "start"]), end=int(cat.loc[best, "end"]),
                              rank=[int((J[c] < J.loc[best, c]).sum()) + 1 for c in cols],
@@ -362,12 +366,13 @@ def identity_table(sc=None, res=None, select="jsd", labels=None, links=None, lev
 
 
 def fig_identity(width=215, table=None, name="fig5_identity", cn_mark=False, contrast_text=False, groups=None,
-                 fdr_label="FDR (lineage)", cell_fs=10.5, rot=40):
+                 fdr_label="FDR (lineage)", cell_fs=10.5, rot=40, blocks=None):
     """Draw identity_table(): -log10 FDR per lineage, the rank where FDR < 1 (* = FDR <= 0.10), the gene's own lineage
     outlined. cn_mark appends † to CN-unmasked calls (pass only with copy-number correction); contrast_text picks each
     label's colour by WCAG contrast (always on for palette variants; the poster default is a fixed threshold). A row
     whose SE is linked by Hi-C rather than within 100 kb is labelled with its distance. groups (deeper levels, as in
-    identity_table): columns are bracketed by lineage and the outline spans the gene's own lineage's groups."""
+    identity_table): columns are bracketed by lineage and the outline spans the gene's own lineage's groups; blocks =
+    {column: bracket label} brackets columns without changing what a gene owns (disease TFs own one disease)."""
     cols, recs = table or identity_table()
     rows = [-np.log10(pd.Series(r["fdr"]).clip(lower=1e-12)).values for r in recs]
     ranks, fdrs = [r["rank"] for r in recs], [r["fdr"] for r in recs]
@@ -400,8 +405,8 @@ def fig_identity(width=215, table=None, name="fig5_identity", cn_mark=False, con
         sp.set_visible(False)
     ax.set_xticks(np.arange(-0.5, len(cols)), minor=True); ax.set_yticks(np.arange(-0.5, len(lab)), minor=True)
     ax.grid(which="minor", color=SURF, linewidth=1.5); ax.tick_params(which="minor", length=0)
-    if groups:                                                      # lineage brackets above the columns
-        lin = dict(groups)
+    if groups or blocks:                                            # lineage brackets above the columns
+        lin = blocks or dict(groups)
         blocks = []
         for j, c in enumerate(cols):
             if blocks and blocks[-1][0] == lin[c]:

@@ -1,0 +1,141 @@
+level	group	gene	pmid	first_author_year	evidence
+disease	Bladder Urothelial Carcinoma	PPARG	27924948	Sci Rep 2016	a cooperative regulatory network consisting of GATA3, FOXA1, and PPARɣ drive luminal cell fate
+disease	Bladder Urothelial Carcinoma	GATA3	27924948	Sci Rep 2016	a cooperative regulatory network consisting of GATA3, FOXA1, and PPARɣ drive luminal cell fate
+disease	Bladder Urothelial Carcinoma	FOXA1	27924948	Sci Rep 2016	a cooperative regulatory network consisting of GATA3, FOXA1, and PPARɣ drive luminal cell fate
+disease	Ewing Sarcoma	NKX2-2	33080033	Nucleic Acids Res 2020	we identify and functionally validate a CRC 'trio' constituted by three transcription factors (TFs): KLF15, TCF4 and NKX2-2, in Ewing sarcoma cells
+disease	Ewing Sarcoma	KLF15	33080033	Nucleic Acids Res 2020	we identify and functionally validate a CRC 'trio' constituted by three transcription factors (TFs): KLF15, TCF4 and NKX2-2, in Ewing sarcoma cells
+disease	Ewing Sarcoma	TCF4	33080033	Nucleic Acids Res 2020	we identify and functionally validate a CRC 'trio' constituted by three transcription factors (TFs): KLF15, TCF4 and NKX2-2, in Ewing sarcoma cells
+disease	Osteosarcoma	RUNX2	37491298	Cell Biosci 2023	We have previously shown that RUNX2 is a transcription factor (TF) essential for OS cell survival.
+disease	Colorectal Adenocarcinoma	CDX2	35051860	Biomed Pharmacother 2022	Caudal type homeobox 2 (CDX2) is a master regulator of intestinal identity and acts as tumor suppressor in the colon.
+disease	Invasive Breast Carcinoma	ESR1	17616709	Eeckhoute 2007	GATA-3 as a critical component of the master cell-type-specific transcriptional network including ER alpha and FoxA1 that dictates the phenotype of hormone-dependent breast cancer
+disease	Invasive Breast Carcinoma	FOXA1	17616709	Eeckhoute 2007	GATA-3 as a critical component of the master cell-type-specific transcriptional network including ER alpha and FoxA1 that dictates the phenotype of hormone-dependent breast cancer
+disease	Invasive Breast Carcinoma	GATA3	17616709	Eeckhoute 2007	GATA-3 as a critical component of the master cell-type-specific transcriptional network including ER alpha and FoxA1 that dictates the phenotype of hormone-dependent breast cancer
+disease	Diffuse Glioma	SOX2	24726434	Suva 2014	we identify a core set of neurodevelopmental TFs (POU3F2, SOX2, SALL2, and OLIG2) essential for GBM propagation
+disease	Diffuse Glioma	OLIG2	24726434	Suva 2014	we identify a core set of neurodevelopmental TFs (POU3F2, SOX2, SALL2, and OLIG2) essential for GBM propagation
+disease	Diffuse Glioma	POU3F2	24726434	Suva 2014	we identify a core set of neurodevelopmental TFs (POU3F2, SOX2, SALL2, and OLIG2) essential for GBM propagation
+disease	Embryonal Tumor	OTX2	36273157	J Exp Clin Cancer Res 2022	members of SE-driven core transcriptional regulatory network of G3-MB, including three well-recognized TFs (MYC, OTX2 and CRX)
+disease	Embryonal Tumor	CRX	36273157	J Exp Clin Cancer Res 2022	members of SE-driven core transcriptional regulatory network of G3-MB, including three well-recognized TFs (MYC, OTX2 and CRX)
+disease	Esophageal Squamous Cell Carcinoma	TP63	32619460	Jiang 2020	We identified super-enhancer-regulated circuits and transcription factors TP63, SOX2, and KLF5 as core regulatory factors in ESCC cells.
+disease	Esophageal Squamous Cell Carcinoma	SOX2	32619460	Jiang 2020	We identified super-enhancer-regulated circuits and transcription factors TP63, SOX2, and KLF5 as core regulatory factors in ESCC cells.
+disease	Esophageal Squamous Cell Carcinoma	KLF5	32619460	Jiang 2020	We identified super-enhancer-regulated circuits and transcription factors TP63, SOX2, and KLF5 as core regulatory factors in ESCC cells.
+disease	Esophagogastric Adenocarcinoma	GATA6	31409603	Gut 2020	an interconnected circuitry formed by four master TFs-ELF3, KLF5, GATA6 and EHF-which promoted each other's expression
+disease	Esophagogastric Adenocarcinoma	KLF5	31409603	Gut 2020	an interconnected circuitry formed by four master TFs-ELF3, KLF5, GATA6 and EHF-which promoted each other's expression
+disease	Esophagogastric Adenocarcinoma	ELF3	31409603	Gut 2020	an interconnected circuitry formed by four master TFs-ELF3, KLF5, GATA6 and EHF-which promoted each other's expression
+disease	Ocular Melanoma	SOX10	42120529	Cell Mol Life Sci 2026	SOX10 is essential for melanocyte development and maintenance and plays a critical role in uveal melanoma (UM) initiation and progression.
+disease	Head and Neck Squamous Cell Carcinoma	TP63	16413471	Rocco 2006	We demonstrate that deltaNp63alpha is an essential survival factor in head and neck squamous cell carcinoma (HNSCC)
+disease	Head and Neck Squamous Cell Carcinoma	SOX2	30190462	Nat Commun 2018	master transcription factors (TFs) TP63 and SOX2 exhibited overlapping genomic occupancy in SCCs
+disease	Renal Cell Carcinoma	PAX8	35676472	Patel 2022	the lineage transcription factor paired box 8 (PAX8) is required for oncogenic signalling by two common genetic alterations that cause clear cell renal cell carcinoma
+disease	Renal Cell Carcinoma	EPAS1	36681680	Nat Commun 2023	nominate 50 histology-specific master transcription factors (MTF) to define RCC histologic subtypes, including EPAS1 and ETS-1 in ccRCC
+disease	Hepatocellular Carcinoma	HNF4A	38901435	Semin Liver Dis 2024	HNF4α is considered the master regulator of hepatic differentiation because it regulates a significant number of genes involved in various liver-specific functions.
+disease	Hepatocellular Carcinoma	HNF1A	30560924	Cell Res 2019	the combination of hepatocyte nuclear factor 1A (HNF1A), HNF4A and forkhead box protein A3 (FOXA3) synergistically reprograms hepatocellular carcinoma (HCC) cells to hepatocyte-like cells
+disease	Lung Neuroendocrine Tumor	ASCL1	25267614	Augustyn 2014	is essential for the survival of a majority of lung cancers (both SCLC and NSCLC) with neuroendocrine features
+disease	Lung Neuroendocrine Tumor	NEUROD1	27452466	Borromeo 2016	The transcription factors ASCL1 and NEUROD1 play crucial roles in promoting malignant behavior and survival of human SCLC cell lines.
+disease	Lung Neuroendocrine Tumor	POU2F3	29945888	Huang 2018	POU2F3 is a master regulator of tuft cell identity in a variant form of SCLC
+disease	Non-Small Cell Lung Cancer	NKX2-1	23763999	Cancer Cell 2013	"NKX2-1, a homeobox-containing transcription factor also known as TTF-1, plays a role as a ""lineage-survival"" oncogene in lung adenocarcinomas"
+disease	Non-Small Cell Lung Cancer	SOX2	19801978	Bass 2009	These characteristics identify SOX2 as a lineage-survival oncogene in lung and esophageal SCC.
+disease	Non-Small Cell Lung Cancer	TP63	24531128	Nat Commun 2014	upregulates p63 expression, a SCC lineage survival oncogene
+disease	B-Cell Acute Lymphoblastic Leukemia	PAX5	36387144	Front Oncol 2022	PAX5, a master regulator of B cell development and maintenance, is one of the most common targets of genetic alterations in B-cell acute lymphoblastic leukemia
+disease	B-Cell Acute Lymphoblastic Leukemia	EBF1	28655536	Exp Hematol 2017	The B-lymphoid transcription factors IKZF1, EBF1, and PAX5 are essential for early B-cell development and commitment to B-cell identity.
+disease	Mature B-Cell Neoplasms	PAX5	17440452	Cobaleda 2007	an essential role for Pax5 in controlling the identity and function of B cells throughout B lymphopoiesis
+disease	Mature B-Cell Neoplasms	IRF4	41391979	Pathology 2026	IRF4 is central to the pathogenesis of multiple B-cell malignancies
+disease	Mature B-Cell Neoplasms	BCL6	24698494	Hatzi 2014	The B cell lymphoma 6 (BCL6) transcriptional repressor is a master regulator of the germinal center (GC) B cell program
+disease	Mature T and NK Neoplasms	BATF3	38508140	Cell Rep Med 2024	dysregulated STAT3 in ALCL cooccupies enhancers with master transcription factors BATF3, IRF4, and IKZF1 to form a core regulatory circuit
+disease	Mature T and NK Neoplasms	IRF4	38508140	Cell Rep Med 2024	dysregulated STAT3 in ALCL cooccupies enhancers with master transcription factors BATF3, IRF4, and IKZF1 to form a core regulatory circuit
+disease	T-Lymphoblastic Leukemia/Lymphoma	TAL1	22897851	Sanda 2012	We show that TAL1 forms a positive interconnected autoregulatory loop with GATA3 and RUNX1
+disease	T-Lymphoblastic Leukemia/Lymphoma	GATA3	22897851	Sanda 2012	We show that TAL1 forms a positive interconnected autoregulatory loop with GATA3 and RUNX1
+disease	T-Lymphoblastic Leukemia/Lymphoma	RUNX1	22897851	Sanda 2012	We show that TAL1 forms a positive interconnected autoregulatory loop with GATA3 and RUNX1
+disease	Acute Myeloid Leukemia	SPI1	33741901	Cell Death Dis 2021	PU.1 (encoded by SPI1) is essential for myeloid development, and inhibition of its expression and activity can lead to acute myeloid leukemia (AML)
+disease	Acute Myeloid Leukemia	CEBPA	37532789	Leukemia 2023	The transcription factor CCAAT-enhancer binding factor alpha (C/ebpα) is a master controller of myeloid differentiation
+disease	Acute Myeloid Leukemia	RUNX1	33906574	Expert Opin Ther Targets 2021	RUNX1 is an essential transcription factor for normal and malignant hematopoiesis.
+disease	Ovarian Epithelial Tumor	PAX8	21746896	Cheung 2011	These results identify PAX8 as an ovarian lineage-specific dependency.
+disease	Ovarian Epithelial Tumor	SOX17	35124696	Oncogene 2022	we identified SOX17 as a new lineage-survival master transcription factor, which shared co-expression pattern with PAX8 in epithelial ovarian carcinoma
+disease	Ovarian Epithelial Tumor	WT1	37090516	bioRxiv 2023	MECOM, PAX8, SOX17 and WT1 are lineage-enriched, super-enhancer associated master regulators
+disease	Pancreatic Adenocarcinoma	GATA6	39884837	Gut 2025	It has two major molecular subtypes: classical and basal, regulated by the master transcription factors (MTFs) GATA6 and ΔNp63, respectively.
+disease	Neuroblastoma	PHOX2B	28740262	Boeva 2017	a sympathetic noradrenergic identity, defined by a CRC module including the PHOX2B, HAND2 and GATA3 transcription factors (TFs)
+disease	Neuroblastoma	HAND2	28740262	Boeva 2017	a sympathetic noradrenergic identity, defined by a CRC module including the PHOX2B, HAND2 and GATA3 transcription factors (TFs)
+disease	Neuroblastoma	GATA3	28740262	Boeva 2017	a sympathetic noradrenergic identity, defined by a CRC module including the PHOX2B, HAND2 and GATA3 transcription factors (TFs)
+disease	Prostate Adenocarcinoma	AR	41768226	Cancer Heterog Plast 2025	Androgen receptor (AR) is a hormonal transcription factor (TF) that binds to cis-regulatory elements of prostate lineage-specific genes to govern androgen response
+disease	Prostate Adenocarcinoma	FOXA1	32094298	Cancer Res 2020	FOXA1, HOXB13, and GATA2 are required for normal AR transcription in prostate epithelial development and for oncogenic AR transcription during prostate carcinogenesis.
+disease	Prostate Adenocarcinoma	HOXB13	32094298	Cancer Res 2020	FOXA1, HOXB13, and GATA2 are required for normal AR transcription in prostate epithelial development and for oncogenic AR transcription during prostate carcinogenesis.
+disease	Melanoma	MITF	21258399	Strub 2011	is the master regulator determining the identity and properties of the melanocyte lineage, and is regarded as a lineage-specific 'oncogene'
+disease	Melanoma	SOX10	22772081	Shakhova 2012	SOX10 silencing in human melanoma cells suppresses neural crest stem cell properties, counteracts proliferation and cell survival, and completely abolishes in vivo tumour formation
+disease	Gastrointestinal Stromal Tumor	ETV1	20927104	Chi 2010	ETV1 is a master regulator of an ICC-GIST-specific transcription network mainly through enhancer binding
+disease	Rhabdomyosarcoma	MYOD1	28446439	Gryder 2017	PAX3-FOXO1 uses super enhancers to set up autoregulatory loops in collaboration with the master transcription factors MYOG, MYOD, and MYCN.
+disease	Rhabdomyosarcoma	MYOG	28446439	Gryder 2017	PAX3-FOXO1 uses super enhancers to set up autoregulatory loops in collaboration with the master transcription factors MYOG, MYOD, and MYCN.
+disease	Non-Seminomatous Germ Cell Tumor	POU5F1	36835562	Int J Mol Sci 2023	embryonal carcinoma (EC) has four upregulated genes, OCT4/POU5F1, SOX2, LIN28, and NANOG
+disease	Non-Seminomatous Germ Cell Tumor	NANOG	36835562	Int J Mol Sci 2023	embryonal carcinoma (EC) has four upregulated genes, OCT4/POU5F1, SOX2, LIN28, and NANOG
+disease	Endometrial Carcinoma	PAX8	33361393	Cancer Res 2021	Paired Box 8 (PAX8) is a lineage-specific transcription factor that has essential roles during embryogenesis and tumorigenesis.
+subtype	Colon Adenocarcinoma	CDX2	35051860	Biomed Pharmacother 2022	Caudal type homeobox 2 (CDX2) is a master regulator of intestinal identity and acts as tumor suppressor in the colon.
+subtype	Breast Invasive Lobular Carcinoma	FOXA1	35950920	Cancer Res 2022	a distinct chromatin state linked to gained recruitment of FOXA1, a lineage-defining pioneer transcription factor
+subtype	Breast Invasive Lobular Carcinoma	ESR1	35950920	Cancer Res 2022	an ILC-unique FOXA1-estrogen receptor (ER) axis that promoted the transcription of genes associated with tumor progression
+subtype	Glioblastoma	SOX2	24726434	Suva 2014	we identify a core set of neurodevelopmental TFs (POU3F2, SOX2, SALL2, and OLIG2) essential for GBM propagation
+subtype	Glioblastoma	OLIG2	24726434	Suva 2014	we identify a core set of neurodevelopmental TFs (POU3F2, SOX2, SALL2, and OLIG2) essential for GBM propagation
+subtype	Glioblastoma	POU3F2	24726434	Suva 2014	we identify a core set of neurodevelopmental TFs (POU3F2, SOX2, SALL2, and OLIG2) essential for GBM propagation
+subtype	Medulloblastoma, Group 3	OTX2	36273157	J Exp Clin Cancer Res 2022	members of SE-driven core transcriptional regulatory network of G3-MB, including three well-recognized TFs (MYC, OTX2 and CRX)
+subtype	Medulloblastoma, Group 3	CRX	29533784	Garancher 2018	two photoreceptor-specific transcription factors, NRL and CRX, are master regulators of this program and are required for tumor maintenance in this subgroup
+subtype	Stomach Adenocarcinoma	GATA4	25053715	Chia 2015	KLF5/GATA4/GATA6 may promote GC development by engaging in mutual crosstalk, collaborating to maintain a pro-oncogenic transcriptional regulatory network in GC cells.
+subtype	Stomach Adenocarcinoma	GATA6	25053715	Chia 2015	KLF5/GATA4/GATA6 may promote GC development by engaging in mutual crosstalk, collaborating to maintain a pro-oncogenic transcriptional regulatory network in GC cells.
+subtype	Stomach Adenocarcinoma	KLF5	25053715	Chia 2015	KLF5/GATA4/GATA6 may promote GC development by engaging in mutual crosstalk, collaborating to maintain a pro-oncogenic transcriptional regulatory network in GC cells.
+subtype	Esophageal Adenocarcinoma	GATA6	31409603	Gut 2020	an interconnected circuitry formed by four master TFs-ELF3, KLF5, GATA6 and EHF-which promoted each other's expression
+subtype	Esophageal Adenocarcinoma	ELF3	31409603	Gut 2020	an interconnected circuitry formed by four master TFs-ELF3, KLF5, GATA6 and EHF-which promoted each other's expression
+subtype	Esophageal Squamous Cell Carcinoma	TP63	32619460	Jiang 2020	We identified super-enhancer-regulated circuits and transcription factors TP63, SOX2, and KLF5 as core regulatory factors in ESCC cells.
+subtype	Esophageal Squamous Cell Carcinoma	SOX2	32619460	Jiang 2020	We identified super-enhancer-regulated circuits and transcription factors TP63, SOX2, and KLF5 as core regulatory factors in ESCC cells.
+subtype	Esophageal Squamous Cell Carcinoma	KLF5	32619460	Jiang 2020	We identified super-enhancer-regulated circuits and transcription factors TP63, SOX2, and KLF5 as core regulatory factors in ESCC cells.
+subtype	Uveal Melanoma	SOX10	42120529	Cell Mol Life Sci 2026	SOX10 is essential for melanocyte development and maintenance and plays a critical role in uveal melanoma (UM) initiation and progression.
+subtype	Oral Cavity Squamous Cell Carcinoma	TP63	16413471	Rocco 2006	We demonstrate that deltaNp63alpha is an essential survival factor in head and neck squamous cell carcinoma (HNSCC)
+subtype	Renal Clear Cell Carcinoma	PAX8	35676472	Patel 2022	the lineage transcription factor paired box 8 (PAX8) is required for oncogenic signalling by two common genetic alterations that cause clear cell renal cell carcinoma
+subtype	Renal Clear Cell Carcinoma	EPAS1	36681680	Nat Commun 2023	nominate 50 histology-specific master transcription factors (MTF) to define RCC histologic subtypes, including EPAS1 and ETS-1 in ccRCC
+subtype	Hepatocellular Carcinoma	HNF4A	38901435	Semin Liver Dis 2024	HNF4α is considered the master regulator of hepatic differentiation because it regulates a significant number of genes involved in various liver-specific functions.
+subtype	Hepatocellular Carcinoma	HNF1A	30560924	Cell Res 2019	the combination of hepatocyte nuclear factor 1A (HNF1A), HNF4A and forkhead box protein A3 (FOXA3) synergistically reprograms hepatocellular carcinoma (HCC) cells to hepatocyte-like cells
+subtype	Lung Adenocarcinoma	NKX2-1	23763999	Cancer Cell 2013	"NKX2-1, a homeobox-containing transcription factor also known as TTF-1, plays a role as a ""lineage-survival"" oncogene in lung adenocarcinomas"
+subtype	Lung Squamous Cell Carcinoma	SOX2	19801978	Bass 2009	These characteristics identify SOX2 as a lineage-survival oncogene in lung and esophageal SCC.
+subtype	Lung Squamous Cell Carcinoma	TP63	24531128	Nat Commun 2014	upregulates p63 expression, a SCC lineage survival oncogene
+subtype	Small Cell Lung Cancer	ASCL1	25267614	Augustyn 2014	is essential for the survival of a majority of lung cancers (both SCLC and NSCLC) with neuroendocrine features
+subtype	Small Cell Lung Cancer	NEUROD1	27452466	Borromeo 2016	The transcription factors ASCL1 and NEUROD1 play crucial roles in promoting malignant behavior and survival of human SCLC cell lines.
+subtype	Small Cell Lung Cancer	POU2F3	29945888	Huang 2018	POU2F3 is a master regulator of tuft cell identity in a variant form of SCLC
+subtype	Activated B-cell Type	IRF4	24875472	Care 2014	Interferon regulatory factor 4 (IRF4) is central to the transcriptional network of activated B-cell-like diffuse large B-cell lymphoma (ABC-DLBCL)
+subtype	Germinal Center B-Cell Type	BCL6	24698494	Hatzi 2014	The B cell lymphoma 6 (BCL6) transcriptional repressor is a master regulator of the germinal center (GC) B cell program
+subtype	Germinal Center B-Cell Type	MEF2B	23974956	Ying 2013	MEF2B directly activated the transcription of the proto-oncogene BCL6 in normal germinal-center (GC) B cells and was required for DLBCL proliferation
+subtype	Anaplastic Large-Cell Lymphoma ALK Positive	BATF3	38508140	Cell Rep Med 2024	dysregulated STAT3 in ALCL cooccupies enhancers with master transcription factors BATF3, IRF4, and IKZF1 to form a core regulatory circuit
+subtype	Anaplastic Large-Cell Lymphoma ALK Positive	IRF4	25359993	Weilemann 2015	ALCLs of both subtypes are addicted to IRF4 signaling
+subtype	Anaplastic Large-Cell Lymphoma ALK Negative	BATF3	38508140	Cell Rep Med 2024	dysregulated STAT3 in ALCL cooccupies enhancers with master transcription factors BATF3, IRF4, and IKZF1 to form a core regulatory circuit
+subtype	Anaplastic Large-Cell Lymphoma ALK Negative	IRF4	25359993	Weilemann 2015	ALCLs of both subtypes are addicted to IRF4 signaling
+subtype	B-Cell Acute Lymphoblastic Leukemia	PAX5	36387144	Front Oncol 2022	PAX5, a master regulator of B cell development and maintenance, is one of the most common targets of genetic alterations in B-cell acute lymphoblastic leukemia
+subtype	B-Cell Acute Lymphoblastic Leukemia	EBF1	28655536	Exp Hematol 2017	The B-lymphoid transcription factors IKZF1, EBF1, and PAX5 are essential for early B-cell development and commitment to B-cell identity.
+subtype	Burkitt Lymphoma	TCF3	24492847	Schmitz 2014	The transcription factor TCF-3 is central to Burkitt lymphoma pathogenesis.
+subtype	Mantle Cell Lymphoma	SOX11	40739087	Blood Cancer J 2025	SOX11 is a key driver of MCL through the regulation of several oncogenic mechanisms
+subtype	Plasma Cell Myeloma	IRF4	42685883	Cell Signal 2026	Interferon regulatory factor 4 (IRF4) is a lineage-restricted transcription factor essential for plasma cell differentiation and represents an important dependency in multiple myeloma (MM).
+subtype	Plasma Cell Myeloma	PRDM1	41284831	J Med Chem 2025	B-lymphocyte-induced maturation protein 1 (BLIMP-1/PRDM1) is a master transcriptional repressor essential for terminal differentiation of activated B-cells into bone-marrow resident plasma cells
+subtype	Plasma Cell Myeloma	XBP1	34117720	FEBS J 2022	IRF4, PRDM1, and XBP1, essential transcription factors driving the B to PC differentiation
+subtype	Primary Effusion Lymphoma	IRF4	32843547	mBio 2020	interferon (IFN) regulatory factor 4 (IRF4) is an essential oncogene in PEL
+subtype	Primary Effusion Lymphoma	BATF	32843547	mBio 2020	vIRF3 cooperates with IRF4 and cellular BATF (basic leucine zipper ATF-like TF) to drive a super-enhancer (SE)-mediated oncogenic transcriptional program in PEL
+subtype	T-Cell Acute Lymphoblastic Leukemia	TAL1	22897851	Sanda 2012	We show that TAL1 forms a positive interconnected autoregulatory loop with GATA3 and RUNX1
+subtype	T-Cell Acute Lymphoblastic Leukemia	GATA3	22897851	Sanda 2012	We show that TAL1 forms a positive interconnected autoregulatory loop with GATA3 and RUNX1
+subtype	T-Cell Acute Lymphoblastic Leukemia	MYB	30078801	Rinsho Ketsueki 2018	the oncogenic transcription factor TAL1 and its regulatory partners (GATA3, RUNX1 and MYB) are regulated by super-enhancers
+subtype	Acute Myeloid Leukemia	SPI1	33741901	Cell Death Dis 2021	PU.1 (encoded by SPI1) is essential for myeloid development, and inhibition of its expression and activity can lead to acute myeloid leukemia (AML)
+subtype	Acute Myeloid Leukemia	CEBPA	37532789	Leukemia 2023	The transcription factor CCAAT-enhancer binding factor alpha (C/ebpα) is a master controller of myeloid differentiation
+subtype	High-Grade Serous Ovarian Cancer	PAX8	37090516	bioRxiv 2023	MECOM, PAX8, SOX17 and WT1 are lineage-enriched, super-enhancer associated master regulators
+subtype	High-Grade Serous Ovarian Cancer	WT1	37090516	bioRxiv 2023	MECOM, PAX8, SOX17 and WT1 are lineage-enriched, super-enhancer associated master regulators
+subtype	High-Grade Serous Ovarian Cancer	MECOM	34818047	Sci Adv 2021	PAX8, SOX17, and MECOM as candidates in ovarian cancer (OvCa). In OvCa cells, consistent with known MTF properties, these factors are required for viability
+subtype	Pancreatic Adenocarcinoma	GATA6	39884837	Gut 2025	It has two major molecular subtypes: classical and basal, regulated by the master transcription factors (MTFs) GATA6 and ΔNp63, respectively.
+subtype	Neuroblastoma	PHOX2B	28740262	Boeva 2017	a sympathetic noradrenergic identity, defined by a CRC module including the PHOX2B, HAND2 and GATA3 transcription factors (TFs)
+subtype	Neuroblastoma	HAND2	28740262	Boeva 2017	a sympathetic noradrenergic identity, defined by a CRC module including the PHOX2B, HAND2 and GATA3 transcription factors (TFs)
+subtype	Neuroblastoma	GATA3	28740262	Boeva 2017	a sympathetic noradrenergic identity, defined by a CRC module including the PHOX2B, HAND2 and GATA3 transcription factors (TFs)
+subtype	Prostate Adenocarcinoma	AR	41768226	Cancer Heterog Plast 2025	Androgen receptor (AR) is a hormonal transcription factor (TF) that binds to cis-regulatory elements of prostate lineage-specific genes to govern androgen response
+subtype	Prostate Adenocarcinoma	HOXB13	32094298	Cancer Res 2020	FOXA1, HOXB13, and GATA2 are required for normal AR transcription in prostate epithelial development and for oncogenic AR transcription during prostate carcinogenesis.
+subtype	Cutaneous Melanoma	MITF	29408204	J Invest Dermatol 2018	a strong survival program driven by genes such as MITF that specify melanocyte identity, a phenomenon known in melanoma biology as lineage dependency
+subtype	Cutaneous Melanoma	SOX10	22772081	Shakhova 2012	SOX10 silencing in human melanoma cells suppresses neural crest stem cell properties, counteracts proliferation and cell survival, and completely abolishes in vivo tumour formation
+subtype	Alveolar Rhabdomyosarcoma	MYOD1	28446439	Gryder 2017	PAX3-FOXO1 uses super enhancers to set up autoregulatory loops in collaboration with the master transcription factors MYOG, MYOD, and MYCN.
+subtype	Alveolar Rhabdomyosarcoma	MYOG	28446439	Gryder 2017	PAX3-FOXO1 uses super enhancers to set up autoregulatory loops in collaboration with the master transcription factors MYOG, MYOD, and MYCN.
+subtype	Alveolar Rhabdomyosarcoma	MYCN	28446439	Gryder 2017	PAX3-FOXO1 uses super enhancers to set up autoregulatory loops in collaboration with the master transcription factors MYOG, MYOD, and MYCN.
+subtype	Embryonal Rhabdomyosarcoma	MYOD1	35108532	Cell Rep 2022	Rhabdomyosarcoma (RMS) is a pediatric muscle sarcoma characterized by expression of the myogenic lineage transcription factors (TFs) MYOD1 and MYOG
+subtype	Embryonal Rhabdomyosarcoma	MYOG	35108532	Cell Rep 2022	Rhabdomyosarcoma (RMS) is a pediatric muscle sarcoma characterized by expression of the myogenic lineage transcription factors (TFs) MYOD1 and MYOG
+subtype	Gastrointestinal Stromal Tumor	ETV1	20927104	Chi 2010	ETV1 is a master regulator of an ICC-GIST-specific transcription network mainly through enhancer binding
+subtype	Embryonal Carcinoma	POU5F1	36835562	Int J Mol Sci 2023	embryonal carcinoma (EC) has four upregulated genes, OCT4/POU5F1, SOX2, LIN28, and NANOG
+subtype	Embryonal Carcinoma	NANOG	36835562	Int J Mol Sci 2023	embryonal carcinoma (EC) has four upregulated genes, OCT4/POU5F1, SOX2, LIN28, and NANOG
+subtype	Ewing Sarcoma	NKX2-2	33080033	Nucleic Acids Res 2020	we identify and functionally validate a CRC 'trio' constituted by three transcription factors (TFs): KLF15, TCF4 and NKX2-2, in Ewing sarcoma cells
+subtype	Ewing Sarcoma	KLF15	33080033	Nucleic Acids Res 2020	we identify and functionally validate a CRC 'trio' constituted by three transcription factors (TFs): KLF15, TCF4 and NKX2-2, in Ewing sarcoma cells
+subtype	Ewing Sarcoma	TCF4	33080033	Nucleic Acids Res 2020	we identify and functionally validate a CRC 'trio' constituted by three transcription factors (TFs): KLF15, TCF4 and NKX2-2, in Ewing sarcoma cells
+subtype	Osteosarcoma	RUNX2	37491298	Cell Biosci 2023	We have previously shown that RUNX2 is a transcription factor (TF) essential for OS cell survival.
+subtype	Bladder Urothelial Carcinoma	PPARG	27924948	Sci Rep 2016	a cooperative regulatory network consisting of GATA3, FOXA1, and PPARɣ drive luminal cell fate
+subtype	Bladder Urothelial Carcinoma	GATA3	27924948	Sci Rep 2016	a cooperative regulatory network consisting of GATA3, FOXA1, and PPARɣ drive luminal cell fate

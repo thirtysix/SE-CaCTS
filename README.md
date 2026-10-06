@@ -76,6 +76,23 @@ SOX17 across ovarian cancers) is not specific to any one of them.*
 
 </details>
 
+<details><summary><b>Master transcription factors of single diseases and subtypes, from the literature</b></summary>
+
+[![Disease master TFs from the literature](assets/figures/master-regulators-disease-tfs.png)](https://thirtysix.github.io/SE-CaCTS/)
+
+[![Subtype master TFs from the literature](assets/figures/master-regulators-subtype-tfs.png)](https://thirtysix.github.io/SE-CaCTS/)
+
+*Each row is a transcription factor that a published study names as a master, core-circuitry or lineage-defining
+factor of one primary disease (top, 66 factors in 29 diseases) or subtype (bottom, 74 in 37 subtypes), chosen from
+PubMed without looking at these results; the reference for each is in
+[`phase2/data/master_tfs_literature.tsv`](phase2/data/master_tfs_literature.tsv) (PMID and a verbatim supporting
+sentence). The outlined cell is the group it is named for; the other columns are its controls. 46 of 66 disease
+factors have a super-enhancer called in their own disease, against 2.3% of the other cells; 31 of 74 subtype factors,
+against 0.7%. Counting a hit whenever any of a gene's candidate super-enhancers is called (so the outlined column gets
+no advantage from choosing the best one), the rates are 70% vs 10.4% by disease and 42% vs 4.4% by subtype.*
+
+</details>
+
 The previous release, v3.0.1 (519 lines, 15,324 lineage calls, as presented at the FCI Symposium 2026), is the
 GitHub release `v3.0.1`, archived as https://doi.org/10.5281/zenodo.23118971.
 

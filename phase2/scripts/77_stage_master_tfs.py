@@ -29,13 +29,21 @@ import argparse
 import importlib.util
 import json
 import os
+import sys
 
 SECACTS = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 FDR = 0.10
-# level key (the dashboard's), Oncotree column, label, figure name, figure geometry
-LEVELS = [("lineage", "OncotreeLineage", "Lineage", "master-regulators", {}),
-          ("disease", "OncotreePrimaryDisease", "Primary disease", "master-regulators-disease", dict(width=300)),
-          ("subtype", "OncotreeSubtype", "Subtype", "master-regulators-subtype", dict(width=470, cell_fs=9, rot=55))]
+# key (the card's), atlas level, Oncotree column, label, figure name, figure geometry; lit = the literature table's level
+# (disease / subtype master TFs, each gene owning its own group) instead of the lineage TFs over the lineage's groups
+LEVELS = [dict(key="lineage", lv="lineage", col="OncotreeLineage", label="Lineage", fig="master-regulators", geom={}),
+          dict(key="disease", lv="disease", col="OncotreePrimaryDisease", label="Primary disease",
+               fig="master-regulators-disease", geom=dict(width=300)),
+          dict(key="subtype", lv="subtype", col="OncotreeSubtype", label="Subtype", fig="master-regulators-subtype",
+               geom=dict(width=470, cell_fs=9, rot=55)),
+          dict(key="disease_tfs", lv="disease", col="OncotreePrimaryDisease", label="Disease TFs", lit="disease",
+               fig="master-regulators-disease-tfs", geom=dict(width=430, cell_fs=9, rot=55)),
+          dict(key="subtype_tfs", lv="subtype", col="OncotreeSubtype", label="Subtype TFs", lit="subtype",
+               fig="master-regulators-subtype-tfs", geom=dict(width=470, cell_fs=9, rot=55))]
 
 
 def main():
@@ -47,6 +55,8 @@ def main():
     ap.add_argument("--hic-links", default=os.path.join(SECACTS, "phase2", "data", "hic_se_links.tsv.gz"),
                     help="78_hic_se_links.py output; 'none' = the 100 kb rule only")
     ap.add_argument("--hic-min-genes", type=int, default=2)
+    ap.add_argument("--lit", default=os.path.join(SECACTS, "phase2", "data", "master_tfs_literature.tsv"),
+                    help="disease / subtype master TFs from the literature (level, group, gene, pmid, first_author_year, evidence)")
     ap.add_argument("--fig-out")
     a = ap.parse_args()
     labels = a.labels or os.path.join(a.scores, "fused_labels.groups.tsv.gz")
@@ -55,10 +65,12 @@ def main():
     spec = importlib.util.spec_from_file_location("poster_figures", os.path.join(SECACTS, "phase2", "figures", "poster_figures.py"))
     pf = importlib.util.module_from_spec(spec); spec.loader.exec_module(pf)
     import pandas as pd
+    lit = pd.read_csv(a.lit, sep="\t") if os.path.exists(a.lit) else None
+    genes = {g for _, gs in pf.IDENTITY for g in gs} | (set(lit["gene"]) if lit is not None else set())
     links, hic = None, None
     if a.hic_links != "none":
         T = pd.read_csv(a.hic_links, sep="\t")
-        T = T[(T["n_genes"] >= a.hic_min_genes) & T["top_gene"].isin({g for _, gs in pf.IDENTITY for g in gs})]
+        T = T[(T["n_genes"] >= a.hic_min_genes) & T["top_gene"].isin(genes)]
         links = {}
         for r in T.itertuples():
             links.setdefault(r.top_gene, {})[r.se] = dict(kb=r.top_kb, n=int(r.n_genes), c=r.top_contact, next=r.next_gene,
@@ -73,15 +85,30 @@ def main():
     if a.fig_out:
         pf.OUT = a.fig_out
     levels = []
-    for short, lev, label, fname, fig in LEVELS:
-        groups = None
-        if short != "lineage":                  # groups that can carry calls (>= 2 lines), in the figure's lineages
+    lin_order = [ln for ln, _ in pf.IDENTITY] + sorted(set(H["lineage"]) - {ln for ln, _ in pf.IDENTITY})
+    for L in LEVELS:
+        short, lev, label, fname, fig = L["lv"], L["col"], L["label"], L["fig"], L["geom"]
+        if "lit" in L and lit is None:
+            continue
+        groups, identity, blocks, ref = None, None, None, {}
+        if short != "lineage":                  # groups that can carry calls (>= 2 lines)
             G = man["levels"][short]["groups"]
             lin_of = H.groupby(short)["lineage"].agg(lambda x: x.mode()[0])
+        if "lit" in L:                          # each listed group owns its own column; bracketed by lineage
+            T = lit[lit["level"] == L["lit"]]
+            bad = sorted(set(T["group"]) - {g for g in G if G[g]["n_lines"] >= 2})
+            if bad:
+                sys.exit(f"[77] FAIL: literature groups not among the {short} groups of >= 2 lines: {bad}")
+            gl = sorted(dict.fromkeys(T["group"]), key=lambda g: (lin_order.index(lin_of[g]), -G[g]["n_lines"], g))
+            identity = [(g, list(dict.fromkeys(T.loc[T["group"] == g, "gene"]))) for g in gl]
+            groups, blocks = [(g, g) for g in gl], {g: lin_of[g] for g in gl}
+            ref = {(r.group, r.gene): [r.first_author_year, str(r.pmid)] for r in T.itertuples()}
+        elif short != "lineage":                # the lineage TFs over their lineage's groups, in the figure's lineages
             groups = [(g, ln) for ln, _ in pf.IDENTITY for g in
                       sorted((g for g in G if lin_of.get(g) == ln and G[g]["n_lines"] >= 2), key=lambda g: (-G[g]["n_lines"], g))]
-        cols, recs = pf.identity_table(a.scores, a.results, select="fdr", labels=labels, links=links, level=lev, groups=groups)
-        lin = dict(groups) if groups else {c: c for c in cols}
+        cols, recs = pf.identity_table(a.scores, a.results, select="fdr", labels=labels, links=links, level=lev, groups=groups,
+                                       identity=identity)
+        lin = blocks or (dict(groups) if groups else {c: c for c in cols})
         own, other, rows = [0, 0], [0, 0], []
         for r in recs:
             cells = [[r["rank"][j], round(float(r["fdr"][j]), 4), code.get(r["cn"][j]) if r["fdr"][j] <= FDR else None]
@@ -95,16 +122,19 @@ def main():
                              locus=f"{r['chrom']}:{r['start'] + 1}-{r['end']}", cells=cells))
             if r["link"]:
                 rows[-1]["hic"] = {k: (round(float(v), 4) if isinstance(v, float) else v) for k, v in r["link"].items()}
+            if ref:
+                rows[-1]["ref"] = ref[(r["lineage"], r["gene"])]
         n_lines = H.groupby(short).size() if short != "lineage" else H.groupby("lineage").size()
-        levels.append(dict(key=short, label=label, cols=[[c, lin[c], int(n_lines.get(c, 0))] for c in cols], own=own,
-                           other=other, rows=rows))
-        print(f"[77] {short}: {len(cols)} groups; {own[0]}/{own[1]} genes called in their own lineage's groups; other-lineage "
+        levels.append(dict(key=L["key"], lv=short, label=label, kind="tfs" if "lit" in L else "lineage_tfs",
+                           cols=[[c, lin[c], int(n_lines.get(c, 0))] for c in cols], own=own, other=other, rows=rows))
+        print(f"[77] {L['key']}: {len(cols)} groups; {own[0]}/{own[1]} genes called in their own lineage's groups; other-lineage "
               f"cells {other[0]}/{other[1]} ({100 * other[0] / max(other[1], 1):.1f}%); missed "
               f"{[r['gene'] for r in rows if not any(r['cells'][j][1] <= FDR for j in r['own'])]}; Hi-C rows "
               f"{[(r['gene'], r['se']) for r in rows if 'hic' in r]}")
         if a.fig_out:
-            pf.fig_identity(table=(cols, recs), name=fname, cn_mark=labels is not None, contrast_text=True, groups=groups,
-                            fdr_label=f"FDR ({label.lower()})", **fig)
+            pf.fig_identity(table=(cols, recs), name=fname, cn_mark=labels is not None, contrast_text=True,
+                            groups=None if blocks else groups, blocks=blocks,
+                            fdr_label=f"FDR ({'primary disease' if short == 'disease' else short})", **fig)
     out = dict(release=meta.get("release", {}).get("version"), n_ses=n_ses, hic=hic, levels=levels)
     with open(os.path.join(a.docs, "data", "master_tfs.json"), "w") as fh:
         json.dump(out, fh, separators=(",", ":"))
