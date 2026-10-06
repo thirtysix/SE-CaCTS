@@ -4,7 +4,7 @@
   --text:#12222a; --muted:#5a6b73; --faint:#87969d;
   --accent:#0c847e; --accent-deep:#0a615c; --accent-soft:rgba(12,132,126,.11);
   --hot:#b4443a; --hot-soft:rgba(180,68,58,.11); --amber:#a56a12;
-  --row-hover:rgba(12,132,126,.055);
+  --row-hover:rgba(12,132,126,.055); --hic:#6a3fb5;
   --sh:0 1px 2px rgba(16,40,44,.05), 0 6px 22px rgba(16,40,44,.06);
 }
 :root[data-theme="dark"]{
@@ -13,7 +13,7 @@
   --text:#e7edee; --muted:#9fb0b4; --faint:#77878c;
   --accent:#37b3ab; --accent-deep:#5fd0c7; --accent-soft:rgba(55,179,171,.14);
   --hot:#f0857a; --hot-soft:rgba(240,133,122,.14); --amber:#d9a24a;
-  --row-hover:rgba(55,179,171,.07);
+  --row-hover:rgba(55,179,171,.07); --hic:#b9a2f5;
   --sh:0 1px 2px rgba(0,0,0,.3), 0 6px 22px rgba(0,0,0,.28);
 }
 *{box-sizing:border-box}
@@ -436,3 +436,17 @@ a.chip-link{cursor:pointer; text-decoration:none; color:inherit} a.chip-link:hov
 .mtfh-key .own-sw{display:inline-block; width:14px; height:11px; vertical-align:-1px; border-radius:2px; box-shadow:inset 0 0 0 2px var(--text)}
 .mtfh-hic{display:inline-block; margin-left:5px; padding:0 5px; border-radius:4px; font-size:10.5px; font-style:normal;
   font-weight:600; line-height:16px; color:var(--accent-deep); background:var(--accent-soft); vertical-align:1px}
+/* Hi-C contact gene (se_hic.json): the gene list and the finder */
+.genes .g1.hic, .genes .g1.hic a, .hic-t{color:var(--hic); font-weight:650}
+a.chip.hic{border-color:var(--hic)} a.chip.hic .r{color:var(--hic); opacity:1}
+/* finder: one block per level, cell lines on demand */
+.fr.card{display:block}
+.fr-head{margin-bottom:6px}
+.fr-lv{display:grid; grid-template-columns:132px 1fr; gap:4px 10px; align-items:start; padding:5px 0; border-top:1px solid var(--border-2)}
+.fr-l{font-size:12px; font-weight:650; color:var(--muted); padding-top:3px}
+.fr-l small{display:block; font-weight:500; color:var(--faint); font-size:11px}
+.fr-more{font:600 11px ui-monospace,Menlo,monospace; color:var(--accent-deep); background:var(--accent-soft); border:0;
+  border-radius:6px; padding:3px 8px; cursor:pointer}
+.fr-rest{display:none} .fr-rest.open{display:contents}
+.chip .pass-b{margin-left:3px}
+@media (max-width:600px){ .fr-lv{grid-template-columns:1fr} }

@@ -6,8 +6,8 @@
 
 Browse the specific super-enhancers of 25 cancer lineages, 56 primary diseases and 103 subtypes, and of each of
 510 cell lines compared with all lines and with the lines of its subtype, disease and lineage, with copy number
-and a copy-number label at each locus, every gene within 100 kb (searchable), cross-layer concordance, a per-gene
-lookup and a genome browser. No install, no backend.
+and a copy-number label at each locus, every gene within 100 kb and each SE's Hi-C contact gene (searchable),
+cross-layer concordance, a per-gene lookup across lineages, diseases, subtypes and cell lines, and a genome browser. No install, no backend.
 
 [![SE-CaCTS dashboard](assets/screenshots/dashboard-overview.png)](https://thirtysix.github.io/SE-CaCTS/)
 

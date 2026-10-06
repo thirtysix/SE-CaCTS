@@ -35,7 +35,8 @@ step 61 && SECACTS_DOCS="$D" SECACTS_RES="$RES" SECACTS_SC="$SC" SECACTS_SC_LINE
   STAGE_WORKERS="${STAGE_WORKERS:-1}" "$PY" "$S/scripts/61_stage_lines.py" --lines "${LINES:-all}"
 du -sh "$D/data/lines"
 step 75 && "$PY" "$S/scripts/75_stage_se_genes.py" --docs "$D" --catalog "$RES/atlas.s3.union_catalog.bed.gz" \
-  --signal "$RES/atlas.s3.se_signal.tsv.gz" --pull-set "$PS" --pairs "$SC/atlas.s3.perm.concordance2.pairs.tsv.gz"
+  --signal "$RES/atlas.s3.se_signal.tsv.gz" --pull-set "$PS" --pairs "$SC/atlas.s3.perm.concordance2.pairs.tsv.gz" \
+  --line-scores "$SC"
 # the Overview's master-regulator table; the README figure is drawn with --fig-out assets/figures at release
 step 77 && "$PY" "$S/scripts/77_stage_master_tfs.py" --docs "$D" --scores "$SC" --results "$RES"
 echo "[76] staged -> $D"

@@ -157,8 +157,8 @@ const About = (() => {
           ${inferred ? `inferred from the experiments' own input controls for ${fmt(inferred)} lines no measured source
           covers, a weaker correction (the <b>Measured copy number only</b> analysis leaves them out).` : ""}</li>
         <li><b>Expression:</b> ${U.link("depmap", "DepMap")} protein-coding expression, for the concordance layer.</li>
-        <li><b>Hi-C</b> (Overview, master regulators only): ${U.link("encode", "ENCODE")} in situ and intact Hi-C of 14
-          cancer cell lines, averaged, to link a super-enhancer to a gene beyond 100 kb.</li>
+        <li><b>Hi-C:</b> ${U.link("encode", "ENCODE")} in situ and intact Hi-C of 14 cancer cell lines (10 kb bins), averaged,
+          for each SE's Hi-C contact gene (gene lists, SE finder, master regulators).</li>
         <li><b>Gene coordinates:</b> ${U.link("ensembl", "Ensembl GRCh38.106")}. <b>Engines:</b>
           ${U.link("cnrose", "<code>cnrose</code>")} (SE calling), ${U.link("pycacts", "<code>pyCaCTS</code>")} (JSD
           specificity and the permutation null). <b>Genome browser:</b> ${U.link("igv", "igv.js")}.</li>
@@ -207,6 +207,12 @@ const About = (() => {
           and the strongest lymphoid SEs sit at the immunoglobulin loci, whose neighbouring protein-coding genes (e.g.
           TMEM121) are bystanders. <span class="conc-badge" style="margin:0">⇌</span> marks a gene that is itself
           specific to the group in DepMap expression; the Concordance tab is the aggregate check.</li>
+        <li><b class="hic-t">Hi-C contact gene.</b> In violet: of the genes with a TSS within 1 Mb of the SE, the one with
+          the highest Hi-C contact with it (balanced contact over each line's expected contact at 100 kb, averaged over 14
+          ENCODE cancer-line maps), listed with its distance to the TSS when it lies beyond 100 kb. It is shared 3D contact,
+          not a lineage-specific loop: lineage-matched maps predicted expression-concordant genes no better than other
+          lines, and the contact beat the nearest gene only for SEs more than 50 kb from any TSS. Not shown where a TSS lies
+          within one 10 kb bin of the SE (contact cannot be measured there) or where only one gene lies within 1 Mb.</li>
         <li><b>Rows near one gene often tile one SE domain</b> (↳ tiles #N): count domains, not rows.</li>
         <li><b>Copy-number labels</b> sit beside the copy number. <span class="cns-chip cns-sel" style="margin:0">SE via
           gain 3/5</span> says that the group's experiments call the super-enhancer only through extra copies (3 of the 5
